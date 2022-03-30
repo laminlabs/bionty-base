@@ -7,10 +7,10 @@ _HGNC = "http://ftp.ebi.ac.uk/pub/databases/genenames/hgnc/tsv/hgnc_complete_set
 
 
 class Gene:
-    def __init__(self) -> None:
-        pass
+    """Gene biotype"""
 
-    def HGNC(self):
+    @classmethod
+    def HGNC(cls):
         """HGNC symbol from the HUGO Gene Nomenclature Committee"""
         filepath = settings.datasetdir / "hgnc_complete_set.txt"
         filepath.parent.mkdir(exist_ok=True)
@@ -18,7 +18,7 @@ class Gene:
             from urllib.request import urlretrieve
 
             urlretrieve(_HGNC, filepath)
-        self._hgnc = pd.read_csv(
+        return pd.read_csv(
             filepath,
             sep="\t",
             index_col=0,
