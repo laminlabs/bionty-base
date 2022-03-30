@@ -7,11 +7,19 @@ _HGNC = "http://ftp.ebi.ac.uk/pub/databases/genenames/hgnc/tsv/hgnc_complete_set
 
 
 class Gene:
-    """Gene biotype"""
+    """Gene
+
+    Biotypes: https://useast.ensembl.org/info/genome/genebuild/biotypes.html
+    Gene Naming: https://useast.ensembl.org/info/genome/genebuild/gene_names.html
+
+    """
 
     @classmethod
-    def HGNC(cls):
+    def HGNC(cls, species="human"):
         """HGNC symbol from the HUGO Gene Nomenclature Committee"""
+        if species != "human":
+            raise AssertionError("HGNC is only for human!")
+
         filepath = settings.datasetdir / "hgnc_complete_set.txt"
         filepath.parent.mkdir(exist_ok=True)
         if not filepath.exists():
