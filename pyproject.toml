@@ -1,0 +1,40 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "biomap"
+authors = [{name = "Lamin Dev", email = "laminlabs@gmail.com"}]
+readme = "README.md"
+dynamic = ["version", "description"]
+dependencies = [
+    "anndata",
+    "pandas",
+    "loguru",
+]
+
+[project.urls]
+Home = "https://github.com/laminlabs/biomap"
+
+[project.optional-dependencies]
+dev = [
+    "pre-commit",
+    "black==22.3.0",
+]
+doc = [
+    "sphinx-book-theme",
+    "sphinx_autodoc_typehints",
+    "myst_nb",
+]
+test = [
+    "pytest>=6.0",
+    "nbmake",
+    "scanpy",
+    "mygene",
+]
+
+[project.scripts]
+lamin = "lamin.__main__:main"
+
+[tool.black]
+experimental-string-processing = true
