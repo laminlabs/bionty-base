@@ -1,0 +1,312 @@
+Common name,Scientific name,Taxon ID,Ensembl Assembly,Accession,Genebuild Method,Variation database,Regulation database,Short name
+abingdon island giant tortoise,Chelonoidis abingdonii,106734,ASM359739v1,GCA_003597395.1,Full genebuild,-,-,cabingdonii
+african ostrich,Struthio camelus australis,441894,ASM69896v1,GCA_000698965.1,Full genebuild,-,-,saustralis
+agassiz's desert tortoise,Gopherus agassizii,38772,ASM289641v1,GCA_002896415.1,Full genebuild,-,-,gagassizii
+algerian mouse,Mus spretus,10096,SPRET_EiJ_v1,GCA_001624865.1,External annotation import,-,Y,mspretus
+alpaca,Vicugna pacos,30538,vicPac1,-,Projection build,-,-,vpacos
+alpine marmot,Marmota marmota marmota,9994,marMar2.1,GCA_001458135.1,Full genebuild,-,-,mmarmota
+amazon molly,Poecilia formosa,48698,Poecilia_formosa-5.1.2,GCA_000485575.1,Full genebuild,-,-,pformosa
+american beaver,Castor canadensis,51338,C.can_genome_v1.0,GCA_001984765.1,Full genebuild,-,-,ccanadensis
+american bison,Bison bison bison,43346,Bison_UMD1.0,GCA_000754665.1,Full genebuild,-,-,bbison
+american black bear,Ursus americanus,9643,ASM334442v1,GCA_003344425.1,Full genebuild,-,-,uamericanus
+american mink,Neovison vison,452646,NNQGG.v01,GCA_900108605.1,Full genebuild,Y,-,nvison
+angola colobus,Colobus angolensis palliatus,336983,Cang.pa_1.0,GCA_000951035.1,Full genebuild,-,Y,cpalliatus
+arabian camel,Camelus dromedarius,9838,CamDro2,GCA_000803125.2,Full genebuild,-,-,cdromedarius
+arctic ground squirrel,Urocitellus parryii,9999,ASM342692v1,GCA_003426925.1,Full genebuild,-,-,uparryii
+argentine black and white tegu,Salvator merianae,96440,HLtupMer3,GCA_003586115.1,Full genebuild,-,-,smerianae
+armadillo,Dasypus novemcinctus,9361,Dasnov3.0,GCA_000208655.2,Mixed strategy build,-,-,dnovemcinctus
+asian bonytongue,Scleropages formosus,113540,fSclFor1.1,GCA_900964775.1,Full genebuild,-,-,sformosus
+asiatic black bear,Ursus thibetanus thibetanus,441215,ASM966005v1,GCA_009660055.1,Full genebuild,-,-,uthibetanus
+atlantic cod,Gadus morhua,8049,gadMor3.0,GCA_902167405.1,Full genebuild,-,-,gmorhua
+atlantic herring,Clupea harengus,7950,Ch_v2.0.2,GCA_900700415.1,Full genebuild,-,-,charengus
+atlantic salmon,Salmo salar,8030,ICSASG_v2,GCA_000233375.4,Full genebuild,Y,-,ssalar
+australian saltwater crocodile,Crocodylus porosus,8502,CroPor_comp1,GCA_001723895.1,Full genebuild,-,-,cporosus
+ballan wrasse,Labrus bergylta,56723,BallGen_V1,GCA_900080235.1,Full genebuild,-,-,lbergylta
+barramundi perch,Lates calcarifer,8187,ASB_HGAPassembly_v1,GCA_900066035.1,Full genebuild,-,-,lcalcarifer
+beluga whale,Delphinapterus leucas,9749,ASM228892v3,GCA_002288925.3,Full genebuild,-,-,dleucas
+bengalese finch,Lonchura striata domestica,299123,LonStrDom1,GCA_002197715.1,Full genebuild,-,-,ldomestica
+bicolor damselfish,Stegastes partitus,144197,Stegastes_partitus-1.0.2,GCA_000690725.1,Full genebuild,-,-,spartitus
+black snub-nosed monkey,Rhinopithecus bieti,61621,ASM169854v1,GCA_001698545.1,Full genebuild,-,Y,rbieti
+blind barbel,Sinocyclocheilus anshuiensis,1608454,SAMN03320099.WGS_v1.1,GCA_001515605.1,Full genebuild,-,-,sanshuiensis
+blue tilapia,Oreochromis aureus,47969,ASM587006v1,GCA_005870065.1,Full genebuild,-,-,oaureus
+blue tit,Cyanistes caeruleus,156563,cyaCae2,GCA_002901205.1,Full genebuild,-,-,ccaeruleus
+blue whale,Balaenoptera musculus,9771,mBalMus1.v2,GCA_009873245.2,Full genebuild,-,-,bmusculus
+blue-crowned manakin,Lepidothrix coronata,321398,Lepidothrix_coronata-1.0,GCA_001604755.1,Full genebuild,-,-,lcoronata
+blue-ringed sea krait,Laticauda laticaudata,8630,latLat_1.0,GCA_004320025.1,Full genebuild,-,-,llaticaudata
+blunt-snouted clingfish,Gouania willdenowi,441366,fGouWil2.1,GCA_900634775.1,Full genebuild,-,-,gwilldenowi
+bolivian squirrel monkey,Saimiri boliviensis boliviensis,39432,SaiBol1.0,GCA_000235385.1,Full genebuild,-,Y,sboliviensis
+bonobo,Pan paniscus,9597,panpan1.1,GCA_000258655.2,Full genebuild,-,Y,ppaniscus
+brazilian guinea pig,Cavia aperea,37548,CavAp1.0,GCA_000688575.1,Full genebuild,-,-,caperea
+brown trout,Salmo trutta,8032,fSalTru1.1,GCA_901001165.1,Full genebuild,-,-,strutta
+budgerigar,Melopsittacus undulatus,13146,Melopsittacus_undulatus_6.3,GCA_000238935.1,Full genebuild,-,-,mundulatus
+burrowing owl,Athene cunicularia,194338,athCun1,GCA_003259725.1,Full genebuild,-,-,acunicularia
+burton's mouthbrooder,Haplochromis burtoni,8153,AstBur1.0,GCA_000239415.1,Full genebuild,-,-,hburtoni
+bushbaby,Otolemur garnettii,30611,OtoGar3,GCA_000181295.3,Full genebuild,-,-,ogarnettii
+c.intestinalis,Ciona intestinalis,7719,KH,GCA_000224145.1,Full genebuild,-,Y,cintestinalis
+c.savignyi,Ciona savignyi,51511,CSAV 2.0,-,Full genebuild,-,-,csavignyi
+c. elegans,Caenorhabditis elegans,6239,WBcel235,GCA_000002985.3,Import,-,Y,celegans
+california sea lion,Zalophus californianus,9704,mZalCal1.pri,GCA_009762305.1,Full genebuild,-,-,zcalifornianus
+canada lynx,Lynx canadensis,61383,mLynCan4_v1.p,GCA_007474595.1,Full genebuild,-,-,lcanadensis
+capuchin,Cebus capucinus imitator,2715852,Cebus_imitator-1.0,GCA_001604975.1,Full genebuild,-,Y,cimitator
+cat,Felis catus,9685,Felis_catus_9.0,GCA_000181335.4,Full genebuild,Y,Y,fcatus
+central bearded dragon,Pogona vitticeps,103695,pvi1.1,GCA_900067755.1,Full genebuild,-,-,pvitticeps
+chacoan peccary,Catagonus wagneri,51154,CatWag_v2_BIUU_UCD,GCA_004024745.2,Full genebuild,-,-,cwagneri
+channel bull blenny,Cottoperca gobio,56716,fCotGob3.1,GCA_900634415.1,Full genebuild,-,-,cgobio
+channel catfish,Ictalurus punctatus,7998,IpCoco_1.2,GCA_001660625.1,Full genebuild,-,Y,ipunctatus
+chicken,Gallus gallus,9031,GRCg6a,GCA_000002315.5,Full genebuild,Y,Y,ggallus
+chilean tinamou,Nothoprocta perdicaria,30464,notPer1,GCA_003342845.1,Full genebuild,-,-,nperdicaria
+chimpanzee,Pan troglodytes,9598,Pan_tro_3.0,GCA_000001515.5,Full genebuild,Y,Y,ptroglodytes
+chinese hamster chok1gs,Cricetulus griseus,10029,CHOK1GS_HDv1,GCA_900186095.1,Full genebuild,-,Y,cgriseus
+chinese hamster crigri,Cricetulus griseus,10029,CriGri_1.0,GCA_000223135.1,Full genebuild,-,Y,cgriseus
+chinese hamster picr,Cricetulus griseus,10029,CriGri-PICR,GCA_003668045.1,Full genebuild,-,Y,cgriseus
+chinese medaka,Oryzias sinensis,183150,ASM858656v1,GCA_008586565.1,Full genebuild,-,-,osinensis
+chinese softshell turtle,Pelodiscus sinensis,13735,PelSin_1.0,GCA_000230535.1,Mixed strategy build,-,-,psinensis
+chinook salmon,Oncorhynchus tshawytscha,74940,Otsh_v1.0,GCA_002872995.1,Full genebuild,-,-,otshawytscha
+climbing perch,Anabas testudineus,64144,fAnaTes1.2,GCA_900324465.2,Full genebuild,-,-,atestudineus
+clown anemonefish,Amphiprion ocellaris,80972,AmpOce1.0,GCA_002776465.1,Full genebuild,-,-,aocellaris
+coelacanth,Latimeria chalumnae,7897,LatCha1,GCA_000225785.1,Full genebuild,-,-,lchalumnae
+coho salmon,Oncorhynchus kisutch,8019,Okis_V2,GCA_002021735.2,Full genebuild,-,-,okisutch
+collared flycatcher,Ficedula albicollis,59894,FicAlb1.5,GCA_000247815.2,Full genebuild,-,-,falbicollis
+common canary,Serinus canaria,9135,SCA1,GCA_000534875.1,Full genebuild,-,-,scanaria
+common carp,Cyprinus carpio,7962,common_carp_genome,GCA_000951615.2,Full genebuild,-,-,ccarpio
+common carp german mirror,Cyprinus carpio,7962,German_Mirror_carp_1.0,GCA_004011555.1,Full genebuild,-,-,ccarpio
+common carp hebao red,Cyprinus carpio,7962,Hebao_red_carp_1.0,GCA_004011595.1,Full genebuild,-,-,ccarpio
+common carp huanghe,Cyprinus carpio,7962,Hunaghe_carp_2.0,GCA_004011575.1,Full genebuild,-,-,ccarpio
+common kestrel,Falco tinnunculus,100819,FalTin1.0,GCA_010332995.1,Full genebuild,-,-,ftinnunculus
+common snapping turtle,Chelydra serpentina,8475,Chelydra_serpentina-1.0,GCA_007922165.1,Full genebuild,-,-,cserpentina
+common wall lizard,Podarcis muralis,64176,PodMur_1.0,GCA_004329235.1,Full genebuild,-,-,pmuralis
+common wombat,Vombatus ursinus,29139,bare-nosed_wombat_genome_assembly,GCA_900497805.2,Full genebuild,-,-,vursinus
+coquerel's sifaka,Propithecus coquereli,379532,Pcoq_1.0,GCA_000956105.1,Full genebuild,-,Y,pcoquereli
+cow,Bos taurus,9913,ARS-UCD1.2,GCA_002263795.2,Full genebuild,Y,Y,btaurus
+crab-eating macaque,Macaca fascicularis,9541,Macaca_fascicularis_6.0,GCA_011100615.1,Full genebuild,-,-,mfascicularis
+damara mole rat,Fukomys damarensis,885580,DMR_v1.0,GCA_000743615.1,Full genebuild,-,-,fdamarensis
+dark-eyed junco,Junco hyemalis,40217,ASM382977v1,GCA_003829775.1,Full genebuild,-,-,jhyemalis
+daurian ground squirrel,Spermophilus dauricus,99837,ASM240643v1,GCA_002406435.1,Full genebuild,-,-,sdauricus
+degu,Octodon degus,10160,OctDeg1.0,GCA_000260255.1,Full genebuild,-,-,odegus
+denticle herring,Denticeps clupeoides,299321,fDenClu1.1,GCA_900700375.1,Full genebuild,-,-,dclupeoides
+dingo,Canis lupus dingo,286419,ASM325472v1,GCA_003254725.1,Full genebuild,-,-,cdingo
+dog,Canis lupus familiaris,9615,ROS_Cfam_1.0,GCA_014441545.1,Full genebuild,Y,Y,cfamiliaris
+dog - basenji,Canis lupus familiaris,9615,Basenji_breed-1.1,GCA_004886185.1,Full genebuild,-,Y,cfamiliaris
+dog - boxer,Canis lupus familiaris,9615,Dog10K_Boxer_Tasha,GCA_000002285.4,Full genebuild,Y,Y,cfamiliaris
+dog - great dane,Canis lupus familiaris,9615,UMICH_Zoey_3.1,GCA_005444595.1,Full genebuild,-,Y,cfamiliaris
+dolphin,Tursiops truncatus,9739,turTru1,-,Projection build,-,-,ttruncatus
+domestic yak,Bos grunniens,30521,LU_Bosgru_v3.0,GCA_005887515.1,Full genebuild,-,-,bgrunniens
+donkey,Equus asinus asinus,83772,ASM303372v1,GCA_003033725.1,Full genebuild,-,-,easinus
+drill,Mandrillus leucophaeus,9568,Mleu.le_1.0,GCA_000951045.1,Full genebuild,-,Y,mleucophaeus
+d. melanogaster,Drosophila melanogaster,7227,BDGP6.32,GCA_000001215.4,Import,-,Y,dmelanogaster
+duck,Anas platyrhynchos platyrhynchos,8840,CAU_duck1.0,GCA_002743455.1,Full genebuild,-,Y,aplatyrhynchos
+eastern brown snake,Pseudonaja textilis,8673,EBS10Xv2-PRI,GCA_900518735.1,Full genebuild,-,-,ptextilis
+eastern buzzard,Buteo japonicus,224669,ButJap1.0,GCA_010312235.1,Full genebuild,-,-,bjaponicus
+eastern happy,Astatotilapia calliptera,8154,fAstCal1.2,GCA_900246225.3,Full genebuild,-,-,acalliptera
+eastern spot-billed duck,Anas zonorhyncha,75864,ASM222487v1,GCA_002224875.1,Full genebuild,-,-,azonorhyncha
+electric eel,Electrophorus electricus,8005,Ee_SOAP_WITH_SSPACE,GCA_003665695.2,Full genebuild,-,-,eelectricus
+elephant,Loxodonta africana,9785,Loxafr3.0,GCA_000001905.1,Full genebuild,-,-,lafricana
+elephant shark,Callorhinchus milii,7868,Callorhinchus_milii-6.1.3,GCA_000165045.2,Full genebuild,-,-,cmilii
+emu,Dromaius novaehollandiae,8790,droNov1,GCA_003342905.1,Full genebuild,-,-,dnovaehollandiae
+eurasian eagle-owl,Bubo bubo,30461,BubBub1.0,GCA_010303855.1,Full genebuild,-,-,bbubo
+eurasian red squirrel,Sciurus vulgaris,55149,mSciVul1.1,GCA_902686455.1,Full genebuild,-,-,svulgaris
+eurasian sparrowhawk,Accipiter nisus,211598,Accipiter_nisus_ver1.0,GCA_004320145.1,Full genebuild,-,-,anisus
+european seabass,Dicentrarchus labrax,13489,seabass_V1.0,GCA_000689215.1,Full genebuild,-,-,dlabrax
+ferret,Mustela putorius furo,9669,MusPutFur1.0,GCA_000215625.1,Mixed strategy build,-,-,mfuro
+fugu,Takifugu rubripes,31033,fTakRub1.2,GCA_901000725.2,Full genebuild,-,-,trubripes
+gelada,Theropithecus gelada,9565,Tgel_1.0,GCA_003255815.1,Full genebuild,-,Y,tgelada
+giant panda,Ailuropoda melanoleuca,9646,ASM200744v2,GCA_002007445.2,Full genebuild,-,-,amelanoleuca
+gibbon,Nomascus leucogenys,61853,Nleu_3.0,GCA_000146795.3,Full genebuild,Y,Y,nleucogenys
+gilthead seabream,Sparus aurata,8175,fSpaAur1.1,GCA_900880675.1,Full genebuild,-,-,saurata
+goat,Capra hircus,9925,ARS1,GCA_001704415.1,Full genebuild,Y,Y,chircus
+goat (black bengal),Capra hircus,9925,CVASU_BBG_1.0,GCA_004361675.1,Full genebuild,-,-,chircus
+golden hamster,Mesocricetus auratus,10036,MesAur1.0,GCA_000349665.1,Full genebuild,-,Y,mauratus
+golden eagle,Aquila chrysaetos chrysaetos,223781,bAquChr1.2,GCA_900496995.2,Full genebuild,-,-,achrysaetos
+golden pheasant,Chrysolophus pictus,9089,Chrysolophus_pictus_GenomeV1.0,GCA_003413605.1,Full genebuild,-,-,cpictus
+golden snub-nosed monkey,Rhinopithecus roxellana,61622,Rrox_v1,GCA_000769185.1,Full genebuild,-,Y,rroxellana
+golden-collared manakin,Manacus vitellinus,328815,ASM171598v2,GCA_001715985.2,Full genebuild,-,-,mvitellinus
+golden-line barbel,Sinocyclocheilus grahami,75366,SAMN03320097.WGS_v1.1,GCA_001515645.1,Full genebuild,-,-,sgrahami
+goldfish,Carassius auratus,7957,ASM336829v1,GCA_003368295.1,Full genebuild,-,-,cauratus
+goodes thornscrub tortoise,Gopherus evgoodei,1825980,rGopEvg1_v1.p,GCA_007399415.1,Full genebuild,-,-,gevgoodei
+gorilla,Gorilla gorilla gorilla,9595,gorGor4,GCA_000151905.3,Full genebuild,-,Y,ggorilla
+gouldian finch,Erythrura gouldiae,44316,GouldianFinch,GCA_003676055.1,Full genebuild,-,-,egouldiae
+great tit,Parus major,9157,Parus_major1.1,GCA_001522545.2,Full genebuild,Y,-,pmajor
+great spotted kiwi,Apteryx haastii,8823,aptHaa1,GCA_003342985.1,Full genebuild,-,-,ahaastii
+greater amberjack,Seriola dumerili,41447,Sdu_1.0,GCA_002260705.1,Full genebuild,-,-,sdumerili
+greater bamboo lemur,Prolemur simus,1328070,Prosim_1.0,GCA_003258685.1,Full genebuild,-,Y,psimus
+greater horseshoe bat,Rhinolophus ferrumequinum,59479,mRhiFer1_v1.p,GCA_004115265.2,Full genebuild,-,-,rferrumequinum
+green anole,Anolis carolinensis,28377,AnoCar2.0v2,GCA_000090745.2,Full genebuild,-,-,acarolinensis
+guinea pig,Cavia porcellus,10141,Cavpor3.0,GCA_000151735.1,Full genebuild,-,Y,cporcellus
+guppy,Poecilia reticulata,8081,Guppy_female_1.0_MT,GCA_000633615.2,Full genebuild,-,-,preticulata
+hagfish,Eptatretus burgeri,7764,Eburgeri_3.2,GCA_900186335.2,Full genebuild,-,-,eburgeri
+hedgehog,Erinaceus europaeus,9365,eriEur1,-,Projection build,-,-,eeuropaeus
+helmeted guineafowl,Numida meleagris,8996,NumMel1.0,GCA_002078875.2,Full genebuild,-,-,nmeleagris
+horned golden-line barbel,Sinocyclocheilus rhinocerous,307959,SAMN03320098_v1.1,GCA_001515625.1,Full genebuild,-,-,srhinocerous
+horse,Equus caballus,9796,EquCab3.0,GCA_002863925.1,Full genebuild,Y,Y,ecaballus
+huchen,Hucho hucho,62062,ASM331708v1,GCA_003317085.1,Full genebuild,-,-,hhucho
+human,Homo sapiens,9606,GRCh38.p13,GCA_000001405.28,Full genebuild,Y,Y,hsapiens
+hybrid - bos indicus,Bos indicus x Bos taurus,30522,UOA_Brahman_1,GCA_003369695.2,Full genebuild,-,-,btaurus
+hybrid - bos taurus,Bos indicus x Bos taurus,30522,UOA_Angus_1,GCA_003369685.2,Full genebuild,-,-,btaurus
+hyrax,Procavia capensis,9813,proCap1,-,Projection build,-,-,pcapensis
+indian cobra,Naja naja,35670,Nana_v5,GCA_009733165.1,Full genebuild,-,-,nnaja
+indian glassy fish,Parambassis ranga,210632,fParRan2.1,GCA_900634625.1,Full genebuild,-,-,pranga
+indian medaka,Oryzias melastigma,30732,Om_v0.7.RACA,GCA_002922805.1,Full genebuild,-,-,omelastigma
+indian peafowl,Pavo cristatus,9049,AIIM_Pcri_1.0,GCA_005519975.1,Full genebuild,-,-,pcristatus
+japanese medaka hni,Oryzias latipes,8090,ASM223471v1,GCA_002234715.1,Full genebuild,-,-,olatipes
+japanese medaka hsok,Oryzias latipes,8090,ASM223469v1,GCA_002234695.1,Full genebuild,-,-,olatipes
+japanese medaka hdrr,Oryzias latipes,8090,ASM223467v1,GCA_002234675.1,Full genebuild,-,-,olatipes
+japanese quail,Coturnix japonica,93934,Coturnix_japonica_2.0,GCA_001577835.1,Full genebuild,-,-,cjaponica
+javanese ricefish,Oryzias javanicus,123683,OJAV_1.1,GCA_003999625.1,Full genebuild,-,-,ojavanicus
+jewelled blenny,Salarias fasciatus,181472,fSalaFa1.1,GCA_902148845.1,Full genebuild,-,-,sfasciatus
+kakapo,Strigops habroptila,2489341,bStrHab1_v1.p,GCA_004027225.1,Full genebuild,-,-,shabroptila
+kangaroo rat,Dipodomys ordii,10020,Dord_2.0,GCA_000151885.2,Full genebuild,-,-,dordii
+koala,Phascolarctos cinereus,38626,phaCin_unsw_v4.1,GCA_002099425.1,Full genebuild,-,-,pcinereus
+komodo dragon,Varanus komodoensis,61221,ASM479886v1,GCA_004798865.1,Full genebuild,-,-,vkomodoensis
+lamprey,Petromyzon marinus,7757,Pmarinus_7.0,-,Full genebuild,-,-,pmarinus
+large yellow croaker,Larimichthys crocea,215358,L_crocea_2.0,GCA_000972845.2,Full genebuild,-,-,lcrocea
+leishan spiny toad,Leptobrachium leishanense,445787,ASM966780v1,GCA_009667805.1,Full genebuild,-,-,lleishanense
+leopard,Panthera pardus,9691,PanPar1.0,GCA_001857705.1,Full genebuild,-,-,ppardus
+lesser egyptian jerboa,Jaculus jaculus,51337,JacJac1.0,GCA_000280705.1,Full genebuild,-,-,jjaculus
+lesser hedgehog tenrec,Echinops telfairi,9371,TENREC,-,Projection build,-,-,etelfairi
+lion,Panthera leo,9689,PanLeo1.0,GCA_008795835.1,Full genebuild,-,-,pleo
+little spotted kiwi,Apteryx owenii,8824,aptOwe1,GCA_003342965.1,Full genebuild,-,-,aowenii
+live sharksucker,Echeneis naucrates,173247,fEcheNa1.1,GCA_900963305.1,Full genebuild,-,-,enaucrates
+long-tailed chinchilla,Chinchilla lanigera,34839,ChiLan1.0,GCA_000276665.1,Full genebuild,-,-,clanigera
+lumpfish,Cyclopterus lumpus,8103,fCycLum1.pri,GCA_009769545.1,Full genebuild,-,-,clumpus
+lyretail cichlid,Neolamprologus brichardi,32507,NeoBri1.0,GCA_000239395.1,Full genebuild,-,-,nbrichardi
+ma's night monkey,Aotus nancymaae,37293,Anan_2.0,GCA_000952055.2,Full genebuild,-,Y,anancymaae
+macaque,Macaca mulatta,9544,Mmul_10,GCA_003339765.3,Full genebuild,Y,Y,mmulatta
+mainland tiger snake,Notechis scutatus,8663,TS10Xv2-PRI,GCA_900518725.1,Full genebuild,-,-,nscutatus
+makobe island cichlid,Pundamilia nyererei,303518,PunNye1.0,GCA_000239375.1,Full genebuild,-,-,pnyererei
+mallard,Anas platyrhynchos,8839,ASM874695v1,GCA_008746955.1,Full genebuild,-,-,aplatyrhynchos
+mangrove rivulus,Kryptolebias marmoratus,37003,ASM164957v1,GCA_001649575.1,Full genebuild,-,-,kmarmoratus
+medium ground-finch,Geospiza fortis,48883,GeoFor_1.0,GCA_000277835.1,Full genebuild,-,-,gfortis
+meerkat,Suricata suricatta,37032,meerkat_22Aug2017_6uvM2_HiC,GCA_006229205.1,Full genebuild,-,-,ssuricatta
+megabat,Pteropus vampyrus,132908,pteVam1,-,Projection build,-,-,pvampyrus
+mexican tetra,Astyanax mexicanus,7994,Astyanax_mexicanus-2.0,GCA_000372685.2,Full genebuild,-,-,amexicanus
+microbat,Myotis lucifugus,59463,Myoluc2.0,GCA_000147115.1,Full genebuild,-,-,mlucifugus
+midas cichlid,Amphilophus citrinellus,61819,Midas_v5,GCA_000751415.1,Full genebuild,-,-,acitrinellus
+mongolian gerbil,Meriones unguiculatus,10047,MunDraft-v1.0,GCA_002204375.1,Full genebuild,-,-,munguiculatus
+monterrey platyfish,Xiphophorus couchianus,32473,Xiphophorus_couchianus-4.0.1,GCA_001444195.1,Full genebuild,-,-,xcouchianus
+mouse,Mus musculus,10090,GRCm39,GCA_000001635.9,Full genebuild,Y,Y,mmusculus
+mouse 129s1/svimj,Mus musculus,10090,129S1_SvImJ_v1,GCA_001624185.1,External annotation import,-,Y,mmusculus
+mouse a/j,Mus musculus,10090,A_J_v1,GCA_001624215.1,External annotation import,-,Y,mmusculus
+mouse akr/j,Mus musculus,10090,AKR_J_v1,GCA_001624295.1,External annotation import,-,Y,mmusculus
+mouse balb/cj,Mus musculus,10090,BALB_cJ_v1,GCA_001632525.1,External annotation import,-,Y,mmusculus
+mouse c3h/hej,Mus musculus,10090,C3H_HeJ_v1,GCA_001632575.1,External annotation import,-,Y,mmusculus
+mouse c57bl/6nj,Mus musculus,10090,C57BL_6NJ_v1,GCA_001632555.1,External annotation import,-,Y,mmusculus
+mouse cast/eij,Mus musculus castaneus,10091,CAST_EiJ_v1,GCA_001624445.1,External annotation import,-,Y,mcastaneus
+mouse cba/j,Mus musculus,10090,CBA_J_v1,GCA_001624475.1,External annotation import,-,Y,mmusculus
+mouse dba/2j,Mus musculus,10090,DBA_2J_v1,GCA_001624505.1,External annotation import,-,Y,mmusculus
+mouse fvb/nj,Mus musculus,10090,FVB_NJ_v1,GCA_001624535.1,External annotation import,-,Y,mmusculus
+mouse lp/j,Mus musculus,10090,LP_J_v1,GCA_001632615.1,External annotation import,-,Y,mmusculus
+mouse lemur,Microcebus murinus,30608,Mmur_3.0,GCA_000165445.3,Full genebuild,-,Y,mmurinus
+mouse nod/shiltj,Mus musculus,10090,NOD_ShiLtJ_v1,GCA_001624675.1,External annotation import,-,Y,mmusculus
+mouse nzo/hlltj,Mus musculus,10090,NZO_HlLtJ_v1,GCA_001624745.1,External annotation import,-,Y,mmusculus
+mouse pwk/phj,Mus musculus musculus,39442,PWK_PhJ_v1,GCA_001624775.1,External annotation import,-,Y,mmusculus
+mouse wsb/eij,Mus musculus domesticus,10092,WSB_EiJ_v1,GCA_001624835.1,External annotation import,-,Y,mdomesticus
+mummichog,Fundulus heteroclitus,8078,Fundulus_heteroclitus-3.0.2,GCA_000826765.1,Full genebuild,-,Y,fheteroclitus
+muscovy duck (domestic type),Cairina moschata domestica,1240228,CaiMos1.0,GCA_009194515.1,Full genebuild,-,-,cdomestica
+naked mole-rat female,Heterocephalus glaber,10181,HetGla_female_1.0,GCA_000247695.1,Full genebuild,-,-,hglaber
+naked mole-rat male,Heterocephalus glaber,10181,HetGla_1.0,GCA_000230445.1,Full genebuild,-,-,hglaber
+narwhal,Monodon monoceros,40151,NGI_Narwhal_1,GCA_005190385.2,Full genebuild,-,-,mmonoceros
+new caledonian crow,Corvus moneduloides,1196302,UO_Cmon_1.0,GCA_009650515.1,Full genebuild,-,-,cmoneduloides
+nile tilapia,Oreochromis niloticus,8128,O_niloticus_UMD_NMBU,GCA_001858045.3,Full genebuild,Y,-,oniloticus
+northern american deer mouse,Peromyscus maniculatus bairdii,230844,HU_Pman_2.1,GCA_003704035.1,Full genebuild,-,-,pbairdii
+northern pike,Esox lucius,8010,Eluc_v4,GCA_004634155.1,Full genebuild,-,-,elucius
+northern spotted owl,Strix occidentalis caurina,311401,Soccid_v01,GCA_002372975.1,Full genebuild,-,-,scaurina
+ocean sunfish,Mola mola,94237,ASM169857v1,GCA_001698575.1,Full genebuild,-,-,mmola
+okarito brown kiwi,Apteryx rowi,308060,aptRow1,GCA_003343035.1,Full genebuild,-,-,arowi
+olive baboon,Papio anubis,9555,Panubis1.0,GCA_008728515.1,Full genebuild,-,Y,panubis
+opossum,Monodelphis domestica,13616,ASM229v1,GCA_000002295.1,Full genebuild,Y,-,mdomestica
+orange clownfish,Amphiprion percula,161767,Nemo_v1,GCA_003047355.1,Full genebuild,-,-,apercula
+orbiculate cardinalfish,Sphaeramia orbicularis,375764,fSphaOr1.1,GCA_902148855.1,Full genebuild,-,-,sorbicularis
+oriental scops-owl,Otus sunia,257818,OtuSun1.0,GCA_010365825.1,Full genebuild,-,-,osunia
+pachon cavefish,Astyanax mexicanus,7994,Astyanax_mexicanus-1.0.2,GCA_004802775.1,Full genebuild,-,-,amexicanus
+painted turtle,Chrysemys picta bellii,8478,Chrysemys_picta_bellii-3.0.3,GCA_000241765.2,Full genebuild,-,-,cbellii
+p. kingsleyae,Paramormyrops kingsleyae,1676925,PKINGS_0.1,GCA_002872115.1,Full genebuild,-,-,pkingsleyae
+p. magnuspinnatus,Periophthalmus magnuspinnatus,409849,PM.fa,GCA_000787105.1,Full genebuild,-,-,pmagnuspinnatus
+pig,Sus scrofa,9823,Sscrofa11.1,GCA_000003025.6,Full genebuild,Y,Y,sscrofa
+pig - bamei,Sus scrofa,9823,Bamei_pig_v1,GCA_001700235.1,Full genebuild,-,-,sscrofa
+pig - berkshire,Sus scrofa,9823,Berkshire_pig_v1,GCA_001700575.1,Full genebuild,-,-,sscrofa
+pig - hampshire,Sus scrofa,9823,Hampshire_pig_v1,GCA_001700165.1,Full genebuild,-,-,sscrofa
+pig - jinhua,Sus scrofa,9823,Jinhua_pig_v1,GCA_001700295.1,Full genebuild,-,-,sscrofa
+pig - landrace,Sus scrofa,9823,Landrace_pig_v1,GCA_001700215.1,Full genebuild,-,-,sscrofa
+pig - largewhite,Sus scrofa,9823,Large_White_v1,GCA_001700135.1,Full genebuild,-,-,sscrofa
+pig - meishan,Sus scrofa,9823,Meishan_pig_v1,GCA_001700195.1,Full genebuild,-,-,sscrofa
+pig - pietrain,Sus scrofa,9823,Pietrain_pig_v1,GCA_001700255.1,Full genebuild,-,-,sscrofa
+pig - rongchang,Sus scrofa,9823,Rongchang_pig_v1,GCA_001700155.1,Full genebuild,-,-,sscrofa
+pig - tibetan,Sus scrofa,9823,Tibetan_Pig_v2,GCA_000472085.2,Full genebuild,-,-,sscrofa
+pig - wuzhishan,Sus scrofa,9823,minipig_v1.0,GCA_000325925.2,Full genebuild,-,-,sscrofa
+pig usmarc,Sus scrofa,9823,USMARCv1.0,GCA_002844635.1,Full genebuild,-,-,sscrofa
+pig-tailed macaque,Macaca nemestrina,9545,Mnem_1.0,GCA_000956065.1,Full genebuild,-,Y,mnemestrina
+pika,Ochotona princeps,9978,OchPri2.0-Ens,-,Projection build,-,-,oprinceps
+pike-perch,Sander lucioperca,283035,SLUC_FBN_1,GCA_008315115.1,Full genebuild,-,-,slucioperca
+pinecone soldierfish,Myripristis murdjan,586833,fMyrMur1.1,GCA_902150065.1,Full genebuild,-,-,mmurdjan
+pink-footed goose,Anser brachyrhynchus,132585,ASM259213v1,GCA_002592135.1,Full genebuild,-,-,abrachyrhynchus
+platyfish,Xiphophorus maculatus,8083,X_maculatus-5.0-male,GCA_002775205.2,Full genebuild,-,-,xmaculatus
+platypus,Ornithorhynchus anatinus,9258,mOrnAna1.p.v1,GCA_004115215.2,Full genebuild,Y,Y,oanatinus
+polar bear,Ursus maritimus,29073,UrsMar_1.0,GCA_000687225.1,Full genebuild,-,-,umaritimus
+prairie vole,Microtus ochrogaster,79684,MicOch1.0,GCA_000317375.1,Full genebuild,-,-,mochrogaster
+rabbit,Oryctolagus cuniculus,9986,OryCun2.0,GCA_000003625.1,Full genebuild,Y,Y,ocuniculus
+rainbow trout,Oncorhynchus mykiss,8022,Omyk_1.0,GCA_002163495.1,Full genebuild,-,-,omykiss
+rat,Rattus norvegicus,10116,mRatBN7.2,GCA_015227675.2,Full genebuild,Y,-,rnorvegicus
+red fox,Vulpes vulpes,9627,VulVul2.2,GCA_003160815.1,Full genebuild,-,-,vvulpes
+red-bellied piranha,Pygocentrus nattereri,42514,Pygocentrus_nattereri-1.0.2,GCA_001682695.1,Full genebuild,-,-,pnattereri
+reedfish,Erpetoichthys calabaricus,27687,fErpCal1.1,GCA_900747795.2,Full genebuild,-,-,ecalabaricus
+ring-necked pheasant,Phasianus colchicus,9054,ASM414374v1,GCA_004143745.1,Full genebuild,-,-,pcolchicus
+round goby,Neogobius melanostomus,47308,RGoby_Basel_V2,GCA_007210695.1,Full genebuild,-,-,nmelanostomus
+ruff,Calidris pugnax,198806,ASM143184v1,GCA_001431845.1,Full genebuild,-,-,cpugnax
+rufous-capped babbler,Cyanoderma ruficeps,181631,ASM869450v1,GCA_008694505.1,Full genebuild,-,-,cruficeps
+ryukyu mouse,Mus caroli,10089,CAROLI_EIJ_v1.1,GCA_900094665.2,External annotation import,-,-,mcaroli
+s. cerevisiae,Saccharomyces cerevisiae,559292,R64-1-1,GCA_000146045.2,Import,Y,Y,scerevisiae
+sailfin molly,Poecilia latipinna,48699,P_latipinna-1.0,GCA_001443285.1,Full genebuild,-,-,platipinna
+sheep,Ovis aries,9940,Oar_rambouillet_v1.0,GCA_002742125.1,Full genebuild,Y,-,oaries
+sheep (texel),Ovis aries,9940,Oar_v3.1,GCA_000298735.1,Mixed strategy build,Y,-,oaries
+sheepshead minnow,Cyprinodon variegatus,28743,C_variegatus-1.0,GCA_000732505.1,Full genebuild,-,Y,cvariegatus
+shortfin molly,Poecilia mexicana,48701,P_mexicana-1.0,GCA_001443325.1,Full genebuild,-,-,pmexicana
+shrew,Sorex araneus,42254,sorAra1,-,Projection build,-,-,saraneus
+shrew mouse,Mus pahari,10093,PAHARI_EIJ_v1.1,GCA_900095145.2,External annotation import,-,-,mpahari
+siamese fighting fish,Betta splendens,158456,fBetSpl5.2,GCA_900634795.2,Full genebuild,-,-,bsplendens
+siberian musk deer,Moschus moschiferus,68415,MosMos_v2_BIUU_UCD,GCA_004024705.2,Full genebuild,-,-,mmoschiferus
+silver-eye,Zosterops lateralis melanops,1220523,ASM128173v1,GCA_001281735.1,Full genebuild,-,-,zmelanops
+sloth,Choloepus hoffmanni,9358,choHof1,-,Projection build,-,-,choffmanni
+small tree finch,Camarhynchus parvulus,87175,STF_HiC,GCA_901933205.1,Full genebuild,-,-,cparvulus
+sooty mangabey,Cercocebus atys,9531,Caty_1.0,GCA_000955945.1,Full genebuild,-,Y,catys
+sperm whale,Physeter catodon,9755,ASM283717v2,GCA_002837175.2,Full genebuild,-,-,pcatodon
+spiny chromis,Acanthochromis polyacanthus,80966,ASM210954v1,GCA_002109545.1,Full genebuild,-,-,apolyacanthus
+spoon-billed sandpiper,Calidris pygmaea,425635,ASM369795v1,GCA_003697955.1,Full genebuild,-,-,cpygmaea
+spotted gar,Lepisosteus oculatus,7918,LepOcu1,GCA_000242695.1,Full genebuild,-,-,loculatus
+squirrel,Ictidomys tridecemlineatus,43179,SpeTri2.0,GCA_000236235.1,Full genebuild,-,-,itridecemlineatus
+steppe mouse,Mus spicilegus,10103,MUSP714,GCA_003336285.1,Full genebuild,-,-,mspicilegus
+stickleback,Gasterosteus aculeatus,69293,BROAD S1,-,Full genebuild,-,-,gaculeatus
+sumatran orangutan,Pongo abelii,9601,Susie_PABv2,GCA_002880775.3,Full genebuild,Y,-,pabelii
+superb fairywren,Malurus cyaneus samueli,2593467,mCya_1.0,GCA_009741485.1,Full genebuild,-,-,msamueli
+swainson's thrush,Catharus ustulatus,91951,bCatUst1.pri,GCA_009819885.1,Full genebuild,-,-,custulatus
+swamp eel,Monopterus albus,43700,M_albus_1.0,GCA_001952655.1,Full genebuild,-,-,malbus
+swan goose,Anser cygnoides,8845,GooseV1.0,GCA_002166845.1,Full genebuild,-,-,acygnoides
+tarsier,Carlito syrichta,1868482,Tarsius_syrichta-2.0.1,GCA_000164805.2,Full genebuild,-,Y,csyrichta
+tasmanian devil,Sarcophilus harrisii,9305,mSarHar1.11,GCA_902635505.1,Full genebuild,-,-,sharrisii
+tetraodon,Tetraodon nigroviridis,99883,TETRAODON 8.0,-,Full genebuild,Y,-,tnigroviridis
+three-toed box turtle,Terrapene carolina triunguis,2587831,T_m_triunguis-2.0,GCA_002925995.2,Full genebuild,-,-,ttriunguis
+tiger,Panthera tigris altaica,74533,PanTig1.0,GCA_000464555.1,Full genebuild,-,-,paltaica
+tiger tail seahorse,Hippocampus comes,109280,H_comes_QL1_v1,GCA_001891065.1,Full genebuild,-,-,hcomes
+tongue sole,Cynoglossus semilaevis,244447,Cse_v1.0,GCA_000523025.1,Full genebuild,-,-,csemilaevis
+tree shrew,Tupaia belangeri,37347,tupBel1,-,Projection build,-,-,tbelangeri
+tropical clawed frog,Xenopus tropicalis,8364,Xenopus_tropicalis_v9.1,GCA_000004195.3,Full genebuild,-,Y,xtropicalis
+tuatara,Sphenodon punctatus,8508,ASM311381v1,GCA_003113815.1,Full genebuild,-,-,spunctatus
+turbot,Scophthalmus maximus,52904,ASM1334776v1,GCA_013347765.1,Full genebuild,-,Y,smaximus
+turkey,Meleagris gallopavo,9103,Turkey_5.1,GCA_000146605.4,Full genebuild,Y,-,mgallopavo
+turquoise killifish,Nothobranchius furzeri,105023,Nfu_20140520,GCA_001465895.2,Full genebuild,-,-,nfurzeri
+ugandan red colobus,Piliocolobus tephrosceles,591936,ASM277652v2,GCA_002776525.2,Full genebuild,-,Y,ptephrosceles
+upper galilee mountains blind mole rat,Nannospalax galili,1026970,S.galili_v1.0,GCA_000622305.1,Full genebuild,-,Y,ngalili
+vaquita,Phocoena sinus,42100,mPhoSin1.pri,GCA_008692025.1,Full genebuild,-,-,psinus
+vervet-agm,Chlorocebus sabaeus,60711,ChlSab1.1,GCA_000409795.2,Full genebuild,Y,-,csabaeus
+wallaby,Notamacropus eugenii,9315,Meug_1.0,GCA_000004035.1,Projection build,-,-,neugenii
+west african mud turtle,Pelusios castaneus,367368,Pelusios_castaneus-1.0,GCA_007922175.1,Full genebuild,-,-,pcastaneus
+western mosquitofish,Gambusia affinis,33528,ASM309773v1,GCA_003097735.1,Full genebuild,-,-,gaffinis
+white-throated sparrow,Zonotrichia albicollis,44394,Zonotrichia_albicollis-1.0.1,GCA_000385455.1,Full genebuild,-,-,zalbicollis
+white-tufted-ear marmoset,Callithrix jacchus,9483,mCalJac1.pat.X,GCA_011100555.1,Full genebuild,-,Y,cjacchus
+wild yak,Bos mutus,72004,BosGru_v2.0,GCA_000298355.1,Full genebuild,-,-,bmutus
+yarkand deer,Cervus hanglu yarkandensis,84702,CEY_v1,GCA_010411085.1,Full genebuild,-,-,cyarkandensis
+yellow-billed parrot,Amazona collaria,241587,ASM394721v1,GCA_003947215.1,Full genebuild,-,-,acollaria
+yellowtail amberjack,Seriola lalandi dorsalis,1841481,Sedor1,GCA_002814215.1,Full genebuild,-,-,sdorsalis
+zebra finch,Taeniopygia guttata,59729,bTaeGut1_v1.p,GCA_003957565.2,Full genebuild,Y,-,tguttata
+zebra mbuna,Maylandia zebra,106582,M_zebra_UMD2a,GCA_000238955.5,Full genebuild,-,-,mzebra
+zebrafish,Danio rerio,7955,GRCz11,GCA_000002035.4,Full genebuild,Y,Y,drerio
+zig-zag eel,Mastacembelus armatus,205130,fMasArm1.2,GCA_900324485.2,Full genebuild,-,-,marmatus
