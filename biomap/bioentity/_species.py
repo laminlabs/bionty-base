@@ -1,60 +1,61 @@
 import pandas as pd
+import logging as logg
 
 
 class Species:
 
     """Species related bio entities"""
 
-    @classmethod
-    def common_name(cls):
+    def __init__(self):
+        self._df = pd.read_csv("tables/Species.csv", header=0, index_col=0)
+
+    @property
+    def common_name(self):
         """Common names list"""
-        return ensembl().index.tolist()
+        return self._df.index.tolist()
 
     @classmethod
-    def scientific_name(cls):
-        """Common name : Scientific name
-
-        e.g. {'human': 'Homo sapiens'}
-
-        """
-        return ensembl()[["Scientific name"]].to_dict()["Scientific name"]
-
-    @classmethod
-    def short_name(cls):
-        """Common name : Short name
-
-        e.g. {'human': 'hsapiens'}
-
-        """
-        return ensembl()[["Short name"]].to_dict()["Short name"]
+    def attributes(cls):
+        return [
+            "common_name",
+            "scientific_name",
+            "short_name",
+            "taxon_id",
+            "ensembl_assembly",
+        ]
 
     @classmethod
-    def taxon_id(cls):
-        """Common name : Taxon ID
+    def get_attribute(cls, attr: str):
+        """Get attribute values based on common_name
 
-        e.g. {'human': 9606}
+        parameters
+        ----------
+        attr
+            one of ['common_name', 'scientific_name', 'short_name', 'taxon_id',
+            'ensembl_assembly']
+
+        e.g.
+        'common_name': 'human'
+        'scientific_name': 'Homo sapiens'
+        'short_name': 'hsapiens'
+        'taxon_id': 9606
+        'ensembl_assembly': 'GRCh38.p13'
 
         """
-        return ensembl()[["Taxon ID"]].to_dict()["Taxon ID"]
-
-    @classmethod
-    def ensembl_assembly(cls):
-        """Common name : Ensembl Assembly
-
-        e.g. {'human': 'Homo sapiens': 'GRCh38.p13'}
-
-        """
-        return ensembl()[["Ensembl Assembly"]].to_dict()["Ensembl Assembly"]
+        return cls._df[[attr]].to_dict()[attr]
 
 
-def ensembl():
+def _format_ensembl_download():
     """Ensembl annotated species and their most recent assemblies
 
     From: https://useast.ensembl.org/info/about/species.html
     """
     df = pd.read_csv("tables/Species.csv", header=0, index_col=0)
+    df.index.name = "common_name"
     df.index = df.index.str.lower()
-    df["Short name"] = [
+    df["short_name"] = [
         f'{i[0].lower()}{i.split(" ")[-1]}' for i in df["Scientific name"]
     ]
-    return df
+    df.columns = [i.lower().relace(" ", "_") for i in df.columns]
+    df.to_csv("tables/Species.csv", header=True, index=True)
+    logg.info("Formated Species.csv!")

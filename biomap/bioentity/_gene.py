@@ -14,6 +14,19 @@ class Gene:
 
     """
 
+    def __init__(self) -> None:
+        pass
+
+    @classmethod
+    def attributes(cls, species="human"):
+        shared = [
+            "ensembl_gene_id",
+            "entrezgene_id",
+            "uniprot_gn_id",
+        ]
+        attr_dict = {"human": ["hgnc_id", "hgnc_symbol"], "mouse": ["mgi_symbol"]}
+        return shared + attr_dict[species]
+
     @classmethod
     def HGNC(cls, species="human"):
         """HGNC symbol from the HUGO Gene Nomenclature Committee"""
