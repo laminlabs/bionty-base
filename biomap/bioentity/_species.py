@@ -13,15 +13,14 @@ class Species:
 
     _df = pd.read_csv(SPECIES_FILENAME, header=0, index_col=0)
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self, species="human"):
+        self._common_name = species
 
     @property
     def common_name(self):
         """Common names list"""
-        return self._df.index.tolist()
+        return self._common_name
 
-    @classmethod
     def attributes(cls):
         return [
             "common_name",
@@ -31,7 +30,6 @@ class Species:
             "ensembl_assembly",
         ]
 
-    @classmethod
     def get_attribute(cls, attr: str):
         """Get attribute values based on common_name
 
