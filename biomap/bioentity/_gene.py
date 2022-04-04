@@ -1,8 +1,10 @@
 from typing import Optional, Literal
+import io
 import pandas as pd
+from ._species import Species
 from .._settings import settings
 
-_IDs = Optional[Literal["ensembl_gene_id", "entrez_id", "uniprot_ids", "hgnc_id"]]
+_IDs = Optional[Literal["ensembl_gene_id", "entrezgene_id", "uniprot_gn_id"]]
 _HGNC = "http://ftp.ebi.ac.uk/pub/databases/genenames/hgnc/tsv/hgnc_complete_set.txt"
 
 
@@ -26,6 +28,27 @@ class Gene:
         ]
         attr_dict = {"human": ["hgnc_id", "hgnc_symbol"], "mouse": ["mgi_symbol"]}
         return shared + attr_dict[species]
+
+    @classmethod
+    def get_gene_ensembl(
+        cls, species="human", attributes=["ensembl_gene_id", "hgnc_id", "hgnc_symbol"]
+    ):
+        # Set up connection to server
+        import biomart
+
+        server = biomart.BiomartServer("http://uswest.ensembl.org/biomart")
+
+        sname = Species.get_attribute("short_name")[species]
+        mart = server.datasets[f"{sname}_gene_ensembl"]
+
+        # Get the mapping between the attributes
+        response = mart.search({"attributes": attributes})
+        data = response.raw.data.decode("ascii")
+
+        df = pd.read_csv(io.StringIO(data), sep="\t", header=None)
+        df.columns = attributes
+
+        return df
 
     @classmethod
     def HGNC(cls, species="human"):
