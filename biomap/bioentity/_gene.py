@@ -30,27 +30,6 @@ class Gene:
         return shared + attr_dict[species]
 
     @classmethod
-    def get_gene_ensembl(
-        cls, species="human", attributes=["ensembl_gene_id", "hgnc_id", "hgnc_symbol"]
-    ):
-        # Set up connection to server
-        import biomart
-
-        server = biomart.BiomartServer("http://uswest.ensembl.org/biomart")
-
-        sname = Species.get_attribute("short_name")[species]
-        mart = server.datasets[f"{sname}_gene_ensembl"]
-
-        # Get the mapping between the attributes
-        response = mart.search({"attributes": attributes})
-        data = response.raw.data.decode("ascii")
-
-        df = pd.read_csv(io.StringIO(data), sep="\t", header=None)
-        df.columns = attributes
-
-        return df
-
-    @classmethod
     def HGNC(cls, species="human"):
         """HGNC symbol from the HUGO Gene Nomenclature Committee"""
         if species != "human":
@@ -69,3 +48,62 @@ class Gene:
             low_memory=False,  # If True, gets DtypeWarning
             verbose=False,
         )
+
+
+class Biomart:
+    """Wrapper of Biomart APIs
+
+    See: https://github.com/sebriois/biomart
+    """
+
+    def __init__(self) -> None:
+        try:
+            import biomart
+
+            self._server = biomart.BiomartServer("http://uswest.ensembl.org/biomart")
+            self._dataset = None
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError("Run `pip install biomart`")
+
+    @property
+    def server(self):
+        """biomart.BiomartServer"""
+        return self._server
+
+    @property
+    def databases(self):
+        """Listing all databases"""
+        return self._server.databases
+
+    @property
+    def datasets(self):
+        """Listing all datasets"""
+        return self._server.datasets
+
+    @property
+    def dataset(self):
+        """A biomart.BiomartDataset"""
+        return self._dataset
+
+    def get_gene_ensembl(
+        self,
+        species="human",
+        attributes=["ensembl_gene_id", "hgnc_id", "hgnc_symbol"],
+        filters={},
+        **kwargs,
+    ):
+        # database name
+        sname = Species.get_attribute("short_name")[species]
+        self._dataset = self.datasets[f"{sname}_gene_ensembl"]
+
+        # Get the mapping between the attributes
+        response = self.dataset.search(
+            {"filters": filters, "attributes": attributes}, **kwargs
+        )
+        data = response.raw.data.decode("utf-8")
+
+        # returns a dataframe
+        df = pd.read_csv(io.StringIO(data), sep="\t", header=None)
+        df.columns = attributes
+
+        return df
