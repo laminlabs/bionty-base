@@ -1,4 +1,4 @@
-from typing import Optional, Literal
+from typing import Optional, Literal, Iterable
 import io
 import pandas as pd
 from ._species import Species
@@ -107,3 +107,67 @@ class Biomart:
         df.columns = attributes
 
         return df
+
+
+class Mygene:
+    """Wrapper of MyGene.info
+
+    See: https://docs.mygene.info/en/latest/index.html
+    """
+
+    def __init__(self) -> None:
+        try:
+            import mygene
+
+            self._mg = mygene.MyGeneInfo()
+        except ModuleNotFoundError:
+            raise ModuleNotFoundError("Run `pip install mygene`")
+
+    def querymany(
+        self,
+        genes: Iterable[str],
+        scopes="symbol",
+        fields="HGNC,symbol",
+        species="human",
+        as_dataframe=True,
+        verbose=False,
+        **kwargs,
+    ):
+        """Get HGNC IDs from mygene
+
+        Parameters
+        ----------
+        genes
+            Input list
+        scopes
+            ID types of the input
+        fields
+            ID type of the output
+        **kwargs
+            see **kwargs of `mygene.MyGeneInfo().querymany()`
+
+        Returns
+        -------
+        a dataframe ('HGNC' column is reformatted to be 'hgnc_id')
+        """
+        self._import_mygene()
+
+        # query via mygene
+        res = self._mg.querymany(
+            genes,
+            scopes=scopes,
+            fields=fields,
+            species=species,
+            as_dataframe=as_dataframe,
+            verbose=verbose,
+            **kwargs,
+        )
+
+        # format HGNC IDs to match `hgnc_id` in `._hgnc`
+        if "HGNC" in res.columns:
+            res["HGNC"] = [
+                f"HGNC:{i}" if isinstance(i, str) else i for i in res["HGNC"]
+            ]
+        res.rename(columns={"HGNC": "hgnc_id"}, inplace=True)
+
+        return res
