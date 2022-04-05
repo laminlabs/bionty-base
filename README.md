@@ -2,12 +2,29 @@
 
 Mapping and standardizing biological entities.
 
-## Installation and configuration
+## Requirements
+
+Python 3.6+
+
+## Installation
+
+<div class="termy">
+
+```console
+$ pip install bionty
+```
+
+</div>
 
 Install the development version:
+
+<div class="termy">
+
+```console
+$ flit install -s --deps develop
 ```
-flit install -s --deps develop
-```
+
+</div>
 
 ## Quick start
 
