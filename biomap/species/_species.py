@@ -30,7 +30,7 @@ class Species:
             "ensembl_assembly",
         ]
 
-    def get_attribute(cls, attr: str):
+    def get_attribute(self, attr: str):
         """Get attribute values based on common_name
 
         Parameters
@@ -51,7 +51,7 @@ class Species:
         -------
         a dict of {'common_name': attr}
         """
-        return cls._df[[attr]].to_dict()[attr]
+        return self._df[[attr]].to_dict()[attr][self.common_name]
 
 
 def _format_ensembl_download():
