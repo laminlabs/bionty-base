@@ -13,15 +13,14 @@ class Species:
 
     _df = pd.read_csv(SPECIES_FILENAME, header=0, index_col=0)
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self, species="human"):
+        self._common_name = species
 
     @property
     def common_name(self):
         """Common names list"""
-        return self._df.index.tolist()
+        return self._common_name
 
-    @classmethod
     def attributes(cls):
         return [
             "common_name",
@@ -31,8 +30,7 @@ class Species:
             "ensembl_assembly",
         ]
 
-    @classmethod
-    def get_attribute(cls, attr: str):
+    def get_attribute(self, attr: str):
         """Get attribute values based on common_name
 
         Parameters
@@ -48,8 +46,12 @@ class Species:
         'taxon_id': 9606
         'ensembl_assembly': 'GRCh38.p13'
 
+
+        Returns
+        -------
+        a dict of {'common_name': attr}
         """
-        return cls._df[[attr]].to_dict()[attr]
+        return self._df[[attr]].to_dict()[attr][self.common_name]
 
 
 def _format_ensembl_download():
@@ -59,10 +61,10 @@ def _format_ensembl_download():
     """
     df = pd.read_csv(SPECIES_FILENAME, header=0, index_col=0)
     df.index.name = "common_name"
+    df.columns = [i.lower().replace(" ", "_") for i in df.columns]
     df.index = df.index.str.lower()
     df["short_name"] = [
-        f'{i[0].lower()}{i.split(" ")[-1]}' for i in df["Scientific name"]
+        f'{i[0].lower()}{i.split(" ")[-1]}' for i in df["scientific_name"]
     ]
-    df.columns = [i.lower().replace(" ", "_") for i in df.columns]
     df.to_csv(SPECIES_FILENAME, header=True, index=True)
     logg.info("Formated Species.csv!")

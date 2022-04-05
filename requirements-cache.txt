@@ -10,3 +10,4 @@ myst_nb
 # test
 scanpy
 mygene
+biomart
