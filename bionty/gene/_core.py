@@ -1,10 +1,12 @@
+from functools import cached_property
 from typing import Optional, Literal, Iterable
+import typing
 import pandas as pd
 from ..species import Species
 from .._settings import settings
 from ._query import Biomart, Mygene
 
-_IDs = Optional[Literal["ensembl_gene_id", "entrezgene_id", "uniprot_gn_id"]]
+_IDs = Literal["ensembl_gene_id", "entrezgene_id"]
 _HGNC = "http://ftp.ebi.ac.uk/pub/databases/genenames/hgnc/tsv/hgnc_complete_set.txt"
 
 
@@ -18,7 +20,7 @@ class Gene:
 
     def __init__(self, species="human"):
         self._species = Species(species=species)
-        self._pull_ref()
+        self._ref = None
 
     @property
     def species(self):
@@ -26,20 +28,26 @@ class Gene:
         return self._species
 
     @property
-    def reference(self):
-        """Gene reference table"""
-        return self._ref
-
-    @property
     def std_id(self):
         """The standardized symbol attribute name"""
-        std_id_dict = {"human": "hgnc_symbol", "mouse": "mgi_symbol"}
-        return std_id_dict[self.species.common_name]
+        STD_ID_DICT = {"human": "hgnc_symbol", "mouse": "mgi_symbol"}
+        return STD_ID_DICT[self.species.common_name]
+
+    @property
+    def attributes(self):
+        ATTR_DICT = {"human": ["hgnc_id", "hgnc_symbol"], "mouse": ["mgi_symbol"]}
+        return list(typing.get_args(_IDs)) + ATTR_DICT[self.species.common_name]
+
+    @cached_property
+    def reference(self):
+        """Gene reference table"""
+        self._pull_ref()
+        return self._ref
 
     def standardize(
         self,
         data: Iterable[str],
-        id_type: _IDs = None,
+        id_type: Optional[_IDs] = None,
         new_index: bool = True,
     ):
         """Index a dataframe with the official gene symbols from HGNC
@@ -51,7 +59,6 @@ class Gene:
             If dataframe, will take the index
         id_type
             Default is to consider input as gene symbols and alias
-            The other options are ['ensembl_id', 'entrez_id', 'uniprot_id', 'hgnc_id']
         new_index
             If True, set the standardized symbols as the index
                 - unmapped will remain the original index
@@ -83,8 +90,8 @@ class Gene:
     def get_attribute(
         self,
         genes: Iterable[str],
-        id_type_from: _IDs = "hgnc_id",
-        id_type_to: _IDs = "hgnc_symbol",
+        id_type_from: Optional[_IDs] = "ensembl_gene_id",
+        id_type_to: Optional[_IDs] = None,
     ):
         """Convert among IDs that are in the `.reference` table
 
@@ -94,19 +101,35 @@ class Gene:
             Input list
         id_type_from
             ID type of the input list
-        id_type_to
+        id_type_to: str (Default is the `.std_id`)
             ID type to convert into
 
         Returns
         -------
         a dict of mapped ids
         """
+
+        # default if to convert tp the standardized id
+        if id_type_to is None:
+            id_type_to = self.std_id
+
+        # get mappings from the reference table
         df = self.reference.reset_index().set_index(id_type_from)[[id_type_to]].copy()
+
         return df[df.index.isin(genes)].to_dict()[id_type_to]
 
     def _pull_ref(self):
         """Pulling gene reference table"""
-        self._ref = Biomart().get_gene_ensembl(species=self.species.common_name)
+        ref = Biomart().get_gene_ensembl(species=self.species.common_name)
+        if "entrezgene_id" in ref.columns:
+            ref["entrezgene_id"] = (
+                ref["entrezgene_id"]
+                .fillna(0)
+                .astype(int)
+                .astype(object)
+                .where(ref["entrezgene_id"].notnull())
+            )
+        self._ref = ref
 
     def _standardize_symbol(
         self,
@@ -194,16 +217,6 @@ class Gene:
         """Adding columns to a dataframe for standardization"""
         df = self._dataframe(data)
         return df
-
-    @classmethod
-    def attributes(cls, species="human"):
-        shared = [
-            "ensembl_gene_id",
-            "entrezgene_id",
-            "uniprot_gn_id",
-        ]
-        attr_dict = {"human": ["hgnc_id", "hgnc_symbol"], "mouse": ["mgi_symbol"]}
-        return shared + attr_dict[species]
 
     @classmethod
     def HGNC(cls, species="human"):

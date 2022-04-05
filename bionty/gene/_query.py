@@ -1,7 +1,6 @@
 from typing import Iterable
 import io
 import pandas as pd
-from ..species import Species
 
 
 class Biomart:
@@ -42,18 +41,37 @@ class Biomart:
     def get_gene_ensembl(
         self,
         species="human",
-        attributes=["ensembl_gene_id", "hgnc_id", "hgnc_symbol"],
+        attributes=None,
         filters={},
         **kwargs,
     ):
+        """Fetch the reference table of gene ensembl from biomart
+
+        Parameters
+        ----------
+        species
+            common name of species
+        attributes
+            gene attributes from gene_ensembl datasets
+        filters
+            see biomart.search()
+        **kwargs
+            see biomart.search()
+        """
         # database name
-        species = Species(species="human")
-        sname = species.get_attribute("short_name")
+        from bionty.gene import Gene
+
+        gn = Gene(species=species)
+        sname = gn.species.get_attribute("short_name")
         self._dataset = self.datasets[f"{sname}_gene_ensembl"]
+
+        # default is to get all the attributes
+        attributes = gn.attributes if attributes is None else attributes
 
         # Get the mapping between the attributes
         response = self.dataset.search(
-            {"filters": filters, "attributes": attributes}, **kwargs
+            {"filters": filters, "attributes": attributes},
+            **kwargs,
         )
         data = response.raw.data.decode("utf-8")
 
