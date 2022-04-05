@@ -3,7 +3,7 @@ requires = ["flit_core >=3.2,<4"]
 build-backend = "flit_core.buildapi"
 
 [project]
-name = "biomap"
+name = "bionty"
 authors = [{name = "Lamin Dev", email = "laminlabs@gmail.com"}]
 readme = "README.md"
 dynamic = ["version", "description"]
@@ -14,7 +14,7 @@ dependencies = [
 ]
 
 [project.urls]
-Home = "https://github.com/laminlabs/biomap"
+Home = "https://github.com/laminlabs/bionty"
 
 [project.optional-dependencies]
 dev = [

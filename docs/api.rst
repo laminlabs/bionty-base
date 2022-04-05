@@ -1,7 +1,7 @@
 API
 ===
 
-.. module:: biomap
+.. module:: bionty
 
 .. autosummary::
    :toctree: generated/

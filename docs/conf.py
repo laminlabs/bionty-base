@@ -1,24 +1,23 @@
 from datetime import datetime
-import biomap  # noqa
 import sys
 from pathlib import Path
 from sphinx.application import Sphinx
 
 HERE = Path(__file__).parent
 sys.path[:0] = [str(HERE.parent), str(HERE / "extensions")]
-import biomap  # noqa
+import bionty  # noqa
 
-for generated in HERE.glob("biomap.*.rst"):
+for generated in HERE.glob("bionty.*.rst"):
     generated.unlink()
 
-project = "biomap"
+project = "bionty"
 author = "Lamin Labs"
 copyright = f"{datetime.now():%Y}, {author}"
-release = biomap.__version__.replace(".dirty", "")
+release = bionty.__version__.replace(".dirty", "")
 
 html_theme = "sphinx_book_theme"
 html_theme_options = {
-    "repository_url": "https://github.com/laminlabs/biomap",
+    "repository_url": "https://github.com/laminlabs/bionty",
     "use_repository_button": True,
 }
 source_suffix = [".rst", ".ipynb"]
