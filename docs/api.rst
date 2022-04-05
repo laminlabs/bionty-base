@@ -6,4 +6,5 @@ API
 .. autosummary::
    :toctree: generated/
 
-   bioentity
+   gene
+   species
