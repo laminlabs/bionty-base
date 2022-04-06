@@ -4,7 +4,7 @@ import pandas as pd
 
 
 class Biomart:
-    """Wrapper of Biomart APIs
+    """Wrapper of Biomart python APIs, good for accessing Ensembl data
 
     See: https://github.com/sebriois/biomart
     """
@@ -90,11 +90,11 @@ class Mygene:
 
     def __init__(self) -> None:
         try:
-            import mygene
+            import biothings_client
 
-            self._mg = mygene.MyGeneInfo()
+            self._mg = biothings_client.MyGeneInfo()
         except ModuleNotFoundError:
-            raise ModuleNotFoundError("Run `pip install mygene`")
+            raise ModuleNotFoundError("Run `pip install biothings_client`")
 
     @property
     def mg(self):

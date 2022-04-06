@@ -30,7 +30,7 @@ test = [
     "pytest>=6.0",
     "nbmake",
     "scanpy",
-    "mygene",
+    "biothings_client",
     "biomart",
 ]
 

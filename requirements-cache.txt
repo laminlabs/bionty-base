@@ -9,5 +9,5 @@ sqlmodel
 myst_nb
 # test
 scanpy
-mygene
+biothings_client
 biomart
