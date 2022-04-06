@@ -28,7 +28,7 @@ class Gene:
         return self._species
 
     @property
-    def std_id(self):
+    def STD_ID(self):
         """The standardized symbol attribute name"""
         STD_ID_DICT = {"human": "hgnc_symbol", "mouse": "mgi_symbol"}
         return STD_ID_DICT[self.species.common_name]
@@ -68,7 +68,7 @@ class Gene:
         Returns
         -------
         Replaces the DataFrame mappable index with the standardized symbols
-        Adds a `std_id` column
+        Adds a `STD_ID` column
         The original index is stored in the `index_orig` column
         """
 
@@ -78,13 +78,13 @@ class Gene:
             mapped_dict = self._standardize_symbol(df=df)
         else:
             mapped_dict = self.get_attribute(
-                df.index, id_type_from=id_type, id_type_to=self.std_id
+                df.index, id_type_from=id_type, id_type_to=self.STD_ID
             )
 
-        df["std_id"] = df.index.map(mapped_dict)
+        df["STD_ID"] = df.index.map(mapped_dict)
         if new_index:
             df["index_orig"] = df.index
-            df.index = df["std_id"].fillna(df["index_orig"])
+            df.index = df["STD_ID"].fillna(df["index_orig"])
             df.index.name = None
 
     def get_attribute(
@@ -100,8 +100,8 @@ class Gene:
         genes
             Input list
         id_type_from
-            ID type of the input list
-        id_type_to: str (Default is the `.std_id`)
+            ID type of the input list, see `.attributes`
+        id_type_to: str (Default is the `.STD_ID`)
             ID type to convert into
 
         Returns
@@ -111,7 +111,7 @@ class Gene:
 
         # default if to convert tp the standardized id
         if id_type_to is None:
-            id_type_to = self.std_id
+            id_type_to = self.STD_ID
 
         # get mappings from the reference table
         df = self.reference.reset_index().set_index(id_type_from)[[id_type_to]].copy()
@@ -185,10 +185,10 @@ class Gene:
 
         # for unique results, use returned HGNC IDs to get symbols from .hgnc
         udf = df[~df.index.duplicated(keep=False)].copy()
-        udf["std_id"] = udf["hgnc_id"].map(
+        udf["STD_ID"] = udf["hgnc_id"].map(
             self.get_attribute(udf["hgnc_id"], "hgnc_id", "hgnc_symbol")
         )
-        mapped_dict.update(udf[["std_id"]].to_dict()["std_id"])
+        mapped_dict.update(udf[["STD_ID"]].to_dict()["STD_ID"])
 
         # TODO: if the same HGNC ID is mapped to multiple inputs?
         if df[unique_col].duplicated().sum() > 0:
