@@ -1,1 +1,1 @@
-from ._species import Species
+from ._core import Species

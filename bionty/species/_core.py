@@ -21,7 +21,8 @@ class Species:
         """Common names list"""
         return self._common_name
 
-    def attributes(cls):
+    @property
+    def attributes(self):
         return [
             "common_name",
             "scientific_name",

@@ -1,10 +1,12 @@
+from functools import cached_property
 from typing import Optional, Literal, Iterable
-import io
+import typing
 import pandas as pd
 from ..species import Species
 from .._settings import settings
+from ._query import Biomart, Mygene
 
-_IDs = Optional[Literal["ensembl_gene_id", "entrezgene_id", "uniprot_gn_id"]]
+_IDs = Literal["ensembl_gene_id", "entrezgene_id"]
 _HGNC = "http://ftp.ebi.ac.uk/pub/databases/genenames/hgnc/tsv/hgnc_complete_set.txt"
 
 
@@ -18,7 +20,7 @@ class Gene:
 
     def __init__(self, species="human"):
         self._species = Species(species=species)
-        self._pull_ref()
+        self._ref = None
 
     @property
     def species(self):
@@ -26,20 +28,26 @@ class Gene:
         return self._species
 
     @property
-    def reference(self):
-        """Gene reference table"""
-        return self._ref
+    def STD_ID(self):
+        """The standardized symbol attribute name"""
+        STD_ID_DICT = {"human": "hgnc_symbol", "mouse": "mgi_symbol"}
+        return STD_ID_DICT[self.species.common_name]
 
     @property
-    def std_symbol(self):
-        """The standardized symbol attribute name"""
-        std_symbol_dict = {"human": "hgnc_symbol", "mouse": "mgi_symbol"}
-        return std_symbol_dict[self.species.common_name]
+    def attributes(self):
+        ATTR_DICT = {"human": ["hgnc_id", "hgnc_symbol"], "mouse": ["mgi_symbol"]}
+        return list(typing.get_args(_IDs)) + ATTR_DICT[self.species.common_name]
+
+    @cached_property
+    def reference(self):
+        """Gene reference table"""
+        self._pull_ref()
+        return self._ref
 
     def standardize(
         self,
         data: Iterable[str],
-        id_type: _IDs = None,
+        id_type: Optional[_IDs] = None,
         new_index: bool = True,
     ):
         """Index a dataframe with the official gene symbols from HGNC
@@ -51,7 +59,6 @@ class Gene:
             If dataframe, will take the index
         id_type
             Default is to consider input as gene symbols and alias
-            The other options are ['ensembl_id', 'entrez_id', 'uniprot_id', 'hgnc_id']
         new_index
             If True, set the standardized symbols as the index
                 - unmapped will remain the original index
@@ -61,7 +68,7 @@ class Gene:
         Returns
         -------
         Replaces the DataFrame mappable index with the standardized symbols
-        Adds a `std_symbol` column
+        Adds a `STD_ID` column
         The original index is stored in the `index_orig` column
         """
 
@@ -71,20 +78,20 @@ class Gene:
             mapped_dict = self._standardize_symbol(df=df)
         else:
             mapped_dict = self.get_attribute(
-                df.index, id_type_from=id_type, id_type_to=self.std_symbol
+                df.index, id_type_from=id_type, id_type_to=self.STD_ID
             )
 
-        df["std_symbol"] = df.index.map(mapped_dict)
+        df["STD_ID"] = df.index.map(mapped_dict)
         if new_index:
             df["index_orig"] = df.index
-            df.index = df["std_symbol"].fillna(df["index_orig"])
+            df.index = df["STD_ID"].fillna(df["index_orig"])
             df.index.name = None
 
     def get_attribute(
         self,
         genes: Iterable[str],
-        id_type_from: _IDs = "hgnc_id",
-        id_type_to: _IDs = "hgnc_symbol",
+        id_type_from: Optional[_IDs] = "ensembl_gene_id",
+        id_type_to: Optional[_IDs] = None,
     ):
         """Convert among IDs that are in the `.reference` table
 
@@ -93,20 +100,36 @@ class Gene:
         genes
             Input list
         id_type_from
-            ID type of the input list
-        id_type_to
+            ID type of the input list, see `.attributes`
+        id_type_to: str (Default is the `.STD_ID`)
             ID type to convert into
 
         Returns
         -------
         a dict of mapped ids
         """
+
+        # default if to convert tp the standardized id
+        if id_type_to is None:
+            id_type_to = self.STD_ID
+
+        # get mappings from the reference table
         df = self.reference.reset_index().set_index(id_type_from)[[id_type_to]].copy()
+
         return df[df.index.isin(genes)].to_dict()[id_type_to]
 
     def _pull_ref(self):
         """Pulling gene reference table"""
-        self._ref = Biomart().get_gene_ensembl(species=self.species.common_name)
+        ref = Biomart().get_gene_ensembl(species=self.species.common_name)
+        if "entrezgene_id" in ref.columns:
+            ref["entrezgene_id"] = (
+                ref["entrezgene_id"]
+                .fillna(0)
+                .astype(int)
+                .astype(object)
+                .where(ref["entrezgene_id"].notnull())
+            )
+        self._ref = ref
 
     def _standardize_symbol(
         self,
@@ -162,10 +185,10 @@ class Gene:
 
         # for unique results, use returned HGNC IDs to get symbols from .hgnc
         udf = df[~df.index.duplicated(keep=False)].copy()
-        udf["std_symbol"] = udf["hgnc_id"].map(
+        udf["STD_ID"] = udf["hgnc_id"].map(
             self.get_attribute(udf["hgnc_id"], "hgnc_id", "hgnc_symbol")
         )
-        mapped_dict.update(udf[["std_symbol"]].to_dict()["std_symbol"])
+        mapped_dict.update(udf[["STD_ID"]].to_dict()["STD_ID"])
 
         # TODO: if the same HGNC ID is mapped to multiple inputs?
         if df[unique_col].duplicated().sum() > 0:
@@ -196,16 +219,6 @@ class Gene:
         return df
 
     @classmethod
-    def attributes(cls, species="human"):
-        shared = [
-            "ensembl_gene_id",
-            "entrezgene_id",
-            "uniprot_gn_id",
-        ]
-        attr_dict = {"human": ["hgnc_id", "hgnc_symbol"], "mouse": ["mgi_symbol"]}
-        return shared + attr_dict[species]
-
-    @classmethod
     def HGNC(cls, species="human"):
         """HGNC symbol from the HUGO Gene Nomenclature Committee"""
         if species != "human":
@@ -224,131 +237,3 @@ class Gene:
             low_memory=False,  # If True, gets DtypeWarning
             verbose=False,
         )
-
-
-class Biomart:
-    """Wrapper of Biomart APIs
-
-    See: https://github.com/sebriois/biomart
-    """
-
-    def __init__(self) -> None:
-        try:
-            import biomart
-
-            self._server = biomart.BiomartServer("http://uswest.ensembl.org/biomart")
-            self._dataset = None
-        except ModuleNotFoundError:
-            raise ModuleNotFoundError("Run `pip install biomart`")
-
-    @property
-    def server(self):
-        """biomart.BiomartServer"""
-        return self._server
-
-    @property
-    def databases(self):
-        """Listing all databases"""
-        return self._server.databases
-
-    @property
-    def datasets(self):
-        """Listing all datasets"""
-        return self._server.datasets
-
-    @property
-    def dataset(self):
-        """A biomart.BiomartDataset"""
-        return self._dataset
-
-    def get_gene_ensembl(
-        self,
-        species="human",
-        attributes=["ensembl_gene_id", "hgnc_id", "hgnc_symbol"],
-        filters={},
-        **kwargs,
-    ):
-        # database name
-        species = Species(species="human")
-        sname = species.get_attribute("short_name")
-        self._dataset = self.datasets[f"{sname}_gene_ensembl"]
-
-        # Get the mapping between the attributes
-        response = self.dataset.search(
-            {"filters": filters, "attributes": attributes}, **kwargs
-        )
-        data = response.raw.data.decode("utf-8")
-
-        # returns a dataframe
-        df = pd.read_csv(io.StringIO(data), sep="\t", header=None)
-        df.columns = attributes
-
-        return df
-
-
-class Mygene:
-    """Wrapper of MyGene.info
-
-    See: https://docs.mygene.info/en/latest/index.html
-    """
-
-    def __init__(self) -> None:
-        try:
-            import mygene
-
-            self._mg = mygene.MyGeneInfo()
-        except ModuleNotFoundError:
-            raise ModuleNotFoundError("Run `pip install mygene`")
-
-    @property
-    def mg(self):
-        """mygene.MyGeneInfo()"""
-        return self._mg
-
-    def querymany(
-        self,
-        genes: Iterable[str],
-        scopes="symbol",
-        fields="HGNC,symbol",
-        species="human",
-        as_dataframe=True,
-        verbose=False,
-        **kwargs,
-    ):
-        """Get HGNC IDs from mygene
-
-        Parameters
-        ----------
-        genes
-            Input list
-        scopes
-            ID types of the input
-        fields
-            ID type of the output
-        **kwargs
-            see **kwargs of `mygene.MyGeneInfo().querymany()`
-
-        Returns
-        -------
-        a dataframe ('HGNC' column is reformatted to be 'hgnc_id')
-        """
-
-        # query via mygene
-        res = self.mg.querymany(
-            genes,
-            scopes=scopes,
-            fields=fields,
-            species=species,
-            as_dataframe=as_dataframe,
-            verbose=verbose,
-            **kwargs,
-        )
-
-        # format HGNC IDs to match `hgnc_id` in `._hgnc`
-        if "HGNC" in res.columns:
-            res["HGNC"] = [
-                f"HGNC:{i}" if isinstance(i, str) else i for i in res["HGNC"]
-            ]
-        res.rename(columns={"HGNC": "hgnc_id"}, inplace=True)
-
-        return res

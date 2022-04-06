@@ -1,1 +1,2 @@
-from ._gene import Gene, Biomart, Mygene
+from ._core import Gene
+from ._query import Biomart, Mygene

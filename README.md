@@ -26,6 +26,6 @@ $ flit install -s --deps develop
 
 </div>
 
-## Quick start
+## Quickstart
 
 - https://github.com/lamindev/bionty/blob/main/docs/guides/quickstart.ipynb
