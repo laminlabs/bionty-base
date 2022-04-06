@@ -1,5 +1,5 @@
-Lamin
-=====
+Bionty
+======
 
 Data management for computational biology.
 

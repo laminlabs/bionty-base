@@ -14,7 +14,7 @@ class Protein:
 
     @property
     def species(self):
-        """biomap.bioentity.Species"""
+        """bionty.Species"""
         return self._species
 
     @property

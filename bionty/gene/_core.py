@@ -24,7 +24,7 @@ class Gene:
 
     @property
     def species(self):
-        """biomap.bioentity.Species"""
+        """Bionty.Species"""
         return self._species
 
     @property

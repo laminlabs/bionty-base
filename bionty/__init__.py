@@ -1,4 +1,4 @@
-"""biomap: mapping and standardizing biological entities.."""
+"""Bionty: mapping and standardizing biological entities.."""
 
 from . import _version
 
