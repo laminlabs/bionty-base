@@ -2,7 +2,7 @@ from typing import Iterable
 import io
 import pandas as pd
 from biothings_client import MyGeneInfo
-import bionty as bn
+from .. import NormalizeColumns
 
 
 class Mygene(MyGeneInfo):
@@ -58,7 +58,7 @@ class Mygene(MyGeneInfo):
             res["HGNC"] = [
                 f"HGNC:{i}" if isinstance(i, str) else i for i in res["HGNC"]
             ]
-        bn.NormalizeColumns.gene(res)
+        NormalizeColumns.gene(res)
 
         return res
 
