@@ -1,10 +1,70 @@
 from typing import Iterable
 import io
 import pandas as pd
+from biothings_client import MyGeneInfo
+from .._normalize import NormalizeColumns
+
+
+class Mygene(MyGeneInfo):
+    """Wrapper of MyGene.info
+
+    See: https://docs.mygene.info/en/latest/index.html
+    """
+
+    def __init__(self) -> None:
+        super().__init__()
+
+    def querymany(
+        self,
+        genes: Iterable[str],
+        scopes="symbol",
+        fields="HGNC,symbol",
+        species="human",
+        as_dataframe=True,
+        verbose=False,
+        **kwargs,
+    ):
+        """Get HGNC IDs from Mygene
+
+        Parameters
+        ----------
+        genes
+            Input list
+        scopes
+            ID types of the input
+        fields
+            ID type of the output
+        **kwargs
+            see **kwargs of `biothings_client.MyGeneInfo().querymany()`
+
+        Returns
+        -------
+        a dataframe ('HGNC' column is reformatted to be 'hgnc_id')
+        """
+
+        # query via mygene
+        res = super().querymany(
+            genes,
+            scopes=scopes,
+            fields=fields,
+            species=species,
+            as_dataframe=as_dataframe,
+            verbose=verbose,
+            **kwargs,
+        )
+
+        # format HGNC IDs to match `hgnc_id` format ('HGNC:int')
+        if "HGNC" in res.columns:
+            res["HGNC"] = [
+                f"HGNC:{i}" if isinstance(i, str) else i for i in res["HGNC"]
+            ]
+        NormalizeColumns.gene(res)
+
+        return res
 
 
 class Biomart:
-    """Wrapper of Biomart APIs
+    """Wrapper of Biomart python APIs, good for accessing Ensembl data
 
     See: https://github.com/sebriois/biomart
     """
@@ -80,71 +140,3 @@ class Biomart:
         df.columns = attributes
 
         return df
-
-
-class Mygene:
-    """Wrapper of MyGene.info
-
-    See: https://docs.mygene.info/en/latest/index.html
-    """
-
-    def __init__(self) -> None:
-        try:
-            import mygene
-
-            self._mg = mygene.MyGeneInfo()
-        except ModuleNotFoundError:
-            raise ModuleNotFoundError("Run `pip install mygene`")
-
-    @property
-    def mg(self):
-        """mygene.MyGeneInfo()"""
-        return self._mg
-
-    def querymany(
-        self,
-        genes: Iterable[str],
-        scopes="symbol",
-        fields="HGNC,symbol",
-        species="human",
-        as_dataframe=True,
-        verbose=False,
-        **kwargs,
-    ):
-        """Get HGNC IDs from mygene
-
-        Parameters
-        ----------
-        genes
-            Input list
-        scopes
-            ID types of the input
-        fields
-            ID type of the output
-        **kwargs
-            see **kwargs of `mygene.MyGeneInfo().querymany()`
-
-        Returns
-        -------
-        a dataframe ('HGNC' column is reformatted to be 'hgnc_id')
-        """
-
-        # query via mygene
-        res = self.mg.querymany(
-            genes,
-            scopes=scopes,
-            fields=fields,
-            species=species,
-            as_dataframe=as_dataframe,
-            verbose=verbose,
-            **kwargs,
-        )
-
-        # format HGNC IDs to match `hgnc_id` in `._hgnc`
-        if "HGNC" in res.columns:
-            res["HGNC"] = [
-                f"HGNC:{i}" if isinstance(i, str) else i for i in res["HGNC"]
-            ]
-        res.rename(columns={"HGNC": "hgnc_id"}, inplace=True)
-
-        return res

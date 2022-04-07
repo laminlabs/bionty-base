@@ -11,6 +11,7 @@ dependencies = [
     "anndata",
     "pandas",
     "loguru",
+    "biothings_client"
 ]
 
 [project.urls]
@@ -30,12 +31,11 @@ test = [
     "pytest>=6.0",
     "nbmake",
     "scanpy",
-    "mygene",
     "biomart",
 ]
 
 [project.scripts]
-lamin = "lamin.__main__:main"
+bionty = "bionty.__main__:main"
 
 [tool.black]
 experimental-string-processing = true

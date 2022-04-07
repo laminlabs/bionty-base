@@ -2,7 +2,7 @@ from functools import cached_property
 from typing import Optional, Literal, Iterable
 import typing
 import pandas as pd
-from ..species import Species
+from ..taxon import Taxon
 from .._settings import settings
 from ._query import Biomart, Mygene
 
@@ -19,12 +19,12 @@ class Gene:
     """
 
     def __init__(self, species="human"):
-        self._species = Species(species=species)
+        self._species = Taxon(species=species)
         self._ref = None
 
     @property
     def species(self):
-        """Bionty.Species"""
+        """Bionty.Taxon"""
         return self._species
 
     @property
