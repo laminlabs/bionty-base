@@ -2,7 +2,7 @@ from typing import Iterable
 import io
 import pandas as pd
 from biothings_client import MyGeneInfo
-from .. import NormalizeColumns
+from .._normalize import NormalizeColumns
 
 
 class Mygene(MyGeneInfo):
