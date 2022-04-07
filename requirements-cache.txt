@@ -5,9 +5,9 @@ cloudpathlib
 loguru
 requests
 sqlmodel
+biothings_client
 # doc
 myst_nb
 # test
 scanpy
-biothings_client
 biomart

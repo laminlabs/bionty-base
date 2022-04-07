@@ -1,13 +1,12 @@
 from pathlib import Path
 import pandas as pd
-import logging as logg
 
 
 HERE = Path(__file__).parent
 SPECIES_FILENAME = HERE / "tables/Species.csv"
 
 
-class Species:
+class Taxon:
 
     """Species related bio entities"""
 
@@ -68,4 +67,3 @@ def _format_ensembl_download():
         f'{i[0].lower()}{i.split(" ")[-1]}' for i in df["scientific_name"]
     ]
     df.to_csv(SPECIES_FILENAME, header=True, index=True)
-    logg.info("Formated Species.csv!")

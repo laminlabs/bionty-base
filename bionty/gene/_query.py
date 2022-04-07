@@ -1,6 +1,7 @@
 from typing import Iterable
 import io
 import pandas as pd
+from biothings_client import MyGeneInfo
 
 
 class Biomart:
@@ -82,24 +83,14 @@ class Biomart:
         return df
 
 
-class Mygene:
+class Mygene(MyGeneInfo):
     """Wrapper of MyGene.info
 
     See: https://docs.mygene.info/en/latest/index.html
     """
 
     def __init__(self) -> None:
-        try:
-            import biothings_client
-
-            self._mg = biothings_client.MyGeneInfo()
-        except ModuleNotFoundError:
-            raise ModuleNotFoundError("Run `pip install biothings_client`")
-
-    @property
-    def mg(self):
-        """mygene.MyGeneInfo()"""
-        return self._mg
+        super().__init__()
 
     def querymany(
         self,
@@ -111,7 +102,7 @@ class Mygene:
         verbose=False,
         **kwargs,
     ):
-        """Get HGNC IDs from mygene
+        """Get HGNC IDs from Mygene
 
         Parameters
         ----------
@@ -122,7 +113,7 @@ class Mygene:
         fields
             ID type of the output
         **kwargs
-            see **kwargs of `mygene.MyGeneInfo().querymany()`
+            see **kwargs of `biothings_client.MyGeneInfo().querymany()`
 
         Returns
         -------
@@ -130,7 +121,7 @@ class Mygene:
         """
 
         # query via mygene
-        res = self.mg.querymany(
+        res = super().querymany(
             genes,
             scopes=scopes,
             fields=fields,
@@ -140,7 +131,7 @@ class Mygene:
             **kwargs,
         )
 
-        # format HGNC IDs to match `hgnc_id` in `._hgnc`
+        # format HGNC IDs to match `hgnc_id` format ('HGNC:int')
         if "HGNC" in res.columns:
             res["HGNC"] = [
                 f"HGNC:{i}" if isinstance(i, str) else i for i in res["HGNC"]
