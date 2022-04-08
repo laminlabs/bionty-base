@@ -1,11 +1,11 @@
 from typing import Iterable
 import io
 import pandas as pd
-from biothings_client import MyGeneInfo
+from biothings_client import get_client
 from .._normalize import NormalizeColumns
 
 
-class Mygene(MyGeneInfo):
+class Mygene(get_client("gene", instance=False)):
     """Wrapper of MyGene.info
 
     See: https://docs.mygene.info/en/latest/index.html

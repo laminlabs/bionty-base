@@ -1,7 +1,7 @@
-from biothings_client import MyTaxonInfo
+from biothings_client import get_client
 
 
-class Mytaxon(MyTaxonInfo):
+class Mytaxon(get_client("taxon", instance=False)):
     """Wrapper of MyTaxon.info"""
 
     def __init__(self) -> None:
