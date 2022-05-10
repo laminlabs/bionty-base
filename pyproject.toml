@@ -20,12 +20,7 @@ Home = "https://github.com/laminlabs/bionty"
 [project.optional-dependencies]
 dev = [
     "pre-commit",
-    "black==22.3.0",
-]
-doc = [
-    "sphinx-book-theme",
-    "sphinx_autodoc_typehints",
-    "myst_nb",
+    "nox",
 ]
 test = [
     "pytest>=6.0",
