@@ -10,9 +10,9 @@ for generated in HERE.glob("bionty.*.rst"):
     generated.unlink()
 
 project = "Bionty"
-html_title = f"{nbproject} | Lamin Labs"
-release = nbproject.__version__
-html_context["github_repo"] = "nbproject"  # noqa
+html_title = f"{bionty} | Lamin Labs"
+release = bionty.__version__
+html_context["github_repo"] = "bionty"  # noqa
 html_sidebars = {
     "*": [],
     "guides": ["sidebar-nav-bs"],

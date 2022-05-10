@@ -1,5 +1,4 @@
-Guides
-======
+# Guides
 
 ```{toctree}
 toctree::
