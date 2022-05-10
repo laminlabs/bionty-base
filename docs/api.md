@@ -9,5 +9,6 @@
    :toctree: generated/
 
    gene
-   species
+   protein
+   taxon
 ```
