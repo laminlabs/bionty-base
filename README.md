@@ -1,6 +1,6 @@
 # Bionty
 
-Mapping and standardizing biological entities.
+Managing biological entities.
 
 ## Requirements
 
