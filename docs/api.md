@@ -1,7 +1,19 @@
 # API
 
+Overview of the API.
+
 ```{eval-rst}
 .. module:: bionty
+```
+
+```{eval-rst}
+.. code::
+
+  import bionty as bt
+```
+
+```{eval-rst}
+.. currentmodule:: bionty
 ```
 
 ```{eval-rst}
@@ -9,5 +21,6 @@
    :toctree: generated/
 
    gene
-   species
+   protein
+   taxon
 ```
