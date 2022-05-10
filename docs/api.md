@@ -3,6 +3,10 @@
 Overview of the API.
 
 ```{eval-rst}
+.. module:: bionty
+```
+
+```{eval-rst}
 .. code::
 
   import bionty as bt
@@ -16,7 +20,7 @@ Overview of the API.
 .. autosummary::
    :toctree: generated/
 
-   bionty.gene
-   bionty.protein
-   bionty.taxon
+   gene
+   protein
+   taxon
 ```
