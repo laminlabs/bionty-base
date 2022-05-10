@@ -6,9 +6,6 @@ sys.path[:0] = [str(HERE)]
 from lamin_sphinx import *  # noqa
 import bionty  # noqa
 
-for generated in HERE.glob("bionty.*.rst"):
-    generated.unlink()
-
 project = "Bionty"
 html_title = f"{bionty} | Lamin Labs"
 release = bionty.__version__
