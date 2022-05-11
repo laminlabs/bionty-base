@@ -10,9 +10,7 @@ project = "Bionty"
 html_title = f"{project} | Lamin Labs"
 release = bionty.__version__
 html_context["github_repo"] = "bionty"  # noqa
-html_sidebars = {
-    "*": ["sidebar-nav-bs"],
-    "**/*": ["sidebar-nav-bs"],
-}
 
 nb_execution_mode = "force"
+
+ogp_site_url = "https://lamin.ai/bionty"
