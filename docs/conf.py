@@ -7,11 +7,10 @@ from lamin_sphinx import *  # noqa
 import bionty  # noqa
 
 project = "Bionty"
-html_title = f"{bionty} | Lamin Labs"
+html_title = f"{project} | Lamin Labs"
 release = bionty.__version__
 html_context["github_repo"] = "bionty"  # noqa
 html_sidebars = {
-    "*": [],
-    "guides": ["sidebar-nav-bs"],
-    "guides/*": ["sidebar-nav-bs"],
+    "*": ["sidebar-nav-bs"],
+    "**/*": ["sidebar-nav-bs"],
 }
