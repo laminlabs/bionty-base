@@ -28,4 +28,4 @@ $ flit install -s --deps develop
 
 ## Quickstart
 
-- https://github.com/lamindev/bionty/blob/main/docs/guides/quickstart.ipynb
+- https://lamin.ai/bionty/guides/quickstart
