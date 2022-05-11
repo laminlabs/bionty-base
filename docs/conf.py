@@ -14,3 +14,5 @@ html_sidebars = {
     "*": ["sidebar-nav-bs"],
     "**/*": ["sidebar-nav-bs"],
 }
+
+nb_execution_mode = "force"
