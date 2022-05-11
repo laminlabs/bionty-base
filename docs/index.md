@@ -1,10 +1,9 @@
 # Bionty: Manage biological entities
 
-- An unambiguous intuitive API for interacting with biological entities, based on scientific community standards.
-- A reference for making data science workflows and data stores a lot more robust, for instance, using [lamindb](https://lamin.ai/lamindb).
-
 Never worry again whether a gene, a protein, a system, a perturbagen, etc. in a piece of data is in fact the thing you think it is!
 
+- An unambiguous intuitive API for interacting with biological entities, based on scientific community standards.
+- A reference for making data science workflows and data stores a lot more robust, for instance, using [lamindb](https://lamin.ai/lamindb).
 - Directly standardize `DataFrame` and `AnnData` objects and their on-disk representations against entities.
 - Enable collaborative & machine learning at scale through employing a universal programmatic standard.
 
