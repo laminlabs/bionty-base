@@ -15,7 +15,7 @@ class NormalizeColumns:
         pass
 
     @staticmethod
-    def gene(df: pd.DataFrame):
+    def gene(df: pd.DataFrame, species=None):
         """Column names of gene tables
 
         We try to adapt a naming system that is {database}.{id_type} when
@@ -23,4 +23,6 @@ class NormalizeColumns:
         - e.g. hgnc_id is the only id in HGNC, therefore it's not using the .
         - e.g. ensembl can have ensembl.gene_id and ensembl.transcript_id"""
 
+        if species == "human":
+            GENE_COLUMNS.update({"symbol": "hgnc_symbol"})
         df.rename(columns=GENE_COLUMNS, inplace=True)

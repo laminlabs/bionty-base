@@ -5,6 +5,7 @@ import pandas as pd
 from ..taxon import Taxon
 from .._settings import settings
 from ._query import Biomart, Mygene
+from .._normalize import NormalizeColumns
 
 _IDs = Literal["ensembl_gene_id", "entrezgene_id"]
 _HGNC = "http://ftp.ebi.ac.uk/pub/databases/genenames/hgnc/tsv/hgnc_complete_set.txt"
@@ -18,9 +19,10 @@ class Gene:
 
     """
 
-    def __init__(self, species="human"):
+    def __init__(self, species="human", biomart=True):
         self._species = Taxon(species=species)
         self._ref = None
+        self._biomart = biomart
 
     @property
     def species(self):
@@ -43,6 +45,11 @@ class Gene:
         """Gene reference table"""
         self._pull_ref()
         return self._ref
+
+    @property
+    def biomart(self):
+        """Whether to pull reference via the biomart API"""
+        return self._biomart
 
     def standardize(
         self,
@@ -119,17 +126,24 @@ class Gene:
         return df[df.index.isin(genes)].to_dict()[id_type_to]
 
     def _pull_ref(self):
-        """Pulling gene reference table"""
-        ref = Biomart().get_gene_ensembl(species=self.species.common_name)
-        if "entrezgene_id" in ref.columns:
-            ref["entrezgene_id"] = (
-                ref["entrezgene_id"]
-                .fillna(0)
-                .astype(int)
-                .astype(object)
-                .where(ref["entrezgene_id"].notnull())
-            )
-        self._ref = ref
+        """Pulling gene reference table
+
+        If biomart, pull the reference table from biomart
+        If not, pull the reference table from HGNC directly
+        """
+        if self.biomart:
+            ref = Biomart().get_gene_ensembl(species=self.species.common_name)
+            if "entrezgene_id" in ref.columns:
+                ref["entrezgene_id"] = (
+                    ref["entrezgene_id"]
+                    .fillna(0)
+                    .astype(int)
+                    .astype(object)
+                    .where(ref["entrezgene_id"].notnull())
+                )
+            self._ref = ref
+        else:
+            self._ref = self.hgnc(species=self.species.common_name)
 
     def _standardize_symbol(
         self,
@@ -218,8 +232,7 @@ class Gene:
         df = self._dataframe(data)
         return df
 
-    @classmethod
-    def HGNC(cls, species="human"):
+    def hgnc(self, species="human"):
         """HGNC symbol from the HUGO Gene Nomenclature Committee"""
         if species != "human":
             raise AssertionError("HGNC is only for human!")
@@ -230,10 +243,14 @@ class Gene:
             from urllib.request import urlretrieve
 
             urlretrieve(_HGNC, filepath)
-        return pd.read_csv(
+        df = pd.read_csv(
             filepath,
             sep="\t",
             index_col=0,
             low_memory=False,  # If True, gets DtypeWarning
             verbose=False,
         )
+        df.reset_index(inplace=True)
+        NormalizeColumns.gene(df, species=species)
+
+        return df
