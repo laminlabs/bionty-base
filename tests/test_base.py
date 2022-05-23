@@ -1,4 +1,4 @@
-from lamindb import __version__
+from bionty import __version__
 
 
 def test_version():
