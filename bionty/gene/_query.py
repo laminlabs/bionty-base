@@ -51,7 +51,7 @@ class Mygene:
         """
         # query via mygene
         res = self.sever.querymany(
-            genes,
+            qterms=genes,
             scopes=scopes,
             fields=fields,
             species=species,
