@@ -14,9 +14,14 @@ class Mygene:
     """
 
     def __init__(self) -> None:
-        self.sever = get_client("gene", instance=False)
+        self._server = get_client("gene")
 
-    def querymany(
+    @property
+    def server(self):
+        """MyGene.info."""
+        return self._server
+
+    def query(
         self,
         genes: Iterable[str],
         scopes="symbol",
@@ -50,7 +55,7 @@ class Mygene:
         a dataframe ('HGNC' column is reformatted to be 'hgnc_id')
         """
         # query via mygene
-        res = self.sever.querymany(
+        res = self.server.querymany(
             qterms=genes,
             scopes=scopes,
             fields=fields,

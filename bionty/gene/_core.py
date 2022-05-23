@@ -170,7 +170,7 @@ class Gene:
         notmapped = df[~df.index.isin(mapped_dict.keys())].copy()
         if notmapped.shape[0] > 0:
             mg = Mygene()
-            res = mg.querymany(
+            res = mg.query(
                 notmapped.index, scopes="symbol,alias", species=self.species.common_name
             )
             mapped_dict.update(self._cleanup_mygene_returns(res))
@@ -183,7 +183,7 @@ class Gene:
         Parameters
         ----------
         res
-            Returned dataframe from `.mg_querymany`
+            Returned dataframe from `.mg.query`
         unique_col
             Unique identifier column
 
