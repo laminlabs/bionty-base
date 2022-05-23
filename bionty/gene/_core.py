@@ -250,7 +250,7 @@ class Gene:
             low_memory=False,  # If True, gets DtypeWarning
             verbose=False,
         )
-        df.reset_index(inplace=True)
+        df = df.reset_index().copy()
         NormalizeColumns.gene(df, species=species)
 
         return df
