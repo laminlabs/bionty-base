@@ -1,13 +1,14 @@
-from typing import Iterable, Optional
 import io
-import pandas as pd
 import urllib.parse
 import urllib.request
+
+import pandas as pd
+
 from ..taxon import Taxon
 
 
 class Uniprot:
-    """Wrapper of the Uniprot REST APIs
+    """Wrapper of the Uniprot REST APIs.
 
     See: https://www.uniprot.org/help/api_idmapping
     """
@@ -19,14 +20,14 @@ class Uniprot:
 
     def query(
         self,
-        prots: Iterable[str],
+        prots,
         id_type_from="UNIPROT_ID",
         id_type_to="ENSEMBL_ID",
-        columns: Optional[str] = None,
-        species: Optional[str] = "human",
+        columns=None,
+        species="human",
     ):
 
-        # replace UNIPROT_ID with ACC
+        # replace UNIPROT_ID with ACC.
         colnames = (
             columns.split(",") + [id_type_from, id_type_to]
             if columns is not None

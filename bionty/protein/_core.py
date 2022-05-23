@@ -1,5 +1,6 @@
-from typing import Iterable, Literal, Optional
 import typing
+from typing import Iterable, Literal, Optional
+
 from ..taxon import Taxon
 from ._query import Uniprot
 
@@ -7,18 +8,19 @@ _IDs = Literal["UNIPROT_ID", "PDB_ID", "CHEMBL_ID", "DRUGBANK_ID", "ENSEMBL_PRO_
 
 
 class Protein:
-    """Protein"""
+    """Protein."""
 
     def __init__(self, species="human"):
         self._species = Taxon(species=species)
 
     @property
     def species(self):
-        """bionty.Species"""
+        """bionty.Species."""
         return self._species
 
     @property
     def STD_ID(self):
+        """Standardized id."""
         return "UNIPROT_ID"
 
     @property
@@ -31,11 +33,11 @@ class Protein:
         id_type_from: Optional[_IDs],
         id_type_to: Optional[_IDs] = None,
     ):
-        """Mapping between protein IDs
+        """Mapping between protein IDs.
 
         Parameters
         ----------
-        genes
+        prots
             Input list
         id_type_from
             ID type of the input list, see `.attributes`
@@ -46,7 +48,6 @@ class Protein:
         -------
         a dict of mapped ids
         """
-
         # default is to convert into STD_ID
         id_type_to = self.STD_ID if id_type_to is None else id_type_to
 

@@ -1,18 +1,20 @@
-from functools import cached_property
-from typing import Optional, Literal, Iterable
 import typing
+from functools import cached_property
+from typing import Iterable, Literal, Optional
+
 import pandas as pd
-from ..taxon import Taxon
-from .._settings import settings
-from ._query import Biomart, Mygene
+
 from .._normalize import NormalizeColumns
+from .._settings import settings
+from ..taxon import Taxon
+from ._query import Biomart, Mygene
 
 _IDs = Literal["ensembl_gene_id", "entrezgene_id"]
 _HGNC = "http://ftp.ebi.ac.uk/pub/databases/genenames/hgnc/tsv/hgnc_complete_set.txt"
 
 
 class Gene:
-    """Gene
+    """Gene.
 
     Biotypes: https://useast.ensembl.org/info/genome/genebuild/biotypes.html
     Gene Naming: https://useast.ensembl.org/info/genome/genebuild/gene_names.html
@@ -26,12 +28,12 @@ class Gene:
 
     @property
     def species(self):
-        """Bionty.Taxon"""
+        """Bionty.Taxon."""
         return self._species
 
     @property
     def STD_ID(self):
-        """The standardized symbol attribute name"""
+        """The standardized symbol attribute name."""
         STD_ID_DICT = {"human": "hgnc_symbol", "mouse": "mgi_symbol"}
         return STD_ID_DICT[self.species.common_name]
 
@@ -42,13 +44,13 @@ class Gene:
 
     @cached_property
     def reference(self):
-        """Gene reference table"""
+        """Gene reference table."""
         self._pull_ref()
         return self._ref
 
     @property
     def biomart(self):
-        """Whether to pull reference via the biomart API"""
+        """Whether to pull reference via the biomart API."""
         return self._biomart
 
     def standardize(
@@ -57,7 +59,7 @@ class Gene:
         id_type: Optional[_IDs] = None,
         new_index: bool = True,
     ):
-        """Index a dataframe with the official gene symbols from HGNC
+        """Index a dataframe with the official gene symbols from HGNC.
 
         Parameters
         ----------
@@ -78,7 +80,6 @@ class Gene:
         Adds a `STD_ID` column
         The original index is stored in the `index_orig` column
         """
-
         df = self._format(data)
 
         if id_type is None:
@@ -97,10 +98,10 @@ class Gene:
     def get_attribute(
         self,
         genes: Iterable[str],
-        id_type_from: Optional[_IDs] = "ensembl_gene_id",
-        id_type_to: Optional[_IDs] = None,
+        id_type_from="ensembl_gene_id",
+        id_type_to=None,
     ):
-        """Convert among IDs that are in the `.reference` table
+        """Convert among IDs that are in the `.reference` table.
 
         Parameters
         ----------
@@ -115,7 +116,6 @@ class Gene:
         -------
         a dict of mapped ids
         """
-
         # default if to convert tp the standardized id
         if id_type_to is None:
             id_type_to = self.STD_ID
@@ -126,7 +126,7 @@ class Gene:
         return df[df.index.isin(genes)].to_dict()[id_type_to]
 
     def _pull_ref(self):
-        """Pulling gene reference table
+        """Pulling gene reference table.
 
         If biomart, pull the reference table from biomart
         If not, pull the reference table from HGNC directly
@@ -149,7 +149,7 @@ class Gene:
         self,
         df: pd.DataFrame,
     ):
-        """Standardize gene symbols/aliases to symbol from `.reference` table
+        """Standardize gene symbols/aliases to symbol from `.reference` table.
 
         Parameters
         ----------
@@ -162,7 +162,6 @@ class Gene:
         -------
         a dict with the standardized symbols
         """
-
         # 1. Mapping from symbol to hgnc_id using .hgnc table
         mapped_dict = self.get_attribute(df.index, "hgnc_symbol", "hgnc_id")
         mapped_dict.update({k: k for k in mapped_dict.keys()})
@@ -171,7 +170,7 @@ class Gene:
         notmapped = df[~df.index.isin(mapped_dict.keys())].copy()
         if notmapped.shape[0] > 0:
             mg = Mygene()
-            res = mg.querymany(
+            res = mg.query(
                 notmapped.index, scopes="symbol,alias", species=self.species.common_name
             )
             mapped_dict.update(self._cleanup_mygene_returns(res))
@@ -179,12 +178,12 @@ class Gene:
         return mapped_dict
 
     def _cleanup_mygene_returns(self, res: pd.DataFrame, unique_col="hgnc_id"):
-        """Clean up duplicates and NAs from the mygene returns
+        """Clean up duplicates and NAs from the mygene returns.
 
         Parameters
         ----------
         res
-            Returned dataframe from `.mg_querymany`
+            Returned dataframe from `.mg.query`
         unique_col
             Unique identifier column
 
@@ -220,7 +219,7 @@ class Gene:
         return mapped_dict
 
     def _dataframe(self, data: Iterable[str]):
-        """Format the input into the index of a dataframe"""
+        """Format the input into the index of a dataframe."""
         if not isinstance(data, pd.DataFrame):
             df = pd.DataFrame(index=[d for d in data])
         else:
@@ -228,12 +227,12 @@ class Gene:
         return df
 
     def _format(self, data: Iterable[str]):
-        """Adding columns to a dataframe for standardization"""
+        """Adding columns to a dataframe for standardization."""
         df = self._dataframe(data)
         return df
 
     def hgnc(self, species="human"):
-        """HGNC symbol from the HUGO Gene Nomenclature Committee"""
+        """HGNC symbol from the HUGO Gene Nomenclature Committee."""
         if species != "human":
             raise AssertionError("HGNC is only for human!")
 
