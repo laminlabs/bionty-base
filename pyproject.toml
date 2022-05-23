@@ -33,4 +33,10 @@ test = [
 bionty = "bionty.__main__:main"
 
 [tool.black]
-experimental-string-processing = true
+preview = true
+
+[tool.pytest.ini_options]
+testpaths = [
+    "tests",
+    "docs/guides",
+]
