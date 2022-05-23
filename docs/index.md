@@ -26,6 +26,6 @@ For more information:
 :maxdepth: 1
 :hidden:
 
-guides
+guides/index
 api
 ```
