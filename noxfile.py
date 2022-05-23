@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 import nox
@@ -16,15 +15,6 @@ def lint(session: nox.Session) -> None:
 @nox.session(python=["3.9"])
 def build(session):
     session.install(".[dev,test]")
-    session.run("mkdir", "-p", "$HOME/data", external=True)
-    session.run(
-        "lamindb",
-        "configure",
-        "--notion",
-        os.environ["NOTION_API_KEY"],
-        "--storage",
-        "$HOME/data",
-    )
     session.run(
         "pytest",
         "--nbmake",
