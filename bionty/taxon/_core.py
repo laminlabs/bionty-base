@@ -1,14 +1,13 @@
 from pathlib import Path
-import pandas as pd
 
+import pandas as pd
 
 HERE = Path(__file__).parent
 SPECIES_FILENAME = HERE / "tables/Species.csv"
 
 
 class Taxon:
-
-    """Species related bio entities"""
+    """Species related bio entities."""
 
     _df = pd.read_csv(SPECIES_FILENAME, header=0, index_col=0)
 
@@ -17,7 +16,7 @@ class Taxon:
 
     @property
     def common_name(self):
-        """Common names list"""
+        """Common names list."""
         return self._common_name
 
     @property
@@ -31,7 +30,7 @@ class Taxon:
         ]
 
     def get_attribute(self, attr: str):
-        """Get attribute values based on common_name
+        """Get attribute values based on common_name.
 
         Parameters
         ----------
@@ -55,7 +54,7 @@ class Taxon:
 
 
 def _format_ensembl_download():
-    """Ensembl annotated species and their most recent assemblies
+    """Ensembl annotated species and their most recent assemblies.
 
     From: https://useast.ensembl.org/info/about/species.html
     """

@@ -7,7 +7,7 @@ class Settings:
         self._datasetdir = datasetdir
 
     @property
-    def datasetdir(self) -> Path:
+    def datasetdir(self):
         """Directory for datasets."""
         return self._datasetdir
 

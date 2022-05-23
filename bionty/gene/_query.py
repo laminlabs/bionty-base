@@ -1,18 +1,20 @@
-from typing import Iterable
 import io
+from typing import Iterable
+
 import pandas as pd
 from biothings_client import get_client
+
 from .._normalize import NormalizeColumns
 
 
-class Mygene(get_client("gene", instance=False)):
-    """Wrapper of MyGene.info
+class Mygene:
+    """Wrapper of MyGene.info.
 
     See: https://docs.mygene.info/en/latest/index.html
     """
 
     def __init__(self) -> None:
-        super().__init__()
+        self.sever = get_client("gene", instance=False)
 
     def querymany(
         self,
@@ -24,7 +26,7 @@ class Mygene(get_client("gene", instance=False)):
         verbose=False,
         **kwargs,
     ):
-        """Get HGNC IDs from Mygene
+        """Get HGNC IDs from Mygene.
 
         Parameters
         ----------
@@ -34,6 +36,12 @@ class Mygene(get_client("gene", instance=False)):
             ID types of the input
         fields
             ID type of the output
+        species
+            species
+        as_dataframe
+            Whether to return a data frame
+        verbose
+            Whether to print logging
         **kwargs
             see **kwargs of `biothings_client.MyGeneInfo().querymany()`
 
@@ -41,9 +49,8 @@ class Mygene(get_client("gene", instance=False)):
         -------
         a dataframe ('HGNC' column is reformatted to be 'hgnc_id')
         """
-
         # query via mygene
-        res = super().querymany(
+        res = self.sever.querymany(
             genes,
             scopes=scopes,
             fields=fields,
@@ -64,7 +71,7 @@ class Mygene(get_client("gene", instance=False)):
 
 
 class Biomart:
-    """Wrapper of Biomart python APIs, good for accessing Ensembl data
+    """Wrapper of Biomart python APIs, good for accessing Ensembl data.
 
     See: https://github.com/sebriois/biomart
     """
@@ -80,22 +87,22 @@ class Biomart:
 
     @property
     def server(self):
-        """biomart.BiomartServer"""
+        """biomart.BiomartServer."""
         return self._server
 
     @property
     def databases(self):
-        """Listing all databases"""
+        """Listing all databases."""
         return self._server.databases
 
     @property
     def datasets(self):
-        """Listing all datasets"""
+        """Listing all datasets."""
         return self._server.datasets
 
     @property
     def dataset(self):
-        """A biomart.BiomartDataset"""
+        """A biomart.BiomartDataset."""
         return self._dataset
 
     def get_gene_ensembl(
@@ -105,7 +112,7 @@ class Biomart:
         filters={},
         **kwargs,
     ):
-        """Fetch the reference table of gene ensembl from biomart
+        """Fetch the reference table of gene ensembl from biomart.
 
         Parameters
         ----------

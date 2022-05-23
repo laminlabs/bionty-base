@@ -11,7 +11,8 @@ dependencies = [
     "anndata",
     "pandas",
     "loguru",
-    "biothings_client"
+    "biothings_client",
+    "toml",
 ]
 
 [project.urls]
