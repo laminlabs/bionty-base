@@ -134,11 +134,11 @@ class Biomart:
         from bionty.gene import Gene
 
         gn = Gene(species=species)
-        sname = gn.species.get_attribute("short_name")
+        sname = gn.species.search("short_name")
         self._dataset = self.datasets[f"{sname}_gene_ensembl"]
 
         # default is to get all the attributes
-        attributes = gn.attributes if attributes is None else attributes
+        attributes = gn.fields if attributes is None else attributes
 
         # Get the mapping between the attributes
         response = self.dataset.search(

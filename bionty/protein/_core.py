@@ -19,15 +19,16 @@ class Protein:
         return self._species
 
     @property
-    def STD_ID(self):
+    def std_id(self):
         """Standardized id."""
         return "UNIPROT_ID"
 
     @property
-    def attributes(self):
+    def fields(self):
+        """List all protein related fields."""
         return list(typing.get_args(_IDs))
 
-    def get_attribute(
+    def search(
         self,
         prots: Iterable[str],
         id_type_from: Optional[_IDs],
@@ -40,23 +41,23 @@ class Protein:
         prots
             Input list
         id_type_from
-            ID type of the input list, see `.attributes`
-        id_type_to: str (Default is the `.STD_ID`)
+            ID type of the input list, see `.fields`
+        id_type_to: str (Default is the `.std_id`)
             ID type to convert into
 
         Returns
         -------
         a dict of mapped ids
         """
-        # default is to convert into STD_ID
-        id_type_to = self.STD_ID if id_type_to is None else id_type_to
+        # default is to convert into std_id
+        id_type_to = self.std_id if id_type_to is None else id_type_to
 
         # get mappings from the reference table
         res = Uniprot().query(
             prots,
             id_type_from=id_type_from,
             id_type_to=id_type_to,
-            species=self.species.common_name,
+            species=self.species.std_name,
         )
         df = res.reset_index().set_index(id_type_from)[[id_type_to]].copy()
 

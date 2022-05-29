@@ -37,7 +37,7 @@ class Uniprot:
         id_type_to = "ACC" if id_type_to == "UNIPROT_ID" else id_type_to
 
         # taxon id of species
-        taxon_id = Taxon(species=species).get_attribute("taxon_id")
+        taxon_id = Taxon(species=species).search("taxon_id")
 
         # set up params
         params = {

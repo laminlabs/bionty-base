@@ -22,12 +22,17 @@ class Taxon:
     _df = pd.read_csv(SPECIES_FILENAME, header=0, index_col=0)
 
     def __init__(self, species="human"):
-        self._std_id = species
+        self._std_name = species
 
     @property
     def std_id(self):
         """common_name is the standardized id for species."""
-        return self._std_id
+        return "display_name"
+
+    @property
+    def std_name(self):
+        """Value of the .std_id."""
+        return self._std_name
 
     @property
     def fields(self):
@@ -50,4 +55,4 @@ class Taxon:
         'assembly': 'GRCh38.p13'
 
         """
-        return self._df[[field]].to_dict()[field][self.std_id]
+        return self._df[[field]].to_dict()[field][self.std_name]
