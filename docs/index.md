@@ -26,6 +26,8 @@ For more information:
 :maxdepth: 1
 :hidden:
 
+tasks/index
 guides/index
 api
+changelog
 ```
