@@ -5,6 +5,16 @@ import pandas as pd
 HERE = Path(__file__).parent
 SPECIES_FILENAME = HERE / "tables/Species.csv"
 
+SPECIES_COLS = [
+    "scientific_name",
+    "display_name",
+    "common_name",
+    "taxon_id",
+    "assembly",
+    "accession",
+    "release",
+]
+
 
 class Taxon:
     """Species related bio entities."""
@@ -12,42 +22,32 @@ class Taxon:
     _df = pd.read_csv(SPECIES_FILENAME, header=0, index_col=0)
 
     def __init__(self, species="human"):
-        self._common_name = species
+        self._std_id = species
 
     @property
-    def common_name(self):
-        """Common names list."""
-        return self._common_name
+    def std_id(self):
+        """common_name is the standardized id for species."""
+        return self._std_id
 
     @property
-    def attributes(self):
-        return [
-            "common_name",
-            "scientific_name",
-            "short_name",
-            "taxon_id",
-            "ensembl_assembly",
-        ]
+    def fields(self):
+        return SPECIES_COLS
 
-    def get_attribute(self, attr: str):
-        """Get attribute values based on common_name.
+    def search(self, field: str):
+        """Search species fields based on .std_id.
 
-        Parameters
-        ----------
-        attr
-            one of ['common_name', 'scientific_name', 'short_name', 'taxon_id',
-            'ensembl_assembly']
+        Args:
+            field: str
+                one of .fields
+        Returns:
+            value of a field
 
         e.g.
         'common_name': 'human'
-        'scientific_name': 'Homo sapiens'
+        'scientific_name': 'homo_sapiens'
         'short_name': 'hsapiens'
         'taxon_id': 9606
-        'ensembl_assembly': 'GRCh38.p13'
+        'assembly': 'GRCh38.p13'
 
-
-        Returns
-        -------
-        a dict of {'common_name': attr}
         """
-        return self._df[[attr]].to_dict()[attr][self.common_name]
+        return self._df[[field]].to_dict()[field][self.std_id]
