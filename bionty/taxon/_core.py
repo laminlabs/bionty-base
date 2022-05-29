@@ -51,18 +51,3 @@ class Taxon:
         a dict of {'common_name': attr}
         """
         return self._df[[attr]].to_dict()[attr][self.common_name]
-
-
-def _format_ensembl_download():
-    """Ensembl annotated species and their most recent assemblies.
-
-    From: https://useast.ensembl.org/info/about/species.html
-    """
-    df = pd.read_csv(SPECIES_FILENAME, header=0, index_col=0)
-    df.index.name = "common_name"
-    df.columns = [i.lower().replace(" ", "_") for i in df.columns]
-    df.index = df.index.str.lower()
-    df["short_name"] = [
-        f'{i[0].lower()}{i.split(" ")[-1]}' for i in df["scientific_name"]
-    ]
-    df.to_csv(SPECIES_FILENAME, header=True, index=True)
