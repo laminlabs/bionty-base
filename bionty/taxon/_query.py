@@ -1,10 +1,9 @@
-import sys
 from pathlib import Path
 
 import pandas as pd
-import requests  # type: ignore
 import xmltodict
 
+from .._rest import fetch_endpoint
 from .._urls import ENSEMBL_REST, ENSEMBL_REST_EXT
 from ._core import SPECIES_COLS
 
@@ -21,13 +20,10 @@ def update_species_table() -> None:
     server = ENSEMBL_REST
     ext = ENSEMBL_REST_EXT.SPECIES_INFO
 
-    r = requests.get(server + ext, headers={"Content-Type": "text/xml"})
-    if not r.ok:
-        r.raise_for_status()
-        sys.exit()
+    res = fetch_endpoint(server, ext, "text/xml")
 
     # format into a dataframe
-    entries = xmltodict.parse(r.text)["opt"]["data"]["species"]
+    entries = xmltodict.parse(res)["opt"]["data"]["species"]
     sp_dict: dict = {}
     cols = [
         "display_name",
