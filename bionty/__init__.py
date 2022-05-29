@@ -1,4 +1,18 @@
-"""Bionty: mapping and standardizing biological entities.."""
+"""Bionty: mapping and standardizing biological entities.
+
+Import the package::
+
+   import bionty as bt
+
+This is the complete API reference:
+
+.. autosummary::
+   :toctree: .
+
+   Gene
+   Protein
+   Taxon
+"""
 
 from . import _version
 
