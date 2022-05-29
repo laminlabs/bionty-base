@@ -32,15 +32,15 @@ class Gene:
         return self._species
 
     @property
-    def STD_ID(self):
+    def std_id(self):
         """The standardized symbol attribute name."""
         STD_ID_DICT = {"human": "hgnc_symbol", "mouse": "mgi_symbol"}
-        return STD_ID_DICT[self.species.common_name]
+        return STD_ID_DICT[self.species.std_name]
 
     @property
-    def attributes(self):
+    def fields(self):
         ATTR_DICT = {"human": ["hgnc_id", "hgnc_symbol"], "mouse": ["mgi_symbol"]}
-        return list(typing.get_args(_IDs)) + ATTR_DICT[self.species.common_name]
+        return list(typing.get_args(_IDs)) + ATTR_DICT[self.species.std_name]
 
     @cached_property
     def reference(self):
@@ -77,7 +77,7 @@ class Gene:
         Returns
         -------
         Replaces the DataFrame mappable index with the standardized symbols
-        Adds a `STD_ID` column
+        Adds a `std_id` column
         The original index is stored in the `index_orig` column
         """
         df = self._format(data)
@@ -85,23 +85,23 @@ class Gene:
         if id_type is None:
             mapped_dict = self._standardize_symbol(df=df)
         else:
-            mapped_dict = self.get_attribute(
-                df.index, id_type_from=id_type, id_type_to=self.STD_ID
+            mapped_dict = self.search(
+                df.index, id_type_from=id_type, id_type_to=self.std_id
             )
 
-        df["STD_ID"] = df.index.map(mapped_dict)
+        df["std_id"] = df.index.map(mapped_dict)
         if new_index:
             df["index_orig"] = df.index
-            df.index = df["STD_ID"].fillna(df["index_orig"])
+            df.index = df["std_id"].fillna(df["index_orig"])
             df.index.name = None
 
-    def get_attribute(
+    def search(
         self,
         genes: Iterable[str],
         id_type_from="ensembl_gene_id",
         id_type_to=None,
     ):
-        """Convert among IDs that are in the `.reference` table.
+        """Search among fields that are in the `.reference` table.
 
         Parameters
         ----------
@@ -109,7 +109,7 @@ class Gene:
             Input list
         id_type_from
             ID type of the input list, see `.attributes`
-        id_type_to: str (Default is the `.STD_ID`)
+        id_type_to: str (Default is the `.std_id`)
             ID type to convert into
 
         Returns
@@ -118,7 +118,7 @@ class Gene:
         """
         # default if to convert tp the standardized id
         if id_type_to is None:
-            id_type_to = self.STD_ID
+            id_type_to = self.std_id
 
         # get mappings from the reference table
         df = self.reference.reset_index().set_index(id_type_from)[[id_type_to]].copy()
@@ -132,7 +132,7 @@ class Gene:
         If not, pull the reference table from HGNC directly
         """
         if self.biomart:
-            ref = Biomart().get_gene_ensembl(species=self.species.common_name)
+            ref = Biomart().get_gene_ensembl(species=self.species.std_name)
             if "entrezgene_id" in ref.columns:
                 ref["entrezgene_id"] = (
                     ref["entrezgene_id"]
@@ -143,7 +143,7 @@ class Gene:
                 )
             self._ref = ref
         else:
-            self._ref = self.hgnc(species=self.species.common_name)
+            self._ref = self.hgnc(species=self.species.std_name)
 
     def _standardize_symbol(
         self,
@@ -163,7 +163,7 @@ class Gene:
         a dict with the standardized symbols
         """
         # 1. Mapping from symbol to hgnc_id using .hgnc table
-        mapped_dict = self.get_attribute(df.index, "hgnc_symbol", "hgnc_id")
+        mapped_dict = self.search(df.index, "hgnc_symbol", "hgnc_id")
         mapped_dict.update({k: k for k in mapped_dict.keys()})
 
         # 2. For not mapped symbols, map through alias
@@ -171,7 +171,7 @@ class Gene:
         if notmapped.shape[0] > 0:
             mg = Mygene()
             res = mg.query(
-                notmapped.index, scopes="symbol,alias", species=self.species.common_name
+                notmapped.index, scopes="symbol,alias", species=self.species.std_name
             )
             mapped_dict.update(self._cleanup_mygene_returns(res))
 
@@ -198,10 +198,10 @@ class Gene:
 
         # for unique results, use returned HGNC IDs to get symbols from .hgnc
         udf = df[~df.index.duplicated(keep=False)].copy()
-        udf["STD_ID"] = udf["hgnc_id"].map(
-            self.get_attribute(udf["hgnc_id"], "hgnc_id", "hgnc_symbol")
+        udf["std_id"] = udf["hgnc_id"].map(
+            self.search(udf["hgnc_id"], "hgnc_id", "hgnc_symbol")
         )
-        mapped_dict.update(udf[["STD_ID"]].to_dict()["STD_ID"])
+        mapped_dict.update(udf[["std_id"]].to_dict()["std_id"])
 
         # TODO: if the same HGNC ID is mapped to multiple inputs?
         if df[unique_col].duplicated().sum() > 0:
@@ -213,7 +213,7 @@ class Gene:
             dups = df[df.index.duplicated(keep=False)].copy()
             for dup in dups.index.unique():
                 hids = dups[dups.index == dup][unique_col].tolist()
-                d = self.get_attribute(hids, "hgnc_id", "hgnc_symbol")
+                d = self.search(hids, "hgnc_id", "hgnc_symbol")
                 mapped_dict[dup] = pd.DataFrame.from_dict(d, orient="index")[0].min()
 
         return mapped_dict
