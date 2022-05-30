@@ -5,6 +5,7 @@ GENE_COLUMNS = {
     "ensembl_gn_id": "ensembl.gene_id",
     "ensembl_gene_id": "ensembl.gene_id",
     "entrezgene_id": "entrez.gene_id",
+    "entrez_id": "entrez.gene_id",
 }
 
 

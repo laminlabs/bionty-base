@@ -5,7 +5,7 @@ from typing import Iterable, Literal, Optional
 import pandas as pd
 
 from .._normalize import NormalizeColumns
-from .._settings import settings
+from .._settings import check_datasetdir_exists, settings
 from ..taxon import Taxon
 from ._query import Biomart, Mygene
 
@@ -21,7 +21,7 @@ class Gene:
 
     """
 
-    def __init__(self, species="human", biomart=True):
+    def __init__(self, species="human", biomart=False):
         self._species = Taxon(species=species)
         self._ref = None
         self._biomart = biomart
@@ -231,13 +231,13 @@ class Gene:
         df = self._dataframe(data)
         return df
 
+    @check_datasetdir_exists
     def hgnc(self, species="human"):
         """HGNC symbol from the HUGO Gene Nomenclature Committee."""
         if species != "human":
             raise AssertionError("HGNC is only for human!")
 
         filepath = settings.datasetdir / "hgnc_complete_set.txt"
-        filepath.parent.mkdir(exist_ok=True)
         if not filepath.exists():
             from urllib.request import urlretrieve
 

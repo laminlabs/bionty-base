@@ -1,5 +1,15 @@
+from functools import wraps
 from pathlib import Path
 from typing import Union
+
+
+def check_datasetdir_exists(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        settings.datasetdir.mkdir(exist_ok=True)
+        return f(*args, **kwargs)
+
+    return wrapper
 
 
 class Settings:
