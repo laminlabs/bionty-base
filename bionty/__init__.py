@@ -12,6 +12,7 @@ This is the complete API reference:
    Gene
    Protein
    Taxon
+   Celltype
 """
 
 from . import _version
@@ -22,6 +23,7 @@ __version__ = _version.get_versions()["version"]
 from .gene import Gene
 from .protein import Protein
 from .taxon import Taxon
+from .celltype import Celltype
 
 # normalizer
 from ._normalize import NormalizeColumns

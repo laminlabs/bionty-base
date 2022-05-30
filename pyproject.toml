@@ -13,6 +13,7 @@ dependencies = [
     "loguru",
     "biothings_client",
     "xmltodict",
+    "pronto",
 ]
 
 [project.urls]
