@@ -21,7 +21,7 @@ class Gene:
 
     """
 
-    def __init__(self, species="human", biomart=True):
+    def __init__(self, species="human", biomart=False):
         self._species = Taxon(species=species)
         self._ref = None
         self._biomart = biomart
