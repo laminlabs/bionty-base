@@ -42,8 +42,7 @@ class Taxon:
         """Search species fields based on .std_id.
 
         Args:
-            field: str
-                one of .fields
+            field: one of .fields
         Returns:
             value of a field
 

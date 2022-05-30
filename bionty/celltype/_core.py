@@ -1,4 +1,5 @@
-from pronto import Ontology
+from .._ontology import Ontology
+from .._urls import OBO_CL_OWL
 
 
 class Celltype:
@@ -8,10 +9,8 @@ class Celltype:
     https://github.com/obophenotype/cell-ontology
     """
 
-    CL_URL = "http://purl.obolibrary.org/obo/cl/cl-simple.obo"
-
     def __init__(self) -> None:
-        self._cl = Ontology(self.CL_URL)
+        self._cl = Ontology(OBO_CL_OWL)
 
     @property
     def cl(self):
