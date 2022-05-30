@@ -108,9 +108,6 @@ lamin_sphinx
 docs/conf.py
 docs/generated/*
 
-# data files
-data/
+# data and notes files
 **/data/
-
-# notes
 **/notes/
