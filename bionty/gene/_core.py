@@ -61,24 +61,20 @@ class Gene:
     ):
         """Index a dataframe with the official gene symbols from HGNC.
 
-        Parameters
-        ----------
-        data
-            A list of gene symbols to be standardized
-            If dataframe, will take the index
-        id_type
-            Default is to consider input as gene symbols and alias
-        new_index
-            If True, set the standardized symbols as the index
-                - unmapped will remain the original index
-                - original index stored in the `index_orig` column
-            If False, write to the `standardized_symbol` column
+        Args:
+            data: A list of gene symbols to be standardized
+                If dataframe, will take the index
+            id_type: Default is to consider input as gene symbols and alias
+            new_index
+                If True, set the standardized symbols as the index
+                    - unmapped will remain the original index
+                    - original index stored in the `index_orig` column
+                If False, write to the `standardized_symbol` column
 
-        Returns
-        -------
-        Replaces the DataFrame mappable index with the standardized symbols
-        Adds a `std_id` column
-        The original index is stored in the `index_orig` column
+        Returns:
+            Replaces the DataFrame mappable index with the standardized symbols
+            Adds a `std_id` column
+            The original index is stored in the `index_orig` column
         """
         df = self._format(data)
 
@@ -103,18 +99,14 @@ class Gene:
     ):
         """Search among fields that are in the `.reference` table.
 
-        Parameters
-        ----------
-        genes
-            Input list
-        id_type_from
-            ID type of the input list, see `.attributes`
-        id_type_to: str (Default is the `.std_id`)
-            ID type to convert into
+        Args:
+            genes: Input list
+            id_type_from: ID type of the input list, see `.attributes`
+            id_type_to: ID type to convert into
+                Default is the `.std_id`
 
-        Returns
-        -------
-        a dict of mapped ids
+        Returns:
+            a dict of mapped ids
         """
         # default if to convert tp the standardized id
         if id_type_to is None:
@@ -151,16 +143,12 @@ class Gene:
     ):
         """Standardize gene symbols/aliases to symbol from `.reference` table.
 
-        Parameters
-        ----------
-        df
-            A dataframe with index being the column to be standardized
-        species
-            'human'
+        Args:
+            df: A dataframe with index being the column to be standardized
+            species: 'human'
 
-        Returns
-        -------
-        a dict with the standardized symbols
+        Returns:
+            a dict with the standardized symbols
         """
         # 1. Mapping from symbol to hgnc_id using .hgnc table
         mapped_dict = self.search(df.index, "hgnc_symbol", "hgnc_id")
@@ -180,16 +168,12 @@ class Gene:
     def _cleanup_mygene_returns(self, res: pd.DataFrame, unique_col="hgnc_id"):
         """Clean up duplicates and NAs from the mygene returns.
 
-        Parameters
-        ----------
-        res
-            Returned dataframe from `.mg.query`
-        unique_col
-            Unique identifier column
+        Args:
+            res: Returned dataframe from `.mg.query`
+            unique_col: Unique identifier column
 
-        Returns
-        -------
-        a dict with only uniquely mapped IDs
+        Returns:
+            a dict with only uniquely mapped IDs
         """
         mapped_dict = {}
 

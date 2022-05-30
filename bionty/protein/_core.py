@@ -36,18 +36,14 @@ class Protein:
     ):
         """Mapping between protein IDs.
 
-        Parameters
-        ----------
-        prots
-            Input list
-        id_type_from
-            ID type of the input list, see `.fields`
-        id_type_to: str (Default is the `.std_id`)
-            ID type to convert into
+        Args:
+            prots: Input list
+            id_type_from: ID type of the input list, see `.fields`
+            id_type_to: ID type to convert into
+                Default is the `.std_id`
 
-        Returns
-        -------
-        a dict of mapped ids
+        Returns:
+            a dict of mapped ids
         """
         # default is to convert into std_id
         id_type_to = self.std_id if id_type_to is None else id_type_to

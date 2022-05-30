@@ -33,26 +33,17 @@ class Mygene:
     ):
         """Get HGNC IDs from Mygene.
 
-        Parameters
-        ----------
-        genes
-            Input list
-        scopes
-            ID types of the input
-        fields
-            ID type of the output
-        species
-            species
-        as_dataframe
-            Whether to return a data frame
-        verbose
-            Whether to print logging
-        **kwargs
-            see **kwargs of `biothings_client.MyGeneInfo().querymany()`
+        Args:
+            genes: Input list
+            scopes: ID types of the input
+            fields: ID type of the output
+            species: species
+            as_dataframe: Whether to return a data frame
+            verbose: Whether to print logging
+            **kwargs: see **kwargs of `biothings_client.MyGeneInfo().querymany()`
 
-        Returns
-        -------
-        a dataframe ('HGNC' column is reformatted to be 'hgnc_id')
+        Returns:
+            a dataframe ('HGNC' column is reformatted to be 'hgnc_id')
         """
         # query via mygene
         res = self.server.querymany(
@@ -119,16 +110,11 @@ class Biomart:
     ):
         """Fetch the reference table of gene ensembl from biomart.
 
-        Parameters
-        ----------
-        species
-            common name of species
-        attributes
-            gene attributes from gene_ensembl datasets
-        filters
-            see biomart.search()
-        **kwargs
-            see biomart.search()
+        Args:
+            species: common name of species
+            attributes: gene attributes from gene_ensembl datasets
+            filters: see biomart.search()
+            **kwargs: see biomart.search()
         """
         # database name
         from bionty.gene import Gene
