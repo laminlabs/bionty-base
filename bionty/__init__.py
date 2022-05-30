@@ -13,6 +13,7 @@ This is the complete API reference:
    Protein
    Taxon
    Celltype
+   Disease
 """
 
 from . import _version
@@ -24,6 +25,7 @@ from .gene import Gene
 from .protein import Protein
 from .taxon import Taxon
 from .celltype import Celltype
+from .disease import Disease
 
 # normalizer
 from ._normalize import NormalizeColumns
