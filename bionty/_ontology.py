@@ -44,4 +44,4 @@ class Ontology:
         else:
             res = self.onto.search(iri=f"*{text}")
 
-        return res
+        return {i.name: i.label[0] for i in res}
