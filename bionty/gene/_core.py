@@ -5,7 +5,7 @@ from typing import Iterable, Literal, Optional
 import pandas as pd
 
 from .._normalize import NormalizeColumns
-from .._settings import check_datasetdir_exists, settings
+from .._settings import check_datasetdir_exists, format_into_dataframe, settings
 from ..taxon import Taxon
 from ._query import Biomart, Mygene
 
@@ -202,18 +202,10 @@ class Gene:
 
         return mapped_dict
 
-    def _dataframe(self, data: Iterable[str]):
-        """Format the input into the index of a dataframe."""
-        if not isinstance(data, pd.DataFrame):
-            df = pd.DataFrame(index=[d for d in data])
-        else:
-            df = data
-        return df
-
+    @format_into_dataframe
     def _format(self, data: Iterable[str]):
-        """Adding columns to a dataframe for standardization."""
-        df = self._dataframe(data)
-        return df
+        """Format the input into a dataframe."""
+        return data
 
     @check_datasetdir_exists
     def hgnc(self, species="human"):
