@@ -47,7 +47,7 @@ repos:
     rev: v5.8.0
     hooks:
       - id: isort
-        args: ["--filter-files"]
+        args: ["--profile", "black"]
         exclude: |
           (?x)(
               __init__.py
