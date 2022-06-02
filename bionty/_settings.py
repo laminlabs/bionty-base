@@ -16,15 +16,15 @@ def check_datasetdir_exists(f):
 
 def format_into_dataframe(f):
     @wraps(f)
-    def format(data, *args, **kwargs):
-        result = f(data=data, *args, **kwargs)
-        if not isinstance(result, pd.DataFrame):
-            df = pd.DataFrame(index=[d for d in data])
-        else:
-            df = data
-        return df
+    def dataframe(data, *args, **kwargs) -> pd.DataFrame:
+        df = (
+            data
+            if isinstance(data, pd.DataFrame)
+            else pd.DataFrame(index=[d for d in data])
+        )
+        return f(df, *args, **kwargs)
 
-    return format
+    return dataframe
 
 
 class Settings:

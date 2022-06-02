@@ -53,9 +53,10 @@ class Gene:
         """Whether to pull reference via the biomart API."""
         return self._biomart
 
+    @format_into_dataframe
     def standardize(
         self,
-        data: Iterable[str],
+        data: pd.DataFrame,
         id_type: Optional[_IDs] = None,
         new_index: bool = True,
     ):
@@ -76,20 +77,18 @@ class Gene:
             Adds a `std_id` column
             The original index is stored in the `index_orig` column
         """
-        df = self._format(data)
-
         if id_type is None:
-            mapped_dict = self._standardize_symbol(df=df)
+            mapped_dict = self._standardize_symbol(df=data)
         else:
             mapped_dict = self.search(
-                df.index, id_type_from=id_type, id_type_to=self.std_id
+                data.index, id_type_from=id_type, id_type_to=self.std_id
             )
 
-        df["std_id"] = df.index.map(mapped_dict)
+        data["std_id"] = data.index.map(mapped_dict)
         if new_index:
-            df["index_orig"] = df.index
-            df.index = df["std_id"].fillna(df["index_orig"])
-            df.index.name = None
+            data["index_orig"] = data.index
+            data.index = data["std_id"].fillna(data["index_orig"])
+            data.index.name = None
 
     def search(
         self,
@@ -201,11 +200,6 @@ class Gene:
                 mapped_dict[dup] = pd.DataFrame.from_dict(d, orient="index")[0].min()
 
         return mapped_dict
-
-    @format_into_dataframe
-    def _format(self, data: Iterable[str]):
-        """Format the input into a dataframe."""
-        return data
 
     @check_datasetdir_exists
     def hgnc(self, species="human"):
