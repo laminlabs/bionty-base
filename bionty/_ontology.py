@@ -1,3 +1,4 @@
+import logging as logg
 from functools import cached_property
 from pathlib import Path
 from typing import Union
@@ -38,26 +39,41 @@ class Ontology:
         """Indexed classes, owlready2 ThingClass object."""
         return {i.name: i for i in self.onto.classes()}
 
-    def search(self, text: str) -> dict:
+    def search(self, text: str, id=False) -> dict:
         """Search in ontology labels.
 
         Args:
             text: search pattern
+            id: whether to search by the id
 
         Returns:
             A list of ontology names
         """
-        res = self.onto.search(label=text)
+        if id:
+            res = self.onto.search(iri=f"*{text}")
+        else:
+            res = self.onto.search(label=text)
 
         return {i.name: i.label[0] for i in res}
 
     @format_into_dataframe
-    def validate(self, terms: pd.DataFrame) -> None:
-        """Checks if the ontology names exist and is in use.
+    def standardize(self, terms: pd.DataFrame) -> list:
+        """Checks if the ontology names are valid and in use.
 
         Args:
             terms: ontology ids
         """
-        res = {}
+        nonstd = []
         for term in terms.index:
-            res[term] = self.onto.search(iri=f"*{term}")
+            # Ensuring the format of the IDs
+            term = term.replace(":", "_")
+            label = term.label[0]
+            if label.startswith("obsolete") or term not in self.onto_dict.keys():
+                nonstd.append(label)
+
+        if len(nonstd) > 0:
+            logg.warn(
+                "The following terms were found to be obsolete or non-exist! Please"
+                " search the correct term via `.search`!"
+            )
+        return nonstd
