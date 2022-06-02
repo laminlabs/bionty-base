@@ -1,6 +1,6 @@
 from functools import wraps
 from pathlib import Path
-from typing import Iterable, Union
+from typing import Union
 
 import pandas as pd
 
@@ -16,7 +16,7 @@ def check_datasetdir_exists(f):
 
 def format_into_dataframe(f):
     @wraps(f)
-    def format(data: Iterable, *args, **kwargs):
+    def format(data, *args, **kwargs):
         result = f(data=data, *args, **kwargs)
         if not isinstance(result, pd.DataFrame):
             df = pd.DataFrame(index=[d for d in data])
