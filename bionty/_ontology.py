@@ -57,18 +57,21 @@ class Ontology:
         return {i.name: i.label[0] for i in res}
 
     @format_into_dataframe
-    def standardize(self, terms: pd.DataFrame) -> list:
+    def standardize(self, data: pd.DataFrame) -> list:
         """Checks if the ontology names are valid and in use.
 
         Args:
-            terms: ontology ids
+            data: ontology ids
         """
         nonstd = []
-        for term in terms.index:
+        for term in data.index:
             # Ensuring the format of the IDs
             term = term.replace(":", "_")
-            label = term.label[0]
-            if label.startswith("obsolete") or term not in self.onto_dict.keys():
+            if term in self.onto_dict.keys():
+                label = self.onto_dict[term]
+                if label.startswith("obsolete"):
+                    nonstd.append(label)
+            else:
                 nonstd.append(label)
 
         if len(nonstd) > 0:

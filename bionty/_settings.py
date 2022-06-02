@@ -22,7 +22,7 @@ def format_into_dataframe(f):
             if isinstance(data, pd.DataFrame)
             else pd.DataFrame(index=[d for d in data])
         )
-        return f(df, *args, **kwargs)
+        return f(data=df, *args, **kwargs)
 
     return dataframe
 
