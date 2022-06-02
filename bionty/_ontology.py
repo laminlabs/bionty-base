@@ -1,6 +1,8 @@
 from functools import cached_property
 from pathlib import Path
-from typing import Iterable, Union
+from typing import Union
+
+import pandas as pd
 
 from ._settings import format_into_dataframe
 
@@ -44,17 +46,13 @@ class Ontology:
 
         return {i.name: i.label[0] for i in res}
 
-    def validate(self, terms: Iterable[str]) -> None:
+    @format_into_dataframe
+    def validate(self, terms: pd.DataFrame) -> None:
         """Checks if the ontology names exist and is in use.
 
         Args:
             terms: ontology ids
         """
         res = {}
-        for term in terms:
+        for term in terms.index:
             res[term] = self.onto.search(iri=f"*{term}")
-
-    @format_into_dataframe
-    def _format(self, data: Iterable[str]):
-        """Format the input into a dataframe."""
-        return data

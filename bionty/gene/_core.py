@@ -56,7 +56,7 @@ class Gene:
     @format_into_dataframe
     def standardize(
         self,
-        data: pd.DataFrame,
+        data,
         id_type: Optional[_IDs] = None,
         new_index: bool = True,
     ):
