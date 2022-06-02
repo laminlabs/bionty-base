@@ -29,9 +29,14 @@ class Ontology:
         return self._onto
 
     @cached_property
-    def onto_dict(self):
+    def onto_dict(self) -> dict:
         """Dict of name:label."""
         return {i.name: i.label[0] for i in self.onto.classes()}
+
+    @cached_property
+    def classes(self) -> dict:
+        """Indexed classes, owlready2 ThingClass object."""
+        return {i.name: i for i in self.onto.classes()}
 
     def search(self, text: str) -> dict:
         """Search in ontology labels.
