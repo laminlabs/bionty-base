@@ -16,15 +16,27 @@ def check_datasetdir_exists(f):
 
 def format_into_dataframe(f):
     @wraps(f)
-    def dataframe(self, data, *args, **kwargs) -> pd.DataFrame:
+    def dataframe(*args, **kwargs) -> pd.DataFrame:
+        # Check if the first argument is self
+        idx = 0 if _is_function(args[0]) else 1
         df = (
-            data
-            if isinstance(data, pd.DataFrame)
-            else pd.DataFrame(index=[d for d in data])
+            args[idx]
+            if isinstance(args[idx], pd.DataFrame)
+            else pd.DataFrame(index=[d for d in args[idx]])
         )
-        return f(self, df, *args, **kwargs)
+        args_new = list(args)
+        args_new[idx] = df
+        return f(*args_new, **kwargs)
 
     return dataframe
+
+
+def _is_function(func) -> bool:
+    """Checks if input is a function rather than an instance of class.
+
+    TODO: Is this hacky?
+    """
+    return hasattr(func, "__name__")
 
 
 class Settings:
