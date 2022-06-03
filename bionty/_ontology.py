@@ -1,7 +1,7 @@
 import logging as logg
 from functools import cached_property
 from pathlib import Path
-from typing import Union
+from typing import Iterable, Union
 
 import pandas as pd
 
@@ -39,8 +39,23 @@ class Ontology:
         """Indexed classes, owlready2 ThingClass object."""
         return {i.name: i for i in self.onto.classes()}
 
-    def search(self, text: str, id=False) -> dict:
+    def search(self, data: Iterable[str], id=False):
         """Search in ontology labels.
+
+        Args:
+            data: search patterns
+            id: whether to search by the id
+
+        Returns:
+            A list of ontology names
+        """
+        res = {}
+        for d in data:
+            res[d] = self.search_one(text=d)
+        return res
+
+    def search_one(self, text: str, id=False) -> dict:
+        """Search in ontology labels one by one.
 
         Args:
             text: search pattern
