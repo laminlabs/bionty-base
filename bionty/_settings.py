@@ -19,14 +19,17 @@ def format_into_dataframe(f):
     def dataframe(*args, **kwargs) -> pd.DataFrame:
         # Check if the first argument is self
         idx = 0 if _is_function(args[0]) else 1
-        df = (
-            args[idx]
-            if isinstance(args[idx], pd.DataFrame)
-            else pd.DataFrame(index=[d for d in args[idx]])
-        )
+
+        if isinstance(args[idx], pd.DataFrame):
+            df = args[idx]
+            reformat = False
+        else:
+            df = pd.DataFrame(index=[d for d in args[idx]])
+            reformat = True
+
         args_new = list(args)
         args_new[idx] = df
-        return f(*args_new, **kwargs)
+        return f(*args_new, _reformat=reformat, **kwargs)
 
     return dataframe
 
