@@ -9,7 +9,7 @@ from .._settings import check_datasetdir_exists, format_into_dataframe, settings
 from ..taxon import Taxon
 from ._query import Biomart, Mygene
 
-_IDs = Literal["ensembl_gene_id", "entrezgene_id"]
+_IDs = Literal["ensembl.gene_id", "entrez.gene_id"]
 _HGNC = "http://ftp.ebi.ac.uk/pub/databases/genenames/hgnc/tsv/hgnc_complete_set.txt"
 
 
