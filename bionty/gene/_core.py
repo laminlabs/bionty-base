@@ -72,7 +72,6 @@ class Gene:
                     - unmapped will remain the original index
                     - original index stored in the `index_orig` column
                 If False, write to the `standardized_symbol` column
-            _reformat: dev use only
 
         Returns:
             Replaces the DataFrame mappable index with the standardized symbols
