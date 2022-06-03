@@ -59,6 +59,7 @@ class Gene:
         data,
         id_type: Optional[_IDs] = None,
         new_index: bool = True,
+        _reformat: bool = False,
     ):
         """Index a dataframe with the official gene symbols from HGNC.
 
@@ -89,6 +90,9 @@ class Gene:
             data["index_orig"] = data.index
             data.index = data["std_id"].fillna(data["index_orig"])
             data.index.name = None
+
+        if _reformat:
+            return data
 
     def search(
         self,

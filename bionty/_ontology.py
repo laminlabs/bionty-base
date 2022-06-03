@@ -1,7 +1,7 @@
 import logging as logg
 from functools import cached_property
 from pathlib import Path
-from typing import Union
+from typing import Iterable, Union
 
 import pandas as pd
 
@@ -39,8 +39,23 @@ class Ontology:
         """Indexed classes, owlready2 ThingClass object."""
         return {i.name: i for i in self.onto.classes()}
 
-    def search(self, text: str, id=False) -> dict:
+    def search(self, data: Iterable[str], id=False):
         """Search in ontology labels.
+
+        Args:
+            data: search patterns
+            id: whether to search by the id
+
+        Returns:
+            A list of ontology names
+        """
+        res = {}
+        for d in data:
+            res[d] = self.search_one(text=d)
+        return res
+
+    def search_one(self, text: str, id=False) -> dict:
+        """Search in ontology labels one by one.
 
         Args:
             text: search pattern
@@ -50,6 +65,7 @@ class Ontology:
             A list of ontology names
         """
         if id:
+            text = text.replace(":", "_")
             res = self.onto.search(iri=f"*{text}")
         else:
             res = self.onto.search(label=text)
@@ -57,18 +73,24 @@ class Ontology:
         return {i.name: i.label[0] for i in res}
 
     @format_into_dataframe
-    def standardize(self, terms: pd.DataFrame) -> dict:
+    def standardize(self, terms: pd.DataFrame, _reformat=False):
         """Checks if the ontology names are valid and in use.
 
         Args:
             terms: ontology ids
+
+        Returns:
+            a dataframe
         """
+        terms.index = terms.index.str.replace(":", "_")
+        terms.index.name = "ontology_id"
+        terms["name"] = ""
         nonstd = {}
         for term in terms.index:
             # Ensuring the format of the IDs
-            term = term.replace(":", "_")
             if term in self.onto_dict.keys():
                 label = self.onto_dict[term]
+                terms.loc[term]["name"] = label
                 if label.startswith("obsolete"):
                     nonstd[term] = label
             else:
@@ -79,4 +101,7 @@ class Ontology:
                 "The following terms were found to be obsolete or non-exist! Please"
                 " search the correct term via `.search`!"
             )
-        return nonstd
+            logg.warn(nonstd)
+
+        if _reformat:
+            return terms
