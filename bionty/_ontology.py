@@ -99,9 +99,8 @@ class Ontology:
         if len(nonstd) > 0:
             logg.warn(
                 "The following terms were found to be obsolete or non-exist! Please"
-                " search the correct term via `.search`!"
+                f" search the correct term via `.search`! \n {nonstd}"
             )
-            logg.warn(nonstd)
 
         if _reformat:
             return terms
