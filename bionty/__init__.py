@@ -24,7 +24,7 @@ __version__ = _version.get_versions()["version"]
 # bio entities
 from .gene import Gene
 from .protein import Protein
-from .taxon import Taxon
+from .taxon import Taxon, organism
 from .celltype import Celltype
 from .disease import Disease
 from .tissue import Tissue
