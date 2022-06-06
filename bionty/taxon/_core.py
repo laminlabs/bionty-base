@@ -76,21 +76,19 @@ class Entry(NamedTuple):
     short_name: str
 
 
-class Organism:
-    def parse_df(self):
-        taxon = Taxon()
+def create_organism_model():
+    taxon = Taxon()
+    Organism = create_model("Organism", __base__=Entity)
+    for i in taxon.df.index:
+        entry = {"name": taxon.df.loc[i]["scientific_name"]}
+        entry.update({col: taxon.df.loc[i][col] for col in taxon.df.columns})
+        setattr(
+            Organism,
+            taxon.df.loc[i]["scientific_name"],
+            Entry(**entry),
+        )
 
-        Organism = create_model("Organism", __base__=Entity)
-        for i in taxon.df.index:
-            entry = {"name": taxon.df.loc[i]["scientific_name"]}
-            entry.update({col: taxon.df.loc[i][col] for col in taxon.df.columns})
-            setattr(
-                Organism,
-                taxon.df.loc[i]["scientific_name"],
-                Entry(**entry),
-            )
-
-        return Organism(**{"name": "organism", "std_id": "scientific_name"})
+    return Organism(**{"name": "organism", "std_id": "scientific_name"})
 
 
-organism = Organism().parse_df()
+organism = create_organism_model()
