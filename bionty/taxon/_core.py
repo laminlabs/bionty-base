@@ -80,19 +80,17 @@ class Organism:
     def parse_df(self):
         taxon = Taxon()
 
-        Organism = create_model(
-            "Organism", **{i: Entry for i in taxon.df.index}, __base__=Entity
-        )
+        Organism = create_model("Organism", __base__=Entity)
         for i in taxon.df.index:
-            entry = {"name": i}
+            entry = {"name": taxon.df.loc[i]["scientific_name"]}
             entry.update({col: taxon.df.loc[i][col] for col in taxon.df.columns})
             setattr(
                 Organism,
-                i.replace(" ", "_"),  # removing ws so that tab can work
+                taxon.df.loc[i]["scientific_name"],
                 Entry(**entry),
             )
 
-        return Organism(**{"name": "organism", "std_id": "display_name"})
+        return Organism(**{"name": "organism", "std_id": "scientific_name"})
 
 
 organism = Organism().parse_df()
