@@ -62,7 +62,7 @@ class Taxon:
         'assembly': 'GRCh38.p13'
 
         """
-        return self._df[[field]].to_dict()[field][self.std_name]
+        return self.df[[field]].to_dict()[field][self.std_name]
 
 
 class Entry(NamedTuple):
