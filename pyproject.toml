@@ -14,6 +14,7 @@ dependencies = [
     "biothings_client",
     "xmltodict",
     "owlready2",
+    "pydantic",
 ]
 
 [project.urls]

@@ -1,6 +1,11 @@
+from functools import cached_property
 from pathlib import Path
+from typing import NamedTuple
 
 import pandas as pd
+from pydantic import create_model
+
+from .._models import Entity
 
 HERE = Path(__file__).parent
 SPECIES_FILENAME = HERE / "tables/Species.csv"
@@ -19,10 +24,13 @@ SPECIES_COLS = [
 class Taxon:
     """Species related bio entities."""
 
-    _df = pd.read_csv(SPECIES_FILENAME, header=0, index_col=0)
-
     def __init__(self, species="human"):
         self._std_name = species
+
+    @cached_property
+    def df(self):
+        self._df = pd.read_csv(SPECIES_FILENAME, header=0, index_col=0)
+        return self._df
 
     @property
     def std_id(self):
@@ -54,4 +62,33 @@ class Taxon:
         'assembly': 'GRCh38.p13'
 
         """
-        return self._df[[field]].to_dict()[field][self.std_name]
+        return self.df[[field]].to_dict()[field][self.std_name]
+
+
+class Entry(NamedTuple):
+    name: str
+    scientific_name: str
+    common_name: str
+    taxon_id: int
+    assembly: str
+    accession: str
+    release: int
+    short_name: str
+
+
+def create_organism_model():
+    taxon = Taxon()
+    Organism = create_model("Organism", __base__=Entity)
+    for i in taxon.df.index:
+        entry = {"name": taxon.df.loc[i]["scientific_name"]}
+        entry.update({col: taxon.df.loc[i][col] for col in taxon.df.columns})
+        setattr(
+            Organism,
+            taxon.df.loc[i]["scientific_name"],
+            Entry(**entry),
+        )
+
+    return Organism(**{"name": "organism", "std_id": "scientific_name"})
+
+
+organism = create_organism_model()
