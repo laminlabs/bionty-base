@@ -1,8 +1,14 @@
 from argparse import Namespace
 
 # Ensembl REST server
-ENSEMBL_REST = "http://rest.ensembl.org/"
-ENSEMBL_REST_EXT = Namespace(SPECIES_INFO="info/species?")
+ENSEMBL_REST = "http://rest.ensembl.org"
+ENSEMBL_REST_EXT = Namespace(
+    **{
+        "SPECIES_INFO": "/info/species?",  # all species info
+        "ARCHIVE_ID": "/archive/id",  # retrieves the latest version of ids
+        "XREFS_ID": "/xrefs/id/",  # https://rest.ensembl.org/documentation/info/xref_id
+    }
+)
 
 # HGNC REST server
 """See searchable fields here: https://www.genenames.org/help/rest/"""
