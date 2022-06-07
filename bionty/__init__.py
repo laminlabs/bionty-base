@@ -15,6 +15,13 @@ This is the complete API reference:
    Protein
    Taxon
    Tissue
+
+Entity collections:
+
+.. autosummary::
+   :toctree: .
+
+   organism
 """
 
 from . import _version
