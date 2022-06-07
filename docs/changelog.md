@@ -1,3 +1,5 @@
-```{include} ../CHANGELOG.md
+# Changelog
 
-```
+## Latest changes
+
+- 🎉 Initial commit
