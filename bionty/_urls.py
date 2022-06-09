@@ -5,8 +5,11 @@ ENSEMBL_REST = "http://rest.ensembl.org"
 ENSEMBL_REST_EXT = Namespace(
     **{
         "SPECIES_INFO": "/info/species?",  # all species info
-        "ARCHIVE_ID": "/archive/id",  # retrieves the latest version of ids
-        "XREFS_ID": "/xrefs/id/",  # https://rest.ensembl.org/documentation/info/xref_id
+        "ARCHIVE_IDS": "/archive/id",  # retrieves the latest version of ids
+        "XREFS_ID": "/xrefs/id/",
+        "LOOKUP_IDS": "/lookup/id",
+        "LOOKUP_SYMBOLS": "/lookup/symbol/",
+        "SEQ_IDS": "/sequence/id",
     }
 )
 
