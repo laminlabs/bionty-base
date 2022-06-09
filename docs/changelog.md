@@ -5,6 +5,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+:sparkles: Introduced Disease with mondo | [36](https://github.com/laminlabs/bionty/pull/36) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-01 |
 :art: Implement an initial .standardize in the Ontology manager | [40](https://github.com/laminlabs/bionty/pull/40) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-02 |
 🐛  Fix standardize to work on any iterables | [41](https://github.com/laminlabs/bionty/pull/41) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-03 |
 🐛 Fix gn id fields | [43](https://github.com/laminlabs/bionty/pull/43) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-03 |
