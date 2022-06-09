@@ -1,10 +1,8 @@
 from pathlib import Path
 
 import pandas as pd
-import xmltodict
 
-from .._rest import fetch_endpoint
-from .._urls import ENSEMBL_REST, ENSEMBL_REST_EXT
+from .._servers import EnsemblREST
 from ._core import SPECIES_COLS
 
 HERE = Path(__file__).parent
@@ -17,13 +15,9 @@ def update_species_table() -> None:
     Returns:
         a dataframe
     """
-    server = ENSEMBL_REST
-    ext = ENSEMBL_REST_EXT.SPECIES_INFO
-
-    res = fetch_endpoint(server, ext, "text/xml")
+    entries = EnsemblREST().species_info()
 
     # format into a dataframe
-    entries = xmltodict.parse(res)["opt"]["data"]["species"]
     sp_dict: dict = {}
     cols = [
         "display_name",
