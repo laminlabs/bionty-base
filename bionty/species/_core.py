@@ -1,11 +1,10 @@
 from functools import cached_property
 from pathlib import Path
-from typing import NamedTuple
+from typing import Any, NamedTuple
 
 import pandas as pd
-from pydantic import create_model
 
-from .._models import Entity
+from .._models import Entity, create_model
 
 HERE = Path(__file__).parent
 SPECIES_FILENAME = HERE / "tables/Species.csv"
@@ -21,10 +20,31 @@ SPECIES_COLS = [
 ]
 
 
-class Taxon:
-    """Species related bio entities."""
+def _create_species_model():
+    df = pd.read_csv(SPECIES_FILENAME, header=0, index_col=0)
+    Species = create_model("Species", __base__=Entity)
+    for i in df.index:
+        entry = {"name": df.loc[i]["scientific_name"]}
+        entry.update({col: df.loc[i][col] for col in df.columns})
+        Species.add_fields(**{df.loc[i]["scientific_name"]: (Entry, Entry(**entry))})
+    return Species
 
-    def __init__(self, species="human"):
+
+class Entry(NamedTuple):
+    name: str
+    scientific_name: str
+    common_name: str
+    taxon_id: int
+    assembly: str
+    accession: str
+    release: int
+    short_name: str
+
+
+class _Species:
+    """Object oriented Species class."""
+
+    def __init__(self, species="human") -> None:
         self._std_name = species
 
     @cached_property
@@ -65,30 +85,12 @@ class Taxon:
         return self.df[[field]].to_dict()[field][self.std_name]
 
 
-class Entry(NamedTuple):
-    name: str
-    scientific_name: str
-    common_name: str
-    taxon_id: int
-    assembly: str
-    accession: str
-    release: int
-    short_name: str
+SpeciesModel: Any = _create_species_model()
 
 
-def create_organism_model():
-    taxon = Taxon()
-    Organism = create_model("Organism", __base__=Entity)
-    for i in taxon.df.index:
-        entry = {"name": taxon.df.loc[i]["scientific_name"]}
-        entry.update({col: taxon.df.loc[i][col] for col in taxon.df.columns})
-        setattr(
-            Organism,
-            taxon.df.loc[i]["scientific_name"],
-            Entry(**entry),
-        )
-
-    return Organism(**{"name": "organism", "std_id": "scientific_name"})
+class Species(SpeciesModel):
+    def __call__(self, **kwds):
+        return _Species(**kwds)
 
 
-species = create_organism_model()
+species = Species(**{"name": "species", "std_id": "scientific_name"})
