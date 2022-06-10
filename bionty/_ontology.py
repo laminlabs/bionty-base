@@ -31,7 +31,7 @@ class Ontology:
 
     @cached_property
     def onto_dict(self) -> dict:
-        """Dict of name:label."""
+        """Keyed by name, valued by label."""
         return {i.name: i.label[0] for i in self.onto.classes()}
 
     @cached_property
