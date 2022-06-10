@@ -1,7 +1,10 @@
 from typing import Any, Dict, Optional
 
 from pydantic import BaseModel as PydanticBaseModel
+from pydantic import create_model as pydantic_create_model
 from pydantic.fields import ModelField
+
+create_model = pydantic_create_model
 
 
 class BaseModel(PydanticBaseModel):
