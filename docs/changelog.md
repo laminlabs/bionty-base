@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🚚 Rename taxon to species | [50](https://github.com/laminlabs/bionty/pull/50) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-10 |
 🎨 Made ensembl its own class | [45](https://github.com/laminlabs/bionty/pull/45) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-09 |
 ✨ Propose new design of the entity APIs | [44](https://github.com/laminlabs/bionty/pull/44) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-07 |
 🐛 Fix `gene.id` fields | [43](https://github.com/laminlabs/bionty/pull/43) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-03 |
