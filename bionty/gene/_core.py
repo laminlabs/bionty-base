@@ -6,7 +6,7 @@ import pandas as pd
 
 from .._normalize import NormalizeColumns
 from .._settings import check_datasetdir_exists, format_into_dataframe, settings
-from ..taxon import Taxon
+from ..species import species as SP
 from ._query import Biomart, Mygene
 
 _IDs = Literal["ensembl.gene_id", "entrez.gene_id"]
@@ -22,13 +22,13 @@ class Gene:
     """
 
     def __init__(self, species="human", biomart=False):
-        self._species = Taxon(species=species)
+        self._species = SP(species=species)
         self._ref = None
         self._biomart = biomart
 
     @property
     def species(self):
-        """Bionty.Taxon."""
+        """Bionty.species()."""
         return self._species
 
     @property

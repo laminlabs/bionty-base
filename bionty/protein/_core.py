@@ -1,7 +1,7 @@
 import typing
 from typing import Iterable, Literal, Optional
 
-from ..taxon import Taxon
+from ..species import species as SP
 from ._query import Uniprot
 
 _IDs = Literal["UNIPROT_ID", "PDB_ID", "CHEMBL_ID", "DRUGBANK_ID", "ENSEMBL_PRO_ID"]
@@ -11,11 +11,11 @@ class Protein:
     """Protein."""
 
     def __init__(self, species="human"):
-        self._species = Taxon(species=species)
+        self._species = SP(species=species)
 
     @property
     def species(self):
-        """bionty.Species."""
+        """bionty.species()."""
         return self._species
 
     @property

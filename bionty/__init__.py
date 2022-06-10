@@ -31,7 +31,7 @@ __version__ = _version.get_versions()["version"]
 # bio entities
 from .gene import Gene
 from .protein import Protein
-from .species import Taxon, species
+from .species import species
 from .celltype import Celltype
 from .disease import Disease
 from .tissue import Tissue
