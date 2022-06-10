@@ -91,4 +91,4 @@ def create_organism_model():
     return Organism(**{"name": "organism", "std_id": "scientific_name"})
 
 
-organism = create_organism_model()
+species = create_organism_model()
