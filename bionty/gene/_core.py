@@ -67,10 +67,11 @@ class Gene:
             data: A list of gene symbols to be standardized
                 If dataframe, will take the index
             id_type: Default is to consider input as gene symbols and alias
-            new_index
+            new_index:
                 If True, set the standardized symbols as the index
                     - unmapped will remain the original index
                     - original index stored in the `index_orig` column
+
                 If False, write to the `standardized_symbol` column
 
         Returns:
