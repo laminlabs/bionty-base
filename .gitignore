@@ -111,3 +111,4 @@ docs/generated/*
 # data and notes files
 **/data/
 **/notes/
+docs/bionty.*
