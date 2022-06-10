@@ -13,7 +13,6 @@ This is the complete API reference:
    Disease
    Gene
    Protein
-   Taxon
    Tissue
 
 Entity collections:

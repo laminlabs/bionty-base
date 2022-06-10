@@ -19,7 +19,7 @@ Get started by browsing a [quickstart](guides/quickstart) that walks you through
 
 For more information:
 
-- Check out the [guides](guides).
+- Check out the [guides](guides/index).
 - Browse the full [API reference](api).
 
 ```{toctree}
