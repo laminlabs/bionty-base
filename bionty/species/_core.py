@@ -30,9 +30,6 @@ def _create_species_model():
     return Species
 
 
-SpeciesModel: Any = _create_species_model()
-
-
 class Entry(NamedTuple):
     name: str
     scientific_name: str
@@ -86,6 +83,9 @@ class _Species:
 
         """
         return self.df[[field]].to_dict()[field][self.std_name]
+
+
+SpeciesModel: Any = _create_species_model()
 
 
 class Species(SpeciesModel):
