@@ -67,7 +67,7 @@ class _Species:
 
     @property
     def fields(self):
-        return list(Entry.__fields__.keys())
+        return list(Entry.__annotations__.keys())
 
     def search(self, field: str):
         """Search species fields based on .std_id.
