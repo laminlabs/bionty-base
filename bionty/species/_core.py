@@ -21,17 +21,20 @@ SPECIES_COLS = [
 
 
 def _create_species_model():
-    df = pd.read_csv(SPECIES_FILENAME, header=0, index_col=0)
+    df = pd.read_csv(SPECIES_FILENAME, header=0, index_col=0).reset_index()
     Species = create_model("Species", __base__=Entity)
     for i in df.index:
-        entry = {"name": df.loc[i]["scientific_name"]}
+        entry = {
+            "name": df.loc[i]["scientific_name"],
+        }
         entry.update({col: df.loc[i][col] for col in df.columns})
         Species.add_fields(**{df.loc[i]["scientific_name"]: (Entry, Entry(**entry))})
     return Species
 
 
 class Entry(NamedTuple):
-    name: str
+    name: str  # this is the value of std_id, aka scientific_name
+    display_name: str
     scientific_name: str
     common_name: str
     taxon_id: int
@@ -64,7 +67,7 @@ class _Species:
 
     @property
     def fields(self):
-        return SPECIES_COLS
+        return list(Entry.__fields__.keys())
 
     def search(self, field: str):
         """Search species fields based on .std_id.
