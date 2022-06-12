@@ -15,6 +15,9 @@ dependencies = [
     "xmltodict",
     "owlready2",
     "pydantic",
+    "httpx",
+    "nest_asyncio",
+    "syncer",
 ]
 
 [project.urls]

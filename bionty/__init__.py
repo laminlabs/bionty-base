@@ -21,6 +21,13 @@ Entity collections:
    :toctree: .
 
    species
+
+Other tools:
+
+.. autosummary::
+   :toctree: .
+
+   Ontology
 """
 
 from . import _version
@@ -35,5 +42,6 @@ from .celltype import Celltype
 from .disease import Disease
 from .tissue import Tissue
 
-# normalizer
+# tools
 from ._normalize import NormalizeColumns
+from ._ontology import Ontology

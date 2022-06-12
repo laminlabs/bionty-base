@@ -1,6 +1,6 @@
 import xmltodict
 
-from ._rest import fetch_endpoint, fetch_endpoint_POST
+from ._httpx import get_request, get_request_async, post_request
 from ._urls import ENSEMBL_REST, ENSEMBL_REST_EXT
 
 
@@ -22,48 +22,49 @@ class EnsemblREST:
     def species_info(self, return_raw=False):
         """ENSEMBL_REST_EXT.SPECIES_INFO."""
         ext = ENSEMBL_REST_EXT.SPECIES_INFO
-        res = fetch_endpoint(self.server, ext, "text/xml")
+        res = get_request(self.server, ext, "text/xml")
         if return_raw:
             return res
         else:
             return xmltodict.parse(res)["opt"]["data"]["species"]
 
-    def xref(self, id, **kwds):
-        """Retrieve external references if an Ensembl id.
+    def xref(self, ids, **kwargs):
+        """Retrieve external references of Ensembl ids.
 
         See https://rest.ensembl.org/documentation/info/xref_id
         """
-        ext = f"{ENSEMBL_REST_EXT.XREFS_ID}{id}?"
-        res = fetch_endpoint(self.server, ext, **kwds)
+        if isinstance(ids, str):
+            ext = f"{ENSEMBL_REST_EXT.XREFS_ID}{ids}?"
+            res = get_request(self.server, ext, **kwargs)
+        else:
+            res = get_request_async(self.server + ENSEMBL_REST_EXT.XREFS_ID, ids)
         return res
 
     def archive_ids(self, ids):
         """Retrieve the latest version for a set of identifiers."""
         ext = ENSEMBL_REST_EXT.ARCHIVE_IDS
-        res = fetch_endpoint_POST(self.server, ext, data=self._config_data(ids, "id"))
+        res = post_request(self.server, ext, data=self._config_data(ids, "id"))
         return res
 
-    def lookup_ids(self, ids, **kwds):
+    def lookup_ids(self, ids, **kwargs):
         """Find the species and database for several identifiers.
 
         See https://rest.ensembl.org/documentation/info/lookup_post
         """
         ext = ENSEMBL_REST_EXT.LOOKUP_IDS
-        res = fetch_endpoint_POST(
-            self.server, ext, data=self._config_data(ids, "id"), **kwds
+        res = post_request(
+            self.server, ext, data=self._config_data(ids, "id"), **kwargs
         )
         return res
 
-    def lookup_symbols(self, symbols, species="homo_sapiens", **kwds):
+    def lookup_symbols(self, symbols, species="homo_sapiens", **kwargs):
         """Find the species and database for symbols in a linked external database."""
         ext = f"{ENSEMBL_REST_EXT.LOOKUP_SYMBOLS}{species}"
-        res = fetch_endpoint_POST(
-            self.server, ext, data=self._config_data(symbols), **kwds
-        )
+        res = post_request(self.server, ext, data=self._config_data(symbols), **kwargs)
         return res
 
-    def seq_ids(self, ids, **kwds):
+    def seq_ids(self, ids, **kwargs):
         """Request multiple types of sequence by a stable identifier list."""
         ext = ENSEMBL_REST_EXT.SEQ_IDS
-        res = fetch_endpoint_POST(self.server, ext, data=self._config_data(ids), **kwds)
+        res = post_request(self.server, ext, data=self._config_data(ids), **kwargs)
         return res
