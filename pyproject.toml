@@ -16,6 +16,7 @@ dependencies = [
     "owlready2",
     "pydantic",
     "httpx",
+    "nest_asyncio",
 ]
 
 [project.urls]
