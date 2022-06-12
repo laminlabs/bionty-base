@@ -15,6 +15,7 @@ dependencies = [
     "xmltodict",
     "owlready2",
     "pydantic",
+    "httpx",
 ]
 
 [project.urls]

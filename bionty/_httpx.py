@@ -1,7 +1,11 @@
-import sys
 from typing import Any
 
-import requests  # type: ignore
+import httpx
+
+
+async def async_get(client, url):
+    resp = await client.get(url)
+    return resp
 
 
 def fetch_endpoint(server, request, content_type="application/json", **kwds) -> Any:
@@ -9,11 +13,7 @@ def fetch_endpoint(server, request, content_type="application/json", **kwds) -> 
 
     Allow overriding of default content-type
     """
-    r = requests.get(server + request, headers={"Accept": content_type}, **kwds)
-
-    if not r.ok:
-        r.raise_for_status()
-        sys.exit()
+    r = httpx.get(server + request, headers={"Accept": content_type}, **kwds)
 
     if content_type == "application/json":
         return r.json()
@@ -25,13 +25,9 @@ def fetch_endpoint_POST(
     server, request, data, content_type="application/json", **kwds
 ) -> Any:
     """POST requests."""
-    r = requests.post(
+    r = httpx.post(
         server + request, headers={"Content-Type": content_type}, data=data, **kwds
     )
-
-    if not r.ok:
-        r.raise_for_status()
-        sys.exit()
 
     if content_type == "application/json":
         return r.json()
