@@ -17,6 +17,7 @@ dependencies = [
     "pydantic",
     "httpx",
     "nest_asyncio",
+    "syncer",
 ]
 
 [project.urls]
