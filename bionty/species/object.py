@@ -10,8 +10,8 @@ SPECIES_FILENAME = HERE / "tables/Species.csv"
 class Species:
     """Species class."""
 
-    def __init__(self, species="human") -> None:
-        self._std_name = species
+    def __init__(self, common_name="human") -> None:
+        self._std_name = common_name
 
     @cached_property
     def df(self):
