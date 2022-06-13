@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+:recycle: Refactored species | [54](https://github.com/laminlabs/bionty/pull/54) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-13 |
 :zap: Speed up requests with async | [53](https://github.com/laminlabs/bionty/pull/53) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-12 |
 💚 Fix docs build warnings/errors | [52](https://github.com/laminlabs/bionty/pull/52) | [falexwolf](https://github.com/falexwolf) | 2022-06-10 |
 ♻️ Refactored species | [51](https://github.com/laminlabs/bionty/pull/51) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-10 |
