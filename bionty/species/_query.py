@@ -1,12 +1,17 @@
-from pathlib import Path
-
 import pandas as pd
 
 from .._servers import EnsemblREST
-from ._core import SPECIES_COLS
+from ._object import SPECIES_FILENAME
 
-HERE = Path(__file__).parent
-SPECIES_FILENAME = HERE / "tables/Species.csv"
+SPECIES_COLS = [
+    "scientific_name",
+    "display_name",
+    "common_name",
+    "taxon_id",
+    "assembly",
+    "accession",
+    "release",
+]
 
 
 def update_species_table() -> None:
@@ -42,12 +47,3 @@ def update_species_table() -> None:
     # Set display_name as the index for std_id
     sp_df = sp_df.reset_index().set_index("display_name")
     sp_df.to_csv(SPECIES_FILENAME, header=True, index=True)
-
-
-class Mytaxon:
-    """Wrapper of MyTaxon.info."""
-
-    def __init__(self) -> None:
-        from biothings_client import get_client
-
-        self.sever = get_client("taxon", instance=False)
