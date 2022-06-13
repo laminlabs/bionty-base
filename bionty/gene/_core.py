@@ -22,7 +22,7 @@ class Gene:
     """
 
     def __init__(self, species="human", biomart=False):
-        self._species = SP(species=species)
+        self._species = SP(common_name=species)
         self._ref = None
         self._biomart = biomart
 
