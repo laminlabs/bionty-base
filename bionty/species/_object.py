@@ -1,0 +1,53 @@
+from functools import cached_property
+from pathlib import Path
+
+import pandas as pd
+
+from ._static import Entry
+
+HERE = Path(__file__).parent
+SPECIES_FILENAME = HERE / "tables/Species.csv"
+
+
+class Species:
+    """Species class."""
+
+    def __init__(self, species="human") -> None:
+        self._std_name = species
+
+    @cached_property
+    def df(self):
+        self._df = pd.read_csv(SPECIES_FILENAME, header=0, index_col=0)
+        return self._df
+
+    @property
+    def std_id(self):
+        """common_name is the standardized id for species."""
+        return "display_name"
+
+    @property
+    def std_name(self):
+        """Value of the .std_id."""
+        return self._std_name
+
+    @property
+    def fields(self):
+        return list(Entry.__annotations__.keys())
+
+    def search(self, field: str):
+        """Search species fields based on .std_id.
+
+        Args:
+            field: one of .fields
+        Returns:
+            value of a field
+
+        e.g.
+        'common_name': 'human'
+        'scientific_name': 'homo_sapiens'
+        'short_name': 'hsapiens'
+        'taxon_id': 9606
+        'assembly': 'GRCh38.p13'
+
+        """
+        return self.df[[field]].to_dict()[field][self.std_name]

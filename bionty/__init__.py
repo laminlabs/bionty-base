@@ -6,6 +6,15 @@ Import the package::
 
 This is the complete API reference:
 
+Entity collections:
+
+.. autosummary::
+   :toctree: .
+
+   species
+
+Entity classes:
+
 .. autosummary::
    :toctree: .
 
@@ -13,14 +22,8 @@ This is the complete API reference:
    Disease
    Gene
    Protein
+   Species
    Tissue
-
-Entity collections:
-
-.. autosummary::
-   :toctree: .
-
-   species
 
 Other tools:
 
@@ -37,7 +40,7 @@ __version__ = _version.get_versions()["version"]
 # bio entities
 from .gene import Gene
 from .protein import Protein
-from .species import species
+from .species import species, Species
 from .celltype import Celltype
 from .disease import Disease
 from .tissue import Tissue
