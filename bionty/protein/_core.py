@@ -11,7 +11,7 @@ class Protein:
     """Protein."""
 
     def __init__(self, species="human"):
-        self._species = SP(species)
+        self._species = SP(common_name=species)
 
     @property
     def species(self):
