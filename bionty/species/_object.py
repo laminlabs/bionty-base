@@ -3,8 +3,6 @@ from pathlib import Path
 
 import pandas as pd
 
-from ._static import Entry
-
 HERE = Path(__file__).parent
 SPECIES_FILENAME = HERE / "tables/Species.csv"
 
@@ -32,7 +30,7 @@ class Species:
 
     @property
     def fields(self):
-        return list(Entry.__annotations__.keys())
+        return self.df.columns.tolist()
 
     def search(self, field: str):
         """Search species fields based on .std_id.
