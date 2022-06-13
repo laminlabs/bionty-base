@@ -1,7 +1,7 @@
 import pandas as pd
 
 from .._servers import EnsemblREST
-from ._object import SPECIES_FILENAME
+from .object import SPECIES_FILENAME
 
 SPECIES_COLS = [
     "scientific_name",

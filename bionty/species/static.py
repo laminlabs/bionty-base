@@ -1,7 +1,7 @@
 from typing import Any, NamedTuple
 
 from .._models import Entity, create_model
-from ._object import Species
+from .object import Species
 
 
 def _create_species_model(std_id="scientific_name"):
