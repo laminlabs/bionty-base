@@ -4,16 +4,25 @@ from .._models import Entity, create_model
 from .object import Species
 
 
-def _create_species_model(std_id="scientific_name"):
+def create_species_model(std_id="scientific_name", **kwargs):
+    """Create the species data model with pydantic.
+
+    Args:
+        std_id: the field used as standardized id
+        **kwargs: see _models.create_model
+
+    Returns:
+        `SpeciesData` data model with each species as a namedtuple entry
+    """
+    model = create_model("SpeciesData", __base__=Entity, **kwargs)
     df = Species().df.reset_index()
-    SpeciesData = create_model("SpeciesData", __base__=Entity)
     for i in df.index:
         entry = {
             "name": df.loc[i][std_id],
         }
         entry.update({col: df.loc[i][col] for col in df.columns})
-        SpeciesData.add_fields(**{df.loc[i][std_id]: (Entry, Entry(**entry))})
-    return SpeciesData
+        model.add_fields(**{df.loc[i][std_id]: (Entry, Entry(**entry))})
+    return model
 
 
 class Entry(NamedTuple):
@@ -28,7 +37,7 @@ class Entry(NamedTuple):
     short_name: str
 
 
-SpeciesDataModel: Any = _create_species_model()
+SpeciesDataModel: Any = create_species_model()
 
 
 class SpeciesModel(SpeciesDataModel):
