@@ -12,7 +12,7 @@ class Ontology:
     """Ontology manager built on Owlready2.
 
     Args:
-        base_iri: RDF/XML, OWL/XML or NTriples format
+        base_iri: (Internationalized Resource Identifier) RDF/XML, OWL/XML or NTriples format # noqa
         load: Whether to load ontology
     """
 
@@ -26,7 +26,7 @@ class Ontology:
 
     @property
     def onto(self):
-        """owlready2 Ontology."""
+        """owlready2 ontology object."""
         return self._onto
 
     @cached_property
