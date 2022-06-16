@@ -9,7 +9,7 @@ def create_species_model(std_id="scientific_name", **kwargs):
 
     Args:
         std_id: the field used as standardized id
-        **kwargs: see _models.create_model
+        **kwargs: see `_models.create_model`
 
     Returns:
         `SpeciesData` data model with each species as a namedtuple entry
