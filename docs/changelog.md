@@ -3,9 +3,9 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-:sparkles: Added static class `gene` | [59](https://github.com/laminlabs/bionty/pull/59) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-16 |
-:lipstick: Prettified ontology docstring | [58](https://github.com/laminlabs/bionty/pull/58) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-15 |
-:hammer: `Species` class by default taks a `common_name` | [56](https://github.com/laminlabs/bionty/pull/56) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-13 |
+✨ Added static class `gene` | [59](https://github.com/laminlabs/bionty/pull/59) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-16 |
+💄 Prettified ontology docstring | [58](https://github.com/laminlabs/bionty/pull/58) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-15 |
+🔨 `Species` class by default taks a `common_name` | [56](https://github.com/laminlabs/bionty/pull/56) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-13 |
 ♻️ Refactored `species` | [55](https://github.com/laminlabs/bionty/pull/55) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-13 | 0.1a1
 ♻️ Refactored `species` | [54](https://github.com/laminlabs/bionty/pull/54) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-13 |
 ⚡ Speed up requests with `async` | [53](https://github.com/laminlabs/bionty/pull/53) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-12 |
