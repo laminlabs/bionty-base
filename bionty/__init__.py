@@ -11,6 +11,7 @@ Entity collections:
 .. autosummary::
    :toctree: .
 
+   gene
    species
 
 Entity classes:
@@ -38,7 +39,7 @@ from . import _version
 __version__ = "0.1a1"
 
 # bio entities
-from .gene import Gene
+from .gene import gene, Gene
 from .protein import Protein
 from .species import species, Species
 from .celltype import Celltype
