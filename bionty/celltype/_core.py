@@ -2,7 +2,7 @@ from .._ontology import Ontology
 from .._urls import OBO_CL_OWL
 
 
-class Celltype(Ontology):
+class CellType(Ontology):
     """Cell type bioentity.
 
     Edits of terms are coordinated and reviewed on:

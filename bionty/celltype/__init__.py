@@ -1,1 +1,1 @@
-from ._core import Celltype
+from ._core import CellType
