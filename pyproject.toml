@@ -4,7 +4,7 @@ build-backend = "flit_core.buildapi"
 
 [project]
 name = "bionty"
-authors = [{name = "Lamin Dev", email = "laminlabs@gmail.com"}]
+authors = [{name = "Lamin Labs", email = "laminlabs@gmail.com"}]
 readme = "README.md"
 dynamic = ["version", "description"]
 dependencies = [
@@ -45,4 +45,5 @@ preview = true
 testpaths = [
     "tests",
     "docs/guides",
+    "docs/tutorial",
 ]
