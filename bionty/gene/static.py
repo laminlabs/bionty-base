@@ -18,30 +18,24 @@ def create_gene_model(std_id="hgnc_symbol", species="human", **kwargs):
     model.add_fields(**{"species": species})
     df = Gene(species=species).reference
     df.columns = df.columns.str.replace(".", "_", regex=True)
+    df = df.loc[:, df.columns.isin(Entry.__annotations__.keys())].copy()
     for i in df.index:
-        entry = {
-            "name": df.loc[i][std_id],
-        }
-        entry.update(
-            {
-                col: df.loc[i][col]
-                for col in df.columns
-                if col in Entry.__annotations__.keys()
-            }
-        )
+        entry = {}
+        entry.update({col: df.loc[i][col] for col in df.columns})
         model.add_fields(**{df.loc[i][std_id]: (Entry, Entry(**entry))})
     return model
 
 
 class Entry(NamedTuple):
-    name: str  # this is the value of std_id, aka scientific_name
+    hgnc_symbol: str
     hgnc_id: str
+    name: str
     locus_group: str
     alias_symbol: str
-    location: int
+    location: str
     entrez_gene_id: str
     ensembl_gene_id: str
-    uniprot_ids: int
+    uniprot_ids: str
     pubmed_id: str
 
 

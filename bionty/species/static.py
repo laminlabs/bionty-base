@@ -17,16 +17,13 @@ def create_species_model(std_id="scientific_name", **kwargs):
     model = create_model("SpeciesData", __base__=Entity, **kwargs)
     df = Species().df.reset_index()
     for i in df.index:
-        entry = {
-            "name": df.loc[i][std_id],
-        }
+        entry = {}
         entry.update({col: df.loc[i][col] for col in df.columns})
         model.add_fields(**{df.loc[i][std_id]: (Entry, Entry(**entry))})
     return model
 
 
 class Entry(NamedTuple):
-    name: str  # this is the value of std_id, aka scientific_name
     display_name: str
     scientific_name: str
     common_name: str

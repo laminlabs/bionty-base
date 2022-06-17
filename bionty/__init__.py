@@ -6,32 +6,32 @@ Import the package::
 
 This is the complete API reference:
 
-Entity collections:
+Base models: base entity managers.
 
 .. autosummary::
    :toctree: .
 
-   gene
-   species
+   Ontology
 
-Entity classes:
+Entity classes: dynamic classes of entities.
 
 .. autosummary::
    :toctree: .
 
-   Celltype
+   CellType
    Disease
    Gene
    Protein
    Species
    Tissue
 
-Other tools:
+Entity collections: static classes of entities.
 
 .. autosummary::
    :toctree: .
 
-   Ontology
+   gene
+   species
 """
 
 from . import _version
@@ -42,7 +42,7 @@ __version__ = "0.1a1"
 from .gene import gene, Gene
 from .protein import Protein
 from .species import species, Species
-from .celltype import Celltype
+from .celltype import CellType
 from .disease import Disease
 from .tissue import Tissue
 
