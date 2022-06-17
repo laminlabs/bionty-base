@@ -7,7 +7,7 @@ A performant API for interacting with biological entities featuring auto-complet
 - Standardize & organize data with biological entities as the frame of reference.
 - Make data queries more intuitive and make data science more robust.
 
-```{notes}
+```{Note}
 
 - Eventually, we hope that an open API will enable collaborative data science across organizations at scale.
 - For a full data & analysis management system that integrates Bionty, consider [LaminDB](https://lamin.ai/lamindb).
@@ -31,8 +31,9 @@ pip install bionty
 :maxdepth: 1
 :hidden:
 
-tasks/index
+tutorial/index
 guides/index
 api
+examples/index
 changelog
 ```
