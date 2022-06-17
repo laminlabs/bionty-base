@@ -2,7 +2,7 @@
 
 _Call the same things the same names._
 
-A performant API for interacting with biological entities featuring auto-complete on unambiguous maps of scientific standards.
+A performant & typed API for interacting with biological entities. It features auto-complete and unambiguously maps scientific standards.
 
 - Standardize & organize data with biological entities as the frame of reference.
 - Make data queries more intuitive and make data science more robust.
