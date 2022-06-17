@@ -16,13 +16,13 @@ A performant & typed API for interacting with biological entities. It features a
 
 ---
 
-Install via
+Install:
 
 ```
 pip install bionty
 ```
 
-Get started
+Get started:
 
 - [Quickstart](tutorial/quickstart) walks you through interacting with genes, proteins, species, and cell types.
 - Check out [guides](guides/index) that address common questions, use cases or problems.
