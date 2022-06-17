@@ -22,10 +22,11 @@ Install via
 pip install bionty
 ```
 
-- Get started with [quickstart](guides/quickstart) that walks you through interacting with genes, proteins, and species.
-- Check out [guides](guides/index) that address specific questions, use cases or problems.
+- Get started with [quickstart](tutorial/quickstart) that walks you through interacting with genes, proteins, and species.
+- Check out [guides](guides/index) that address common questions, use cases or problems.
 - Browse the full [API reference](api).
-- See additional [examples](examples/index).
+- See additional specific [examples](examples/index) and developer documentation.
+- See the [changelog](changelog).
 
 ```{toctree}
 :maxdepth: 1
