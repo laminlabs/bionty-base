@@ -8,9 +8,11 @@ Currently, it's main use case is to standardize & organize data with biological 
 
 This should make data queries more intuitive and data science more robust & organized.
 
-Eventually, we hope that an open API will enable collaborative data science across organiations at scale.
+```{notes}
 
-For a full data & analysis management system leveraging Bionty, consider [LaminDB](https://lamin.ai/lamindb).
+- Eventually, we hope that an open API will enable collaborative data science across organizations at scale.
+- For a full data & analysis management system integrating Bionty, consider [LaminDB](https://lamin.ai/lamindb).
+```
 
 ---
 
@@ -20,12 +22,10 @@ Install via
 pip install bionty
 ```
 
-Get started by browsing a [quickstart](guides/quickstart) that walks you through interacting with genes, proteins, and taxons (species).
-
-For more information:
-
-- Check out the [guides](guides/index).
+- Get started with [quickstart](guides/quickstart) that walks you through interacting with genes, proteins, and species.
+- Check out [guides](guides/index) that address specific questions, use cases or problems.
 - Browse the full [API reference](api).
+- See additional [examples](examples/index).
 
 ```{toctree}
 :maxdepth: 1
