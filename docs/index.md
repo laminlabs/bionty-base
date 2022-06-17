@@ -1,17 +1,17 @@
 # Bionty: Manage biological entities
 
-*Call the same things the same names.*
+_Call the same things the same names._
 
-Bionty is a performant API for interacting with biological entities. It unambiguously maps scientific standards and features auto-complete.
+A performant API for interacting with biological entities featuring auto-complete on unambiguous maps of scientific standards.
 
-Currently, it's main use case is to standardize & organize data with biological entities as the frame of reference.
-
-This should make data queries more intuitive and data science more robust & organized.
+- Standardize & organize data with biological entities as the frame of reference.
+- Make data queries more intuitive and make data science more robust.
 
 ```{notes}
 
 - Eventually, we hope that an open API will enable collaborative data science across organizations at scale.
-- For a full data & analysis management system integrating Bionty, consider [LaminDB](https://lamin.ai/lamindb).
+- For a full data & analysis management system that integrates Bionty, consider [LaminDB](https://lamin.ai/lamindb).
+- More complex queries of relationships among entities are on the roadmap.
 ```
 
 ---
