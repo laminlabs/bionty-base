@@ -6,7 +6,7 @@ import pandas as pd
 
 from .._normalize import NormalizeColumns
 from .._settings import check_datasetdir_exists, format_into_dataframe, settings
-from ..species import species as SP
+from ..species import Species as SP
 from ._query import Biomart, Mygene
 
 _IDs = Literal["ensembl.gene_id", "entrez.gene_id"]

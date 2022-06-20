@@ -1,7 +1,7 @@
 import typing
 from typing import Iterable, Literal, Optional
 
-from ..species import species as SP
+from ..species import Species as SP
 from ._query import Uniprot
 
 _IDs = Literal["UNIPROT_ID", "PDB_ID", "CHEMBL_ID", "DRUGBANK_ID", "ENSEMBL_PRO_ID"]

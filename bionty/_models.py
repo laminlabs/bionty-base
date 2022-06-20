@@ -4,12 +4,10 @@ from pydantic import BaseModel as PydanticBaseModel
 from pydantic import create_model as pydantic_create_model
 from pydantic.fields import ModelField
 
-create_model = pydantic_create_model
-
 
 class BaseModel(PydanticBaseModel):
     @classmethod
-    def add_fields(cls, __base__=PydanticBaseModel, **field_definitions: Any):
+    def add_fields(cls, **field_definitions: Any):
         """Dynamically adding fields inplace.
 
         From: https://github.com/samuelcolvin/pydantic/issues/1937
@@ -48,3 +46,9 @@ class BaseModel(PydanticBaseModel):
 class Entity(BaseModel):
     name: str  # this is the value of the standardized id
     std_id: str  # which field contains the standardized ids
+
+
+def create_model(__model_name: str, *, __base__=BaseModel, **kwargs):
+    return pydantic_create_model(
+        __model_name=__model_name, __base__=BaseModel, **kwargs
+    )
