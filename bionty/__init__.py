@@ -36,7 +36,7 @@ Entity collections: static classes of entities.
 
 from . import _version
 
-__version__ = "0.1a1"
+__version__ = "0.1a2"
 
 # bio entities
 from .gene import gene, Gene
