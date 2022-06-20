@@ -14,8 +14,14 @@ class Disease(Ontology):
     https://github.com/monarch-initiative/mondo
     """
 
-    def __init__(self, base_iri=OBO_MONDO_OWL, load: bool = True) -> None:
-        super().__init__(base_iri=base_iri, load=load)
+    def __init__(self) -> None:
+        self._filepath = settings.datasetdir / "disease.pickle"
+        if not self.filepath.exists():
+            super().__init__(base_iri=OBO_MONDO_OWL, load=True)
+
+    @property
+    def filepath(self):
+        return self._filepath
 
     @cached_property
     def onto_dict(self) -> dict:
@@ -30,17 +36,15 @@ class Disease(Ontology):
     def data_class(self):
         """Pydantic data class of diseases."""
         model = create_model("Disease")
-        model.add_fields(**self.load_model_dict())
+        model.add_fields(**self._load_model_dict())
         return model(**{"name": "disease", "std_id": "mondo_id"})
 
     @check_datasetdir_exists
-    def load_model_dict(self):
-        """Pydantic data class of diseases."""
-        filepath = settings.datasetdir / "disease.pickle"
-
-        if not filepath.exists():
+    def _load_model_dict(self):
+        """Load pickle file."""
+        if not self.filepath.exists():
             from .._io import write_pickle
 
-            write_pickle(self.onto_dict, filepath)
+            write_pickle(self.onto_dict, self.filepath)
 
-        return read_pickle(filepath)
+        return read_pickle(self.filepath)

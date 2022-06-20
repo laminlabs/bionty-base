@@ -38,7 +38,8 @@ from . import _version
 
 __version__ = "0.1a2"
 
-# bio entities
+
+# dynamic classes
 from .gene import Gene
 from .protein import Protein
 from .species import Species
