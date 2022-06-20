@@ -17,6 +17,7 @@ class Disease(Ontology):
     def __init__(self, base_iri=OBO_MONDO_OWL, load: bool = True) -> None:
         super().__init__(base_iri=base_iri, load=load)
 
+    @cached_property
     def onto_dict(self) -> dict:
         """Keyed by name, valued by label."""
         return {
@@ -37,7 +38,7 @@ class Disease(Ontology):
         """Pydantic data class of diseases."""
         filepath = settings.datasetdir / "disease.pickle"
 
-        if not filepath.exist():
+        if not filepath.exists():
             from .._io import write_pickle
 
             write_pickle(self.onto_dict, filepath)
