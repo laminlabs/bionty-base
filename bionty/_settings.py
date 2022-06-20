@@ -43,8 +43,8 @@ def _is_function(func) -> bool:
 
 
 class Settings:
-    def __init__(self, datasetdir: Union[str, Path] = Path("./data/")):
-        self._datasetdir = datasetdir
+    def __init__(self, datasetdir: Union[str, Path] = "./data/"):
+        self.datasetdir = datasetdir
 
     @property
     def datasetdir(self):
