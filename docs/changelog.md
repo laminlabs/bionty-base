@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-🚚 Renamed Celltype to CellType, fixed gene Entry fields | [62](https://github.com/laminlabs/bionty/pull/62) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-17 |
+🚚 Renamed Celltype to CellType, fixed gene Entry fields | [62](https://github.com/laminlabs/bionty/pull/62) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-17 | 0.1a2
 📝 Rewrite landing page and rename tasks | [61](https://github.com/laminlabs/bionty/pull/61) | [falexwolf](https://github.com/falexwolf) | 2022-06-17 |
 ✨ Added static class `gene` | [59](https://github.com/laminlabs/bionty/pull/59) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-16 |
 💄 Prettified ontology docstring | [58](https://github.com/laminlabs/bionty/pull/58) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-15 |
