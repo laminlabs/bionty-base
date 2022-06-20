@@ -9,9 +9,9 @@ A performant & typed API for interacting with biological entities. It features a
 
 ```{Note}
 
-- Eventually, we hope that an open API will enable collaborative data science across organizations at scale.
 - For a full data & analysis management system that integrates Bionty, consider [LaminDB](https://lamin.ai/lamindb).
 - More complex queries of relationships among entities are on the roadmap.
+- Eventually, we hope that an open API will enable collaborative data science across organizations at scale.
 ```
 
 ---
