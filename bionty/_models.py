@@ -9,7 +9,7 @@ create_model = pydantic_create_model
 
 class BaseModel(PydanticBaseModel):
     @classmethod
-    def add_fields(cls, **field_definitions: Any):
+    def add_fields(cls, __base__=PydanticBaseModel, **field_definitions: Any):
         """Dynamically adding fields inplace.
 
         From: https://github.com/samuelcolvin/pydantic/issues/1937
