@@ -4,11 +4,22 @@ from typing import Union
 
 import pandas as pd
 
+ROOT_DIR = Path(__file__).parent.resolve()
+
 
 def check_datasetdir_exists(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
         settings.datasetdir.mkdir(exist_ok=True)
+        return f(*args, **kwargs)
+
+    return wrapper
+
+
+def check_dynamicdir_exists(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        settings.dynamicdir.mkdir(exist_ok=True)
         return f(*args, **kwargs)
 
     return wrapper
@@ -42,9 +53,24 @@ def _is_function(func) -> bool:
     return hasattr(func, "__name__")
 
 
+@check_dynamicdir_exists
+def dump_dataclass_as_private_module(obj):
+    """Save the dataclass as python code."""
+    header = f"from pydantic import BaseModel\n\n\nclass {obj.__name__}(BaseModel):\n"
+    with open(settings.dynamicdir / f"{obj.__name__.lower()}.py", "w") as f:
+        f.write(header)
+        for key, value in obj().__fields__.items():
+            f.write(f"    {key} : {value.type_.__name__} = {value.default!r}\n")
+
+
 class Settings:
-    def __init__(self, datasetdir: Union[str, Path] = "./data/"):
+    def __init__(
+        self,
+        datasetdir: Union[str, Path] = ROOT_DIR / "data/",
+        dynamicdir: Union[str, Path] = ROOT_DIR / "_dynamic/",
+    ):
         self.datasetdir = datasetdir
+        self.dynamicdir = dynamicdir
 
     @property
     def datasetdir(self):
@@ -54,6 +80,15 @@ class Settings:
     @datasetdir.setter
     def datasetdir(self, datasetdir: Union[str, Path]):
         self._datasetdir = Path(datasetdir).resolve()
+
+    @property
+    def dynamicdir(self):
+        """Directory for datasets."""
+        return self._dynamicdir
+
+    @dynamicdir.setter
+    def dynamicdir(self, dynamicdir: Union[str, Path]):
+        self._dynamicdir = Path(dynamicdir).resolve()
 
 
 settings = Settings()
