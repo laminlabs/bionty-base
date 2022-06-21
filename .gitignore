@@ -112,3 +112,4 @@ docs/generated/*
 **/data/
 **/notes/
 docs/bionty.*
+_dynamic/
