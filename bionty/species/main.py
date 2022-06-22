@@ -98,6 +98,8 @@ class Species:
         for i in df.index:
             entry = {}
             entry.update({col: df.loc[i][col] for col in df.columns})
-            SpeciesData.add_fields(**{df.loc[i][self.std_id]: (Entry, Entry(**entry))})
+            SpeciesData.add_fields(
+                **{df.loc[i]["display_name"]: (Entry, Entry(**entry))}
+            )
 
         return SpeciesData
