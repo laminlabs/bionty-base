@@ -1,1 +1,1 @@
-from ._core import Tissue
+from .main import Tissue
