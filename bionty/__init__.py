@@ -25,16 +25,9 @@ Entity classes: dynamic classes of entities.
    Species
    Tissue
 
-Entity collections: static classes of entities.
-
-.. autosummary::
-   :toctree: .
-
-   gene
-   species
 """
 
-__version__ = "0.1a3"
+__version__ = "0.1.0"
 
 
 # dynamic classes
