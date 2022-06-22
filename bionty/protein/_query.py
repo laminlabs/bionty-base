@@ -4,7 +4,7 @@ import urllib.request
 
 import pandas as pd
 
-from ..species import species as SP
+from ..species import Species as SP
 
 
 class Uniprot:

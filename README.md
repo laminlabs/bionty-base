@@ -1,31 +1,7 @@
-# Bionty
+# Bionty: Manage biological entities
 
-Managing biological entities.
+This package is in private beta at this moment!
 
-## Requirements
+Follow https://twitter.com/laminlabs to learn about a first public release.
 
-Python 3.8+
-
-## Installation
-
-<div class="termy">
-
-```console
-$ pip install bionty
-```
-
-</div>
-
-Install the development version:
-
-<div class="termy">
-
-```console
-$ flit install -s --deps develop
-```
-
-</div>
-
-## Quickstart
-
-- https://lamin.ai/bionty/guides/quickstart
+For beta users: Read the [docs](https://lamin.ai/bionty).
