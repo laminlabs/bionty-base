@@ -12,6 +12,12 @@ def read_pickle(filename: Union[str, Path]):
         return pickle.load(handle)
 
 
+def loads_pickle(filename: Union[str, Path]):
+    with open(filename, "rb") as handle:
+        r = pickle.load(handle)
+    return pickle.loads(r)
+
+
 @typechecked
 def write_pickle(data, filename: Union[str, Path]) -> None:
     with open(filename, "wb") as handle:
