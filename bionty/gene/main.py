@@ -13,7 +13,7 @@ from .._settings import (
     format_into_dataframe,
     settings,
 )
-from ..species import Species as SP
+from ..species import Species
 from ._query import Biomart, Mygene
 
 _IDs = Literal["ensembl.gene_id", "entrez.gene_id"]
@@ -35,15 +35,15 @@ class Entry(BaseModel):
 
 
 class Gene:
-    """Gene.
+    """Gene bioentity.
 
-    Biotypes: https://useast.ensembl.org/info/genome/genebuild/biotypes.html
-    Gene Naming: https://useast.ensembl.org/info/genome/genebuild/gene_names.html
+    - Biotypes: https://useast.ensembl.org/info/genome/genebuild/biotypes.html
+    - Gene Naming: https://useast.ensembl.org/info/genome/genebuild/gene_names.html
 
     """
 
     def __init__(self, species="human", biomart=False):
-        self._species = SP(common_name=species)
+        self._species = Species(common_name=species)
         self._dataclasspath = (
             settings.dynamicdir / f"genedata_{self.species.std_name}.pkl"
         )
