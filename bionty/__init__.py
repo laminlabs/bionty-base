@@ -34,8 +34,6 @@ Entity collections: static classes of entities.
    species
 """
 
-from . import _version
-
 __version__ = "0.1a3"
 
 
