@@ -17,13 +17,13 @@ class Disease(Ontology):
     """
 
     def __init__(self) -> None:
-        self._filepath = settings.dynamicdir / "diseasedata.pkl"
-        if not self.filepath.exists():
+        self._dataclasspath = settings.dynamicdir / "diseasedata.pkl"
+        if not self.dataclasspath.exists():
             super().__init__(base_iri=OBO_MONDO_OWL, load=True)
 
     @property
-    def filepath(self):
-        return self._filepath
+    def dataclasspath(self):
+        return self._dataclasspath
 
     @cached_property
     def onto_dict(self) -> dict:
@@ -37,12 +37,12 @@ class Disease(Ontology):
     @check_dynamicdir_exists
     def dataclass(self):
         """Pydantic data class of diseases."""
-        if not self.filepath.exists():
+        if not self.dataclasspath.exists():
             import pickle
 
             from .._io import write_pickle
 
             DiseaseData.add_fields(**Disease().onto_dict)
-            write_pickle(pickle.dumps(DiseaseData()), self.filepath)
+            write_pickle(pickle.dumps(DiseaseData()), self.dataclasspath)
 
-        return loads_pickle(self.filepath)
+        return loads_pickle(self.dataclasspath)
