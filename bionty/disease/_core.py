@@ -1,8 +1,12 @@
 from functools import cached_property
 
+from .._io import loads_pickle, write_pickle
+from .._models import create_model
 from .._ontology import Ontology
-from .._settings import dump_dataclass_as_private_module, settings
+from .._settings import check_dynamicdir_exists, settings
 from .._urls import OBO_MONDO_OWL
+
+DiseaseData = create_model("DiseaseData", __module__=__name__)
 
 
 class Disease(Ontology):
@@ -13,7 +17,7 @@ class Disease(Ontology):
     """
 
     def __init__(self) -> None:
-        self._filepath = settings.dynamicdir / "diseasedata.py"
+        self._filepath = settings.dynamicdir / "diseasedata.pkl"
         if not self.filepath.exists():
             super().__init__(base_iri=OBO_MONDO_OWL, load=True)
 
@@ -30,15 +34,13 @@ class Disease(Ontology):
             if k.startswith("MONDO") & len(v.label) > 0
         }
 
-    @cached_property
+    @check_dynamicdir_exists
     def data_class(self):
         """Pydantic data class of diseases."""
         if not self.filepath.exists():
-            from .._models import create_model
+            import pickle
 
-            DiseaseData = create_model("DiseaseData", **self.onto_dict)
-            dump_dataclass_as_private_module(DiseaseData)
+            DiseaseData.add_fields(**Disease().onto_dict)
+            write_pickle(pickle.dumps(DiseaseData()), self.filepath)
 
-        from .._dynamic.diseasedata import DiseaseData
-
-        return DiseaseData
+        return loads_pickle(self.filepath)
