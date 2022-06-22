@@ -1,11 +1,17 @@
 # Bionty: Manage biological entities
 
-_Call the same things the same names._
+A performant & typed API for interacting with biological entities.
 
-A performant & typed API for interacting with biological entities. It features auto-complete and unambiguously maps scientific standards.
+Normalize metadata against established scientific standards with ease.
 
-- Standardize & organize data with biological entities as the frame of reference.
-- Make data queries more intuitive and data science more robust.
+Current backends:
+
+- Gene: HGNC, Ensemble, biomart, mygene.
+- Protein: Uniprot, Chembl, Drugbank, PDB, Ensemble.
+- Species: Ensemble, NCBI Taxon.
+- Tissue: Uberon.
+- Disease: Mondo.
+- Cell type: Cell ontology.
 
 ```{Note}
 
@@ -13,8 +19,6 @@ A performant & typed API for interacting with biological entities. It features a
 - More complex queries of relationships among entities are on the roadmap.
 - Eventually, we hope that an open API will enable collaborative data science across organizations at scale.
 ```
-
----
 
 Install:
 
