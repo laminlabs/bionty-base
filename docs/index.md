@@ -6,12 +6,12 @@ Normalize metadata against established scientific standards with ease.
 
 Current backends:
 
-- Gene: HGNC, Ensemble, biomart, mygene.
-- Protein: Uniprot, Chembl, Drugbank, PDB, Ensemble.
-- Species: Ensemble, NCBI Taxon.
-- Tissue: Uberon.
-- Disease: Mondo.
-- Cell type: Cell ontology.
+- Gene: [HGNC](https://www.genenames.org/), [VGNC](https://vertebrate.genenames.org/), [Ensembl](https://ensembl.org/), [biomart](https://ensembl.org/info/data/biomart/), [mygene](https://mygene.info/).
+- Protein: [Uniprot](https://www.uniprot.org/), [Chembl](https://www.ebi.ac.uk/chembl/), [Drugbank](https://go.drugbank.com/), [PDB](http://www.wwpdb.org/).
+- Species: [Ensembl](https://useast.ensembl.org/info/about/species.html), [NCBI Taxonomy](https://www.ncbi.nlm.nih.gov/taxonomy/).
+- Tissue: [Uberon](http://obophenotype.github.io/uberon/).
+- Disease: [Mondo](https://mondo.monarchinitiative.org/).
+- Cell type: [Cell Ontology](https://obophenotype.github.io/cell-ontology/).
 
 ```{Note}
 
