@@ -1,2 +1,2 @@
-from .object import Gene
+from .main import Gene
 from ._query import Biomart, Mygene

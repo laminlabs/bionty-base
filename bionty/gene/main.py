@@ -4,13 +4,34 @@ from typing import Iterable, Literal, Optional
 
 import pandas as pd
 
+from .._io import loads_pickle
+from .._models import BaseModel, create_model
 from .._normalize import NormalizeColumns
-from .._settings import check_datasetdir_exists, format_into_dataframe, settings
+from .._settings import (
+    check_datasetdir_exists,
+    check_dynamicdir_exists,
+    format_into_dataframe,
+    settings,
+)
 from ..species import Species as SP
 from ._query import Biomart, Mygene
 
 _IDs = Literal["ensembl.gene_id", "entrez.gene_id"]
 _HGNC = "http://ftp.ebi.ac.uk/pub/databases/genenames/hgnc/tsv/hgnc_complete_set.txt"
+
+GeneData = create_model("GeneData", __module__=__name__)
+
+
+class Entry(BaseModel):
+    hgnc_symbol: str
+    hgnc_id: str
+    name: str
+    locus_group: str
+    alias_symbol: str
+    location: str
+    entrez_gene_id: str
+    ensembl_gene_id: str
+    uniprot_ids: str
 
 
 class Gene:
@@ -23,6 +44,9 @@ class Gene:
 
     def __init__(self, species="human", biomart=False):
         self._species = SP(common_name=species)
+        self._dataclasspath = (
+            settings.dynamicdir / f"genedata_{self.species.std_name}.pkl"
+        )
         self._ref = None
         self._biomart = biomart
 
@@ -42,16 +66,53 @@ class Gene:
         ATTR_DICT = {"human": ["hgnc_id", "hgnc_symbol"], "mouse": ["mgi_symbol"]}
         return list(typing.get_args(_IDs)) + ATTR_DICT[self.species.std_name]
 
+    @property
+    def dataclasspath(self):
+        """Path to the picked dataclass."""
+        return self._dataclasspath
+
+    @property
+    def biomart(self):
+        """Whether to pull reference via the biomart API."""
+        return self._biomart
+
     @cached_property
     def reference(self):
         """Gene reference table."""
         self._pull_ref()
         return self._ref
 
-    @property
-    def biomart(self):
-        """Whether to pull reference via the biomart API."""
-        return self._biomart
+    @cached_property
+    def dataclass(self):
+        return self.load_dataclass()
+
+    @check_dynamicdir_exists
+    def load_dataclass(self):
+        """Pydantic data class of genes."""
+        if not self.dataclasspath.exists():
+            import pickle
+
+            from .._io import write_pickle
+
+            model = self.create_data_model()
+            write_pickle(pickle.dumps(model()), self.dataclasspath)
+
+        return loads_pickle(self.dataclasspath)
+
+    def create_data_model(self):
+        """Create the gene data model with pydantic."""
+        df = self.reference.fillna("")
+        df.columns = df.columns.str.replace(".", "_", regex=True)
+        df["entrez_gene_id"] = (
+            df["entrez_gene_id"].astype(str).str.replace(".0", "", regex=False)
+        )
+        df = df.loc[:, df.columns.isin(Entry.__annotations__.keys())].copy()
+        for i in df.index:
+            entry = {}
+            entry.update({col: df.loc[i][col] for col in df.columns})
+            GeneData.add_fields(**{df.loc[i][self.std_id]: (Entry, Entry(**entry))})
+
+        return GeneData
 
     @format_into_dataframe
     def standardize(
