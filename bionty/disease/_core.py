@@ -35,7 +35,7 @@ class Disease(Ontology):
         }
 
     @check_dynamicdir_exists
-    def data_class(self):
+    def dataclass(self):
         """Pydantic data class of diseases."""
         if not self.filepath.exists():
             import pickle
