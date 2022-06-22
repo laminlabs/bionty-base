@@ -1,6 +1,6 @@
 from functools import cached_property
 
-from .._io import loads_pickle, write_pickle
+from .._io import loads_pickle
 from .._models import create_model
 from .._ontology import Ontology
 from .._settings import check_dynamicdir_exists, settings
@@ -39,6 +39,8 @@ class Disease(Ontology):
         """Pydantic data class of diseases."""
         if not self.filepath.exists():
             import pickle
+
+            from .._io import write_pickle
 
             DiseaseData.add_fields(**Disease().onto_dict)
             write_pickle(pickle.dumps(DiseaseData()), self.filepath)
