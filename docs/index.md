@@ -1,7 +1,6 @@
 # Bionty: Manage biological entities
 
 A performant & typed API for interacting with biological entities.
-
 Normalize metadata against established scientific standards with ease.
 
 Current backends:
