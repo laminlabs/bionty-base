@@ -19,6 +19,7 @@ dependencies = [
     "httpx",
     "nest_asyncio",
     "syncer",
+    "orjson",
 ]
 
 [project.urls]
