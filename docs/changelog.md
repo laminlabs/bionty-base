@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-:bug: Fix disease class | [65](https://github.com/laminlabs/bionty/pull/65) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-22 |
+⚡ Implemented pickling of dataclasses, refactored static class into `.dataclass` | [65](https://github.com/laminlabs/bionty/pull/65) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-22 | 0.1a3
 🚚 Renamed Celltype to CellType, fixed gene Entry fields | [62](https://github.com/laminlabs/bionty/pull/62) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-17 | 0.1a2
 📝 Rewrite landing page and rename tasks | [61](https://github.com/laminlabs/bionty/pull/61) | [falexwolf](https://github.com/falexwolf) | 2022-06-17 |
 ✨ Added static class `gene` | [59](https://github.com/laminlabs/bionty/pull/59) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-16 |

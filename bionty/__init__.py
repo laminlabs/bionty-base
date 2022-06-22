@@ -36,7 +36,7 @@ Entity collections: static classes of entities.
 
 from . import _version
 
-__version__ = "0.1a2"
+__version__ = "0.1a3"
 
 
 # dynamic classes
