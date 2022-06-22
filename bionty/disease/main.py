@@ -35,15 +35,19 @@ class Disease(Ontology):
             if k.startswith("MONDO") & len(v.label) > 0
         }
 
-    @check_dynamicdir_exists
+    @cached_property
     def dataclass(self):
+        return self.load_dataclass()
+
+    @check_dynamicdir_exists
+    def load_dataclass(self):
         """Pydantic data class of diseases."""
         if not self.dataclasspath.exists():
             import pickle
 
             from .._io import write_pickle
 
-            DiseaseData.add_fields(**Disease().onto_dict)
+            DiseaseData.add_fields(**self.onto_dict)
             write_pickle(pickle.dumps(DiseaseData()), self.dataclasspath)
 
         return loads_pickle(self.dataclasspath)
