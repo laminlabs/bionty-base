@@ -84,22 +84,22 @@ class Gene:
 
     @cached_property
     def dataclass(self):
-        return self.load_dataclass()
+        return self._load_dataclass()
 
     @check_dynamicdir_exists
-    def load_dataclass(self):
+    def _load_dataclass(self):
         """Pydantic data class of genes."""
         if not self.dataclasspath.exists():
             import pickle
 
             from .._io import write_pickle
 
-            model = self.create_data_model()
+            model = self._create_data_model()
             write_pickle(pickle.dumps(model()), self.dataclasspath)
 
         return loads_pickle(self.dataclasspath)
 
-    def create_data_model(self):
+    def _create_data_model(self):
         """Create the gene data model with pydantic."""
         df = self.reference.fillna("")
         df.columns = df.columns.str.replace(".", "_", regex=True)
