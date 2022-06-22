@@ -58,6 +58,7 @@ class Species:
 
     @cached_property
     def dataclass(self):
+        """Pydantic dataclass of species."""
         return self._load_dataclass()
 
     def search(self, field: str):
@@ -80,7 +81,7 @@ class Species:
 
     @check_dynamicdir_exists
     def _load_dataclass(self):
-        """Pydantic data class of genes."""
+        """Loading dataclass from the pickle file."""
         if not self.dataclasspath.exists():
             import pickle
 

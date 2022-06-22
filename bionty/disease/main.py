@@ -37,11 +37,12 @@ class Disease(Ontology):
 
     @cached_property
     def dataclass(self):
+        """Pydantic dataclass of diseases."""
         return self._load_dataclass()
 
     @check_dynamicdir_exists
     def _load_dataclass(self):
-        """Pydantic data class of diseases."""
+        """Loading dataclass from the pickle file."""
         if not self.dataclasspath.exists():
             import pickle
 

@@ -84,11 +84,12 @@ class Gene:
 
     @cached_property
     def dataclass(self):
+        """Pydantic dataclass of genes."""
         return self._load_dataclass()
 
     @check_dynamicdir_exists
     def _load_dataclass(self):
-        """Pydantic data class of genes."""
+        """Loading dataclass from the pickle file."""
         if not self.dataclasspath.exists():
             import pickle
 
