@@ -4,22 +4,22 @@ from .._io import loads_pickle
 from .._models import create_model
 from .._ontology import Ontology
 from .._settings import check_dynamicdir_exists, settings
-from .._urls import OBO_UBERON_OWL
+from .._urls import OBO_CL_OWL
 
-TissueData = create_model("TissueData", __module__=__name__)
+CellTypeData = create_model("CellTypeData", __module__=__name__)
 
 
-class Tissue(Ontology):
-    """Tissue bioentity.
+class CellType(Ontology):
+    """Cell type bioentity.
 
     Edits of terms are coordinated and reviewed on:
-    https://github.com/obophenotype/uberon
+    https://github.com/obophenotype/cell-ontology
     """
 
     def __init__(self) -> None:
-        self._dataclasspath = settings.dynamicdir / "tissuedataclass.pkl"
+        self._dataclasspath = settings.dynamicdir / "celltypedataclass.pkl"
         if not self.dataclasspath.exists():
-            super().__init__(base_iri=OBO_UBERON_OWL, load=True)
+            super().__init__(base_iri=OBO_CL_OWL, load=True)
 
     @property
     def dataclasspath(self):
@@ -37,7 +37,7 @@ class Tissue(Ontology):
 
     @cached_property
     def dataclass(self):
-        """Pydantic dataclass of tissues."""
+        """Pydantic dataclass of cell types."""
         return self._load_dataclass()
 
     @check_dynamicdir_exists
@@ -48,7 +48,7 @@ class Tissue(Ontology):
 
             from .._io import write_pickle
 
-            TissueData.add_fields(**self.onto_dict)
-            write_pickle(pickle.dumps(TissueData()), self.dataclasspath)
+            CellTypeData.add_fields(**self.onto_dict)
+            write_pickle(pickle.dumps(CellTypeData()), self.dataclasspath)
 
         return loads_pickle(self.dataclasspath)

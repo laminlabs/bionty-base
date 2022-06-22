@@ -40,7 +40,7 @@ class Species:
     @property
     def std_id(self):
         """common_name is the standardized id for species."""
-        return "display_name"
+        return "common_name"
 
     @property
     def std_name(self):
@@ -58,6 +58,7 @@ class Species:
 
     @cached_property
     def dataclass(self):
+        """Pydantic dataclass of species."""
         return self._load_dataclass()
 
     def search(self, field: str):
@@ -80,7 +81,7 @@ class Species:
 
     @check_dynamicdir_exists
     def _load_dataclass(self):
-        """Pydantic data class of genes."""
+        """Loading dataclass from the pickle file."""
         if not self.dataclasspath.exists():
             import pickle
 
@@ -97,6 +98,8 @@ class Species:
         for i in df.index:
             entry = {}
             entry.update({col: df.loc[i][col] for col in df.columns})
-            SpeciesData.add_fields(**{df.loc[i][self.std_id]: (Entry, Entry(**entry))})
+            SpeciesData.add_fields(
+                **{df.loc[i]["display_name"]: (Entry, Entry(**entry))}
+            )
 
         return SpeciesData
