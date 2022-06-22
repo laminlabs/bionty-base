@@ -23,6 +23,7 @@ class Disease(Ontology):
 
     @property
     def dataclasspath(self):
+        """Path to the picked dataclass."""
         return self._dataclasspath
 
     @cached_property
