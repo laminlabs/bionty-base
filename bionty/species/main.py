@@ -40,7 +40,7 @@ class Species:
     @property
     def std_id(self):
         """common_name is the standardized id for species."""
-        return "display_name"
+        return "common_name"
 
     @property
     def std_name(self):
