@@ -113,3 +113,4 @@ docs/generated/*
 **/notes/
 docs/bionty.*
 _dynamic/
+docs/tutorial/.ipynb_checkpoints/
