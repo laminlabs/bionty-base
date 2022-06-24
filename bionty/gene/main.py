@@ -279,7 +279,7 @@ class Gene:
             print("retrieving HUGO complete gene set from EBI")
             from urllib.request import urlretrieve
 
-            urlretrieve(_HGNC, filepath)
+            print(urlretrieve(_HGNC, filepath))
         df = pd.read_csv(
             filepath,
             sep="\t",
