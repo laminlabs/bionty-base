@@ -276,6 +276,7 @@ class Gene:
 
         filepath = settings.datasetdir / "hgnc_complete_set.txt"
         if not filepath.exists():
+            print("retrieving HUGO complete gene set from EBI")
             from urllib.request import urlretrieve
 
             urlretrieve(_HGNC, filepath)
