@@ -25,7 +25,7 @@ def build(session):
     session.run("lndocs")
 
 
-@nox.session
+@nox.session(python="3.9")
 def tests(session):
     session.install("pytest")
     session.run("pytest")
