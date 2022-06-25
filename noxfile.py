@@ -27,6 +27,7 @@ def build(session):
 
 @nox.session(python="3.9")
 def tests(session):
+    session.install("pytest")
     session.run("pytest")
     # Here we queue up the test coverage session to run next
     session.notify("coverage")
