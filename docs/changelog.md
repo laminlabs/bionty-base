@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+💄 Added badges for build, codecov, pypi, pre-commit  | [75](https://github.com/laminlabs/bionty/pull/75) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-25 |
 🦡 Added badges for build, codecov, pypi, pre-commit | [74](https://github.com/laminlabs/bionty/pull/74) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-25 |
 :construction_worker: Added Codecov to the build.yml | [73](https://github.com/laminlabs/bionty/pull/73) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-25 |
 📝 Iterate quickstart for better readability | [71](https://github.com/laminlabs/bionty/pull/71) | [falexwolf](https://github.com/falexwolf) | 2022-06-24 |
