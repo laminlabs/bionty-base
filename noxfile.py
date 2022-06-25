@@ -28,6 +28,7 @@ def build(session):
 
 @nox.session
 def coverage(session):
+    session.install(".[dev,test]")
     session.install("coverage")
     session.run("coverage", "run", "-m", "pytest", "tests")
     session.run("coverage", "combine")
