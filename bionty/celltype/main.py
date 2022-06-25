@@ -16,10 +16,10 @@ class CellType(Ontology):
     https://github.com/obophenotype/cell-ontology
     """
 
-    def __init__(self) -> None:
+    def __init__(self, reload=False) -> None:
         self._dataclasspath = settings.dynamicdir / "celltypedataclass.pkl"
         self._onto = None
-        if not self.dataclasspath.exists():
+        if (not self.dataclasspath.exists()) | reload:
             super().__init__(base_iri=OBO_CL_OWL, load=True)
 
     @property
@@ -28,18 +28,21 @@ class CellType(Ontology):
         return self._dataclasspath
 
     @cached_property
-    def onto_dict(self) -> dict:
-        """Keyed by name, valued by label."""
-        return {
-            v.name: v.label[0]
-            for k, v in self.classes.items()
-            if k.startswith("CL") & len(v.label) > 0
-        }
-
-    @cached_property
     def dataclass(self):
         """Pydantic dataclass of cell types."""
         return self._load_dataclass()
+
+    @cached_property
+    def onto_dict(self) -> dict:
+        """Keyed by name, valued by label."""
+        if self.onto is None:
+            return self.dataclass.__dict__
+        else:
+            return {
+                v.name: v.label[0]
+                for k, v in self.classes.items()
+                if k.startswith("CL") & len(v.label) > 0
+            }
 
     @check_dynamicdir_exists
     def _load_dataclass(self):
