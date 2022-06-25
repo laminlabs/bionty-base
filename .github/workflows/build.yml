@@ -49,9 +49,6 @@ jobs:
       - name: Build
         run: |
           nox -s build --python ${{ matrix.python-version }}
-      - name: Tests
-        run: |
-          nox -s tests --python ${{ matrix.python-version }}
       - name: Read lamin-project.yaml
         id: lamin-project
         uses: CumulusDS/get-yaml-paths-action@v0.1.0
