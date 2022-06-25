@@ -1,6 +1,6 @@
 # Bionty: Manage biological entities
 
-[![CI](https://github.com/samuelcolvin/pydantic/workflows/build/badge.svg?event=push)](https://github.com/laminlabs/bionty/actions?query=event%3Apush+branch%3Amain+workflow%3Abuild)
+[![CI](https://github.com/laminlabs/bionty/workflows/build/badge.svg?event=push)](https://github.com/laminlabs/bionty/actions?query=event%3Apush+branch%3Amain+workflow%3Abuild)
 [![Coverage](https://codecov.io/gh/laminlabs/bionty/branch/main/graph/badge.svg?token=8292E0S0Z7)](https://codecov.io/gh/laminlabs/bionty)
 [![pypi](https://img.shields.io/pypi/v/bionty?color=%2334D058&label=pypi%20package)](https://pypi.org/project/bionty)
 
