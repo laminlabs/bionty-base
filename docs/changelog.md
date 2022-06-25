@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+:construction_worker: Added Codecov to the build.yml | [73](https://github.com/laminlabs/bionty/pull/73) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-25 |
 📝 Iterate quickstart for better readability | [71](https://github.com/laminlabs/bionty/pull/71) | [falexwolf](https://github.com/falexwolf) | 2022-06-24 |
 💥 Improved quickstart, implemented .dataclass everywhere | [67](https://github.com/laminlabs/bionty/pull/67) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-22 | 0.1.0
 🔥 Remove versioneer | [66](https://github.com/laminlabs/bionty/pull/66) | [falexwolf](https://github.com/falexwolf) | 2022-06-22 |
