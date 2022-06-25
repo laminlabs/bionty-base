@@ -31,6 +31,5 @@ def coverage(session):
     session.install(".[dev,test]")
     session.install("coverage")
     session.run("coverage", "run", "-m", "pytest", "tests")
-    session.run("coverage", "combine")
     session.run("coverage", "report", "--show-missing")
     session.run("coverage", "xml")
