@@ -18,6 +18,7 @@ class CellType(Ontology):
 
     def __init__(self) -> None:
         self._dataclasspath = settings.dynamicdir / "celltypedataclass.pkl"
+        self._onto = None
         if not self.dataclasspath.exists():
             super().__init__(base_iri=OBO_CL_OWL, load=True)
 
