@@ -16,9 +16,10 @@ class Tissue(Ontology):
     https://github.com/obophenotype/uberon
     """
 
-    def __init__(self) -> None:
+    def __init__(self, reload: bool = False) -> None:
         self._dataclasspath = settings.dynamicdir / "tissuedataclass.pkl"
-        if not self.dataclasspath.exists():
+        self._onto = None
+        if (not self.dataclasspath.exists()) | reload:
             super().__init__(base_iri=OBO_UBERON_OWL, load=True)
 
     @property
