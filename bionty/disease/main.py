@@ -16,9 +16,10 @@ class Disease(Ontology):
     https://github.com/monarch-initiative/mondo
     """
 
-    def __init__(self) -> None:
+    def __init__(self, reload: bool = False) -> None:
         self._dataclasspath = settings.dynamicdir / "diseasedata.pkl"
-        if not self.dataclasspath.exists():
+        self._onto = None
+        if (not self.dataclasspath.exists()) | reload:
             super().__init__(base_iri=OBO_MONDO_OWL, load=True)
 
     @property

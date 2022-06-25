@@ -16,7 +16,7 @@ class CellType(Ontology):
     https://github.com/obophenotype/cell-ontology
     """
 
-    def __init__(self, reload=False) -> None:
+    def __init__(self, reload: bool = False) -> None:
         self._dataclasspath = settings.dynamicdir / "celltypedataclass.pkl"
         self._onto = None
         if (not self.dataclasspath.exists()) | reload:
