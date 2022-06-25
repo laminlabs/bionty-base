@@ -23,17 +23,13 @@ def build(session):
     prefix = "." if Path("./lndocs").exists() else ".."
     session.install(f"{prefix}/lndocs")
     session.run("lndocs")
-
-
-@nox.session(python="3.9")
-def tests(session):
-    session.install("pytest")
-    session.run("pytest")
-    # Here we queue up the test coverage session to run next
     session.notify("coverage")
 
 
 @nox.session
 def coverage(session):
     session.install("coverage")
-    session.run("coverage")
+    session.run("coverage", "run", "-m", "pytest", "tests")
+    session.run("coverage", "combine")
+    session.run("coverage", "report", "--show-missing")
+    session.run("coverage", "xml")
