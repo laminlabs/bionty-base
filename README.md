@@ -10,6 +10,9 @@
 <a href="https://pypi.org/project/bionty" target="_blank">
     <img src="https://img.shields.io/pypi/v/bionty?color=%2334D058&label=pypi%20package" alt="Package version">
 </a>
+<a href="https://results.pre-commit.ci/latest/github/laminlabs/bionty/main?badge_token=jbFh1UonQsefV5z2fBJUsQ" target="_blank">
+    <img src="https://results.pre-commit.ci/badge/github/laminlabs/bionty/main.svg?badge_token=jbFh1UonQsefV5z2fBJUsQ" alt="pre-commit.ci status">
+</a>
 </p>
 
 This package is in private beta at this moment!
