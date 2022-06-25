@@ -44,9 +44,6 @@ bionty = "bionty.__main__:main"
 preview = true
 
 [tool.pytest.ini_options]
-pythonpath = [
-  "."
-]
 testpaths = [
     "tests",
     "docs/guides",
