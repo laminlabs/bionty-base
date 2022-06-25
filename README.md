@@ -1,8 +1,8 @@
 # Bionty: Manage biological entities
 
 <p align="center">
-<a href="https://github.com/laminlabs/bionty/actions?query=workflow%3ABuild" target="_blank">
-    <img src="https://github.com/laminlabs/bionty/workflows/Test/badge.svg" alt="Build">
+<a href="https://github.com/laminlabs/bionty/actions?query=workflow%3Abuild" target="_blank">
+    <img src="https://github.com/laminlabs/bionty/workflows/build/badge.svg" alt="Build">
 </a>
 <a href="https://codecov.io/gh/laminlabs/bionty" target="_blank">
     <img src="https://codecov.io/gh/laminlabs/bionty/branch/main/graph/badge.svg?token=8292E0S0Z7"/>
