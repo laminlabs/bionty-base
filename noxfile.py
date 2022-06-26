@@ -17,7 +17,7 @@ def build(session):
     session.install(".[dev,test]")
     session.run(
         "pytest",
-        "--cov=./",
+        "--cov",
         "--cov-append",
         "--cov-report=term-missing",
         "--cov-report=xml",
