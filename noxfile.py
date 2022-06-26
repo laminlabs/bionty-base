@@ -18,12 +18,12 @@ def build(session):
     session.run(
         "pytest",
         "--nbmake",
+        "--cov",
         "--overwrite",
     )  # write output instead of capturing it (more verbose)
     prefix = "." if Path("./lndocs").exists() else ".."
     session.install(f"{prefix}/lndocs")
     session.run("lndocs")
     session.install("coverage")
-    session.run("coverage", "run", "-m", "pytest", "--nbmake", "--cov")
-    session.run("coverage", "report", "--show-missing")
-    session.run("coverage", "xml")
+    session.run("coverage", "report", "-i", "--show-missing")
+    session.run("coverage", "xml", "-i")
