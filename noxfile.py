@@ -24,6 +24,6 @@ def build(session):
     session.install(f"{prefix}/lndocs")
     session.run("lndocs")
     session.install("coverage")
-    session.run("coverage", "run", "-m", "pytest", "tests")
+    session.run("coverage", "run", "-m", "pytest", "--nbmake", "--cov")
     session.run("coverage", "report", "--show-missing")
     session.run("coverage", "xml")
