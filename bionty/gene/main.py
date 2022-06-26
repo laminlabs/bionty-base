@@ -17,7 +17,7 @@ from ..species import Species
 from ._query import Biomart, Mygene
 
 _IDs = Literal["ensembl.gene_id", "entrez.gene_id"]
-_HGNC = "http://ftp.ebi.ac.uk/pub/databases/genenames/hgnc/tsv/hgnc_complete_set.txt"
+_HGNC = "https://bionty-assets.s3.amazonaws.com/hgnc_complete_set.txt"
 
 GeneData = create_model("GeneData", __module__=__name__)
 
