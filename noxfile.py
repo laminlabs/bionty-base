@@ -18,7 +18,11 @@ def build(session):
     session.run(
         "pytest",
         "--cov=./",
+        "--cov-append",
+        "--cov-report=term-missing",
         "--cov-report=xml",
+        "--nbmake",
+        "--overwrite",
     )
     prefix = "." if Path("./lndocs").exists() else ".."
     session.install(f"{prefix}/lndocs")
