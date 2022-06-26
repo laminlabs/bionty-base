@@ -33,7 +33,6 @@ dev = [
 test = [
     "pytest>=6.0",
     "pytest-cov",
-    "coverage",
     "nbmake",
     "scanpy",
     "biomart",
