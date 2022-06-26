@@ -26,4 +26,4 @@ def build(session):
     session.run("lndocs")
     session.install("coverage")
     session.run("coverage", "report", "-i", "--show-missing")
-    session.run("coverage", "xml")
+    session.run("coverage", "xml", "-i")
