@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🚸 Replace HGNC file access with our S3 bucket | [79](https://github.com/laminlabs/bionty/pull/79) | [falexwolf](https://github.com/falexwolf) | 2022-06-26 |
 ✅ Added disease and tissue to quickstart | [78](https://github.com/laminlabs/bionty/pull/78) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-26 |
 👷 Update coverage setup | [77](https://github.com/laminlabs/bionty/pull/77) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-26 |
 ✅ Collect coverage from test nbs | [76](https://github.com/laminlabs/bionty/pull/76) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-26 |
