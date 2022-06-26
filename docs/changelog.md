@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+👷 Update coverage setup | [77](https://github.com/laminlabs/bionty/pull/77) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-26 |
 ✅ Collect coverage from test nbs | [76](https://github.com/laminlabs/bionty/pull/76) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-26 |
 💄 Added badges for build, codecov, pypi, pre-commit  | [75](https://github.com/laminlabs/bionty/pull/75) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-25 |
 👷 Added Codecov to the build.yml | [73](https://github.com/laminlabs/bionty/pull/73) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-25 |
