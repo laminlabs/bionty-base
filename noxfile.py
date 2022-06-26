@@ -15,10 +15,15 @@ def lint(session: nox.Session) -> None:
 @nox.session(python=["3.9"])
 def build(session):
     session.install(".[dev,test]")
-    session.run("pytest", "--nbmake", "--cov")
+    session.run(
+        "pytest",
+        "--cov=bionty",
+        "--cov-append",
+        "--cov-report=term-missing",
+        "--nbmake",
+        "--overwrite",
+    )
+    session.run("coverage", "xml")
     prefix = "." if Path("./lndocs").exists() else ".."
     session.install(f"{prefix}/lndocs")
     session.run("lndocs")
-    session.install("coverage")
-    session.run("coverage", "report", "-i", "--show-missing")
-    session.run("coverage", "xml", "-i")

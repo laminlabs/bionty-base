@@ -1,4 +1,7 @@
-# Bionty: Manage biological entities
+```{include} ../README.md
+:start-line: 0
+:end-line: 4
+```
 
 A performant & typed API for interacting with biological entities.
 Normalize metadata against established scientific standards with ease.
@@ -39,7 +42,7 @@ Get started:
 
 tutorial/index
 guides/index
-api
 examples/index
+api
 changelog
 ```

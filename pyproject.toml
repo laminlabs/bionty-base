@@ -33,7 +33,6 @@ dev = [
 test = [
     "pytest>=6.0",
     "pytest-cov",
-    "coverage",
     "nbmake",
     "scanpy",
     "biomart",
@@ -50,4 +49,9 @@ testpaths = [
     "tests",
     "docs/guides",
     "docs/tutorial",
+]
+
+[tool.coverage.run]
+omit = [
+    "bionty/*",
 ]
