@@ -39,6 +39,7 @@ Get started:
 
 tutorial/index
 guides/index
+examples/index
 api
 changelog
 ```
