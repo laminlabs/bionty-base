@@ -20,10 +20,10 @@ def build(session):
         "--cov=bionty",
         "--cov-append",
         "--cov-report=term-missing",
-        "--cov-report=xml",
         "--nbmake",
         "--overwrite",
     )
+    session.run("coverage", "xml")
     prefix = "." if Path("./lndocs").exists() else ".."
     session.install(f"{prefix}/lndocs")
     session.run("lndocs")
