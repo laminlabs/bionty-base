@@ -40,6 +40,5 @@ Get started:
 tutorial/index
 guides/index
 api
-examples/index
 changelog
 ```
