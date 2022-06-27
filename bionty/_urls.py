@@ -23,5 +23,5 @@ HGNC_REST_EXT = Namespace(INFO="info", FETCH="fetch/", SEARCH="search/")
 OBO = "http://purl.obolibrary.org/obo/"
 OBO_CL = OBO + "cl/cl-simple.obo"
 OBO_CL_OWL = OBO + "cl/cl-simple.owl"
-OBO_MONDO_OWL = OBO + "mondo/mondo-base.owl"
+OBO_MONDO_OWL = "https://bionty-assets.s3.amazonaws.com/mondo-base.owl"
 OBO_UBERON_OWL = OBO + "uberon/uberon-base.owl"

@@ -1,15 +1,14 @@
 from functools import cached_property
+from urllib.request import urlretrieve
 
-from .._io import loads_pickle
+from .._io import loads_pickle, read_json
 from .._models import create_model
-from .._ontology import Ontology
 from .._settings import check_dynamicdir_exists, settings
-from .._urls import OBO_MONDO_OWL
 
 DiseaseData = create_model("DiseaseData", __module__=__name__)
 
 
-class Disease(Ontology):
+class Disease:
     """Disease bioentity.
 
     Edits of terms are coordinated and reviewed on:
@@ -18,9 +17,10 @@ class Disease(Ontology):
 
     def __init__(self, reload: bool = False) -> None:
         self._dataclasspath = settings.dynamicdir / "diseasedata.pkl"
-        self._onto = None
-        if (not self.dataclasspath.exists()) | reload:
-            super().__init__(base_iri=OBO_MONDO_OWL, load=True)
+        filename, _ = urlretrieve(
+            "https://bionty-assets.s3.amazonaws.com/mondo-base.json"
+        )
+        self._onto_dict = read_json(filename)
 
     @property
     def dataclasspath(self):
@@ -30,11 +30,7 @@ class Disease(Ontology):
     @cached_property
     def onto_dict(self) -> dict:
         """Keyed by name, valued by label."""
-        return {
-            v.name: v.label[0]
-            for k, v in self.classes.items()
-            if k.startswith("MONDO") & len(v.label) > 0
-        }
+        return self._onto_dict
 
     @cached_property
     def dataclass(self):
