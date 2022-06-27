@@ -1,10 +1,10 @@
 from functools import cached_property
+from urllib.request import urlretrieve
 
-from .._io import loads_pickle
+from .._io import loads_pickle, read_json
 from .._models import create_model
 from .._ontology import Ontology
 from .._settings import check_dynamicdir_exists, settings
-from .._urls import OBO_CL_OWL
 
 CellTypeData = create_model("CellTypeData", __module__=__name__)
 
@@ -18,9 +18,10 @@ class CellType(Ontology):
 
     def __init__(self, reload: bool = False) -> None:
         self._dataclasspath = settings.dynamicdir / "celltypedataclass.pkl"
-        self._onto = None
-        if (not self.dataclasspath.exists()) | reload:
-            super().__init__(base_iri=OBO_CL_OWL, load=True)
+        filename, _ = urlretrieve(
+            "https://bionty-assets.s3.amazonaws.com/cl-simple.json"
+        )
+        self._onto_dict = read_json(filename)
 
     @property
     def dataclasspath(self):
@@ -35,14 +36,8 @@ class CellType(Ontology):
     @cached_property
     def onto_dict(self) -> dict:
         """Keyed by name, valued by label."""
-        if self.onto is None:
-            return self.dataclass.__dict__
-        else:
-            return {
-                v.name: v.label[0]
-                for k, v in self.classes.items()
-                if k.startswith("CL") & len(v.label) > 0
-            }
+        return self._onto_dict
+
 
     @check_dynamicdir_exists
     def _load_dataclass(self):
