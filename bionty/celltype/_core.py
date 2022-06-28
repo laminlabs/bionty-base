@@ -3,13 +3,12 @@ from urllib.request import urlretrieve
 
 from .._io import loads_pickle, read_json
 from .._models import create_model
-from .._ontology import Ontology
 from .._settings import check_dynamicdir_exists, settings
 
 CellTypeData = create_model("CellTypeData", __module__=__name__)
 
 
-class CellType(Ontology):
+class CellType:
     """Cell type bioentity.
 
     Edits of terms are coordinated and reviewed on:
