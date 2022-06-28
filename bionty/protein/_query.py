@@ -4,7 +4,7 @@ import urllib.request
 
 import pandas as pd
 
-from ..species import Species as SP
+from ..species._core import Species
 
 
 class Uniprot:
@@ -36,7 +36,7 @@ class Uniprot:
         id_type_to = "ACC" if id_type_to == "UNIPROT_ID" else id_type_to
 
         # taxon id of species
-        taxon_id = SP(common_name=species).search("taxon_id")
+        taxon_id = Species().df.loc["human"].taxon_id
 
         # set up params
         params = {
