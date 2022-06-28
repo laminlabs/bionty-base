@@ -8,7 +8,6 @@ Get an intro to more entities here:
 - [tissue](tissue)
 - [disease](disease)
 
-
 ```{toctree}
 :maxdepth: 2
 :hidden:
