@@ -1,9 +1,9 @@
 from functools import cached_property
-
+from collections import namedtuple
 import pandas as pd
+from enum import Enum
 from typing import Protocol, Dict
 from pydantic import BaseModel
-from dataclasses as dataclass
 
 
 class DataClass(Protocol):
@@ -12,10 +12,9 @@ class DataClass(Protocol):
     __dataclass_fields__: Dict
 
 
-class Fields(str, Enum):
-    field1: "field1"
-    field2: "field2"   
-
+class Field(str, Enum):
+    field1 = "field1"
+    field2 = "field2"
 
 
 class Table:
@@ -24,7 +23,7 @@ class Table:
     See :doc:`tutorial/index` for background.
     """
 
-    def __init__(id: Field = Fields.field1):
+    def __init__(id: Field = Field.field1):
         self._id_field = id
 
     @cached_property

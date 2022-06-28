@@ -1,13 +1,14 @@
 from pathlib import Path
 from enum import Enum
 from functools import cached_property
+from collections import namedtuple
 import pandas as pd
 
 HERE = Path(__file__).parent
 SPECIES_FILENAME = HERE / "tables/Species.csv"
 
 
-class Fields(str, Enum):
+class Field(str, Enum):
     "Species field names."
     common_name = "common_name"
     scientific_name = "scientific_name"
@@ -22,7 +23,7 @@ class Species:
             value. It will also be the primary key in the corresponding SQL table.
     """
 
-    def __init__(self, id: Fields = Fields.common_name):
+    def __init__(self, id: Field = Field.common_name):
         self._id_field = id
 
     @cached_property
@@ -36,10 +37,16 @@ class Species:
         # we'll drop the display name as it's redundant with common_name
         df = df.drop("display_name", axis=1)
         # we'll lower case and _ concat the common name
-        df.common_name = df.common_name.str.replace(" ", "_").str.lower()
+        df.common_name = df.common_name.str.replace(" ", "_").str.lower().str.replace("'", "").str.replace("-", "_").str.replace(".", "_").str.replace("(", "").str.replace(")", "")  # noqa
         # we'll also drop nan as otherwise accession will raise a warning/error
         # there is a very small number of accession numbers that are nan
         df = df.dropna()
         # let's now do a groupby to get a unique index
         df = df.groupby(self._id_field).agg(", ".join)
         return df
+
+    @cached_property
+    def lookup(self):
+        """Lookup object for auto-complete."""
+        values = self.df.index.to_list()
+        return namedtuple("id", values)
