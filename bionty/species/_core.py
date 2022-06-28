@@ -5,6 +5,8 @@ from pathlib import Path
 
 import pandas as pd
 
+from .._table import Table
+
 HERE = Path(__file__).parent
 SPECIES_FILENAME = HERE / "tables/Species.csv"
 
@@ -17,7 +19,7 @@ class Field(str, Enum):
     taxon_id = "taxon_id"
 
 
-class Species:
+class Species(Table):
     """Species.
 
     Args:
@@ -26,7 +28,7 @@ class Species:
     """
 
     def __init__(self, id: Field = Field.common_name):
-        self._id_field = id
+        self._id_field: Field = id  # type: ignore
 
     @cached_property
     def df(self) -> pd.DataFrame:

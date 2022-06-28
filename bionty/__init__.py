@@ -11,7 +11,6 @@ Base models: base entity managers.
 .. autosummary::
    :toctree: .
 
-   Ontology
    Table
 
 Entity classes: dynamic classes of entities.
@@ -19,12 +18,10 @@ Entity classes: dynamic classes of entities.
 .. autosummary::
    :toctree: .
 
+   Species
+   Gene
    CellType
    Disease
-   Gene
-   Protein
-   Species
-   Tissue
 
 """
 
@@ -33,13 +30,10 @@ __version__ = "0.1.0"
 
 # dynamic classes
 from .gene import Gene
-from .protein import Protein
 from .species import Species
 from .celltype import CellType
 from .disease import Disease
-from .tissue import Tissue
 
 # tools
 from ._normalize import NormalizeColumns
-from ._ontology import Ontology
 from ._table import Table
