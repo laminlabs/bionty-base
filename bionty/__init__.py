@@ -18,10 +18,10 @@ Entity classes: dynamic classes of entities.
 .. autosummary::
    :toctree: .
 
+   Species
+   Gene
    CellType
    Disease
-   Gene
-   Species
 
 """
 

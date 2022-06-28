@@ -4,27 +4,12 @@ from typing import Literal, Optional
 
 import pandas as pd
 
-from .._models import BaseModel, create_model
 from .._normalize import NormalizeColumns
 from .._settings import check_datasetdir_exists, format_into_dataframe, settings
 from ._query import Mygene
 
 _IDs = Literal["ensembl.gene_id", "entrez.gene_id"]
 _HGNC = "https://bionty-assets.s3.amazonaws.com/hgnc_complete_set.txt"
-
-GeneData = create_model("GeneData", __module__=__name__)
-
-
-class Entry(BaseModel):
-    hgnc_symbol: str
-    hgnc_id: str
-    name: str
-    locus_group: str
-    alias_symbol: str
-    location: str
-    entrez_gene_id: str
-    ensembl_gene_id: str
-    uniprot_ids: str
 
 
 STD_ID_DICT = {"human": "hgnc_symbol", "mouse": "mgi_symbol"}
