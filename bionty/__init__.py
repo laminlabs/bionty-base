@@ -11,7 +11,6 @@ Base models: base entity managers.
 .. autosummary::
    :toctree: .
 
-   Ontology
    Table
 
 Entity classes: dynamic classes of entities.
@@ -37,5 +36,4 @@ from .disease import Disease
 
 # tools
 from ._normalize import NormalizeColumns
-from ._ontology import Ontology
 from ._table import Table
