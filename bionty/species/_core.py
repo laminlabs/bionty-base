@@ -41,5 +41,5 @@ class Species:
         # there is a very small number of accession numbers that are nan
         df = df.dropna()
         # let's now do a groupby to get a unique index
-        df = df.groupby("common_name").agg(", ".join)
+        df = df.groupby(self._id_field).agg(", ".join)
         return df
