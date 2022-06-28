@@ -1,1 +1,1 @@
-from .main import Disease
+from ._core import Disease
