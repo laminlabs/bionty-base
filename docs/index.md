@@ -3,7 +3,9 @@
 :end-line: 4
 ```
 
-A performant & typed API for interacting with biological entities.
+_Data model for biology._
+
+A performant API for interacting with biological entities.
 Normalize metadata against established scientific standards with ease.
 
 Current backends:
