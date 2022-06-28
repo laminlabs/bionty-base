@@ -10,16 +10,28 @@ class DataClass(Protocol):
     __dataclass_fields__: Dict
 
 
+class Fields(str, Enum):
+    field1: "field1"
+    field2: "field2"   
+
+
 class Table:
     """Biological entity as a table.
 
     See :doc:`tutorial/index` for background.
     """
 
+    def __init__(id: Field = Fields.field1):
+        self._id_field = id
+
     @cached_property
     def df(self) -> pd.DataFrame:
         """DataFrame represenation of table."""
         raise NotImplementedError
+
+    def lookup(self, field):
+        """Return an auto-complete object for a given field."""
+        return namedtuple(field, self.df[field])
 
     @cached_property
     def dc(self) -> DataClass:
