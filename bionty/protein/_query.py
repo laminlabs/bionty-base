@@ -26,7 +26,6 @@ class Uniprot:
         columns=None,
         species="human",
     ):
-
         # replace UNIPROT_ID with ACC.
         colnames = (
             columns.split(",") + [id_type_from, id_type_to]
