@@ -1,8 +1,9 @@
-from functools import cached_property
 from collections import namedtuple
-import pandas as pd
 from enum import Enum
-from typing import Protocol, Dict
+from functools import cached_property
+from typing import Dict, Protocol
+
+import pandas as pd
 from pydantic import BaseModel
 
 
@@ -23,12 +24,12 @@ class Table:
     See :doc:`tutorial/index` for background.
     """
 
-    def __init__(id: Field = Field.field1):
+    def __init__(self, id: Field = Field.field1):
         self._id_field = id
 
     @cached_property
     def df(self) -> pd.DataFrame:
-        """DataFrame represenation of table."""
+        """DataFrame representation of table."""  # nopep257
         raise NotImplementedError
 
     def lookup(self, field):
@@ -44,8 +45,8 @@ class Table:
     def bm(self) -> BaseModel:
         """BaseModel constructed from dataclass."""
         raise NotImplementedError
-    
-    @cached_property    
+
+    @cached_property
     def sqlm(self):
         """SQLModel constructed from BaseModel."""
         raise NotImplementedError

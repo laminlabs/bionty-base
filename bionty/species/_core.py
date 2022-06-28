@@ -1,7 +1,8 @@
-from pathlib import Path
+from collections import namedtuple
 from enum import Enum
 from functools import cached_property
-from collections import namedtuple
+from pathlib import Path
+
 import pandas as pd
 
 HERE = Path(__file__).parent
@@ -9,7 +10,8 @@ SPECIES_FILENAME = HERE / "tables/Species.csv"
 
 
 class Field(str, Enum):
-    "Species field names."
+    """Species field names."""
+
     common_name = "common_name"
     scientific_name = "scientific_name"
     taxon_id = "taxon_id"
@@ -37,7 +39,15 @@ class Species:
         # we'll drop the display name as it's redundant with common_name
         df = df.drop("display_name", axis=1)
         # we'll lower case and _ concat the common name
-        df.common_name = df.common_name.str.replace(" ", "_").str.lower().str.replace("'", "").str.replace("-", "_").str.replace(".", "_").str.replace("(", "").str.replace(")", "")  # noqa
+        df.common_name = (
+            df.common_name.str.replace(" ", "_")
+            .str.lower()
+            .str.replace("'", "")
+            .str.replace("-", "_")
+            .str.replace(".", "_")
+            .str.replace("(", "")
+            .str.replace(")", "")
+        )  # noqa
         # we'll also drop nan as otherwise accession will raise a warning/error
         # there is a very small number of accession numbers that are nan
         df = df.dropna()

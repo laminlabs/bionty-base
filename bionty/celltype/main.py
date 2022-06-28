@@ -38,7 +38,6 @@ class CellType(Ontology):
         """Keyed by name, valued by label."""
         return self._onto_dict
 
-
     @check_dynamicdir_exists
     def _load_dataclass(self):
         """Loading dataclass from the pickle file."""

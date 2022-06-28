@@ -1,21 +1,13 @@
-import typing
-from functools import cached_property
-from typing import Iterable, Literal, Optional
 from collections import namedtuple
+from functools import cached_property
+from typing import Literal, Optional
 
 import pandas as pd
 
-from .._io import loads_pickle
 from .._models import BaseModel, create_model
 from .._normalize import NormalizeColumns
-from .._settings import (
-    check_datasetdir_exists,
-    check_dynamicdir_exists,
-    format_into_dataframe,
-    settings,
-)
-from ..species import Species
-from ._query import Biomart, Mygene
+from .._settings import check_datasetdir_exists, format_into_dataframe, settings
+from ._query import Mygene
 
 _IDs = Literal["ensembl.gene_id", "entrez.gene_id"]
 _HGNC = "https://bionty-assets.s3.amazonaws.com/hgnc_complete_set.txt"
@@ -52,7 +44,7 @@ class Gene:
 
     """
 
-    def __init__(self, id = None, species="human"):
+    def __init__(self, id=None, species="human"):
         self._species = species
         self._id_field = STD_ID_DICT[species]
 
@@ -99,10 +91,7 @@ class Gene:
         if id_type is None:
             mapped_dict = self._standardize_symbol(df=data)
         else:
-            mapped_dict = self.search(
-                data.index, id_type_from=id_type, id_type_to=self.std_id
-            )
-
+            NotImplementedError
         data["std_id"] = data.index.map(mapped_dict)
         if new_index:
             data["index_orig"] = data.index
@@ -126,7 +115,9 @@ class Gene:
             a dict with the standardized symbols
         """
         # 1. Mapping from symbol to hgnc_id using .hgnc table
-        mapped_dict = self.search(df.index, "hgnc_symbol", "hgnc_id")
+        mapped_dict = self.df.loc[self.df.index.isin(df.index), ["hgnc_id"]].to_dict()[
+            "hgnc_id"
+        ]
         mapped_dict.update({k: k for k in mapped_dict.keys()})
 
         # 2. For not mapped symbols, map through alias
@@ -134,7 +125,7 @@ class Gene:
         if notmapped.shape[0] > 0:
             mg = Mygene()
             res = mg.query(
-                notmapped.index, scopes="symbol,alias", species=self.species.std_name
+                notmapped.index, scopes="symbol,alias", species=self._species.std_name
             )
             mapped_dict.update(self._cleanup_mygene_returns(res))
 
@@ -157,8 +148,11 @@ class Gene:
 
         # for unique results, use returned HGNC IDs to get symbols from .hgnc
         udf = df[~df.index.duplicated(keep=False)].copy()
-        udf["std_id"] = udf["hgnc_id"].map(
-            self.search(udf["hgnc_id"], "hgnc_id", "hgnc_symbol")
+        df_ = self.df.reset_index().set_index("hgnc_id")
+        udf["std_id"] = udf["std_id"].map(
+            df_.loc[df_.index.isin(udf["hgnc_id"]), ["hgnc_symbol"]].to_dict()[
+                "hgnc_symbol"
+            ]
         )
         mapped_dict.update(udf[["std_id"]].to_dict()["std_id"])
 
@@ -172,11 +166,15 @@ class Gene:
             dups = df[df.index.duplicated(keep=False)].copy()
             for dup in dups.index.unique():
                 hids = dups[dups.index == dup][unique_col].tolist()
-                d = self.search(hids, "hgnc_id", "hgnc_symbol")
+                df_ = self.df.reset_index().set_index("hgnc_id")
+                d = df_.loc[df_.index.isin(hids), ["hgnc_symbol"]].to_dict()[
+                    "hgnc_symbol"
+                ]
                 mapped_dict[dup] = pd.DataFrame.from_dict(d, orient="index")[0].min()
 
         return mapped_dict
 
+    @check_datasetdir_exists
     def _hgnc_human(self):
         """HGNC symbol from the HUGO Gene Nomenclature Committee."""
         filepath = settings.datasetdir / "hgnc_complete_set.txt"
