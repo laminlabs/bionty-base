@@ -24,7 +24,6 @@ async def get_request_async(
     server_request: str, terms, content_type="application/json"
 ):
     async with httpx.AsyncClient() as client:
-
         tasks = []
 
         for term in terms:

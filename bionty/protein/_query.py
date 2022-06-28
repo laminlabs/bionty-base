@@ -1,10 +1,11 @@
 import io
 import urllib.parse
 import urllib.request
+from urllib.error import HTTPError
 
 import pandas as pd
 
-from ..species import Species as SP
+from ..species._core import Species
 
 
 class Uniprot:
@@ -26,7 +27,6 @@ class Uniprot:
         columns=None,
         species="human",
     ):
-
         # replace UNIPROT_ID with ACC.
         colnames = (
             columns.split(",") + [id_type_from, id_type_to]
@@ -37,7 +37,7 @@ class Uniprot:
         id_type_to = "ACC" if id_type_to == "UNIPROT_ID" else id_type_to
 
         # taxon id of species
-        taxon_id = SP(common_name=species).search("taxon_id")
+        taxon_id = Species().df.loc["human"].taxon_id
 
         # set up params
         params = {
@@ -53,8 +53,11 @@ class Uniprot:
         data = urllib.parse.urlencode(params)
         data = data.encode("utf-8")
         req = urllib.request.Request(self._URL, data)
-        with urllib.request.urlopen(req) as f:
-            response = f.read()
+        try:
+            with urllib.request.urlopen(req) as f:
+                response = f.read()
+        except HTTPError:
+            raise HTTPError
 
         # format results into a dataframe
         data = response.decode("utf-8")
