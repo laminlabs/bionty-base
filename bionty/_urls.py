@@ -1,8 +1,5 @@
 from argparse import Namespace
 
-# Ensembl REST server
-
-
 # HGNC REST server
 """See searchable fields here: https://www.genenames.org/help/rest/"""
 HGNC_REST = "http://rest.genenames.org/"
