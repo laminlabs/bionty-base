@@ -23,7 +23,6 @@ Entity classes: dynamic classes of entities.
    Disease
    Gene
    Species
-   Tissue
 
 """
 
@@ -35,7 +34,6 @@ from .gene import Gene
 from .species import Species
 from .celltype import CellType
 from .disease import Disease
-from .tissue import Tissue
 
 # tools
 from ._normalize import NormalizeColumns
