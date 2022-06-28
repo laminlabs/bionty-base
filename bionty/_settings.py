@@ -14,33 +14,6 @@ def check_datasetdir_exists(f):
     return wrapper
 
 
-def check_dynamicdir_exists(f):
-    @wraps(f)
-    def wrapper(*args, **kwargs):
-        settings.dynamicdir.mkdir(exist_ok=True)
-        return f(*args, **kwargs)
-
-    return wrapper
-
-
-def _is_function(func) -> bool:
-    """Checks if input is a function rather than an instance of class.
-
-    TODO: Is this hacky?
-    """
-    return hasattr(func, "__name__")
-
-
-@check_dynamicdir_exists
-def dump_dataclass_as_private_module(obj):
-    """Save the dataclass as python code."""
-    header = f"from pydantic import BaseModel\n\n\nclass {obj.__name__}(BaseModel):\n"
-    with open(settings.dynamicdir / f"{obj.__name__.lower()}.py", "w") as f:
-        f.write(header)
-        for key, value in obj().__fields__.items():
-            f.write(f"    {key} : {value.type_.__name__} = {value.default!r}\n")
-
-
 class Settings:
     def __init__(
         self,
