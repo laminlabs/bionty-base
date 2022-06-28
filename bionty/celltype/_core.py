@@ -4,9 +4,10 @@ from urllib.request import urlretrieve
 import pandas as pd
 
 from .._io import read_json
+from .._table import Table
 
 
-class CellType:
+class CellType(Table):
     """Cell type.
 
     Edits of terms are coordinated and reviewed on:
