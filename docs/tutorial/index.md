@@ -1,23 +1,21 @@
 # Tutorial
 
-You can readily get started by browsing [quickstart](quickstart).
+Get started by browsing the [quickstart](quickstart) (species, gene, and protein) or the API [concepts](concepts).
 
-Or, you can first read through design concepts and implied usage principles.
+Get an intro to more entities here:
 
-Quickstart will introduce species, gene, protein, and cell type. Subsequently, we have one page per entity
-
+- [celltype](celltype)
 - [tissue](tissue)
 - [disease](disease)
 
-```{include} concepts.md
-
-```
 
 ```{toctree}
 :maxdepth: 2
 :hidden:
 
 quickstart
+concepts
+celltype
 disease
 tissue
 ```
