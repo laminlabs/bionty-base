@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🚚 Move hard-to-test code from bionty into asset curation  | [82](https://github.com/laminlabs/bionty/pull/82) | [falexwolf](https://github.com/falexwolf) | 2022-06-28 |
 🏗️ Simplify Bionty | [81](https://github.com/laminlabs/bionty/pull/81) | [falexwolf](https://github.com/falexwolf) | 2022-06-28 |
 🚸 Pull disease data from bionty-assets | [80](https://github.com/laminlabs/bionty/pull/80) | [falexwolf](https://github.com/falexwolf) | 2022-06-27 |
 🚸 Replace HGNC file access with our S3 bucket | [79](https://github.com/laminlabs/bionty/pull/79) | [falexwolf](https://github.com/falexwolf) | 2022-06-26 |
