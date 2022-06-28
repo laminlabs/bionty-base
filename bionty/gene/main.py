@@ -1,6 +1,7 @@
 import typing
 from functools import cached_property
 from typing import Iterable, Literal, Optional
+from collections import namedtuple
 
 import pandas as pd
 
@@ -34,86 +35,40 @@ class Entry(BaseModel):
     uniprot_ids: str
 
 
-class Gene:
-    """Gene bioentity.
+STD_ID_DICT = {"human": "hgnc_symbol", "mouse": "mgi_symbol"}
+ATTR_DICT = {"human": ["hgnc_id", "hgnc_symbol"], "mouse": ["mgi_symbol"]}
 
-    - Biotypes: https://useast.ensembl.org/info/genome/genebuild/biotypes.html
-    - Gene Naming: https://useast.ensembl.org/info/genome/genebuild/gene_names.html
+
+class Gene:
+    """Gene.
+
+    Args:
+        id: If `None`, chooses an id field in a species dependent way.
+        species: `common_name` of `Species` entity table.
+
+    Notes:
+        Biotypes: https://useast.ensembl.org/info/genome/genebuild/biotypes.html
+        Gene Naming: https://useast.ensembl.org/info/genome/genebuild/gene_names.html
 
     """
 
-    def __init__(self, species="human", biomart=False):
-        self._species = Species(common_name=species)
-        self._dataclasspath = (
-            settings.dynamicdir / f"genedata_{self.species.std_name}.pkl"
-        )
-        self._ref = None
-        self._biomart = biomart
-
-    @property
-    def species(self):
-        """Bionty.species()."""
-        return self._species
-
-    @property
-    def std_id(self):
-        """The standardized symbol attribute name."""
-        STD_ID_DICT = {"human": "hgnc_symbol", "mouse": "mgi_symbol"}
-        return STD_ID_DICT[self.species.std_name]
-
-    @property
-    def fields(self):
-        ATTR_DICT = {"human": ["hgnc_id", "hgnc_symbol"], "mouse": ["mgi_symbol"]}
-        return list(typing.get_args(_IDs)) + ATTR_DICT[self.species.std_name]
-
-    @property
-    def dataclasspath(self):
-        """Path to the picked dataclass."""
-        return self._dataclasspath
-
-    @property
-    def biomart(self):
-        """Whether to pull reference via the biomart API."""
-        return self._biomart
+    def __init__(self, id = None, species="human"):
+        self._species = species
+        self._id_field = STD_ID_DICT[species]
 
     @cached_property
-    def reference(self):
-        """Gene reference table."""
-        self._pull_ref()
-        return self._ref
+    def df(self):
+        """DataFrame."""
+        if self._species == "human":
+            return self._hgnc_human()
+        else:
+            raise NotImplementedError
 
     @cached_property
-    def dataclass(self):
-        """Pydantic dataclass of genes."""
-        return self._load_dataclass()
-
-    @check_dynamicdir_exists
-    def _load_dataclass(self):
-        """Loading dataclass from the pickle file."""
-        if not self.dataclasspath.exists():
-            import pickle
-
-            from .._io import write_pickle
-
-            model = self._create_data_model()
-            write_pickle(pickle.dumps(model()), self.dataclasspath)
-
-        return loads_pickle(self.dataclasspath)
-
-    def _create_data_model(self):
-        """Create the gene data model with pydantic."""
-        df = self.reference.fillna("")
-        df.columns = df.columns.str.replace(".", "_", regex=True)
-        df["entrez_gene_id"] = (
-            df["entrez_gene_id"].astype(str).str.replace(".0", "", regex=False)
-        )
-        df = df.loc[:, df.columns.isin(Entry.__annotations__.keys())].copy()
-        for i in df.index:
-            entry = {}
-            entry.update({col: df.loc[i][col] for col in df.columns})
-            GeneData.add_fields(**{df.loc[i][self.std_id]: (Entry, Entry(**entry))})
-
-        return GeneData
+    def lookup(self):
+        """Lookup object for auto-complete."""
+        values = self.df.index.str.replace("-", "_").str.rstrip("@").to_list()
+        return namedtuple("id", values)
 
     @format_into_dataframe
     def standardize(
@@ -156,52 +111,6 @@ class Gene:
 
         if _reformat:
             return data
-
-    def search(
-        self,
-        genes: Iterable[str],
-        id_type_from="ensembl_gene_id",
-        id_type_to=None,
-    ):
-        """Search among fields that are in the `.reference` table.
-
-        Args:
-            genes: Input list
-            id_type_from: ID type of the input list, see `.attributes`
-            id_type_to: ID type to convert into
-                Default is the `.std_id`
-
-        Returns:
-            a dict of mapped ids
-        """
-        # default if to convert tp the standardized id
-        if id_type_to is None:
-            id_type_to = self.std_id
-
-        # get mappings from the reference table
-        df = self.reference.reset_index().set_index(id_type_from)[[id_type_to]].copy()
-
-        return df[df.index.isin(genes)].to_dict()[id_type_to]
-
-    def _pull_ref(self):
-        """Pulling gene reference table.
-
-        If biomart, pull the reference table from biomart
-        If not, pull the reference table from HGNC directly
-        """
-        if self.biomart:
-            ref = Biomart().get_gene_ensembl(species=self.species.std_name)
-            if "entrezgene_id" in ref.columns:
-                ref["entrezgene_id"] = (
-                    ref["entrezgene_id"]
-                    .fillna(0)
-                    .astype(int)
-                    .astype(object)
-                    .where(ref["entrezgene_id"].notnull())
-                )
-            self._ref = ref
-        else:
-            self._ref = self.hgnc(species=self.species.std_name)
 
     def _standardize_symbol(
         self,
@@ -268,12 +177,8 @@ class Gene:
 
         return mapped_dict
 
-    @check_datasetdir_exists
-    def hgnc(self, species="human"):
+    def _hgnc_human(self):
         """HGNC symbol from the HUGO Gene Nomenclature Committee."""
-        if species != "human":
-            raise AssertionError("HGNC is only for human!")
-
         filepath = settings.datasetdir / "hgnc_complete_set.txt"
         if not filepath.exists():
             print("retrieving HUGO complete gene set from EBI")
@@ -288,6 +193,8 @@ class Gene:
             verbose=False,
         )
         df = df.reset_index().copy()
-        NormalizeColumns.gene(df, species=species)
+        NormalizeColumns.gene(df, species="human")
+
+        df = df.set_index("hgnc_symbol")
 
         return df
