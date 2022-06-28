@@ -12,6 +12,7 @@ Base models: base entity managers.
    :toctree: .
 
    Ontology
+   Table
 
 Entity classes: dynamic classes of entities.
 
@@ -41,3 +42,4 @@ from .tissue import Tissue
 # tools
 from ._normalize import NormalizeColumns
 from ._ontology import Ontology
+from ._table import Table
