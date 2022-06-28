@@ -1,5 +1,7 @@
+from functools import cached_property
+
 import pandas as pd
-from typing import Protocol
+from typing import Protocol, Dict
 from pydantic import BaseModel
 from dataclasses as dataclass
 
@@ -13,6 +15,7 @@ class DataClass(Protocol):
 class Fields(str, Enum):
     field1: "field1"
     field2: "field2"   
+
 
 
 class Table:
