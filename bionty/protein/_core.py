@@ -1,7 +1,6 @@
 import typing
 from typing import Iterable, Literal, Optional
 
-from ..species import Species as SP
 from ._query import Uniprot
 
 _IDs = Literal["UNIPROT_ID", "PDB_ID", "CHEMBL_ID", "DRUGBANK_ID", "ENSEMBL_PRO_ID"]
@@ -11,7 +10,7 @@ class Protein:
     """Protein."""
 
     def __init__(self, species="human"):
-        self._species = SP(common_name=species)
+        self._species = species
 
     @property
     def species(self):
@@ -53,7 +52,7 @@ class Protein:
             prots,
             id_type_from=id_type_from,
             id_type_to=id_type_to,
-            species=self.species.std_name,
+            species=self.species,
         )
         df = res.reset_index().set_index(id_type_from)[[id_type_to]].copy()
 

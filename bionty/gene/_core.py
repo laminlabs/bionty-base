@@ -125,7 +125,7 @@ class Gene:
         if notmapped.shape[0] > 0:
             mg = Mygene()
             res = mg.query(
-                notmapped.index, scopes="symbol,alias", species=self._species.std_name
+                notmapped.index, scopes="symbol,alias", species=self._species
             )
             mapped_dict.update(self._cleanup_mygene_returns(res))
 
@@ -149,7 +149,7 @@ class Gene:
         # for unique results, use returned HGNC IDs to get symbols from .hgnc
         udf = df[~df.index.duplicated(keep=False)].copy()
         df_ = self.df.reset_index().set_index("hgnc_id")
-        udf["std_id"] = udf["std_id"].map(
+        udf["std_id"] = udf["hgnc_id"].map(
             df_.loc[df_.index.isin(udf["hgnc_id"]), ["hgnc_symbol"]].to_dict()[
                 "hgnc_symbol"
             ]
