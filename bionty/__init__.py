@@ -22,7 +22,6 @@ Entity classes: dynamic classes of entities.
    CellType
    Disease
    Gene
-   Protein
    Species
    Tissue
 
@@ -33,7 +32,6 @@ __version__ = "0.1.0"
 
 # dynamic classes
 from .gene import Gene
-from .protein import Protein
 from .species import Species
 from .celltype import CellType
 from .disease import Disease
