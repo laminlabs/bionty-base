@@ -9,7 +9,6 @@ Quickstart will introduce species, gene, protein, and cell type. Subsequently, w
 - [tissue](tissue)
 - [disease](disease)
 
-
 ```{include} concepts.md
 
 ```

@@ -15,4 +15,4 @@ We address 2. through a user-setup process consisting in
 Example:
 
 - Species is an entity.
-- Take one value that the entity can take: *human* is a choice (the common name) for a descriptor of the abstract entry/ value/ term *homo sapiens*
+- Take one value that the entity can take: _human_ is a choice (the common name) for a descriptor of the abstract entry/ value/ term _homo sapiens_
