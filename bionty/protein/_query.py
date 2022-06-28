@@ -1,6 +1,7 @@
 import io
 import urllib.parse
 import urllib.request
+from urllib.error import HTTPError
 
 import pandas as pd
 
@@ -52,8 +53,11 @@ class Uniprot:
         data = urllib.parse.urlencode(params)
         data = data.encode("utf-8")
         req = urllib.request.Request(self._URL, data)
-        with urllib.request.urlopen(req) as f:
-            response = f.read()
+        try:
+            with urllib.request.urlopen(req) as f:
+                response = f.read()
+        except HTTPError:
+            raise HTTPError
 
         # format results into a dataframe
         data = response.decode("utf-8")
