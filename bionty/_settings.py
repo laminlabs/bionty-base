@@ -2,8 +2,6 @@ from functools import wraps
 from pathlib import Path
 from typing import Union
 
-import pandas as pd
-
 ROOT_DIR = Path(__file__).parent.resolve()
 
 
@@ -23,26 +21,6 @@ def check_dynamicdir_exists(f):
         return f(*args, **kwargs)
 
     return wrapper
-
-
-def format_into_dataframe(f):
-    @wraps(f)
-    def dataframe(*args, **kwargs) -> pd.DataFrame:
-        # Check if the first argument is self
-        idx = 0 if _is_function(args[0]) else 1
-
-        if isinstance(args[idx], pd.DataFrame):
-            df = args[idx]
-            reformat = False
-        else:
-            df = pd.DataFrame(index=[d for d in args[idx]])
-            reformat = True
-
-        args_new = list(args)
-        args_new[idx] = df
-        return f(*args_new, _reformat=reformat, **kwargs)
-
-    return dataframe
 
 
 def _is_function(func) -> bool:
