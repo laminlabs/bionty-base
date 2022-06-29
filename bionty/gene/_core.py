@@ -15,8 +15,8 @@ class Gene(Table):
     """Gene.
 
     Args:
-        id: If `None`, chooses an id field in a species dependent way.
         species: `common_name` of `Species` entity table.
+        id: If `None`, chooses an id field in a species dependent way.
 
     Notes:
         Biotypes: https://useast.ensembl.org/info/genome/genebuild/biotypes.html
