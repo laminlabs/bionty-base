@@ -1,3 +1,4 @@
+from collections import namedtuple
 from functools import cached_property
 
 import pandas as pd
@@ -35,6 +36,12 @@ class Protein:
             if not self.filepath.exists():
                 self._download_df()
             return pd.read_feather(self.filepath).set_index("UniProtKB-AC")
+
+    @cached_property
+    def lookup(self):
+        """Lookup object for auto-complete."""
+        values = self.df.index.to_list()
+        return namedtuple("id", values)
 
     @check_datasetdir_exists
     def _download_df(self):
