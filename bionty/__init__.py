@@ -31,6 +31,7 @@ __version__ = "0.1.0"
 # dynamic classes
 from .gene import Gene
 from .species import Species
+from .protein import Protein
 from .celltype import CellType
 from .disease import Disease
 
