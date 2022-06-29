@@ -1,6 +1,5 @@
 from collections import namedtuple
 from functools import cached_property
-from typing import Literal
 
 import pandas as pd
 
@@ -8,11 +7,7 @@ from .._normalize import NormalizeColumns
 from .._settings import check_datasetdir_exists, settings
 from .._table import Table
 
-_IDs = Literal["ensembl.gene_id", "entrez.gene_id"]
-
-
 STD_ID_DICT = {"human": "hgnc_symbol", "mouse": "mgi_symbol"}
-ATTR_DICT = {"human": ["hgnc_id", "hgnc_symbol"], "mouse": ["mgi_symbol"]}
 FILENAMES = {"human": "hgnc_complete_set.feather", "mouse": "mgi_complete_set.feather"}
 
 
