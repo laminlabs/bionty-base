@@ -20,6 +20,7 @@ dependencies = [
     "nest_asyncio",
     "syncer",
     "orjson",
+    "pyarrow",
 ]
 
 [project.urls]
