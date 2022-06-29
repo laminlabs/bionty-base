@@ -13,7 +13,7 @@ class Field(str, Enum):
 class Table:
     """Biological entity as a table.
 
-    See :doc:`tutorial/index` for background.
+    See :doc:`tutorials/index` for background.
     """
 
     def __init__(self, id: Field = Field.field1):
