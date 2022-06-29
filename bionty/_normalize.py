@@ -6,6 +6,8 @@ GENE_COLUMNS = {
     "ensembl_gene_id": "ensembl.gene_id",
     "entrezgene_id": "entrez.gene_id",
     "entrez_id": "entrez.gene_id",
+    "MGI Marker Accession ID": "mgi_id",
+    "Marker Symbol": "mgi_symbol",
 }
 
 
