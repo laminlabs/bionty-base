@@ -42,9 +42,8 @@ Get started:
 :maxdepth: 1
 :hidden:
 
-tutorial/index
-guides/index
-examples/index
+tutorials/index
 api
+guides/index
 changelog
 ```
