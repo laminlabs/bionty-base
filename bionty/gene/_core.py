@@ -33,11 +33,16 @@ class Gene(Table):
         self._species = species
         self._id_field = STD_ID_DICT[species]
 
+    @property
+    def species(self):
+        """The `common_name` of `Species` entity table."""
+        return self._species
+
     @cached_property
     def df(self):
         """DataFrame."""
         if self._species == "human":
-            return self._hgnc_human()
+            return self._hgnc()
         else:
             raise NotImplementedError
 
@@ -48,8 +53,10 @@ class Gene(Table):
         return namedtuple("id", values)
 
     @check_datasetdir_exists
-    def _hgnc_human(self):
+    def _hgnc(self):
         """HGNC symbol from the HUGO Gene Nomenclature Committee."""
+        assert self.species == "human"
+
         filepath = settings.datasetdir / "hgnc_complete_set.txt"
         if not filepath.exists():
             print("retrieving HUGO complete gene set from EBI")
@@ -64,7 +71,7 @@ class Gene(Table):
             verbose=False,
         )
         df = df.reset_index().copy()
-        NormalizeColumns.gene(df, species="human")
+        NormalizeColumns.gene(df, species=self.species)
 
         df = df.set_index("hgnc_symbol")
 

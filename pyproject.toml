@@ -20,6 +20,7 @@ dependencies = [
     "nest_asyncio",
     "syncer",
     "orjson",
+    "pyarrow",
 ]
 
 [project.urls]
@@ -48,7 +49,7 @@ preview = true
 testpaths = [
     "tests",
     "docs/guides",
-    "docs/tutorial",
+    "docs/tutorials",
 ]
 
 [tool.coverage.run]
