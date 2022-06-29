@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+✨ Added MGI for mouse genes, switched to use feather for HGNC | [84](https://github.com/laminlabs/bionty/pull/84) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-29 |
 🍱 Added back the Protein entity | [83](https://github.com/laminlabs/bionty/pull/83) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-29 |
 🚚 Move hard-to-test code from bionty into asset curation  | [82](https://github.com/laminlabs/bionty/pull/82) | [falexwolf](https://github.com/falexwolf) | 2022-06-28 |
 🏗️ Simplify Bionty | [81](https://github.com/laminlabs/bionty/pull/81) | [falexwolf](https://github.com/falexwolf) | 2022-06-28 |
