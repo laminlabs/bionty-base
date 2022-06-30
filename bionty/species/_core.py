@@ -43,8 +43,8 @@ class Species(Table):
         # we'll lower case and _ concat the common name
         df.common_name = (
             df.common_name.str.lower()
-            .translate({ord(c): "" for c in "!@#$%^&*()[]{};:,/<>?|`~=+'\""})
-            .translate({ord(c): "_" for c in "-. "})
+            .str.translate({ord(c): "" for c in "!@#$%^&*()[]{};:,/<>?|`~=+'\""})
+            .str.translate({ord(c): "_" for c in "-. "})
         )
         # we'll also drop nan as otherwise accession will raise a warning/error
         # there is a very small number of accession numbers that are nan
