@@ -42,19 +42,15 @@ class Species(Table):
         df = df.drop("display_name", axis=1)
         # we'll lower case and _ concat the common name
         df.common_name = (
-            df.common_name.str.replace(" ", "_")
-            .str.lower()
-            .str.replace("'", "")
-            .str.replace("-", "_")
-            .str.replace(".", "_")
-            .str.replace("(", "")
-            .str.replace(")", "")
+            df.common_name.str.lower()
+            .translate({ord(c): "" for c in "!@#$%^&*()[]{};:,/<>?|`~=+'\""})
+            .translate({ord(c): "_" for c in "-. "})
         )  # noqa
         # we'll also drop nan as otherwise accession will raise a warning/error
         # there is a very small number of accession numbers that are nan
         df = df.dropna()
         # let's now do a groupby to get a unique index
-        df = df.groupby(self._id_field).agg(", ".join)
+        df = df.groupby(self._id_field).agg("; ".join)
         return df
 
     @cached_property
