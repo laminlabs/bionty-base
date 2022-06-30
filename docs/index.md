@@ -10,7 +10,7 @@ Normalize metadata against established scientific standards with ease.
 
 Current backends:
 
-- Gene: [HGNC](https://www.genenames.org/), [VGNC](https://vertebrate.genenames.org/), [Ensembl](https://ensembl.org/), [biomart](https://ensembl.org/info/data/biomart/), [mygene](https://mygene.info/).
+- Gene: [HGNC](https://www.genenames.org/), [MGI](http://www.informatics.jax.org/), [Ensembl](https://ensembl.org/), [NCBI Gene](https://www.ncbi.nlm.nih.gov/gene/).
 - Protein: [Uniprot](https://www.uniprot.org/), [Chembl](https://www.ebi.ac.uk/chembl/), [Drugbank](https://go.drugbank.com/), [PDB](http://www.wwpdb.org/).
 - Species: [Ensembl](https://useast.ensembl.org/info/about/species.html), [NCBI Taxonomy](https://www.ncbi.nlm.nih.gov/taxonomy/).
 - Tissue: [Uberon](http://obophenotype.github.io/uberon/).
