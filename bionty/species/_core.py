@@ -36,7 +36,7 @@ class Species(Table):
         # we want all columns to be read in as str
         # all numeric types in the table are versions & IDs
         # they behave like strings as, for instance, they cannot be added
-        # if we wouldn't do this, we couldn't also properly aggegrate in the groupby
+        # if we wouldn't do this, we couldn't also properly aggregate in the groupby
         df = pd.read_csv(SPECIES_FILENAME, header=0, dtype=str)
         # we'll drop the display name as it's redundant with common_name
         df = df.drop("display_name", axis=1)
@@ -45,7 +45,7 @@ class Species(Table):
             df.common_name.str.lower()
             .translate({ord(c): "" for c in "!@#$%^&*()[]{};:,/<>?|`~=+'\""})
             .translate({ord(c): "_" for c in "-. "})
-        )  # noqa
+        )
         # we'll also drop nan as otherwise accession will raise a warning/error
         # there is a very small number of accession numbers that are nan
         df = df.dropna()
