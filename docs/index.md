@@ -3,7 +3,7 @@
 :end-line: 4
 ```
 
-_Open data model for biology._
+_Manage biological entities._
 
 A performant API for interacting with biological entities.
 Normalize metadata against established scientific standards with ease.
