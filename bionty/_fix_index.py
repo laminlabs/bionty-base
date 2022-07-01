@@ -63,24 +63,25 @@ def get_compliant_index_from_column(
 
     # this will fail if there are typos
     # need to think about warning flags and soft implementations of this
-    unmatched = check_if_index_compliant(df[column].values, column)
+    unmapped = check_if_index_compliant(df[column].values, column)
 
-    mapped_index = pd.Index(  # type:ignore
-        []
-    )  # smart semi-compliant index definition
-    if isinstance(unmatched, bool):
+    if isinstance(unmapped, bool):
         # everything is mappable
         mapped_index = lookup_df.loc[df[column]].index
         integrity = 1.0
-    elif len(unmatched) == len(df[column]):
+    elif len(unmapped) == len(df[column]):
         # not mappable
+        mapped_index = pd.Index(  # type:ignore
+            []
+        )  # smart semi-compliant index definition
         integrity = 0.0
         logg.warning("The input column is not mappable to the bionty reference!")
     else:
         # partially mappable
         # number_of_mappable_compliant_terms/total_number_of_terms
-        integrity = 1 - len(unmatched) / len(df[column])
-        perct_map = integrity * 100
-        logg.warning(f"Only {perct_map:.2f} of terms are mappable!")
+        mapped_index = pd.Index(df[column].values).difference(unmapped)
+        integrity = 1 - len(unmapped) / len(df[column])
+        perct_map = round(integrity * 100, 2)
+        logg.warning(f"Only {perct_map} of terms are mappable!")
 
     return mapped_index, perct_map
