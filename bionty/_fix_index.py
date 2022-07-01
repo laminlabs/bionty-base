@@ -2,10 +2,11 @@ from typing import Iterable
 
 import pandas as pd
 
+from . import Gene
 from ._logging import logger as logg
 
 
-def check_if_index_compliant(index: Iterable):
+def check_if_index_compliant(index: Iterable, column, **kwargs):
     """The index already theoretically conforms with the Bionty ID for the entity.
 
     Meaning, the name of the index column is, for instance `hgnc_symbol`.
@@ -19,20 +20,22 @@ def check_if_index_compliant(index: Iterable):
         input_index = pd.Index(index)
     else:
         input_index = index  # type: ignore
-    from bionty import Gene
 
-    ref_index = Gene().df.index
+    ref_index = Gene(**kwargs).df.reset_index()[column]
+
     matches = input_index.isin(
         ref_index
     )  # boolean vector indicating standardized terms
 
-    if len(input_index[matches]) == 0:
+    if all(matches) is True:
         return True
     else:
         return input_index[~matches]
 
 
-def get_compliant_index_from_column(df: pd.DataFrame, column: str, *, keep_data=True):
+def get_compliant_index_from_column(
+    df: pd.DataFrame, column: str, *, keep_data=True, **kwargs
+):
     """Get a reference-ID-compliant index based on a column with an alternative identifier.
 
     Example:
@@ -53,31 +56,31 @@ def get_compliant_index_from_column(df: pd.DataFrame, column: str, *, keep_data=
         column: Column to be mapped to reference ID.
         keep_data: Keep terms that are not mappable to the reference ID.
     """
-    from bionty import Gene
+    gene = Gene(**kwargs).df
+    lookup_index = pd.Index(gene.reset_index()[column])
 
-    gene = Gene().df
-    lookup_index = pd.Index(gene[column])
-
-    lookup_df = pd.DataFrame(index=lookup_index, bionty_id=gene.index)
+    lookup_df = pd.DataFrame(index=lookup_index, data={"bionty_id": gene.index})
 
     # this will fail if there are typos
     # need to think about warning flags and soft implementations of this
-    everything_is_mappable = True
-    partially_mappable = True
+    unmatched = check_if_index_compliant(df[column].values, column)
 
-    if everything_is_mappable:
-        mapped_index = lookup_df[df[column]]["bionty_id"]
-        integrity = "1"
-    elif partially_mappable:
-        mapped_index = (  # type:ignore
-            pd.Index()
-        )  # smart semi-compliant index definition
-        integrity = "number_of_mappable_compliant_terms/total_number_of_terms"
-        logg.warning(f"{integrity}")
+    mapped_index = pd.Index(  # type:ignore
+        []
+    )  # smart semi-compliant index definition
+    if isinstance(unmatched, bool):
+        # everything is mappable
+        mapped_index = lookup_df.loc[df[column]].index
+        integrity = 1.0
+    elif len(unmatched) == len(df[column]):
+        # not mappable
+        integrity = 0.0
+        logg.warning("The input column is not mappable to the bionty reference!")
     else:
-        # not_mappable
-        mapped_index = "index"
-        integrity = "0"
-        logg.warning("...")
+        # partially mappable
+        # number_of_mappable_compliant_terms/total_number_of_terms
+        integrity = 1 - len(unmatched) / len(df[column])
+        perct_map = integrity * 100
+        logg.warning(f"Only {perct_map:.2f} of terms are mappable!")
 
-    return mapped_index, integrity
+    return mapped_index, perct_map
