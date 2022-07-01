@@ -80,8 +80,7 @@ def get_compliant_index_from_column(
         # partially mappable
         # number_of_mappable_compliant_terms/total_number_of_terms
         mapped_index = pd.Index(df[column].values).difference(unmapped)
-        integrity = 1 - len(unmapped) / len(df[column])
-        perct_map = round(integrity * 100, 2)
-        logg.warning(f"Only {perct_map} of terms are mappable!")
+        integrity = round((1 - len(unmapped) / len(df[column])) * 100, 2)
+        logg.warning(f"Only {integrity} of terms are mappable!")
 
-    return mapped_index, perct_map
+    return mapped_index, integrity
