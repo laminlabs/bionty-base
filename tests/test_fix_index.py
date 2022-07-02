@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from bionty import get_compliant_index_from_column
+from bionty.dev import get_compliant_index_from_column
 
 data = {
     "hgnc_symbol": ["A1CF", "A1BG", "corrupted1", "corrupted2"],
