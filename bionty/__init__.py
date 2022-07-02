@@ -4,32 +4,30 @@ Import the package::
 
    import bionty as bt
 
-This is the complete API reference:
-
-The base model for every entity class is a `EntityTable`:
+The base model for every entity class is:
 
 .. autosummary::
    :toctree: .
 
    EntityTable
 
-Entity classes: dynamic classes of entities.
+Entities:
 
 .. autosummary::
    :toctree: .
 
    Species
    Gene
+   Protein
    CellType
    Disease
 
-Dev API:
+Developer API:
 
 .. autosummary::
    :toctree: .
 
-   check_if_index_compliant
-   get_compliant_index_from_column
+   dev
 
 """
 
@@ -46,4 +44,3 @@ from .disease import Disease
 # tools
 from ._normalize import NormalizeColumns
 from ._table import EntityTable
-from ._fix_index import check_if_index_compliant, get_compliant_index_from_column
