@@ -1,20 +1,24 @@
-# Tutorial
+# Tutorials
 
-Get started by browsing the [quickstart](quickstart) (species, gene, and protein) or the API [concepts](concepts).
+Get started with the following walk-through:
 
-Get an intro to more entities here:
+- {doc}`curate`
+- {doc}`lookup`
+- {doc}`concepts`
 
-- [celltype](celltype)
-- [tissue](tissue)
-- [disease](disease)
+Explore additional entities:
+
+- {doc}`celltype`
+- {doc}`disease`
+- {doc}`tissue`
 
 ```{toctree}
 :maxdepth: 2
 :hidden:
 
-quickstart
+curate
+lookup
 concepts
-standardize_genes
 celltype
 disease
 tissue

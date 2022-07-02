@@ -6,21 +6,12 @@ Import the package::
 
 This is the complete API reference:
 
-Base models: base entity managers.
+The base model for every entity class is a `Table`:
 
 .. autosummary::
    :toctree: .
 
    Table
-
-Standardize indexes:
-
-.. autosummary::
-   :toctree: .
-
-   check_if_index_compliant
-   get_compliant_index_from_column
-
 
 Entity classes: dynamic classes of entities.
 
@@ -31,6 +22,14 @@ Entity classes: dynamic classes of entities.
    Gene
    CellType
    Disease
+
+Dev API:
+
+.. autosummary::
+   :toctree: .
+
+   check_if_index_compliant
+   get_compliant_index_from_column
 
 """
 

@@ -34,7 +34,7 @@ pip install bionty
 
 Get started:
 
-- [Quickstart](tutorials/quickstart) walks you through interacting with genes, proteins, species, and cell types.
+- The [tutorials](tutorials/index) walk you through curating and looking up genes, proteins, species, and cell types.
 - Browse the full [API reference](api).
 - Check out [guides](guides/index) that address common questions, use cases or problems.
 - See the [changelog](changelog).
