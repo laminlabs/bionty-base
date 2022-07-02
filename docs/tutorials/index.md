@@ -14,6 +14,7 @@ Get an intro to more entities here:
 
 quickstart
 concepts
+standardize_genes
 celltype
 disease
 tissue
