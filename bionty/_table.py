@@ -4,8 +4,8 @@ from functools import cached_property
 
 import pandas as pd
 
-from ._fix_index import check_if_index_compliant, get_compliant_index_from_column
 from ._logging import logger
+from .dev._fix_index import check_if_index_compliant, get_compliant_index_from_column
 
 
 class Field(str, Enum):
