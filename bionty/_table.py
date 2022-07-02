@@ -13,8 +13,8 @@ class Field(str, Enum):
     field2 = "field2"
 
 
-class Table:
-    """Biological entity as a table.
+class EntityTable:
+    """Biological entity as a EntityTable.
 
     See :doc:`tutorials/index` for background.
     """
@@ -24,7 +24,7 @@ class Table:
 
     @cached_property
     def df(self) -> pd.DataFrame:
-        """DataFrame representation of table."""
+        """DataFrame representation of EntityTable."""
         raise NotImplementedError
 
     def lookup(self, field):

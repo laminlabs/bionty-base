@@ -5,7 +5,7 @@ In many practical applications, a biological entity (e.g., `Species`) represents
 1. There are different roughly equivalent vocabularies for the same entity. For example, one can describe species with the vocabulary of the scientific names, the vocabulary of the common names, or the vocabulary of ontology IDs for the same species.
 2. There are different versions and granularity of these vocabularies. Typically, vocabularies are based on a given version of a public ontology, and may contain “custom” terms representing new knowledge, that’s not yet represented publicly.
 
-We address 1. with a so-called table model: Within Bionty, the primary representation for an entity is a table, in which each column of the table corresponds to a vocabulary.
+We address 1. with a so-called EntityTable model: Within Bionty, the primary representation for an entity is a EntityTable, in which each column of the EntityTable corresponds to a vocabulary.
 
 We address 2. through a user-setup process consisting in
 

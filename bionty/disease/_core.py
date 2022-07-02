@@ -4,10 +4,10 @@ from urllib.request import urlretrieve
 import pandas as pd
 
 from .._io import read_json
-from .._table import Table
+from .._table import EntityTable
 
 
-class Disease(Table):
+class Disease(EntityTable):
     """Disease.
 
     Edits of terms are coordinated and reviewed on:

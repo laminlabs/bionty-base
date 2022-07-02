@@ -1,10 +1,8 @@
-from typing import Iterable
-
 import numpy as np
 import pandas as pd
 
 
-def check_if_index_compliant(index: Iterable, ref_index: Iterable) -> np.ndarray:
+def check_if_index_compliant(index: pd.Index, ref_index: pd.Index) -> np.ndarray:
     """The index already theoretically conforms with the Bionty ID for the entity.
 
     Meaning, the name of the index column is, for instance `hgnc_symbol`.
@@ -14,14 +12,8 @@ def check_if_index_compliant(index: Iterable, ref_index: Iterable) -> np.ndarray
 
     It returns a `pd.Index` of terms that aren't contained in the reference.
     """
-    if not isinstance(index, pd.Index):
-        input_index = pd.Index(index)
-    else:
-        input_index = index  # type: ignore
-
     # boolean vector indicating standardized terms
-    matches = input_index.isin(ref_index)
-
+    matches = index.isin(ref_index)
     return matches
 
 
@@ -49,7 +41,7 @@ def get_compliant_index_from_column(
     Args:
         df: DataFrame with an index different from reference ID, but with a
             column that has mappable information, like an ensemble_id.
-        ref_df: Reference table in Bionty.
+        ref_df: Reference EntityTable in Bionty.
         column: Column to be mapped to reference ID.
         keep_data: Keep terms that are not mappable to the reference ID.
     """
@@ -69,7 +61,7 @@ def get_compliant_index_from_column(
     # e.g. default is `hgnc_symbol` for human
     lookup_df = pd.DataFrame(index=ref_df[column], data={"bionty_id": ref_index})
 
-    matches = check_if_index_compliant(query_values, lookup_df.index)
+    matches = check_if_index_compliant(pd.Index(query_values), lookup_df.index)
 
     if all(~matches):  # nothing is mappable
         raise AssertionError(f"{column} name must contain at least one mappable term!")

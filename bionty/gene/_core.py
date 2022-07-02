@@ -5,13 +5,13 @@ import pandas as pd
 
 from .._normalize import NormalizeColumns
 from .._settings import check_datasetdir_exists, settings
-from .._table import Table
+from .._table import EntityTable
 
 STD_ID_DICT = {"human": "hgnc_symbol", "mouse": "mgi_symbol"}
 FILENAMES = {"human": "hgnc_complete_set.feather", "mouse": "mgi_complete_set.feather"}
 
 
-class Gene(Table):
+class Gene(EntityTable):
     """Gene.
 
     The default indexes chosen are
@@ -21,7 +21,7 @@ class Gene(Table):
     We think these identifiers are the best unambiguous ways to reference genes.
 
     Args:
-        species: `common_name` of `Species` entity table.
+        species: `common_name` of `Species` entity EntityTable.
         id: If `None`, chooses an id field in a species dependent way.
 
     Notes:
@@ -41,7 +41,7 @@ class Gene(Table):
 
     @property
     def species(self):
-        """The `common_name` of `Species` entity table."""
+        """The `common_name` of `Species` entity EntityTable."""
         return self._species
 
     @cached_property

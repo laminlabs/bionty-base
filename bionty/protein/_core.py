@@ -10,7 +10,7 @@ class Protein:
     """Protein.
 
     Args:
-        species: `common_name` of `Species` entity table.
+        species: `common_name` of `Species` entity EntityTable.
     """
 
     def __init__(self, species="human") -> None:
@@ -19,7 +19,7 @@ class Protein:
 
     @property
     def species(self):
-        """The `common_name` of `Species` entity table."""
+        """The `common_name` of `Species` entity EntityTable."""
         return self._species
 
     @property
