@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+♻️ Refactor curation | [87](https://github.com/laminlabs/bionty/pull/87) | [falexwolf](https://github.com/falexwolf) | 2022-07-02 |
 📝 Prototype index standardization | [86](https://github.com/laminlabs/bionty/pull/86) | [falexwolf](https://github.com/falexwolf) | 2022-07-02 |
 🎨 Polish APIs and writeups | [85](https://github.com/laminlabs/bionty/pull/85) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-30 |
 ✨ Added MGI for mouse genes, switched to use feather for HGNC | [84](https://github.com/laminlabs/bionty/pull/84) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-29 |
