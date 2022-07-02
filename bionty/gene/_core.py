@@ -15,6 +15,12 @@ FILENAMES = {"human": "hgnc_complete_set.feather", "mouse": "mgi_complete_set.fe
 class Gene(Table):
     """Gene.
 
+    The default indexes chosen are
+    - human: HGNC symbol
+    - mouse: MGI symbol
+
+    We think these identifiers are the best unambiguous ways to reference genes.
+
     Args:
         species: `common_name` of `Species` entity table.
         id: If `None`, chooses an id field in a species dependent way.
