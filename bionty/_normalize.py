@@ -19,7 +19,7 @@ class NormalizeColumns:
 
     @staticmethod
     def gene(df: pd.DataFrame, species=None):
-        """Column names of gene tables.
+        """Column names of gene EntityTables.
 
         We try to adapt a naming system that is {database}.{id_type} when
         multipleids exist within that database.

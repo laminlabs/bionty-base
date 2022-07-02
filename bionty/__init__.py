@@ -6,12 +6,12 @@ Import the package::
 
 This is the complete API reference:
 
-The base model for every entity class is a `Table`:
+The base model for every entity class is a `EntityTable`:
 
 .. autosummary::
    :toctree: .
 
-   Table
+   EntityTable
 
 Entity classes: dynamic classes of entities.
 
@@ -45,5 +45,5 @@ from .disease import Disease
 
 # tools
 from ._normalize import NormalizeColumns
-from ._table import Table
+from ._table import EntityTable
 from ._fix_index import check_if_index_compliant, get_compliant_index_from_column

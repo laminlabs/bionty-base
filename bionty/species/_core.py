@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from .._table import Table
+from .._table import EntityTable
 
 HERE = Path(__file__).parent
 SPECIES_FILENAME = HERE / "tables/Species.csv"
@@ -19,12 +19,12 @@ class Field(str, Enum):
     taxon_id = "taxon_id"
 
 
-class Species(Table):
+class Species(EntityTable):
     """Species.
 
     Args:
         id: Field name that should constitute the primary reference for each
-            value. It will also be the primary key in the corresponding SQL table.
+            value. It will also be the primary key in the corresponding SQL EntityTable.
     """
 
     def __init__(self, id: Field = Field.common_name):
@@ -34,7 +34,7 @@ class Species(Table):
     def df(self) -> pd.DataFrame:
         """DataFrame."""
         # we want all columns to be read in as str
-        # all numeric types in the table are versions & IDs
+        # all numeric types in the EntityTable are versions & IDs
         # they behave like strings as, for instance, they cannot be added
         # if we wouldn't do this, we couldn't also properly aggregate in the groupby
         df = pd.read_csv(SPECIES_FILENAME, header=0, dtype=str)
