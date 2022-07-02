@@ -13,6 +13,15 @@ Base models: base entity managers.
 
    Table
 
+Standardize indexes:
+
+.. autosummary::
+   :toctree: .
+
+   check_if_index_compliant
+   get_compliant_index_from_column
+
+
 Entity classes: dynamic classes of entities.
 
 .. autosummary::
@@ -38,3 +47,4 @@ from .disease import Disease
 # tools
 from ._normalize import NormalizeColumns
 from ._table import Table
+from ._fix_index import check_if_index_compliant, get_compliant_index_from_column
