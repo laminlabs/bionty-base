@@ -2,11 +2,10 @@ from typing import Iterable
 
 import pandas as pd
 
-from . import Gene
 from ._logging import logger as logg
 
 
-def check_if_index_compliant(index: Iterable, column, **kwargs):
+def check_if_index_compliant(index: Iterable, ref_index: Iterable):
     """The index already theoretically conforms with the Bionty ID for the entity.
 
     Meaning, the name of the index column is, for instance `hgnc_symbol`.
@@ -21,8 +20,6 @@ def check_if_index_compliant(index: Iterable, column, **kwargs):
     else:
         input_index = index  # type: ignore
 
-    ref_index = Gene(**kwargs).df.reset_index()[column]
-
     matches = input_index.isin(
         ref_index
     )  # boolean vector indicating standardized terms
@@ -34,7 +31,11 @@ def check_if_index_compliant(index: Iterable, column, **kwargs):
 
 
 def get_compliant_index_from_column(
-    df: pd.DataFrame, column: str, *, keep_data=True, **kwargs
+    df: pd.DataFrame,
+    ref_df: pd.DataFrame,
+    column: str,
+    *,
+    keep_data: bool = True,
 ):
     """Get a reference-ID-compliant index based on a column with an alternative identifier.
 
@@ -53,21 +54,33 @@ def get_compliant_index_from_column(
     Args:
         df: DataFrame with an index different from reference ID, but with a
             column that has mappable information, like an ensemble_id.
+        ref_df: Reference table in Bionty.
         column: Column to be mapped to reference ID.
         keep_data: Keep terms that are not mappable to the reference ID.
     """
-    gene = Gene(**kwargs).df
-    lookup_index = pd.Index(gene.reset_index()[column])
+    df = df.copy()  # not touch the input df
 
-    lookup_df = pd.DataFrame(index=lookup_index, data={"bionty_id": gene.index})
+    if column not in ref_df.reset_index().columns:
+        raise AssertionError(
+            f"{column} name must match one of {ref_df.reset_index().columns}!"
+        )
+
+    query_values = df[column].values
+
+    # lookup_df is indexed with the query column field in the ref_df
+    # and with a "bionty_id" column containing the primary bionty gene id
+    # e.g. default is `hgnc_symbol` for human
+    lookup_df = pd.DataFrame(
+        index=ref_df.reset_index()[column], data={"bionty_id": ref_df.index}
+    )
 
     # this will fail if there are typos
     # need to think about warning flags and soft implementations of this
-    unmapped = check_if_index_compliant(df[column].values, column)
+    unmapped = check_if_index_compliant(query_values, lookup_df.index)
 
     if isinstance(unmapped, bool):
         # everything is mappable
-        mapped_index = lookup_df.loc[df[column]].index
+        mapped_index = query_values
         integrity = 1.0
     elif len(unmapped) == len(df[column]):
         # not mappable
@@ -79,8 +92,16 @@ def get_compliant_index_from_column(
     else:
         # partially mappable
         # number_of_mappable_compliant_terms/total_number_of_terms
-        mapped_index = pd.Index(df[column].values).difference(unmapped)
+        mapped_index = pd.Index(query_values).difference(unmapped)
         integrity = round((1 - len(unmapped) / len(df[column])) * 100, 2)
         logg.warning(f"Only {integrity} of terms are mappable!")
 
-    return mapped_index, integrity
+    # mapped_dict is the {query_id: bionty_id}
+    mapped_dict = lookup_df.loc[mapped_index].to_dict()["bionty_id"]
+    new_index = df[column].map(mapped_dict)
+
+    if keep_data:
+        # the unmapped terms will be kept as they are in the index
+        new_index = new_index.fillna(df[column]).values
+
+    return pd.Index(new_index), integrity
