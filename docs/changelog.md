@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+:art: Added a developer API | [89](https://github.com/laminlabs/bionty/pull/89) | [falexwolf](https://github.com/falexwolf) | 2022-07-02 |
 ✅ Add more tests for curation, rename Table to EntityTable | [88](https://github.com/laminlabs/bionty/pull/88) | [falexwolf](https://github.com/falexwolf) | 2022-07-02 |
 ♻️ Refactor curation | [87](https://github.com/laminlabs/bionty/pull/87) | [falexwolf](https://github.com/falexwolf) | 2022-07-02 |
 📝 Prototype index standardization | [86](https://github.com/laminlabs/bionty/pull/86) | [falexwolf](https://github.com/falexwolf) | 2022-07-02 |
