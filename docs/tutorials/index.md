@@ -1,4 +1,4 @@
-# Tutorial
+# Tutorials
 
 Get started by browsing the [quickstart](quickstart) (species, gene, and protein) or the API [concepts](concepts).
 
