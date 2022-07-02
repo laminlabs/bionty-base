@@ -39,10 +39,6 @@ def get_compliant_index_from_column(
 ):
     """Get a reference-ID-compliant index based on a column with an alternative identifier.
 
-    Example:
-    >>> compliant_index = map_index_from_column(df, "ensemble_id")
-    >>> df.index = compliant_index
-
     This will fail for some entries if the column is not uniquely mappable to
     the Bionty ID.
 
