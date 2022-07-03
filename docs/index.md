@@ -3,10 +3,9 @@
 :end-line: 4
 ```
 
-_A performant API for interacting with biological entities._
-_Normalize metadata against established scientific standards with ease._
+_For background, see [Lamin Blog #4 (2022)](https://lamin.ai/notes/2022/bionty)._
 
-Ingested resource:
+Lookup & curate metadata based on scientific standards.
 
 - Gene: [HGNC](https://www.genenames.org/), [MGI](http://www.informatics.jax.org/), [Ensembl](https://ensembl.org/), [NCBI Gene](https://www.ncbi.nlm.nih.gov/gene/).
 - Protein: [Uniprot](https://www.uniprot.org/), [Chembl](https://www.ebi.ac.uk/chembl/), [Drugbank](https://go.drugbank.com/), [PDB](http://www.wwpdb.org/).
@@ -19,7 +18,6 @@ Ingested resource:
 
 - For a full data & analysis management system that integrates Bionty, consider [LaminDB](https://lamin.ai/lamindb).
 - More complex queries of relationships among entities are on the roadmap.
-- Eventually, we hope that an open API will enable collaborative data science across organizations at scale.
 ```
 
 Install:
