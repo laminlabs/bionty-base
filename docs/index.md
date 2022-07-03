@@ -6,10 +6,6 @@
 _A performant API for interacting with biological entities._
 _Normalize metadata against established scientific standards with ease._
 
-Biology highly relies on compiled knowledge, which exists in form of scientific databases such as NCBI, Ensembl, UniProt etc. However, computational biologists often struggle with information overload, which distract them from solving actual scientific problems. In addition, running large queries via REST APIs are often slow and not stable.
-
-Bionty is built to provide joyful experience when interacting with biological entities. It aims to reduce to a single source of reference and entry point for each biological entity.
-
 Ingested resource:
 
 - Gene: [HGNC](https://www.genenames.org/), [MGI](http://www.informatics.jax.org/), [Ensembl](https://ensembl.org/), [NCBI Gene](https://www.ncbi.nlm.nih.gov/gene/).
