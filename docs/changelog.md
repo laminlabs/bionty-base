@@ -3,15 +3,14 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-:memo: Move narrative paragraphs to blog post | [90](https://github.com/laminlabs/bionty/pull/90) | [falexwolf](https://github.com/falexwolf) | 2022-07-03 |
-:art: Added a developer API | [89](https://github.com/laminlabs/bionty/pull/89) | [falexwolf](https://github.com/falexwolf) | 2022-07-02 |
-✅ Add more tests for curation, rename Table to EntityTable | [88](https://github.com/laminlabs/bionty/pull/88) | [falexwolf](https://github.com/falexwolf) | 2022-07-02 |
+🎨  Added a developer API | [89](https://github.com/laminlabs/bionty/pull/89) | [falexwolf](https://github.com/falexwolf) | 2022-07-02 | 0.1.1
+✅ Add more tests for curation, rename `Table` to `EntityTable` | [88](https://github.com/laminlabs/bionty/pull/88) | [falexwolf](https://github.com/falexwolf) | 2022-07-02 |
 ♻️ Refactor curation | [87](https://github.com/laminlabs/bionty/pull/87) | [falexwolf](https://github.com/falexwolf) | 2022-07-02 |
 📝 Prototype index standardization | [86](https://github.com/laminlabs/bionty/pull/86) | [falexwolf](https://github.com/falexwolf) | 2022-07-02 |
-🎨 Polish APIs and writeups | [85](https://github.com/laminlabs/bionty/pull/85) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-30 |
+🎨 Polish APIs and tutorials | [85](https://github.com/laminlabs/bionty/pull/85) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-30 |
 ✨ Added MGI for mouse genes, switched to use feather for HGNC | [84](https://github.com/laminlabs/bionty/pull/84) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-29 |
 🍱 Added back the Protein entity | [83](https://github.com/laminlabs/bionty/pull/83) | [sunnyosun](https://github.com/sunnyosun) | 2022-06-29 |
-🚚 Move hard-to-test code from bionty into asset curation  | [82](https://github.com/laminlabs/bionty/pull/82) | [falexwolf](https://github.com/falexwolf) | 2022-06-28 |
+🚚 Move hard-to-test code from bionty into asset curation | [82](https://github.com/laminlabs/bionty/pull/82) | [falexwolf](https://github.com/falexwolf) | 2022-06-28 |
 🏗️ Simplify Bionty | [81](https://github.com/laminlabs/bionty/pull/81) | [falexwolf](https://github.com/falexwolf) | 2022-06-28 |
 🚸 Pull disease data from bionty-assets | [80](https://github.com/laminlabs/bionty/pull/80) | [falexwolf](https://github.com/falexwolf) | 2022-06-27 |
 🚸 Replace HGNC file access with our S3 bucket | [79](https://github.com/laminlabs/bionty/pull/79) | [falexwolf](https://github.com/falexwolf) | 2022-06-26 |
