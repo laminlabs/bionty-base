@@ -21,8 +21,6 @@ def get_compliant_index_from_column(
     df: pd.DataFrame,
     ref_df: pd.DataFrame,
     column: str,
-    *,
-    keep_data: bool = True,
 ):
     """Get a reference-ID-compliant index based on a column with an alternative identifier.
 
