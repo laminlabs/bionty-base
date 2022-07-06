@@ -60,8 +60,9 @@ class EntityTable:
             df.index = df.index if agg_col is None else df.index.map(alias_map)
             matches = check_if_index_compliant(df.index, self.df.index)
         else:
-            orig_values = df[column].values
+            orig_series = df[column]
             df[column] = df[column] if agg_col is None else df[column].map(alias_map)
+            df[column] = orig_series.fillna(orig_series)
             new_index, matches = get_compliant_index_from_column(
                 df=df,
                 ref_df=self.df,
@@ -74,7 +75,7 @@ class EntityTable:
                 df[df.index.name] = df.index
             df.index = new_index
             df.index.name = self._id_field
-            df[column] = orig_values
+            df[column] = orig_series.values
         # annotated what complies with the default ID
         df["__curated__"] = matches
         # some stats for logging
