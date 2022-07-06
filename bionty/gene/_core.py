@@ -87,6 +87,7 @@ class Gene(EntityTable):
         Returns the DataFrame with the curated index and a boolean `__curated__`
         column that indicates compliance with the default identifier.
         """
-        return super().curate(
-            df=df, column=column, agg_col=ALIAS_DICT.get(self._id_field)
-        )
+        agg_col = ALIAS_DICT.get(self._id_field)
+        if column is not None and ALIAS_DICT.get(column) is None:
+            agg_col = None
+        return super().curate(df=df, column=column, agg_col=agg_col)
