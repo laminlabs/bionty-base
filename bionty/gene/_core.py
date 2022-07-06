@@ -9,7 +9,7 @@ from .._table import EntityTable
 
 STD_ID_DICT = {"human": "hgnc_symbol", "mouse": "mgi_symbol"}
 FILENAMES = {"human": "hgnc_complete_set.feather", "mouse": "mgi_complete_set.feather"}
-ALIAS_DICT = {"hgnc_symbol": "alias_symbol"}
+ALIAS_DICT = {"hgnc_symbol": "alias_symbol", "mgi_symbol": "Synonyms"}
 
 
 class Gene(EntityTable):
