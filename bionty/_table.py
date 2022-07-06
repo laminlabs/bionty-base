@@ -57,7 +57,9 @@ class EntityTable:
 
         if column is None:
             df["orig_index"] = df.index
-            df.index = df.index if agg_col is None else df.index.map(alias_map)
+            df_index = df.index if agg_col is None else df.index.map(alias_map)
+            df["mapped_index"] = df_index
+            df.index = df["mapped_index"].fillna(df["orig_index"])
             matches = check_if_index_compliant(df.index, self.df.index)
         else:
             orig_series = df[column]
