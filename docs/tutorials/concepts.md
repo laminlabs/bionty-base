@@ -1,4 +1,4 @@
-# Concepts
+# Learn about concepts
 
 In many practical applications, a biological entity (e.g., `Species`) represents a variable that can take values from a vocabulary of terms.
 
