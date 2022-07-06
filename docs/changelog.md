@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+✨ Maps alias when using gene symbols | [92](https://github.com/laminlabs/bionty/pull/92) | [sunnyosun](https://github.com/sunnyosun) | 2022-07-06 |
 🎨  Added a developer API | [89](https://github.com/laminlabs/bionty/pull/89) | [falexwolf](https://github.com/falexwolf) | 2022-07-02 | 0.1.1
 ✅ Add more tests for curation, rename `Table` to `EntityTable` | [88](https://github.com/laminlabs/bionty/pull/88) | [falexwolf](https://github.com/falexwolf) | 2022-07-02 |
 ♻️ Refactor curation | [87](https://github.com/laminlabs/bionty/pull/87) | [falexwolf](https://github.com/falexwolf) | 2022-07-02 |
