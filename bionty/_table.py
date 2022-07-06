@@ -5,7 +5,11 @@ from functools import cached_property
 import pandas as pd
 
 from ._logging import logger
-from .dev._fix_index import check_if_index_compliant, get_compliant_index_from_column
+from .dev._fix_index import (
+    check_if_index_compliant,
+    explode_aggregated_column_to_expand,
+    get_compliant_index_from_column,
+)
 
 
 class Field(str, Enum):
@@ -31,7 +35,9 @@ class EntityTable:
         """Return an auto-complete object for a given field."""
         return namedtuple(field, self.df[field])
 
-    def curate(self, df: pd.DataFrame, column: str = None):
+    def curate(
+        self, df: pd.DataFrame, column: str = None, agg_col: str = None
+    ) -> pd.DataFrame:
         """Curate index of passed DataFrame to conform with default identifier.
 
         - If `column` is `None`, checks the existing index for compliance with
@@ -43,9 +49,22 @@ class EntityTable:
         column that indicates compliance with the default identifier.
         """
         df = df.copy()
+
+        if agg_col is not None:
+            alias_map = explode_aggregated_column_to_expand(
+                self.df.reset_index(), aggregated_col=agg_col, target_col=self._id_field
+            )[self._id_field]
+
         if column is None:
+            df["orig_index"] = df.index
+            df_index = df.index if agg_col is None else df.index.map(alias_map)
+            df["mapped_index"] = df_index
+            df.index = df["mapped_index"].fillna(df["orig_index"])
             matches = check_if_index_compliant(df.index, self.df.index)
         else:
+            orig_series = df[column]
+            df[column] = df[column] if agg_col is None else df[column].map(alias_map)
+            df[column] = orig_series.fillna(orig_series)
             new_index, matches = get_compliant_index_from_column(
                 df=df,
                 ref_df=self.df,
@@ -58,6 +77,7 @@ class EntityTable:
                 df[df.index.name] = df.index
             df.index = new_index
             df.index.name = self._id_field
+            df[column] = orig_series.values
         # annotated what complies with the default ID
         df["__curated__"] = matches
         # some stats for logging

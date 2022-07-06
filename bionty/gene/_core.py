@@ -9,6 +9,7 @@ from .._table import EntityTable
 
 STD_ID_DICT = {"human": "hgnc_symbol", "mouse": "mgi_symbol"}
 FILENAMES = {"human": "hgnc_complete_set.feather", "mouse": "mgi_complete_set.feather"}
+ALIAS_DICT = {"hgnc_symbol": "alias_symbol"}
 
 
 class Gene(EntityTable):
@@ -72,3 +73,21 @@ class Gene(EntityTable):
             f"https://bionty-assets.s3.amazonaws.com/{FILENAMES[self.species]}",
             self._filepath,
         )
+
+    def curate(  # type: ignore
+        self, df: pd.DataFrame, column: str = None
+    ) -> pd.DataFrame:
+        """Curate index of passed DataFrame to conform with default identifier.
+
+        - If `column` is `None`, checks the existing index for compliance with
+          the default identifier.
+        - If `column` denotes an entity identifier, tries to map that identifier
+          to the default identifier.
+
+        Returns the DataFrame with the curated index and a boolean `__curated__`
+        column that indicates compliance with the default identifier.
+        """
+        agg_col = ALIAS_DICT.get(self._id_field)
+        if column is not None and ALIAS_DICT.get(column) is None:
+            agg_col = None
+        return super().curate(df=df, column=column, agg_col=agg_col)
