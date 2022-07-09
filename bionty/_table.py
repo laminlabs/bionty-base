@@ -20,7 +20,7 @@ class Field(str, Enum):
 class EntityTable:
     """Biological entity as a EntityTable.
 
-    See :doc:`tutorials/index` for background.
+    See :doc:`tutorials` for background.
     """
 
     def __init__(self, id: Field = Field.field1):
