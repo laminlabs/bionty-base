@@ -114,3 +114,4 @@ docs/generated/*
 docs/bionty.*
 _dynamic/
 *.ipynb_checkpoints/
+_docs_tmp*
