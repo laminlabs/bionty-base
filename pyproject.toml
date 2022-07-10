@@ -21,6 +21,7 @@ dependencies = [
     "syncer",
     "orjson",
     "pyarrow",
+    "nbproject",
 ]
 
 [project.urls]
