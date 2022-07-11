@@ -3,7 +3,7 @@ from functools import cached_property
 
 import pandas as pd
 
-from .._normalize import NormalizeColumns
+from .._normalize import GENE_COLUMNS, NormalizeColumns
 from .._settings import check_datasetdir_exists, settings
 from .._table import EntityTable
 
@@ -88,6 +88,24 @@ class Gene(EntityTable):
         column that indicates compliance with the default identifier.
         """
         agg_col = ALIAS_DICT.get(self._id_field)
-        if column is not None and ALIAS_DICT.get(column) is None:
-            agg_col = None
-        return super().curate(df=df, column=column, agg_col=agg_col)
+        df = df.copy()
+
+        # if the query column name does not match any columns in the self.df
+        # Bionty assume the query column and the self._id_field uses the same type of
+        # identifier
+        orig_column = column
+        if column is not None:
+            if column not in self.df.columns:
+                # normalize the identifier column
+                column_norm = GENE_COLUMNS.get(column)
+                if column_norm in df.columns:
+                    raise ValueError("{column_norm} column already exist!")
+                else:
+                    column = self._id_field if column_norm is None else column_norm
+                    df.rename(columns={orig_column: column}, inplace=True)
+                agg_col = ALIAS_DICT.get(column)
+        return (
+            super()
+            .curate(df=df, column=column, agg_col=agg_col)
+            .rename(columns={column: orig_column})
+        )

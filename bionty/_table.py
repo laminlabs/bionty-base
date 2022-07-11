@@ -51,33 +51,38 @@ class EntityTable:
         df = df.copy()
 
         if agg_col is not None:
+            # if provided a column with aggregated values, performs alias mapping
             alias_map = explode_aggregated_column_to_expand(
                 self.df.reset_index(), aggregated_col=agg_col, target_col=self._id_field
             )[self._id_field]
 
         if column is None:
+            # when column is None, use index as the input column
+            df["__mapped_index"] = (
+                df.index if agg_col is None else df.index.map(alias_map)
+            )
             df["orig_index"] = df.index
-            df_index = df.index if agg_col is None else df.index.map(alias_map)
-            df["mapped_index"] = df_index
-            df.index = df["mapped_index"].fillna(df["orig_index"])
+            df.index = df["__mapped_index"].fillna(df["orig_index"])
             matches = check_if_index_compliant(df.index, self.df.index)
         else:
             orig_series = df[column]
             df[column] = df[column] if agg_col is None else df[column].map(alias_map)
-            df[column] = orig_series.fillna(orig_series)
+            df[column] = df[column].fillna(orig_series)
             new_index, matches = get_compliant_index_from_column(
                 df=df,
                 ref_df=self.df,
                 column=column,
             )
 
+            # keep the original index name as column name if exists
+            # otherwise name it "orig_index"
             if df.index.name is None:
                 df["orig_index"] = df.index
             else:
                 df[df.index.name] = df.index
             df.index = new_index
             df.index.name = self._id_field
-            df[column] = orig_series.values
+            df[column] = orig_series.values  # keep the original column untouched
         # annotated what complies with the default ID
         df["__curated__"] = matches
         # some stats for logging
