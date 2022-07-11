@@ -16,8 +16,8 @@ class Gene(EntityTable):
     """Gene.
 
     The default indexes chosen are
-    - human: HGNC symbol
-    - mouse: MGI symbol
+    - human: hgnc_symbol
+    - mouse: mgi_symbol
 
     We think these identifiers are the best unambiguous ways to reference genes.
 
