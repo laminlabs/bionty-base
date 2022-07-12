@@ -58,11 +58,14 @@ class EntityTable:
 
         if column is None:
             # when column is None, use index as the input column
+            index_name = df.index.name
             df["__mapped_index"] = (
                 df.index if agg_col is None else df.index.map(alias_map)
             )
             df["orig_index"] = df.index
             df.index = df["__mapped_index"].fillna(df["orig_index"])
+            del df["__mapped_index"]
+            df.index.name = index_name
             matches = check_if_index_compliant(df.index, self.df.index)
         else:
             orig_series = df[column]

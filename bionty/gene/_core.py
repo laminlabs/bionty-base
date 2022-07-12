@@ -94,16 +94,15 @@ class Gene(EntityTable):
         # Bionty assume the query column and the self._id_field uses the same type of
         # identifier
         orig_column = column
-        if column is not None:
-            if column not in self.df.columns:
-                # normalize the identifier column
-                column_norm = GENE_COLUMNS.get(column)
-                if column_norm in df.columns:
-                    raise ValueError("{column_norm} column already exist!")
-                else:
-                    column = self._id_field if column_norm is None else column_norm
-                    df.rename(columns={orig_column: column}, inplace=True)
-                agg_col = ALIAS_DICT.get(column)
+        if column is not None and column not in self.df.columns:
+            # normalize the identifier column
+            column_norm = GENE_COLUMNS.get(column)
+            if column_norm in df.columns:
+                raise ValueError("{column_norm} column already exist!")
+            else:
+                column = self._id_field if column_norm is None else column_norm
+                df.rename(columns={orig_column: column}, inplace=True)
+            agg_col = ALIAS_DICT.get(column)
         return (
             super()
             .curate(df=df, column=column, agg_col=agg_col)
