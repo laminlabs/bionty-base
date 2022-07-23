@@ -2,7 +2,7 @@ from pathlib import Path
 
 from nbproject.dev import test
 
-from bionty._logging import logger
+from bionty._logger import logger
 
 
 def test_notebooks():
