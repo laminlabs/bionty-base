@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🔥 Switched logger to use lamin-logger | [95](https://github.com/laminlabs/bionty/pull/95) | [sunnyosun](https://github.com/sunnyosun) | 2022-07-23 |
 ✨ Allow to input columns with non-standard names | [93](https://github.com/laminlabs/bionty/pull/93) | [sunnyosun](https://github.com/sunnyosun) | 2022-07-11 | 0.1.2
 ✨ Maps alias when using gene symbols | [92](https://github.com/laminlabs/bionty/pull/92) | [sunnyosun](https://github.com/sunnyosun) | 2022-07-06 |
 🎨  Added a developer API | [89](https://github.com/laminlabs/bionty/pull/89) | [falexwolf](https://github.com/falexwolf) | 2022-07-02 | 0.1.1
