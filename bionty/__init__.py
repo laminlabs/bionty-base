@@ -22,6 +22,15 @@ Entities:
    CellType
    Disease
 
+Autolook up shortcuts:
+
+.. autosummary::
+   :toctree: .
+
+   species
+   cell_type
+   disease
+
 Developer API:
 
 .. autosummary::
@@ -36,10 +45,10 @@ __version__ = "0.1.2"
 
 # dynamic classes
 from .gene import Gene
-from .species import Species
+from .species import Species, species
 from .protein import Protein
-from .celltype import CellType
-from .disease import Disease
+from .celltype import CellType, cell_type
+from .disease import Disease, disease
 
 # tools
 from ._normalize import NormalizeColumns

@@ -24,3 +24,6 @@ class Disease(EntityTable):
     def df(self) -> pd.DataFrame:
         """DataFrame."""
         return pd.DataFrame(pd.Series(self._onto_dict))
+
+
+disease = Disease().lookup
