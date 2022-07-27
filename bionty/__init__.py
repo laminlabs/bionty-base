@@ -22,15 +22,6 @@ Entities:
    CellType
    Disease
 
-Autolook up shortcuts:
-
-.. autosummary::
-   :toctree: .
-
-   species
-   cell_type
-   disease
-
 Developer API:
 
 .. autosummary::
