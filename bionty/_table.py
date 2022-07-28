@@ -13,6 +13,7 @@ from .dev._fix_index import (
 
 
 def _todict(x: list) -> dict:
+    """Convert a list of strings to tab-completion allowed formats."""
     return {
         i.translate({ord(c): "_" for c in "-. !@#$%^&*()[]{};:,/<>?|`~=+'\""}): i
         for i in x
@@ -38,10 +39,11 @@ class EntityTable:
         """DataFrame representation of EntityTable."""
         raise NotImplementedError
 
-    def lookup(self, field):
-        """Return an auto-complete object for a given field."""
-        values = _todict(self.df[field])
-        nt = namedtuple(field, values.keys())
+    @cached_property
+    def lookup(self):
+        """Return an auto-complete object for the bionty id."""
+        values = _todict(self.df.index.to_list())
+        nt = namedtuple("id", values.keys())
 
         return nt(**values)
 
