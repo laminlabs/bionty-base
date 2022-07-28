@@ -58,3 +58,6 @@ class Species(EntityTable):
         """Lookup object for auto-complete."""
         values = self.df.index.to_list()
         return namedtuple("id", values)
+
+
+species = Species().lookup

@@ -7,16 +7,16 @@ from .._io import read_json
 from .._table import EntityTable
 
 
-class Disease(EntityTable):
-    """Disease.
+class CellType(EntityTable):
+    """Cell type.
 
     Edits of terms are coordinated and reviewed on:
-    https://github.com/monarch-initiative/mondo
+    https://github.com/obophenotype/cell-ontology
     """
 
-    def __init__(self, reload: bool = False) -> None:
+    def __init__(self) -> None:
         filename, _ = urlretrieve(
-            "https://bionty-assets.s3.amazonaws.com/mondo-base.json"
+            "https://bionty-assets.s3.amazonaws.com/cl-simple.json"
         )
         self._onto_dict = read_json(filename)
 
@@ -24,3 +24,6 @@ class Disease(EntityTable):
     def df(self) -> pd.DataFrame:
         """DataFrame."""
         return pd.DataFrame(pd.Series(self._onto_dict))
+
+
+cell_type = CellType().lookup

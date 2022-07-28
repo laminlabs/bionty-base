@@ -12,6 +12,13 @@ from .dev._fix_index import (
 )
 
 
+def _todict(x: list) -> dict:
+    return {
+        i.translate({ord(c): "_" for c in "-. !@#$%^&*()[]{};:,/<>?|`~=+'\""}): i
+        for i in x
+    }
+
+
 class Field(str, Enum):
     field1 = "field1"
     field2 = "field2"
@@ -33,7 +40,10 @@ class EntityTable:
 
     def lookup(self, field):
         """Return an auto-complete object for a given field."""
-        return namedtuple(field, self.df[field])
+        values = _todict(self.df[field])
+        nt = namedtuple(field, values.keys())
+
+        return nt(**values)
 
     def curate(
         self, df: pd.DataFrame, column: str = None, agg_col: str = None
