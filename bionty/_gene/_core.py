@@ -62,8 +62,10 @@ class Gene(EntityTable):
     @cached_property
     def lookup(self):
         """Lookup object for auto-complete."""
-        values = self.df.index.str.replace("-", "_").str.rstrip("@").to_list()
-        return namedtuple("id", values)
+        values = {i.replace("-", "_").rstrip("@"): i for i in self.df.index.values}
+        nt = namedtuple(self._id_field, values.keys())
+
+        return nt(**values)
 
     @check_datasetdir_exists
     def _download_df(self):

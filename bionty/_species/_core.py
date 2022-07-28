@@ -1,4 +1,3 @@
-from collections import namedtuple
 from enum import Enum
 from functools import cached_property
 from pathlib import Path
@@ -52,12 +51,6 @@ class Species(EntityTable):
         # let's now do a groupby to get a unique index
         df = df.groupby(self._id_field).agg("; ".join)
         return df
-
-    @cached_property
-    def lookup(self):
-        """Lookup object for auto-complete."""
-        values = self.df.index.to_list()
-        return namedtuple("id", values)
 
 
 species = Species().lookup
