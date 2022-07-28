@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-✨ Added shortcuts for looking up static sets | [96](https://github.com/laminlabs/bionty/pull/96) | [sunnyosun](https://github.com/sunnyosun) | 2022-07-28 |
+✨ Added shortcuts for looking up static sets | [96](https://github.com/laminlabs/bionty/pull/96) | [sunnyosun](https://github.com/sunnyosun) | 2022-07-28 | 0.1.3
 🔥 Switched logger to use lamin-logger | [95](https://github.com/laminlabs/bionty/pull/95) | [sunnyosun](https://github.com/sunnyosun) | 2022-07-23 |
 ✨ Allow to input columns with non-standard names | [93](https://github.com/laminlabs/bionty/pull/93) | [sunnyosun](https://github.com/sunnyosun) | 2022-07-11 | 0.1.2
 ✨ Maps alias when using gene symbols | [92](https://github.com/laminlabs/bionty/pull/92) | [sunnyosun](https://github.com/sunnyosun) | 2022-07-06 |
