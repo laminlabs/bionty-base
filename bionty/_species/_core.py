@@ -51,6 +51,3 @@ class Species(EntityTable):
         # let's now do a groupby to get a unique index
         df = df.groupby(self._id_field).agg("; ".join)
         return df
-
-
-species = Species().lookup
