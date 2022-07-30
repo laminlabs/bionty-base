@@ -17,11 +17,6 @@ class Protein:
         self._filepath = settings.datasetdir / f"{self.species}-uniprot.feather"
 
     @property
-    def entity(self):
-        """The entity name."""
-        return "protein"
-
-    @property
     def species(self):
         """The `common_name` of `Species` entity EntityTable."""
         return self._species

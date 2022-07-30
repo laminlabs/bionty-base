@@ -41,11 +41,6 @@ class Gene(EntityTable):
         self._id_field = STD_ID_DICT[species] if id is None else id
 
     @property
-    def entity(self):
-        """The entity name."""
-        return "gene"
-
-    @property
     def species(self):
         """The `common_name` of `Species` entity EntityTable."""
         return self._species
