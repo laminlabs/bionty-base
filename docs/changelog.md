@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🐛 Fixed duplicated index during curate | [100](https://github.com/laminlabs/bionty/pull/100) | [sunnyosun](https://github.com/sunnyosun) | 2022-07-31 |
 ✨ Added `lookup` module for lookups | [98](https://github.com/laminlabs/bionty/pull/98) | [sunnyosun](https://github.com/sunnyosun) | 2022-07-31 | 0.1.5
 🔥 Removed duplicated code in lookup | [97](https://github.com/laminlabs/bionty/pull/97) | [sunnyosun](https://github.com/sunnyosun) | 2022-07-28 | 0.1.4
 ✨ Added shortcuts for looking up static sets | [96](https://github.com/laminlabs/bionty/pull/96) | [sunnyosun](https://github.com/sunnyosun) | 2022-07-28 | 0.1.3
