@@ -46,4 +46,4 @@ from ._normalize import NormalizeColumns
 from ._table import EntityTable
 
 # dev
-from .dev import vocabulary
+from .dev import lookup
