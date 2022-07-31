@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-✨ Added `lookup` module for lookups | [98](https://github.com/laminlabs/bionty/pull/98) | [sunnyosun](https://github.com/sunnyosun) | 2022-07-31 |
+✨ Added `lookup` module for lookups | [98](https://github.com/laminlabs/bionty/pull/98) | [sunnyosun](https://github.com/sunnyosun) | 2022-07-31 | 0.1.5
 🔥 Removed duplicated code in lookup | [97](https://github.com/laminlabs/bionty/pull/97) | [sunnyosun](https://github.com/sunnyosun) | 2022-07-28 | 0.1.4
 ✨ Added shortcuts for looking up static sets | [96](https://github.com/laminlabs/bionty/pull/96) | [sunnyosun](https://github.com/sunnyosun) | 2022-07-28 | 0.1.3
 🔥 Switched logger to use lamin-logger | [95](https://github.com/laminlabs/bionty/pull/95) | [sunnyosun](https://github.com/sunnyosun) | 2022-07-23 |
