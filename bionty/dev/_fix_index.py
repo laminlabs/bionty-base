@@ -67,6 +67,7 @@ def get_compliant_index_from_column(
     # mapped_dict is the {query_id: bionty_id}, where query_id = ref_df[column]
     lookup_df_mappable = lookup_df.loc[query_values[matches]]
     mapper = lookup_df_mappable["bionty_id"]
+    mapper = mapper.drop_duplicates()
     new_index = df[column].map(mapper)  # what's unmappable results in nan
     new_index = new_index.fillna(df[column]).values  # fill nans with orig values
 
