@@ -36,11 +36,14 @@ __version__ = "0.1.4"
 
 # dynamic classes
 from ._gene import Gene
-from ._species import Species, species
+from ._species import Species
 from ._protein import Protein
-from ._celltype import CellType, cell_type
-from ._disease import Disease, disease
+from ._celltype import CellType
+from ._disease import Disease
 
 # tools
 from ._normalize import NormalizeColumns
 from ._table import EntityTable
+
+# dev
+from .dev import lookup

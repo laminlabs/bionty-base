@@ -2,10 +2,10 @@ import pandas as pd
 
 GENE_COLUMNS = {
     "HGNC": "hgnc_id",
-    "ensembl_gn_id": "ensembl.gene_id",
-    "ensembl_gene_id": "ensembl.gene_id",
-    "entrezgene_id": "entrez.gene_id",
-    "entrez_id": "entrez.gene_id",
+    "HGNC symbol": "hgnc_symbol",
+    "ensembl_gn_id": "ensembl_gene_id",
+    "entrezgene_id": "entrez_gene_id",
+    "entrez_id": "entrez_gene_id",
     "MGI Marker Accession ID": "mgi_id",
     "Marker Symbol": "mgi_symbol",
 }

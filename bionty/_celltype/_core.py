@@ -24,6 +24,3 @@ class CellType(EntityTable):
     def df(self) -> pd.DataFrame:
         """DataFrame."""
         return pd.DataFrame(pd.Series(self._onto_dict))
-
-
-cell_type = CellType().lookup
