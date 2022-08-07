@@ -13,13 +13,7 @@ dependencies = [
     "pandas",
     "loguru",
     "typeguard",
-    "biothings_client",
-    "xmltodict",
-    "owlready2",
-    "pydantic",
-    "httpx",
-    "nest_asyncio",
-    "syncer",
+    "pronto",
     "orjson",
     "pyarrow",
     "nbproject",
@@ -38,7 +32,6 @@ test = [
     "pytest-cov",
     "nbmake",
     "scanpy",
-    "biomart",
 ]
 
 [project.scripts]

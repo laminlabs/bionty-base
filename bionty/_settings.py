@@ -14,6 +14,15 @@ def check_datasetdir_exists(f):
     return wrapper
 
 
+def check_dynamicdir_exists(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        settings.dynamicdir.mkdir(exist_ok=True)
+        return f(*args, **kwargs)
+
+    return wrapper
+
+
 class Settings:
     def __init__(
         self,
