@@ -14,8 +14,8 @@ class CellType(EntityTable):
     https://github.com/obophenotype/cell-ontology
     """
 
-    def __init__(self) -> None:
-        pass
+    def __init__(self, reload=False) -> None:
+        self._reload = reload
 
     @cached_property
     def df(self) -> pd.DataFrame:
@@ -34,5 +34,5 @@ class CellType(EntityTable):
         """Cell ontology."""
         url = "http://purl.obolibrary.org/obo/cl/cl-simple.obo"
         localpath = settings.dynamicdir / "cl-simple.obo"
-        url = None if localpath.exists() else url
+        url = url if ((not localpath.exists()) or (self._reload)) else None
         return Ontology(handle=localpath, url=url)
