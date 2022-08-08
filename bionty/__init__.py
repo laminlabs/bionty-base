@@ -10,6 +10,7 @@ The base model for every entity class is:
    :toctree: .
 
    EntityTable
+   Ontology
 
 Entities:
 
@@ -31,7 +32,7 @@ Developer API:
 
 """
 
-__version__ = "0.1.6"
+__version__ = "0.1.7"
 
 
 # dynamic classes
