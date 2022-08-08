@@ -21,5 +21,4 @@ lookup
 concepts
 celltype
 disease
-tissue
 ```
