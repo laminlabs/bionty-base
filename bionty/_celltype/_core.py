@@ -35,4 +35,7 @@ class CellType(EntityTable):
         url = "http://purl.obolibrary.org/obo/cl/cl-simple.obo"
         localpath = settings.dynamicdir / "cl-simple.obo"
         url = url if ((not localpath.exists()) or (self._reload)) else None
-        return Ontology(handle=localpath, url=url)
+        ontology_ = Ontology(handle=localpath, url=url)
+        if url is not None:
+            ontology_.write_obo()
+        return ontology_
