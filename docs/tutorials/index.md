@@ -10,7 +10,6 @@ Explore additional entities:
 
 - {doc}`celltype`
 - {doc}`disease`
-- {doc}`tissue`
 
 ```{toctree}
 :maxdepth: 2
@@ -21,5 +20,4 @@ lookup
 concepts
 celltype
 disease
-tissue
 ```

@@ -47,6 +47,11 @@ class EntityTable:
 
         return nt(**values)
 
+    @cached_property
+    def ontology(self):
+        """Ontology."""
+        return NotImplementedError
+
     def curate(
         self, df: pd.DataFrame, column: str = None, agg_col: str = None
     ) -> pd.DataFrame:
