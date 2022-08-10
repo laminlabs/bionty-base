@@ -12,6 +12,15 @@ class Ontology(pronto.Ontology):
     """Interface with ontologies via pronto.
 
     Also see: https://pronto.readthedocs.io/en/stable/api/pronto.Ontology.html
+
+    Args:
+        handle: Path to an ontology file.
+        import_depth: The maximum depth of imports to resolve in the ontology tree.
+        timeout: The timeout in seconds to use when performing network I/O.
+        threads: The number of threads to use when parsing.
+        url: The url of ontology.
+        prefix: Dev only -> prefix for get_term.
+
     """
 
     def __init__(
