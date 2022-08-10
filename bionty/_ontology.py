@@ -9,7 +9,10 @@ from ._settings import check_dynamicdir_exists, settings
 
 
 class Ontology(pronto.Ontology):
-    """Interface with ontologies."""
+    """Interface with ontologies via pronto.
+
+    Also see: https://pronto.readthedocs.io/en/stable/api/pronto.Ontology.html
+    """
 
     def __init__(
         self,
@@ -41,3 +44,7 @@ class Ontology(pronto.Ontology):
             return super().get_term(term)
         except KeyError:
             return super().get_term(f"{self._prefix}{term.replace(':', '_')}")
+
+    def _list_subclasses(self, term, distance=1, with_self=False):
+        termclass = self.get_term(term)
+        return list(termclass.subclasses(distance=distance, with_self=with_self))
