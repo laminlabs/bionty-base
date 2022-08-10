@@ -31,7 +31,7 @@ Developer API:
 
 """
 
-__version__ = "0.1.7"
+__version__ = "0.1.8"
 
 
 # dynamic classes
