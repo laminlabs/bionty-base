@@ -31,6 +31,7 @@ class Ontology(pronto.Ontology):
 
     @check_dynamicdir_exists
     def write_obo(self, filename: Union[str, None] = None):
+        """Write ontology to .obo file."""
         if filename is None:
             filename = self.path.split("/")[-1].replace(".owl", ".obo")
             filepath = settings.dynamicdir / filename
@@ -40,11 +41,13 @@ class Ontology(pronto.Ontology):
         return filepath
 
     def get_term(self, term):
+        """Search an ontology by its id."""
         try:
             return super().get_term(term)
         except KeyError:
             return super().get_term(f"{self._prefix}{term.replace(':', '_')}")
 
     def _list_subclasses(self, term, distance=1, with_self=False):
+        """Subclasses of a term."""
         termclass = self.get_term(term)
         return list(termclass.subclasses(distance=distance, with_self=with_self))
