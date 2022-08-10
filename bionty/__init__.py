@@ -10,7 +10,6 @@ The base model for every entity class is:
    :toctree: .
 
    EntityTable
-   Ontology
 
 Entities:
 
