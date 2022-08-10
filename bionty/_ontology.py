@@ -17,7 +17,9 @@ class Ontology(pronto.Ontology):
         import_depth: int = -1,
         threads: Union[int, None] = None,
         url: Union[str, None] = None,
+        prefix: str = None,
     ) -> None:
+        self._prefix = "" if prefix is None else prefix
         warnings.filterwarnings("ignore", category=pronto.warnings.ProntoWarning)
         if url is not None:
             logger.info("Downloading ontology for the first time might take a while...")
@@ -33,3 +35,9 @@ class Ontology(pronto.Ontology):
             self.dump(f, format="obo")
 
         return filepath
+
+    def get_term(self, term):
+        try:
+            return super().get_term(term)
+        except KeyError:
+            return super().get_term(f"{self._prefix}{term.replace(':', '_')}")
