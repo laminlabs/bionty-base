@@ -27,6 +27,7 @@ class Ontology(pronto.Ontology):
         self,
         handle: Union[str, Path, BinaryIO, None] = None,
         import_depth: int = -1,
+        timeout: int = 100,
         threads: Union[int, None] = None,
         url: Union[str, None] = None,
         prefix: str = None,
@@ -36,7 +37,9 @@ class Ontology(pronto.Ontology):
         if url is not None:
             logger.info("Downloading ontology for the first time might take a while...")
             handle = url
-        super().__init__(handle=handle, import_depth=import_depth, threads=threads)
+        super().__init__(
+            handle=handle, import_depth=import_depth, timeout=timeout, threads=threads
+        )
 
     @check_dynamicdir_exists
     def write_obo(self, filename: Union[str, None] = None):
