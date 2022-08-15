@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+⚡ Use display_name as common_name so that its unique | [107](https://github.com/laminlabs/bionty/pull/107) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-15 |
 🩹 Increased timeout | [106](https://github.com/laminlabs/bionty/pull/106) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-11 | 0.1.9
 🩹 Modify `get_term` | [104](https://github.com/laminlabs/bionty/pull/104) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-10 | 0.1.8
 ✨ Use pronto to access cell type ontology | [103](https://github.com/laminlabs/bionty/pull/103) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-08 | 0.1.7
