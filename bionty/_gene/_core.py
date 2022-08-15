@@ -60,6 +60,10 @@ class Gene(EntityTable):
                 self._download_df()
             df = pd.read_feather(self._filepath)
             NormalizeColumns.gene(df, species=self.species)
+            # ensure entrez_gene_id is int
+            df["entrez_gene_id"] = (
+                df["entrez_gene_id"].astype(str).str.replace(".0", "", regex=False)
+            )
             if not isinstance(df.index, pd.RangeIndex):
                 df = df.reset_index().copy()
             return df.set_index(self._id_field)
