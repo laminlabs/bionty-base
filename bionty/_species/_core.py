@@ -37,8 +37,9 @@ class Species(EntityTable):
         # they behave like strings as, for instance, they cannot be added
         # if we wouldn't do this, we couldn't also properly aggregate in the groupby
         df = pd.read_csv(SPECIES_FILENAME, header=0, dtype=str)
-        # we'll drop the display name as it's redundant with common_name
-        df = df.drop("display_name", axis=1)
+        # we'll use the display_name as common_name as it's unique
+        df = df.drop("common_name", axis=1)
+        df.rename(columns={"display_name": "common_name"}, inplace=True)
         # we'll lower case and _ concat the common name
         df.common_name = (
             df.common_name.str.lower()
