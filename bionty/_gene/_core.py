@@ -5,29 +5,23 @@ import pandas as pd
 
 from .._normalize import GENE_COLUMNS, NormalizeColumns
 from .._settings import check_datasetdir_exists, settings
-from .._table import EntityTable
+from .._table import EntityTable, _todict
 
-STD_ID_DICT = {"human": "hgnc_symbol", "mouse": "mgi_symbol"}
-FILENAMES = {"human": "hgnc_complete_set.feather", "mouse": "mgi_complete_set.feather"}
-ALIAS_DICT = {"hgnc_symbol": "alias_symbol", "mgi_symbol": "Synonyms"}
+ALIAS_DICT = {"name": "synonyms"}
 
 
 class Gene(EntityTable):
     """Gene.
 
-    The default indexes chosen are
-    - human: hgnc_symbol
-    - mouse: mgi_symbol
-
-    We think these identifiers are the best unambiguous ways to reference genes.
+    The default indexer is `ensembl_gene_id`
 
     Args:
         species: `common_name` of `Species` entity EntityTable.
-        id: If `None`, chooses an id field in a species dependent way.
+        id: default is `ensembl_gene_id`
 
     Notes:
-        Biotypes: https://useast.ensembl.org/info/genome/genebuild/biotypes.html
-        Gene Naming: https://useast.ensembl.org/info/genome/genebuild/gene_names.html
+        Biotypes: https://www.ensembl.org/info/genome/genebuild/biotypes.html
+        Gene Naming: https://www.ensembl.org/info/genome/genebuild/gene_names.html
 
     """
 
@@ -37,8 +31,8 @@ class Gene(EntityTable):
         id=None,
     ):
         self._species = species
-        self._filepath = settings.datasetdir / FILENAMES[species]
-        self._id_field = STD_ID_DICT[species] if id is None else id
+        self._filepath = settings.datasetdir / f"ensembl-ids-{self.species}.feather"
+        self._id_field = "ensembl_gene_id" if id is None else id
 
     @property
     def entity(self):
@@ -59,20 +53,20 @@ class Gene(EntityTable):
             if not self._filepath.exists():
                 self._download_df()
             df = pd.read_feather(self._filepath)
+            df = df.loc[
+                :, ~df.columns.isin(["Transcript stable ID", "Protein stable ID"])
+            ]
+            df = df.drop_duplicates()
             NormalizeColumns.gene(df, species=self.species)
-            if "entrez_gene_id" in df.columns:
-                # ensure entrez_gene_id is int
-                df["entrez_gene_id"] = (
-                    df["entrez_gene_id"].astype(str).str.replace(".0", "", regex=False)
-                )
-            if not isinstance(df.index, pd.RangeIndex):
+            if not df.index.is_numeric():
                 df = df.reset_index().copy()
+            df = df[~df[self._id_field].isnull()]
             return df.set_index(self._id_field)
 
     @cached_property
     def lookup(self):
         """Lookup object for auto-complete."""
-        values = {i.replace("-", "_").rstrip("@"): i for i in self.df.index.values}
+        values = _todict(self.df.index.values)
         nt = namedtuple(self._id_field, values.keys())
 
         return nt(**values)
@@ -81,8 +75,10 @@ class Gene(EntityTable):
     def _download_df(self):
         from urllib.request import urlretrieve
 
+        s3_bucket = "https://bionty-assets.s3.amazonaws.com/"
+
         urlretrieve(
-            f"https://bionty-assets.s3.amazonaws.com/{FILENAMES[self.species]}",
+            f"{s3_bucket}ensembl-ids-{self.species}.feather",
             self._filepath,
         )
 
