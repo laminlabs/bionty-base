@@ -14,7 +14,7 @@ def lookup(values: Iterable[str]):
 
 
 feature_model = lookup(values=FEATURES)
-gene_ids = lookup(values=set(GENE_COLUMNS.values()))
+gene_id = lookup(values=set(GENE_COLUMNS.values()))
 species = Species().lookup
 cell_type = CellType().lookup
 disease = Disease().lookup
