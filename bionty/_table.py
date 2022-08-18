@@ -14,10 +14,16 @@ from .dev._fix_index import (
 
 def _todict(x: list) -> dict:
     """Convert a list of strings to tab-completion allowed formats."""
-    return {
-        i.translate({ord(c): "_" for c in "-. !@#$%^&*()[]{};:,/<>?|`~=+'\""}): i
+    mapper = {
+        i.translate({ord(c): "_" for c in "-. !@#$%^&*()[]{};:,/<>?|`~=+'\""}).rstrip(
+            "@"
+        ): i
         for i in x
     }
+    for k in list(mapper.keys()):
+        if k[0].isdigit():
+            mapper[f"LOOKUP_{k}"] = mapper.pop(k)
+    return mapper
 
 
 class Field(str, Enum):
