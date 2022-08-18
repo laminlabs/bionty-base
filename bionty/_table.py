@@ -115,7 +115,7 @@ class EntityTable:
         n_misses = len(matches) - matches.sum()
         frac_misses = round(n_misses / len(matches) * 100, 1)
         n_mapped = matches.sum()
-        frac_mapped = 1 - frac_misses
-        logger.success(f"{n_mapped} terms ({frac_mapped}%) are mappable.")
-        logger.warning(f"{n_misses} terms ({frac_misses}%) are not mappable.")
+        frac_mapped = 100 - frac_misses
+        logger.success(f"{n_mapped} terms ({frac_mapped}%) are linked.")
+        logger.warning(f"{n_misses} terms ({frac_misses}%) are not linked.")
         return df
