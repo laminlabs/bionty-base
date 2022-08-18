@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🚚 Rename gene_ids to gene_id | [110](https://github.com/laminlabs/bionty/pull/110) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-18 |
 🎨 Migrate to ensembl gene reference | [109](https://github.com/laminlabs/bionty/pull/109) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-18 |
 🎨 Ensure `entrez_gene_id` is `int` | [108](https://github.com/laminlabs/bionty/pull/108) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-16 | 0.1.10
 ⚡ Use display_name as common_name so that its unique | [107](https://github.com/laminlabs/bionty/pull/107) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-15 |
