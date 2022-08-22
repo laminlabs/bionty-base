@@ -1,7 +1,7 @@
 [![Coverage](https://codecov.io/gh/laminlabs/bionty/branch/main/graph/badge.svg?token=8292E0S0Z7)](https://codecov.io/gh/laminlabs/bionty)
 [![pypi](https://img.shields.io/pypi/v/bionty?color=%2334D058&label=pypi%20package)](https://pypi.org/project/bionty)
 
-# Bionty: Open data model for biology
+# Bionty: Data model generator for biology
 
 This package is in private beta at this moment!
 
