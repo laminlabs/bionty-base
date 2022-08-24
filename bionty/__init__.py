@@ -22,12 +22,12 @@ Entities:
    CellType
    Disease
 
-Developer API:
+Lookup of vocabulary:
 
 .. autosummary::
    :toctree: .
 
-   dev
+   lookup
 
 """
 
