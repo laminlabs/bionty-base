@@ -1,10 +1,10 @@
 from collections import namedtuple
 from typing import Iterable
 
+from ..._celltype._core import CellType
+from ..._disease._core import Disease
 from ..._normalize import GENE_COLUMNS
-from ...celltype._core import CellType
-from ...disease._core import Disease
-from ...species._core import Species
+from ..._species._core import Species
 
 FEATURES = ["gene", "protein"]
 
