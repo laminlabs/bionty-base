@@ -45,6 +45,4 @@ from ._disease import Disease
 from ._normalize import NormalizeColumns
 from ._table import EntityTable
 from ._ontology import Ontology
-
-# dev
-from .dev import lookup
+from ._lookup import lookup
