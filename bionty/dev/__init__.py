@@ -10,5 +10,3 @@ from ._fix_index import (
     check_if_index_compliant,
     get_compliant_index_from_column,
 )  # noqa
-
-from . import lookup
