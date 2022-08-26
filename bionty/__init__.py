@@ -20,6 +20,7 @@ Entities:
    Gene
    Protein
    CellType
+   CellMarker
    Disease
 
 Lookup of vocabulary:
@@ -39,6 +40,7 @@ from ._gene import Gene
 from ._species import Species
 from ._protein import Protein
 from ._celltype import CellType
+from ._cellmarker import CellMarker
 from ._disease import Disease
 
 # tools

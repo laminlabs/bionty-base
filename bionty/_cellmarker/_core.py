@@ -1,0 +1,51 @@
+from functools import cached_property
+
+import pandas as pd
+
+from .._settings import check_datasetdir_exists, settings
+
+
+class CellMarker:
+    """Cell markers.
+
+    Args:
+        species: `common_name` of `Species` entity EntityTable.
+    """
+
+    def __init__(self, species="human", id=None) -> None:
+        self._species = species
+        self._filepath = settings.datasetdir / f"CellMarker-{self.species}.feather"
+        self._id_field = "cell_marker" if id is None else id
+
+    @property
+    def entity(self):
+        """Name of the entity."""
+        return "cell_marker"
+
+    @property
+    def species(self):
+        """The `common_name` of `Species` entity EntityTable."""
+        return self._species
+
+    @cached_property
+    def df(self):
+        """DataFrame.
+
+        See ingestion: https://lamin.ai/docs/bionty-assets/ingest/2022-08-26-cell-marker
+        """
+        if self.species not in {"human"}:
+            raise NotImplementedError
+        else:
+            if not self._filepath.exists():
+                self._download_df()
+            df = pd.read_feather(self._filepath)
+            return df.set_index(self._id_field)
+
+    @check_datasetdir_exists
+    def _download_df(self):
+        from urllib.request import urlretrieve
+
+        urlretrieve(
+            f"https://bionty-assets.s3.amazonaws.com/CellMarker-{self.species}.feather",
+            self._filepath,
+        )
