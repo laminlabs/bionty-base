@@ -7,7 +7,7 @@ from .._normalize import GENE_COLUMNS, NormalizeColumns
 from .._settings import check_datasetdir_exists, settings
 from .._table import EntityTable, _todict
 
-ALIAS_DICT = {"name": "synonyms"}
+ALIAS_DICT = {"gene_symbol": "gene_synonyms"}
 
 
 class Gene(EntityTable):
@@ -46,7 +46,10 @@ class Gene(EntityTable):
 
     @cached_property
     def df(self):
-        """DataFrame."""
+        """DataFrame.
+
+        See ingestion: https://lamin.ai/docs/bionty-assets/ingest/2022-08-17-ensembl-gene-ids  # noqa
+        """
         if self.species not in {"human", "mouse"}:
             raise NotImplementedError
         else:
