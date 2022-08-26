@@ -1,11 +1,13 @@
+from collections import namedtuple
 from functools import cached_property
 
 import pandas as pd
 
 from .._settings import check_datasetdir_exists, settings
+from .._table import EntityTable, _todict
 
 
-class CellMarker:
+class CellMarker(EntityTable):
     """Cell markers.
 
     Args:
@@ -40,6 +42,14 @@ class CellMarker:
                 self._download_df()
             df = pd.read_feather(self._filepath)
             return df.set_index(self._id_field)
+
+    @cached_property
+    def lookup(self):
+        """Lookup object for auto-complete."""
+        values = _todict(self.df.index.values)
+        nt = namedtuple(self._id_field, values.keys())
+
+        return nt(**values)
 
     @check_datasetdir_exists
     def _download_df(self):

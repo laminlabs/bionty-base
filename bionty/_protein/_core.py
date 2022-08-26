@@ -1,9 +1,11 @@
+from collections import namedtuple
 from functools import cached_property
 
 import pandas as pd
 
 from .._normalize import NormalizeColumns
 from .._settings import check_datasetdir_exists, settings
+from .._table import EntityTable, _todict
 
 
 def _get_shortest_name(df, column):
@@ -29,7 +31,7 @@ def _get_shortest_name(df, column):
     df[column] = names_list
 
 
-class Protein:
+class Protein(EntityTable):
     """Protein.
 
     Args:
@@ -66,6 +68,14 @@ class Protein:
             NormalizeColumns.protein(df)
             _get_shortest_name(df, "protein_names")
             return df.set_index(self._id_field)
+
+    @cached_property
+    def lookup(self):
+        """Lookup object for auto-complete."""
+        values = _todict(self.df.index.values)
+        nt = namedtuple(self._id_field, values.keys())
+
+        return nt(**values)
 
     @check_datasetdir_exists
     def _download_df(self):
