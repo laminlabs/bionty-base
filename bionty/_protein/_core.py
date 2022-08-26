@@ -60,9 +60,9 @@ class Protein:
         if self.species not in {"human", "mouse"}:
             raise NotImplementedError
         else:
-            if not self.filepath.exists():
+            if not self._filepath.exists():
                 self._download_df()
-            df = pd.read_feather(self.filepath)
+            df = pd.read_feather(self._filepath)
             NormalizeColumns.protein(df)
             _get_shortest_name(df, "protein_names")
             return df.set_index(self._id_field)
@@ -73,5 +73,5 @@ class Protein:
 
         urlretrieve(
             f"https://bionty-assets.s3.amazonaws.com/uniprot-{self.species}.feather",
-            self.filepath,
+            self._filepath,
         )
