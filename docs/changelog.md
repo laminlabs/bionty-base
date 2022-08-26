@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-✨ Added `CellMarker` entity | [114](https://github.com/laminlabs/bionty/pull/114) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-26 |
+✨ Added `CellMarker` entity | [114](https://github.com/laminlabs/bionty/pull/114) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-26 | 0.2.0
 🚚 Updated protein df, rename `name` to `gene_symbol` | [113](https://github.com/laminlabs/bionty/pull/113) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-26 |
 📝 Added lookup to the API ref | [112](https://github.com/laminlabs/bionty/pull/112) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-25 |
 🔊 Added `n_mapped` to logging | [111](https://github.com/laminlabs/bionty/pull/111) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-18 | 0.1.11
