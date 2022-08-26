@@ -51,11 +51,6 @@ class Protein:
         """The `common_name` of `Species` entity EntityTable."""
         return self._species
 
-    @property
-    def filepath(self):
-        """The local filepath to the DataFrame."""
-        return self._filepath
-
     @cached_property
     def df(self):
         """DataFrame.

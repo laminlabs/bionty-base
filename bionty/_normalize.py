@@ -18,6 +18,7 @@ PROTEIN_COLUMNS = {
     "Entry Name": "uniprotkb_name",
     "Protein names": "protein_names",
     "Length": "length",
+    "Organism (ID)": "species_id",
     "Gene Names (primary)": "gene_symbols",
     "Gene Names (synonym)": "gene_synonyms",
     "Ensembl": "ensembl_transcript_ids",
