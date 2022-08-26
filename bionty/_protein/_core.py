@@ -58,7 +58,10 @@ class Protein:
 
     @cached_property
     def df(self):
-        """DataFrame."""
+        """DataFrame.
+
+        See ingestion: https://lamin.ai/docs/bionty-assets/ingest/2022-08-26-uniprot
+        """
         if self.species not in {"human", "mouse"}:
             raise NotImplementedError
         else:
