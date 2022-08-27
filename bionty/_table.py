@@ -5,7 +5,7 @@ from functools import cached_property
 import pandas as pd
 
 from ._logger import logger
-from .dev._fix_index import (
+from .dev import (
     check_if_index_compliant,
     explode_aggregated_column_to_expand,
     get_compliant_index_from_column,
