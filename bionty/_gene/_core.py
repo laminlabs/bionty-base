@@ -31,6 +31,8 @@ class Gene(EntityTable):
         id=None,
     ):
         self._species = species
+        if self.species not in {"human", "mouse"}:
+            raise NotImplementedError
         self._filepath = settings.datasetdir / f"ensembl-ids-{self.species}.feather"
         self._id_field = "ensembl_gene_id" if id is None else id
 
@@ -50,21 +52,16 @@ class Gene(EntityTable):
 
         See ingestion: https://lamin.ai/docs/bionty-assets/ingest/2022-08-17-ensembl-gene-ids  # noqa
         """
-        if self.species not in {"human", "mouse"}:
-            raise NotImplementedError
-        else:
-            if not self._filepath.exists():
-                self._download_df()
-            df = pd.read_feather(self._filepath)
-            df = df.loc[
-                :, ~df.columns.isin(["Transcript stable ID", "Protein stable ID"])
-            ]
-            df = df.drop_duplicates()
-            NormalizeColumns.gene(df, species=self.species)
-            if not df.index.is_numeric():
-                df = df.reset_index().copy()
-            df = df[~df[self._id_field].isnull()]
-            return df.set_index(self._id_field)
+        if not self._filepath.exists():
+            self._download_df()
+        df = pd.read_feather(self._filepath)
+        df = df.loc[:, ~df.columns.isin(["Transcript stable ID", "Protein stable ID"])]
+        df = df.drop_duplicates()
+        NormalizeColumns.gene(df, species=self.species)
+        if not df.index.is_numeric():
+            df = df.reset_index().copy()
+        df = df[~df[self._id_field].isnull()]
+        return df.set_index(self._id_field)
 
     @cached_property
     def lookup(self):
