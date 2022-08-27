@@ -41,6 +41,13 @@ class EntityTable:
         self._id_field = id
 
     @cached_property
+    def entity(self):
+        """Name of the entity."""
+        import re
+
+        return re.sub(r"(?<!^)(?=[A-Z])", "_", self.__class__.__name__).lower()
+
+    @cached_property
     def df(self):
         """DataFrame representation of EntityTable."""
         raise NotImplementedError

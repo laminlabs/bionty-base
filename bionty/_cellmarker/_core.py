@@ -22,11 +22,6 @@ class CellMarker(EntityTable):
         self._id_field = "cell_marker" if id is None else id
 
     @property
-    def entity(self):
-        """Name of the entity."""
-        return "cell_marker"
-
-    @property
     def species(self):
         """The `common_name` of `Species` entity EntityTable."""
         return self._species

@@ -1,15 +1,6 @@
 import pytest
 
-from bionty import (
-    CellMarker,
-    CellType,
-    Disease,
-    EntityTable,
-    Gene,
-    Protein,
-    Species,
-    Tissue,
-)
+from bionty import CellMarker, EntityTable, Gene, Protein
 
 
 def test_entity_table():
@@ -18,6 +9,7 @@ def test_entity_table():
         entity_table.df
     with pytest.raises(NotImplementedError):
         entity_table.ontology
+    assert entity_table.entity == "entity_table"
 
 
 def species_not_implemented():
@@ -27,13 +19,3 @@ def species_not_implemented():
         Protein(species="cat")
     with pytest.raises(NotImplementedError):
         Gene(species="cat")
-
-
-def test_entity():
-    assert Gene().entity == "gene"
-    assert Protein().entity == "protein"
-    assert CellMarker().entity == "cell_marker"
-    assert Species().entity == "species"
-    assert Tissue().entity == "tissue"
-    assert CellType().entity == "cell_type"
-    assert Disease().entity == "disease"
