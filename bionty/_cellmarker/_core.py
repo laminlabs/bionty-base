@@ -16,6 +16,8 @@ class CellMarker(EntityTable):
 
     def __init__(self, species="human", id=None) -> None:
         self._species = species
+        if self.species not in {"human"}:
+            raise NotImplementedError
         self._filepath = settings.datasetdir / f"CellMarker-{self.species}.feather"
         self._id_field = "cell_marker" if id is None else id
 
@@ -35,13 +37,10 @@ class CellMarker(EntityTable):
 
         See ingestion: https://lamin.ai/docs/bionty-assets/ingest/2022-08-26-cell-marker
         """
-        if self.species not in {"human"}:
-            raise NotImplementedError
-        else:
-            if not self._filepath.exists():
-                self._download_df()
-            df = pd.read_feather(self._filepath)
-            return df.set_index(self._id_field)
+        if not self._filepath.exists():
+            self._download_df()
+        df = pd.read_feather(self._filepath)
+        return df.set_index(self._id_field)
 
     @cached_property
     def lookup(self):
