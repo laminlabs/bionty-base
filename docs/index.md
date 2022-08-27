@@ -32,6 +32,7 @@ Get started:
 - The [tutorials](tutorials/index) walk you through curating and looking up entities.
 - Browse the full [API reference](api).
 - Check out [guides](guides/index) that address common questions, use cases or problems.
+- Check out [bionty-assets](https://lamin.ai/docs/bionty-assets) for how entity tables are curated.
 - See the [changelog](changelog) for feature updates.
 
 ```{toctree}

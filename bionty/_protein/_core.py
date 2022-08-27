@@ -40,6 +40,8 @@ class Protein(EntityTable):
 
     def __init__(self, species="human", id=None) -> None:
         self._species = species
+        if self.species not in {"human", "mouse"}:
+            raise NotImplementedError
         self._filepath = settings.datasetdir / f"uniprot-{self.species}.feather"
         self._id_field = "uniprotkb_id" if id is None else id
 
@@ -59,15 +61,12 @@ class Protein(EntityTable):
 
         See ingestion: https://lamin.ai/docs/bionty-assets/ingest/2022-08-26-uniprot
         """
-        if self.species not in {"human", "mouse"}:
-            raise NotImplementedError
-        else:
-            if not self._filepath.exists():
-                self._download_df()
-            df = pd.read_feather(self._filepath)
-            NormalizeColumns.protein(df)
-            _get_shortest_name(df, "protein_names")
-            return df.set_index(self._id_field)
+        if not self._filepath.exists():
+            self._download_df()
+        df = pd.read_feather(self._filepath)
+        NormalizeColumns.protein(df)
+        _get_shortest_name(df, "protein_names")
+        return df.set_index(self._id_field)
 
     @cached_property
     def lookup(self):

@@ -41,7 +41,7 @@ class EntityTable:
         self._id_field = id
 
     @cached_property
-    def df(self) -> pd.DataFrame:
+    def df(self):
         """DataFrame representation of EntityTable."""
         raise NotImplementedError
 
@@ -56,7 +56,7 @@ class EntityTable:
     @cached_property
     def ontology(self):
         """Ontology."""
-        return NotImplementedError
+        raise NotImplementedError
 
     def curate(
         self, df: pd.DataFrame, column: str = None, agg_col: str = None
