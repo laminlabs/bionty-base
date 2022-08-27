@@ -1,4 +1,4 @@
-"""Bionty: mapping and standardizing biological entities.
+"""Bionty: Data model generator for biology.
 
 Import the package::
 
@@ -21,6 +21,7 @@ Entities:
    Protein
    CellType
    CellMarker
+   Tissue
    Disease
 
 Lookup of vocabulary:
@@ -41,6 +42,7 @@ from ._species import Species
 from ._protein import Protein
 from ._celltype import CellType
 from ._cellmarker import CellMarker
+from ._tissue import Tissue
 from ._disease import Disease
 
 # tools
