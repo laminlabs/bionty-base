@@ -4,13 +4,6 @@ Import the package::
 
    import bionty as bt
 
-The base model for every entity class is:
-
-.. autosummary::
-   :toctree: .
-
-   EntityTable
-
 Entities:
 
 .. autosummary::
@@ -23,6 +16,13 @@ Entities:
    CellMarker
    Tissue
    Disease
+
+The base model for every entity class is:
+
+.. autosummary::
+   :toctree: .
+
+   EntityTable
 
 Lookup of vocabulary:
 
