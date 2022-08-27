@@ -38,6 +38,7 @@ def test_explode_aggregated_column_to_expand():
     assert "index" in explode_aggregated_column_to_expand(
         df, aggregated_col="ensembl_gene_id"
     )
+    df.index.name = "x"
     assert "x" in explode_aggregated_column_to_expand(
         df, aggregated_col="ensembl_gene_id"
     )
