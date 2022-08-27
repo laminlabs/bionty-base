@@ -27,7 +27,7 @@ def _todict(x: list) -> dict:
     return mapper
 
 
-def camel_to_snake(string: str) -> str:
+def _camel_to_snake(string: str) -> str:
     """Convert CamelCase to snake_case."""
     return re.sub(r"(?<!^)(?=[A-Z])", "_", string).lower()
 
@@ -49,7 +49,7 @@ class EntityTable:
     @cached_property
     def entity(self):
         """Name of the entity."""
-        return camel_to_snake(self.__class__.__name__)
+        return _camel_to_snake(self.__class__.__name__)
 
     @cached_property
     def df(self):
