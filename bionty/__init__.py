@@ -16,9 +16,9 @@ Entities:
 .. autosummary::
    :toctree: .
 
-   Species
    Gene
    Protein
+   Species
    CellType
    CellMarker
    Tissue
