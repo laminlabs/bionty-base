@@ -17,6 +17,11 @@ class Tissue(EntityTable):
     def __init__(self, reload=False) -> None:
         self._reload = reload
 
+    @property
+    def entity(self):
+        """Name of the entity."""
+        return "tissue"
+
     @cached_property
     def df(self) -> pd.DataFrame:
         """DataFrame."""

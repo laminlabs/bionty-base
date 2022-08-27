@@ -29,6 +29,11 @@ class Species(EntityTable):
     def __init__(self, id: Field = Field.common_name):
         self._id_field: Field = id  # type: ignore
 
+    @property
+    def entity(self):
+        """Name of the entity."""
+        return "species"
+
     @cached_property
     def df(self) -> pd.DataFrame:
         """DataFrame."""
