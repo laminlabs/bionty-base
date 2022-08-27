@@ -37,11 +37,6 @@ class Gene(EntityTable):
         self._id_field = "ensembl_gene_id" if id is None else id
 
     @property
-    def entity(self):
-        """Name of the entity."""
-        return "gene"
-
-    @property
     def species(self):
         """The `common_name` of `Species` entity EntityTable."""
         return self._species

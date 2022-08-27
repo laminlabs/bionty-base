@@ -46,11 +46,6 @@ class Protein(EntityTable):
         self._id_field = "uniprotkb_id" if id is None else id
 
     @property
-    def entity(self):
-        """Name of the entity."""
-        return "protein"
-
-    @property
     def species(self):
         """The `common_name` of `Species` entity EntityTable."""
         return self._species

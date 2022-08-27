@@ -20,11 +20,6 @@ class Disease(EntityTable):
         )
         self._onto_dict = read_json(filename)
 
-    @property
-    def entity(self):
-        """Name of the entity."""
-        return "disease"
-
     @cached_property
     def df(self) -> pd.DataFrame:
         """DataFrame."""
