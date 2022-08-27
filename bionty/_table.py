@@ -1,3 +1,4 @@
+import re
 from collections import namedtuple
 from enum import Enum
 from functools import cached_property
@@ -43,8 +44,6 @@ class EntityTable:
     @cached_property
     def entity(self):
         """Name of the entity."""
-        import re
-
         return re.sub(r"(?<!^)(?=[A-Z])", "_", self.__class__.__name__).lower()
 
     @cached_property
