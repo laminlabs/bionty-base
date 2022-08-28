@@ -8,8 +8,7 @@ Get started with the following walk-through:
 
 Explore additional entities:
 
-- {doc}`celltype`
-- {doc}`disease`
+- {doc}`ontology`
 
 ```{toctree}
 :maxdepth: 2
@@ -17,6 +16,6 @@ Explore additional entities:
 
 curate
 lookup
-concepts
 ontology
+concepts
 ```
