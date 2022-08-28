@@ -20,7 +20,7 @@ class CellMarker(EntityTable):
             raise NotImplementedError
         self._species = species
         self._filepath = settings.datasetdir / f"CellMarker-{self.species}.feather"
-        self._id_field = "cell_marker" if id is None else id
+        self._id_field = "name" if id is None else id
 
     @property
     def species(self):
@@ -36,6 +36,8 @@ class CellMarker(EntityTable):
         if not self._filepath.exists():
             self._download_df()
         df = pd.read_feather(self._filepath)
+        df.rename(columns={"cell_marker": "name"}, inplace=True)
+        df["name"] = df["name"].str.upper()
         return df.set_index(self._id_field)
 
     @cached_property
