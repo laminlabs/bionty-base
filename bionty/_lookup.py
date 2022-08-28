@@ -1,7 +1,6 @@
 from collections import namedtuple
 from typing import Iterable
 
-from ._cellmarker import CellMarker
 from ._celltype import CellType
 from ._disease import Disease
 from ._normalize import GENE_COLUMNS, PROTEIN_COLUMNS
@@ -24,5 +23,4 @@ class lookup:
     protein_id = _lookup(values=set(PROTEIN_COLUMNS.values()))
     species = Species().lookup
     cell_type = CellType().lookup
-    cell_marker = CellMarker().lookup
     disease = Disease().lookup
