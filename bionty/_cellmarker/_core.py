@@ -15,6 +15,7 @@ class CellMarker(EntityTable):
     """
 
     def __init__(self, species="human", id=None) -> None:
+        super().__init__(id=id)
         self._species = species
         if self.species not in {"human"}:
             raise NotImplementedError

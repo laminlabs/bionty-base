@@ -15,7 +15,9 @@ class Tissue(EntityTable):
     """
 
     def __init__(self, reload=False) -> None:
+        super().__init__(id=id)
         self._reload = reload
+        self._filepath = settings.dynamicdir / "uberon-basic.obo"
 
     @cached_property
     def df(self) -> pd.DataFrame:
@@ -33,9 +35,8 @@ class Tissue(EntityTable):
     def ontology(self):
         """Uberon multi-species anatomy ontology."""
         url = "http://purl.obolibrary.org/obo/uberon/basic.obo"
-        localpath = settings.dynamicdir / "uberon-basic.obo"
-        url = url if ((not localpath.exists()) or (self._reload)) else None
-        ontology_ = Ontology(handle=localpath, url=url)
+        url = url if ((not self._filepath.exists()) or (self._reload)) else None
+        ontology_ = Ontology(handle=self._filepath, url=url)
         if url is not None:
-            ontology_.write_obo()
+            ontology_.write_obo(filename="uberon-basic.obo")
         return ontology_

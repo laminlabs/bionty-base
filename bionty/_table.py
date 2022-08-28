@@ -1,11 +1,11 @@
 import re
 from collections import namedtuple
-from enum import Enum
 from functools import cached_property
 
 import pandas as pd
 
 from ._logger import logger
+from ._ontology import Ontology
 from .dev._fix_index import (
     check_if_index_compliant,
     explode_aggregated_column_to_expand,
@@ -16,7 +16,7 @@ from .dev._fix_index import (
 def _todict(x: list) -> dict:
     """Convert a list of strings to tab-completion allowed formats."""
     mapper = {
-        i.translate({ord(c): "_" for c in "-. !@#$%^&*()[]{};:,/<>?|`~=+'\""}).rstrip(
+        i.translate({ord(c): "_" for c in "–-. !@#$%^&*()[]{};:,/<>?|`~=+'\""}).rstrip(
             "@"
         ): i
         for i in x
@@ -32,19 +32,15 @@ def _camel_to_snake(string: str) -> str:
     return re.sub(r"(?<!^)(?=[A-Z])", "_", string).lower()
 
 
-class Field(str, Enum):
-    field1 = "field1"
-    field2 = "field2"
-
-
 class EntityTable:
     """Biological entity as a EntityTable.
 
     See :doc:`tutorials` for background.
     """
 
-    def __init__(self, id: Field = Field.field1):
-        self._id_field = id
+    def __init__(self, id=None):
+        self._id_field = "id" if id is None else id
+        self._Ontology = Ontology
 
     @cached_property
     def entity(self):
@@ -60,7 +56,7 @@ class EntityTable:
     def lookup(self):
         """Return an auto-complete object for the bionty id."""
         values = _todict(self.df.index.to_list())
-        nt = namedtuple("id", values.keys())
+        nt = namedtuple(self._id_field, values.keys())
 
         return nt(**values)
 

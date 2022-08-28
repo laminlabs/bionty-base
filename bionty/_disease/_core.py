@@ -1,9 +1,8 @@
 from functools import cached_property
-from urllib.request import urlretrieve
 
 import pandas as pd
 
-from .._io import read_json
+from .._settings import settings
 from .._table import EntityTable
 
 
@@ -14,13 +13,29 @@ class Disease(EntityTable):
     https://github.com/monarch-initiative/mondo
     """
 
-    def __init__(self, reload: bool = False) -> None:
-        filename, _ = urlretrieve(
-            "https://bionty-assets.s3.amazonaws.com/mondo-base.json"
-        )
-        self._onto_dict = read_json(filename)
+    def __init__(self, id=None, reload: bool = False) -> None:
+        super().__init__(id=id)
+        self._reload = reload
+        self._filepath = settings.dynamicdir / "mondo.obo"
 
     @cached_property
     def df(self) -> pd.DataFrame:
         """DataFrame."""
-        return pd.DataFrame(pd.Series(self._onto_dict))
+        return pd.DataFrame(
+            [
+                (term.id, term.name)
+                for term in self.ontology.terms()
+                if term.id.startswith("MONDO:")
+            ],
+            columns=["id", "name"],
+        ).set_index("id")
+
+    @cached_property
+    def ontology(self):
+        """Uberon multi-species anatomy ontology."""
+        url = "http://purl.obolibrary.org/obo/mondo.obo"
+        url = url if ((not self._filepath.exists()) or (self._reload)) else None
+        ontology_ = self._Ontology(handle=self._filepath, url=url)
+        if url is not None:
+            ontology_.write_obo(filename="mondo.obo")
+        return ontology_

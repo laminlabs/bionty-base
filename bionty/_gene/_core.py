@@ -30,6 +30,7 @@ class Gene(EntityTable):
         species="human",
         id=None,
     ):
+        super().__init__(id=id)
         self._species = species
         if self.species not in {"human", "mouse"}:
             raise NotImplementedError

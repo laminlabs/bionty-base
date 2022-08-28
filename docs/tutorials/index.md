@@ -18,6 +18,5 @@ Explore additional entities:
 curate
 lookup
 concepts
-celltype
-disease
+ontology
 ```
