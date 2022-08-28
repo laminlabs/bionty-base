@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🔥 Remove `lookup.cell_marker` | [120](https://github.com/laminlabs/bionty/pull/120) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-28 |
 🎨 Fixed bugs in ontology class | [119](https://github.com/laminlabs/bionty/pull/119) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-28 | 0.2.1
 🚚 Moved `.entity` to the base class | [118](https://github.com/laminlabs/bionty/pull/118) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-27 |
 📝 Updated docs etc | [117](https://github.com/laminlabs/bionty/pull/117) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-27 |
