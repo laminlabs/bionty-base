@@ -30,9 +30,10 @@ class Gene(EntityTable):
         species="human",
         id=None,
     ):
-        self._species = species
-        if self.species not in {"human", "mouse"}:
+        super().__init__(id=id)
+        if species not in {"human", "mouse"}:
             raise NotImplementedError
+        self._species = species
         self._filepath = settings.datasetdir / f"ensembl-ids-{self.species}.feather"
         self._id_field = "ensembl_gene_id" if id is None else id
 

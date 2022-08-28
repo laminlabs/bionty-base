@@ -1,4 +1,3 @@
-from enum import Enum
 from functools import cached_property
 from pathlib import Path
 
@@ -10,14 +9,6 @@ HERE = Path(__file__).parent
 SPECIES_FILENAME = HERE / "tables/Species.csv"
 
 
-class Field(str, Enum):
-    """Species field names."""
-
-    common_name = "common_name"
-    scientific_name = "scientific_name"
-    taxon_id = "taxon_id"
-
-
 class Species(EntityTable):
     """Species.
 
@@ -26,8 +17,9 @@ class Species(EntityTable):
             value. It will also be the primary key in the corresponding SQL EntityTable.
     """
 
-    def __init__(self, id: Field = Field.common_name):
-        self._id_field: Field = id  # type: ignore
+    def __init__(self, id=None):
+        super().__init__(id=id)
+        self._id_field = "common_name" if id is None else id
 
     @cached_property
     def df(self) -> pd.DataFrame:

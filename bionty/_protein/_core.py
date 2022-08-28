@@ -39,9 +39,10 @@ class Protein(EntityTable):
     """
 
     def __init__(self, species="human", id=None) -> None:
-        self._species = species
-        if self.species not in {"human", "mouse"}:
+        super().__init__(id=id)
+        if species not in {"human", "mouse"}:
             raise NotImplementedError
+        self._species = species
         self._filepath = settings.datasetdir / f"uniprot-{self.species}.feather"
         self._id_field = "uniprotkb_id" if id is None else id
 

@@ -1,6 +1,6 @@
 import warnings
 from pathlib import Path
-from typing import BinaryIO, Union
+from typing import BinaryIO, Optional, Union
 
 import pronto
 
@@ -28,9 +28,9 @@ class Ontology(pronto.Ontology):
         handle: Union[str, Path, BinaryIO, None] = None,
         import_depth: int = -1,
         timeout: int = 100,
-        threads: Union[int, None] = None,
-        url: Union[str, None] = None,
-        prefix: str = None,
+        threads: Optional[int] = None,
+        url: Optional[str] = None,
+        prefix: Optional[str] = None,
     ) -> None:
         self._prefix = "" if prefix is None else prefix
         warnings.filterwarnings("ignore", category=pronto.warnings.ProntoWarning)
@@ -42,11 +42,11 @@ class Ontology(pronto.Ontology):
         )
 
     @check_dynamicdir_exists
-    def write_obo(self, filename: Union[str, None] = None):
+    def write_obo(self, filename: Optional[str] = None):
         """Write ontology to .obo file."""
         if filename is None:
             filename = self.path.split("/")[-1].replace(".owl", ".obo")
-            filepath = settings.dynamicdir / filename
+        filepath = settings.dynamicdir / filename
         with open(filepath, "wb") as f:
             self.dump(f, format="obo")
 

@@ -15,9 +15,10 @@ class CellMarker(EntityTable):
     """
 
     def __init__(self, species="human", id=None) -> None:
-        self._species = species
-        if self.species not in {"human"}:
+        super().__init__(id=id)
+        if species not in {"human"}:
             raise NotImplementedError
+        self._species = species
         self._filepath = settings.datasetdir / f"CellMarker-{self.species}.feather"
         self._id_field = "cell_marker" if id is None else id
 

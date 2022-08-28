@@ -2,7 +2,6 @@ from functools import cached_property
 
 import pandas as pd
 
-from .._ontology import Ontology
 from .._settings import settings
 from .._table import EntityTable
 
@@ -14,8 +13,10 @@ class CellType(EntityTable):
     https://github.com/obophenotype/cell-ontology
     """
 
-    def __init__(self, reload=False) -> None:
+    def __init__(self, id=None, reload=False) -> None:
         self._reload = reload
+        super().__init__(id=id)
+        self._filepath = settings.dynamicdir / "cl-simple.obo"
 
     @cached_property
     def df(self) -> pd.DataFrame:
@@ -27,15 +28,14 @@ class CellType(EntityTable):
                 if term.id.startswith("CL:")
             ],
             columns=["id", "name"],
-        ).set_index("id")
+        ).set_index(self._id_field)
 
     @cached_property
     def ontology(self):
         """Cell ontology."""
         url = "http://purl.obolibrary.org/obo/cl/cl-simple.obo"
-        localpath = settings.dynamicdir / "cl-simple.obo"
-        url = url if ((not localpath.exists()) or (self._reload)) else None
-        ontology_ = Ontology(handle=localpath, url=url)
+        url = url if ((not self._filepath.exists()) or (self._reload)) else None
+        ontology_ = self._Ontology(handle=self._filepath, url=url)
         if url is not None:
             ontology_.write_obo()
         return ontology_
