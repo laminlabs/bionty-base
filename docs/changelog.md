@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🎨 Fixed bugs in ontology class | [119](https://github.com/laminlabs/bionty/pull/119) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-28 |
 🚚 Moved `.entity` to the base class | [118](https://github.com/laminlabs/bionty/pull/118) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-27 |
 📝 Updated docs etc | [117](https://github.com/laminlabs/bionty/pull/117) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-27 |
 ✅ Added more tests | [116](https://github.com/laminlabs/bionty/pull/116) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-27 |
