@@ -6,7 +6,7 @@ from ._disease import Disease
 from ._normalize import GENE_COLUMNS, PROTEIN_COLUMNS
 from ._species import Species
 
-FEATURES = ["gene", "protein"]
+FEATURES = ["gene", "protein", "cell_marker"]
 
 
 def _lookup(values: Iterable[str]):
