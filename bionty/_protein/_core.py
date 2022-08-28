@@ -8,7 +8,7 @@ from .._settings import check_datasetdir_exists, settings
 from .._table import EntityTable, _todict
 
 
-def _get_shortest_name(df, column):
+def _get_shortest_name(df, column, new_column="name"):
     """Get a single shortest name from a column of lists."""
     name_list = []
     names_list = []
@@ -27,7 +27,7 @@ def _get_shortest_name(df, column):
             name = shortest_name(no_space_names)
         name_list.append(name)
 
-    df[column.rstrip("s")] = name_list
+    df[new_column] = name_list
     df[column] = names_list
 
 
@@ -61,7 +61,9 @@ class Protein(EntityTable):
             self._download_df()
         df = pd.read_feather(self._filepath)
         NormalizeColumns.protein(df)
-        _get_shortest_name(df, "protein_names")
+        _get_shortest_name(
+            df, "synonyms"
+        )  # Take the shortest name in protein names list as name
         return df.set_index(self._id_field)
 
     @cached_property

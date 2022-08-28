@@ -4,19 +4,19 @@ GENE_COLUMNS = {
     "Gene stable ID": "ensembl_gene_id",
     "Transcript stable ID": "ensembl_transcript_id",
     "Protein stable ID": "ensembl_protein_id",
-    "Gene name": "gene_symbol",
+    "Gene name": "symbol",
     "Gene type": "gene_type",
     "NCBI gene (formerly Entrezgene) ID": "ncbi_gene_id",
     "HGNC ID": "hgnc_id",
     "MIM gene accession": "omim_id",
-    "Gene Synonym": "gene_synonyms",
+    "Gene Synonym": "synonyms",
     "MGI ID": "mgi_id",
 }
 
 PROTEIN_COLUMNS = {
     "Entry": "uniprotkb_id",
     "Entry Name": "uniprotkb_name",
-    "Protein names": "protein_names",
+    "Protein names": "synonyms",
     "Length": "length",
     "Organism (ID)": "species_id",
     "Gene Names (primary)": "gene_symbols",

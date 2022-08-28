@@ -7,7 +7,7 @@ from .._normalize import GENE_COLUMNS, NormalizeColumns
 from .._settings import check_datasetdir_exists, settings
 from .._table import EntityTable, _todict
 
-ALIAS_DICT = {"gene_symbol": "gene_synonyms"}
+ALIAS_DICT = {"symbol": "synonyms"}
 
 
 class Gene(EntityTable):
