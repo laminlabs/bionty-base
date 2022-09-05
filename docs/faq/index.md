@@ -1,6 +1,4 @@
-# Guides
-
-Guides that address common questions, use cases, or errors.
+# FAQ
 
 ```{toctree}
 :maxdepth: 1

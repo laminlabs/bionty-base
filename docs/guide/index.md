@@ -1,4 +1,4 @@
-# Tutorials
+# Guide
 
 Get started with the following walk-through:
 
