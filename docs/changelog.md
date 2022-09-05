@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🚚 Rename guides to FAQ, tutorials to guide | [125](https://github.com/laminlabs/bionty/pull/125) | [falexwolf](https://github.com/falexwolf) | 2022-09-05 |
 🔥 Remove cell_type, disease from lookup | [123](https://github.com/laminlabs/bionty/pull/123) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-29 | 0.2.4
 🚚 Rename `cell_marker` column to `name` to fit schema | [122](https://github.com/laminlabs/bionty/pull/122) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-28 | 0.2.3
 🚚 Rename gene_symbol to symbol | [121](https://github.com/laminlabs/bionty/pull/121) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-28 | 0.2.2
