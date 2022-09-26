@@ -8,6 +8,11 @@ from .._settings import check_datasetdir_exists, settings
 from .._table import EntityTable, _todict
 
 ALIAS_DICT = {"symbol": "synonyms"}
+S3_BUCKET = "https://bionty-assets.s3.amazonaws.com"
+FILENAMES = {
+    "human": "Ig0Js7serjpvhQyGU3HDH-1.parquet",
+    "mouse": "Zj7ArlEGHv7jFcH79bbcY-1.parquet",
+}
 
 
 class Gene(EntityTable):
@@ -31,10 +36,10 @@ class Gene(EntityTable):
         id=None,
     ):
         super().__init__(id=id)
-        if species not in {"human", "mouse"}:
+        if FILENAMES.get(species) is None:
             raise NotImplementedError
         self._species = species
-        self._filepath = settings.datasetdir / f"ensembl-ids-{self.species}.feather"
+        self._filepath = settings.datasetdir / FILENAMES.get(self.species)
         self._id_field = "ensembl_gene_id" if id is None else id
 
     @property
@@ -46,11 +51,11 @@ class Gene(EntityTable):
     def df(self):
         """DataFrame.
 
-        See ingestion: https://lamin.ai/docs/bionty-assets/ingest/2022-08-17-ensembl-gene-ids  # noqa
+        See ingestion: https://lamin.ai/docs/bionty-assets/ingest/2022-09-26-ensembl-gene  # noqa
         """
         if not self._filepath.exists():
             self._download_df()
-        df = pd.read_feather(self._filepath)
+        df = pd.read_parquet(self._filepath)
         df = df.loc[:, ~df.columns.isin(["Transcript stable ID", "Protein stable ID"])]
         df = df.drop_duplicates()
         NormalizeColumns.gene(df, species=self.species)
@@ -71,10 +76,8 @@ class Gene(EntityTable):
     def _download_df(self):
         from urllib.request import urlretrieve
 
-        s3_bucket = "https://bionty-assets.s3.amazonaws.com/"
-
         urlretrieve(
-            f"{s3_bucket}ensembl-ids-{self.species}.feather",
+            f"{S3_BUCKET}/{FILENAMES.get(self.species)}",
             self._filepath,
         )
 
