@@ -7,6 +7,12 @@ from .._normalize import NormalizeColumns
 from .._settings import check_datasetdir_exists, settings
 from .._table import EntityTable, _todict
 
+S3_BUCKET = "https://bionty-assets.s3.amazonaws.com"
+FILENAMES = {
+    "human": "JIsZYGP2dO9P3k1hkEMOH-1.parquet",
+    "mouse": "6xMrN6wgYtGwvDm6V5DZV-1.parquet",
+}
+
 
 def _get_shortest_name(df, column, new_column="name"):
     """Get a single shortest name from a column of lists."""
@@ -40,10 +46,10 @@ class Protein(EntityTable):
 
     def __init__(self, species="human", id=None) -> None:
         super().__init__(id=id)
-        if species not in {"human", "mouse"}:
+        if FILENAMES.get(species) is None:
             raise NotImplementedError
         self._species = species
-        self._filepath = settings.datasetdir / f"uniprot-{self.species}.feather"
+        self._filepath = settings.datasetdir / FILENAMES.get(self.species)
         self._id_field = "uniprotkb_id" if id is None else id
 
     @property
@@ -55,15 +61,18 @@ class Protein(EntityTable):
     def df(self):
         """DataFrame.
 
-        See ingestion: https://lamin.ai/docs/bionty-assets/ingest/2022-08-26-uniprot
+        See ingestion: https://lamin.ai/docs/bionty-assets/ingest/2022-09-26-uniprot-protein  # noqa
         """
         if not self._filepath.exists():
             self._download_df()
-        df = pd.read_feather(self._filepath)
+        df = pd.read_parquet(self._filepath)
         NormalizeColumns.protein(df)
         _get_shortest_name(
             df, "synonyms"
         )  # Take the shortest name in protein names list as name
+        if not df.index.is_numeric():
+            df = df.reset_index().copy()
+        df = df[~df[self._id_field].isnull()]
         return df.set_index(self._id_field)
 
     @cached_property
@@ -79,6 +88,6 @@ class Protein(EntityTable):
         from urllib.request import urlretrieve
 
         urlretrieve(
-            f"https://bionty-assets.s3.amazonaws.com/uniprot-{self.species}.feather",
+            f"{S3_BUCKET}/{FILENAMES.get(self.species)}",
             self._filepath,
         )

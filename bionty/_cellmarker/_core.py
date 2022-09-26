@@ -6,6 +6,11 @@ import pandas as pd
 from .._settings import check_datasetdir_exists, settings
 from .._table import EntityTable, _todict
 
+S3_BUCKET = "https://bionty-assets.s3.amazonaws.com"
+FILENAMES = {
+    "human": "IMqRe61Gvces1wrzKAlzl-1.parquet",
+}
+
 
 class CellMarker(EntityTable):
     """Cell markers.
@@ -16,10 +21,10 @@ class CellMarker(EntityTable):
 
     def __init__(self, species="human", id=None) -> None:
         super().__init__(id=id)
-        if species not in {"human"}:
+        if FILENAMES.get(species) is None:
             raise NotImplementedError
         self._species = species
-        self._filepath = settings.datasetdir / f"CellMarker-{self.species}.feather"
+        self._filepath = settings.datasetdir / FILENAMES.get(self.species)
         self._id_field = "name" if id is None else id
 
     @property
@@ -35,9 +40,12 @@ class CellMarker(EntityTable):
         """
         if not self._filepath.exists():
             self._download_df()
-        df = pd.read_feather(self._filepath)
+        df = pd.read_parquet(self._filepath)
         df.rename(columns={"cell_marker": "name"}, inplace=True)
         df["name"] = df["name"].str.upper()
+        if not df.index.is_numeric():
+            df = df.reset_index().copy()
+        df = df[~df[self._id_field].isnull()]
         return df.set_index(self._id_field)
 
     @cached_property
@@ -53,6 +61,6 @@ class CellMarker(EntityTable):
         from urllib.request import urlretrieve
 
         urlretrieve(
-            f"https://bionty-assets.s3.amazonaws.com/CellMarker-{self.species}.feather",
+            f"{S3_BUCKET}/{FILENAMES.get(self.species)}",
             self._filepath,
         )
