@@ -10,8 +10,8 @@ from .._table import EntityTable, _todict
 ALIAS_DICT = {"symbol": "synonyms"}
 S3_BUCKET = "https://bionty-assets.s3.amazonaws.com"
 FILENAMES = {
-    "human": "Ig0Js7serjpvhQyGU3HDH-1.parquet",
-    "mouse": "Zj7ArlEGHv7jFcH79bbcY-1.parquet",
+    "human": "Ig0Js7serjpvhQyGU3HDH-2.parquet",
+    "mouse": "Zj7ArlEGHv7jFcH79bbcY-2.parquet",
 }
 
 

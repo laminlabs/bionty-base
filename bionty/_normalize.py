@@ -6,6 +6,7 @@ GENE_COLUMNS = {
     "Protein stable ID": "ensembl_protein_id",
     "Gene name": "symbol",
     "Gene type": "gene_type",
+    "Gene description": "description",
     "NCBI gene (formerly Entrezgene) ID": "ncbi_gene_id",
     "HGNC ID": "hgnc_id",
     "MIM gene accession": "omim_id",
