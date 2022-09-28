@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-🍱 Added `description` and `version` columns to the gene table | [128](https://github.com/laminlabs/bionty/pull/128) | [sunnyosun](https://github.com/sunnyosun) | 2022-09-27 |
+🍱 Added `description` and `version` columns to the gene table | [128](https://github.com/laminlabs/bionty/pull/128) | [sunnyosun](https://github.com/sunnyosun) | 2022-09-27 | 0.3.0
 🚚 Migrated dfs of gene, protein, cell marker to the lndb version | [127](https://github.com/laminlabs/bionty/pull/127) | [sunnyosun](https://github.com/sunnyosun) | 2022-09-26 | 0.2.5
 🚚 Rename guides to FAQ, tutorials to guide | [125](https://github.com/laminlabs/bionty/pull/125) | [falexwolf](https://github.com/falexwolf) | 2022-09-05 |
 🔥 Remove cell_type, disease from lookup | [123](https://github.com/laminlabs/bionty/pull/123) | [sunnyosun](https://github.com/sunnyosun) | 2022-08-29 | 0.2.4
