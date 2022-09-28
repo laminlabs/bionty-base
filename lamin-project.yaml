@@ -1,5 +1,5 @@
 project_name: Bionty
-description: Data model generator for biology
+description: Manage biological entities
 project_slug: bionty
 repository_name: bionty
 package_name: bionty
