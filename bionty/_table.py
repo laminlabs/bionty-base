@@ -13,20 +13,6 @@ from .dev._fix_index import (
 )
 
 
-def _todict(x: list) -> dict:
-    """Convert a list of strings to tab-completion allowed formats."""
-    mapper = {
-        i.translate({ord(c): "_" for c in "–-. !@#$%^&*()[]{};:,/<>?|`~=+'\""}).rstrip(
-            "@"
-        ): i
-        for i in x
-    }
-    for k in list(mapper.keys()):
-        if k[0].isdigit():
-            mapper[f"LOOKUP_{k}"] = mapper.pop(k)
-    return mapper
-
-
 def _camel_to_snake(string: str) -> str:
     """Convert CamelCase to snake_case."""
     return re.sub(r"(?<!^)(?=[A-Z])", "_", string).lower()
@@ -55,7 +41,7 @@ class EntityTable:
     @cached_property
     def lookup(self):
         """Return an auto-complete object for the bionty id."""
-        values = _todict(self.df.index.to_list())
+        values = self.todict(self.df.index.to_list())
         nt = namedtuple(self._id_field, values.keys())
 
         return nt(**values)
@@ -64,6 +50,14 @@ class EntityTable:
     def ontology(self):
         """Ontology."""
         raise NotImplementedError
+
+    def todict(self, x: list) -> dict:
+        """Convert a list of strings to tab-completion allowed formats."""
+        mapper = {re.sub("[^0-9a-zA-Z]+", "_", i): i for i in x}
+        for k in list(mapper.keys()):
+            if not k[0].isalpha():
+                mapper[f"LOOKUP_{k}"] = mapper.pop(k)
+        return mapper
 
     def curate(
         self, df: pd.DataFrame, column: str = None, agg_col: str = None
