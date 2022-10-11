@@ -4,7 +4,7 @@ from functools import cached_property
 import pandas as pd
 
 from .._settings import check_datasetdir_exists, settings
-from .._table import EntityTable, _todict
+from .._table import EntityTable
 
 S3_BUCKET = "https://bionty-assets.s3.amazonaws.com"
 FILENAMES = {
@@ -53,7 +53,7 @@ class CellMarker(EntityTable):
     @cached_property
     def lookup(self):
         """Lookup object for auto-complete."""
-        values = _todict(self.df.index.values)
+        values = self.todict(self.df.index.values)
         nt = namedtuple(self._id_field, values.keys())
 
         return nt(**values)
