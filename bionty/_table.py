@@ -42,6 +42,7 @@ class EntityTable:
 
     @property
     def lookup_col(self) -> str:
+        """The column that allows auto-completion."""
         return self._lookup_col
 
     @lookup_col.setter
@@ -50,7 +51,12 @@ class EntityTable:
 
     @cached_property
     def lookup(self) -> NamedTuple:
-        """Return an auto-complete object for the bionty id."""
+        """Return an auto-complete object for the bionty id.
+
+        By default lookup allows auto-completion for name and returns the id.
+            lookup column can be changed using `.lookup_col = `
+            id is specified during init.
+        """
         df = self.df.reset_index()
         if self._lookup_col not in df:
             raise AssertionError(f"No {self._lookup_col} column exists!")
