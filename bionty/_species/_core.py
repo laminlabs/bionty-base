@@ -20,6 +20,7 @@ class Species(EntityTable):
     def __init__(self, id=None):
         super().__init__(id=id)
         self._id_field = "common_name" if id is None else id
+        self._lookup_col = "common_name"
 
     @cached_property
     def df(self) -> pd.DataFrame:
