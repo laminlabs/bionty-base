@@ -58,10 +58,7 @@ class EntityTable:
         df.index = self._uniquefy_duplicates(
             self._to_lookup_keys(df[self._lookup_col].values)
         )
-        df_nt = {}
-        for k, v in df.to_dict(orient="index").items():
-            df_nt[k] = self._namedtuple_from_dict(v)
-        return self._namedtuple_from_dict(df_nt)
+        return self._namedtuple_from_dict(df[self._id_field].to_dict())
 
     @cached_property
     def ontology(self):
@@ -70,7 +67,7 @@ class EntityTable:
 
     def _to_lookup_keys(self, x: list) -> list:
         """Convert a list of strings to tab-completion allowed formats."""
-        lookup = [re.sub("[^0-9a-zA-Z]+", "_", i) for i in x]
+        lookup = [re.sub("[^0-9a-zA-Z]+", "__", str(i)) for i in x]
         for i, value in enumerate(lookup):
             if not value[0].isalpha():
                 lookup[i] = f"LOOKUP_{value}"
@@ -85,9 +82,9 @@ class EntityTable:
         """Uniquefy duplicated values in a list."""
         df = pd.DataFrame(lst)
         duplicated = df[df[0].duplicated(keep=False)]
-        df.loc[duplicated.index, 0] = duplicated[0] + duplicated.groupby(
-            0
-        ).cumcount().astype(str)
+        df.loc[duplicated.index, 0] = (
+            duplicated[0] + "_" + duplicated.groupby(0).cumcount().astype(str)
+        )
         return list(df[0].values)
 
     def curate(
