@@ -28,6 +28,8 @@ class EntityTable:
     def __init__(self, id=None):
         self._id_field = "id" if id is None else id
         self._Ontology = Ontology
+        # By default lookup allows auto-completion for name and returns the id.
+        # lookup column can be changed using `.lookup_col = `.
         self._lookup_col = "name"
 
     @cached_property
@@ -51,19 +53,16 @@ class EntityTable:
 
     @cached_property
     def lookup(self) -> NamedTuple:
-        """Return an auto-complete object for the bionty id.
-
-        By default lookup allows auto-completion for name and returns the id.
-            lookup column can be changed using `.lookup_col = `
-            id is specified during init.
-        """
+        """Return an auto-complete object for the bionty id."""
         df = self.df.reset_index()
         if self._lookup_col not in df:
             raise AssertionError(f"No {self._lookup_col} column exists!")
 
+        # uniquefy lookup keys
         df.index = self._uniquefy_duplicates(
             self._to_lookup_keys(df[self._lookup_col].values)
         )
+
         return self._namedtuple_from_dict(df[self._id_field].to_dict())
 
     @cached_property
