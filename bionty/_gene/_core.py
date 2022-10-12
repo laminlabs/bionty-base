@@ -40,6 +40,7 @@ class Gene(EntityTable):
         self._species = species
         self._filepath = settings.datasetdir / FILENAMES.get(self.species)
         self._id_field = "ensembl_gene_id" if id is None else id
+        self._lookup_col = "symbol"
 
     @property
     def species(self):

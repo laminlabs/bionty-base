@@ -52,6 +52,7 @@ class EntityTable:
     def lookup(self) -> NamedTuple:
         """Return an auto-complete object for the bionty id."""
         df = self.df.reset_index()
+        print(df.columns)
         if self._lookup_col not in df:
             raise AssertionError(f"No {self._lookup_col} column exists!")
 
