@@ -73,7 +73,7 @@ class EntityTable:
 
     def _to_lookup_keys(self, x: list) -> list:
         """Convert a list of strings to tab-completion allowed formats."""
-        lookup = [re.sub("[^0-9a-zA-Z]+", "__", str(i)) for i in x]
+        lookup = [re.sub("[^0-9a-zA-Z]+", "_", str(i)) for i in x]
         for i, value in enumerate(lookup):
             if not value[0].isalpha():
                 lookup[i] = f"LOOKUP_{value}"
@@ -89,7 +89,7 @@ class EntityTable:
         df = pd.DataFrame(lst)
         duplicated = df[df[0].duplicated(keep=False)]
         df.loc[duplicated.index, 0] = (
-            duplicated[0] + "_" + duplicated.groupby(0).cumcount().astype(str)
+            duplicated[0] + "__" + duplicated.groupby(0).cumcount().astype(str)
         )
         return list(df[0].values)
 
