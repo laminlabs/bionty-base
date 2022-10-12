@@ -1,6 +1,7 @@
 import re
 from collections import namedtuple
 from functools import cached_property
+from typing import Iterable, NamedTuple
 
 import pandas as pd
 
@@ -27,37 +28,69 @@ class EntityTable:
     def __init__(self, id=None):
         self._id_field = "id" if id is None else id
         self._Ontology = Ontology
+        # By default lookup allows auto-completion for name and returns the id.
+        # lookup column can be changed using `.lookup_col = `.
+        self._lookup_col = "name"
 
     @cached_property
-    def entity(self):
+    def entity(self) -> str:
         """Name of the entity."""
         return _camel_to_snake(self.__class__.__name__)
 
     @cached_property
-    def df(self):
+    def df(self) -> pd.DataFrame:
         """DataFrame representation of EntityTable."""
         raise NotImplementedError
 
-    @cached_property
-    def lookup(self):
-        """Return an auto-complete object for the bionty id."""
-        values = self.todict(self.df.index.to_list())
-        nt = namedtuple(self._id_field, values.keys())
+    @property
+    def lookup_col(self) -> str:
+        """The column that allows auto-completion."""
+        return self._lookup_col
 
-        return nt(**values)
+    @lookup_col.setter
+    def lookup_col(self, column_name) -> None:
+        self._lookup_col = column_name
+
+    @cached_property
+    def lookup(self) -> NamedTuple:
+        """Return an auto-complete object for the bionty id."""
+        df = self.df.reset_index()
+        if self._lookup_col not in df:
+            raise AssertionError(f"No {self._lookup_col} column exists!")
+
+        # uniquefy lookup keys
+        df.index = self._uniquefy_duplicates(
+            self._to_lookup_keys(df[self._lookup_col].values)
+        )
+
+        return self._namedtuple_from_dict(df[self._id_field].to_dict())
 
     @cached_property
     def ontology(self):
         """Ontology."""
         raise NotImplementedError
 
-    def todict(self, x: list) -> dict:
+    def _to_lookup_keys(self, x: list) -> list:
         """Convert a list of strings to tab-completion allowed formats."""
-        mapper = {re.sub("[^0-9a-zA-Z]+", "_", i): i for i in x}
-        for k in list(mapper.keys()):
-            if not k[0].isalpha():
-                mapper[f"LOOKUP_{k}"] = mapper.pop(k)
-        return mapper
+        lookup = [re.sub("[^0-9a-zA-Z]+", "_", str(i)) for i in x]
+        for i, value in enumerate(lookup):
+            if not value[0].isalpha():
+                lookup[i] = f"LOOKUP_{value}"
+        return lookup
+
+    def _namedtuple_from_dict(self, mydict: dict, name: str = "MyTuple") -> NamedTuple:
+        """Create a namedtuple from a dict to allow autocompletion."""
+        nt = namedtuple(name, mydict)  # type:ignore
+        return nt(**mydict)
+
+    def _uniquefy_duplicates(self, lst: Iterable) -> list:
+        """Uniquefy duplicated values in a list."""
+        df = pd.DataFrame(lst)
+        duplicated = df[df[0].duplicated(keep=False)]
+        df.loc[duplicated.index, 0] = (
+            duplicated[0] + "__" + duplicated.groupby(0).cumcount().astype(str)
+        )
+        return list(df[0].values)
 
     def curate(
         self, df: pd.DataFrame, column: str = None, agg_col: str = None

@@ -1,4 +1,3 @@
-from collections import namedtuple
 from functools import cached_property
 
 import pandas as pd
@@ -41,6 +40,7 @@ class Gene(EntityTable):
         self._species = species
         self._filepath = settings.datasetdir / FILENAMES.get(self.species)
         self._id_field = "ensembl_gene_id" if id is None else id
+        self._lookup_col = "symbol"
 
     @property
     def species(self):
@@ -63,14 +63,6 @@ class Gene(EntityTable):
             df = df.reset_index().copy()
         df = df[~df[self._id_field].isnull()]
         return df.set_index(self._id_field)
-
-    @cached_property
-    def lookup(self):
-        """Lookup object for auto-complete."""
-        values = self.todict(self.df.index.values)
-        nt = namedtuple(self._id_field, values.keys())
-
-        return nt(**values)
 
     @check_datasetdir_exists
     def _download_df(self):
