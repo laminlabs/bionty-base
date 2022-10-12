@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-💥 Redefine `lookup` in `EntityTable` | [132](https://github.com/laminlabs/bionty/pull/132) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-12 |
+💥 Redefine `lookup` in `EntityTable` | [132](https://github.com/laminlabs/bionty/pull/132) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-12 | 0.4.0
 🎨 Improve `todict()`, added to `EntityTable` | [131](https://github.com/laminlabs/bionty/pull/131) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-11 | 0.3.2
 🐛 Fix duplicated cell marker names | [130](https://github.com/laminlabs/bionty/pull/130) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-03 | 0.3.1
 🍱 Added `description` and `version` columns to the gene table | [128](https://github.com/laminlabs/bionty/pull/128) | [sunnyosun](https://github.com/sunnyosun) | 2022-09-27 | 0.3.0
