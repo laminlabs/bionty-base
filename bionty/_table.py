@@ -1,7 +1,7 @@
 import re
 from collections import namedtuple
 from functools import cached_property
-from typing import Iterable, NamedTuple
+from typing import Iterable, NamedTuple, Optional
 
 import pandas as pd
 
@@ -78,8 +78,12 @@ class EntityTable:
                 lookup[i] = f"LOOKUP_{value}"
         return lookup
 
-    def _namedtuple_from_dict(self, mydict: dict, name: str = "MyTuple") -> NamedTuple:
+    def _namedtuple_from_dict(
+        self, mydict: dict, name: Optional[str] = None
+    ) -> NamedTuple:
         """Create a namedtuple from a dict to allow autocompletion."""
+        if name is None:
+            name = self.entity
         nt = namedtuple(name, mydict)  # type:ignore
         return nt(**mydict)
 
