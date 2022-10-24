@@ -8,8 +8,8 @@ from .._table import EntityTable
 
 S3_BUCKET = "https://bionty-assets.s3.amazonaws.com"
 FILENAMES = {
-    "human": "JIsZYGP2dO9P3k1hkEMOH-1.parquet",
-    "mouse": "6xMrN6wgYtGwvDm6V5DZV-1.parquet",
+    "human": "ZKQyQt5mm7gFus4Q41l2z.parquet",
+    "mouse": "UfZvtzk94yd7aTsDhdBY4.parquet",
 }
 
 
@@ -60,7 +60,7 @@ class Protein(EntityTable):
     def df(self):
         """DataFrame.
 
-        See ingestion: https://lamin.ai/docs/bionty-assets/ingest/2022-09-26-uniprot-protein  # noqa
+        See ingestion: https://lamin.ai/docs/bionty-assets/ingest/uniprot-protein
         """
         if not self._filepath.exists():
             self._download_df()

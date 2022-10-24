@@ -7,7 +7,7 @@ from .._table import EntityTable
 
 S3_BUCKET = "https://bionty-assets.s3.amazonaws.com"
 FILENAMES = {
-    "human": "IMqRe61Gvces1wrzKAlzl-1.parquet",
+    "human": "GpxJL1sMziMFxfyvk9Jlx.parquet",
 }
 
 
@@ -35,7 +35,7 @@ class CellMarker(EntityTable):
     def df(self):
         """DataFrame.
 
-        See ingestion: https://lamin.ai/docs/bionty-assets/ingest/2022-08-26-cell-marker
+        See ingestion: https://lamin.ai/docs/bionty-assets/ingest/cell-marker-human
         """
         if not self._filepath.exists():
             self._download_df()

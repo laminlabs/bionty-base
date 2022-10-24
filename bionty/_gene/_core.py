@@ -9,8 +9,8 @@ from .._table import EntityTable
 ALIAS_DICT = {"symbol": "synonyms"}
 S3_BUCKET = "https://bionty-assets.s3.amazonaws.com"
 FILENAMES = {
-    "human": "Ig0Js7serjpvhQyGU3HDH-2.parquet",
-    "mouse": "Zj7ArlEGHv7jFcH79bbcY-2.parquet",
+    "human": "w24cNKmNIdYl9AUvZFYVi.parquet",
+    "mouse": "nbQ3aAi04ygeS8dC97DCi.parquet",
 }
 
 
@@ -51,7 +51,7 @@ class Gene(EntityTable):
     def df(self):
         """DataFrame.
 
-        See ingestion: https://lamin.ai/docs/bionty-assets/ingest/2022-09-26-ensembl-gene  # noqa
+        See ingestion: https://lamin.ai/docs/bionty-assets/ingest/ensembl-gene
         """
         if not self._filepath.exists():
             self._download_df()
