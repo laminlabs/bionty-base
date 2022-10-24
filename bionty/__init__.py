@@ -33,7 +33,7 @@ Lookup of vocabulary:
 
 """
 
-__version__ = "0.4.1"
+__version__ = "0.4.2"
 
 
 # dynamic classes
