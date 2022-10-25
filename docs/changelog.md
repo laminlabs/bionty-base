@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🍱 Updated cell marker link | [137](https://github.com/laminlabs/bionty/pull/137) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-25 |
 🍱 Updated the species df path to use s3 | [136](https://github.com/laminlabs/bionty/pull/136) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-25 | 0.4.3
 🍱 Updated gene table | [135](https://github.com/laminlabs/bionty/pull/135) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-25 |
 🚚 Migrated the tables to the new ids | [134](https://github.com/laminlabs/bionty/pull/134) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-24 | 0.4.2
