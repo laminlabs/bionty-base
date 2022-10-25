@@ -38,6 +38,8 @@ class Species(EntityTable):
         if not df.index.is_numeric():
             df = df.reset_index().copy()
         df = df[~df[self._id_field].isnull()]
+        df.common_name = df.common_name.str.lower()
+        df.scientific_name = df.scientific_name.str.lower()
         return df.set_index(self._id_field)
 
     @check_datasetdir_exists
