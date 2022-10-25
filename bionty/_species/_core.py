@@ -3,10 +3,13 @@ from pathlib import Path
 
 import pandas as pd
 
+from .._settings import check_datasetdir_exists, settings
 from .._table import EntityTable
 
 HERE = Path(__file__).parent
-SPECIES_FILENAME = HERE / "tables/Species.csv"
+SPECIES_FILENAME = (
+    "https://bionty-assets.s3.amazonaws.com/VpdUdouFahpvStwddqTwk.parquet"
+)
 
 
 class Species(EntityTable):
@@ -21,6 +24,7 @@ class Species(EntityTable):
         super().__init__(id=id)
         self._id_field = "common_name" if id is None else id
         self._lookup_col = "common_name"
+        self._filepath = settings.datasetdir / SPECIES_FILENAME.split("/")[-1]
 
     @cached_property
     def df(self) -> pd.DataFrame:
@@ -29,19 +33,18 @@ class Species(EntityTable):
         # all numeric types in the EntityTable are versions & IDs
         # they behave like strings as, for instance, they cannot be added
         # if we wouldn't do this, we couldn't also properly aggregate in the groupby
-        df = pd.read_csv(SPECIES_FILENAME, header=0, dtype=str)
-        # we'll use the display_name as common_name as it's unique
-        df = df.drop("common_name", axis=1)
-        df.rename(columns={"display_name": "common_name"}, inplace=True)
-        # we'll lower case and _ concat the common name
-        df.common_name = (
-            df.common_name.str.lower()
-            .str.translate({ord(c): "" for c in "!@#$%^&*()[]{};:,/<>?|`~=+'\""})
-            .str.translate({ord(c): "_" for c in "-. "})
+        df = pd.read_parquet(SPECIES_FILENAME)
+        df.columns = df.columns.str.lower().str.replace(" ", "_")
+        if not df.index.is_numeric():
+            df = df.reset_index().copy()
+        df = df[~df[self._id_field].isnull()]
+        return df.set_index(self._id_field)
+
+    @check_datasetdir_exists
+    def _download_df(self):
+        from urllib.request import urlretrieve
+
+        urlretrieve(
+            SPECIES_FILENAME,
+            self._filepath,
         )
-        # we'll also drop nan as otherwise accession will raise a warning/error
-        # there is a very small number of accession numbers that are nan
-        df = df.dropna()
-        # let's now do a groupby to get a unique index
-        df = df.groupby(self._id_field).agg("; ".join)
-        return df
