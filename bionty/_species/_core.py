@@ -1,12 +1,10 @@
 from functools import cached_property
-from pathlib import Path
 
 import pandas as pd
 
 from .._settings import check_datasetdir_exists, settings
 from .._table import EntityTable
 
-HERE = Path(__file__).parent
 SPECIES_FILENAME = (
     "https://bionty-assets.s3.amazonaws.com/VpdUdouFahpvStwddqTwk.parquet"
 )
