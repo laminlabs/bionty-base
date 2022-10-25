@@ -26,11 +26,10 @@ class Species(EntityTable):
 
     @cached_property
     def df(self) -> pd.DataFrame:
-        """DataFrame."""
-        # we want all columns to be read in as str
-        # all numeric types in the EntityTable are versions & IDs
-        # they behave like strings as, for instance, they cannot be added
-        # if we wouldn't do this, we couldn't also properly aggregate in the groupby
+        """DataFrame.
+
+        See ingestion: https://lamin.ai/docs/bionty-assets/ingest/ensembl-species
+        """
         df = pd.read_parquet(SPECIES_FILENAME)
         df.columns = df.columns.str.lower().str.replace(" ", "_")
         if not df.index.is_numeric():
