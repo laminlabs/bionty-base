@@ -7,7 +7,7 @@ from .._table import EntityTable
 
 S3_BUCKET = "https://bionty-assets.s3.amazonaws.com"
 FILENAMES = {
-    "human": "GpxJL1sMziMFxfyvk9Jlx.parquet",
+    "human": "GbC3D7dKnsomHB7ZMeUpC.parquet",
 }
 
 
