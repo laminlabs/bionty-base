@@ -9,8 +9,8 @@ from .._table import EntityTable
 ALIAS_DICT = {"symbol": "synonyms"}
 S3_BUCKET = "https://bionty-assets.s3.amazonaws.com"
 FILENAMES = {
-    "human": "w24cNKmNIdYl9AUvZFYVi.parquet",
-    "mouse": "nbQ3aAi04ygeS8dC97DCi.parquet",
+    "human": "KJ1HgB695AqbVWvfit8sl.parquet",
+    "mouse": "xaBDkhBYLXWHq6gJYnedD.parquet",
 }
 
 
@@ -56,8 +56,6 @@ class Gene(EntityTable):
         if not self._filepath.exists():
             self._download_df()
         df = pd.read_parquet(self._filepath)
-        df = df.loc[:, ~df.columns.isin(["Transcript stable ID", "Protein stable ID"])]
-        df = df.drop_duplicates()
         NormalizeColumns.gene(df, species=self.species)
         if not df.index.is_numeric():
             df = df.reset_index().copy()
