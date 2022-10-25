@@ -8,8 +8,8 @@ from .._table import EntityTable
 
 S3_BUCKET = "https://bionty-assets.s3.amazonaws.com"
 FILENAMES = {
-    "human": "ZKQyQt5mm7gFus4Q41l2z.parquet",
-    "mouse": "UfZvtzk94yd7aTsDhdBY4.parquet",
+    "human": "5WBmdkTO4JCFzPzBcDOJ3.parquet",
+    "mouse": "6vgntdGiAbz5bEYP53sma.parquet",
 }
 
 
