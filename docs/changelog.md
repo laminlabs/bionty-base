@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🍱 Updated gene table | [135](https://github.com/laminlabs/bionty/pull/135) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-25 |
 🚚 Migrated the tables to the new ids | [134](https://github.com/laminlabs/bionty/pull/134) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-24 | 0.4.2
 🔥 Removed `feature_model` lookups | [133](https://github.com/laminlabs/bionty/pull/133) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-20 | 0.4.1
 💥 Redefine `lookup` in `EntityTable` | [132](https://github.com/laminlabs/bionty/pull/132) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-12 | 0.4.0
