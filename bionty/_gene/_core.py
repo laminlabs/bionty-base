@@ -10,7 +10,7 @@ ALIAS_DICT = {"symbol": "synonyms"}
 S3_BUCKET = "https://bionty-assets.s3.amazonaws.com"
 FILENAMES = {
     "human": "KJ1HgB695AqbVWvfit8sl.parquet",
-    "mouse": "nxaBDkhBYLXWHq6gJYnedD.parquet",
+    "mouse": "xaBDkhBYLXWHq6gJYnedD.parquet",
 }
 
 
