@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-📝 Link the species df to bionty-assets | [139](https://github.com/laminlabs/bionty/pull/139) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-25 |
+📝 Link the species df to bionty-assets | [139](https://github.com/laminlabs/bionty/pull/139) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-25 | 0.5.0
 🍱 Updated protein table | [138](https://github.com/laminlabs/bionty/pull/138) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-25 |
 🍱 Updated cell marker link | [137](https://github.com/laminlabs/bionty/pull/137) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-25 |
 🍱 Updated the species df path to use s3 | [136](https://github.com/laminlabs/bionty/pull/136) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-25 | 0.4.3
