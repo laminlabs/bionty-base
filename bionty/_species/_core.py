@@ -30,7 +30,9 @@ class Species(EntityTable):
 
         See ingestion: https://lamin.ai/docs/bionty-assets/ingest/ensembl-species
         """
-        df = pd.read_parquet(SPECIES_FILENAME)
+        if not self._filepath.exists():
+            self._download_df()
+        df = pd.read_parquet(self._filepath)
         df.columns = df.columns.str.lower().str.replace(" ", "_")
         if not df.index.is_numeric():
             df = df.reset_index().copy()
