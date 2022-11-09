@@ -2,12 +2,10 @@ from functools import cached_property
 
 import pandas as pd
 
-from .._settings import check_datasetdir_exists, settings
+from .._settings import s3_bionty_assets
 from .._table import EntityTable
 
-SPECIES_FILENAME = (
-    "https://bionty-assets.s3.amazonaws.com/VpdUdouFahpvStwddqTwk.parquet"
-)
+SPECIES_FILENAME = "VpdUdouFahpvStwddqTwk.parquet"
 
 
 class Species(EntityTable):
@@ -22,7 +20,6 @@ class Species(EntityTable):
         super().__init__(id=id)
         self._id_field = "common_name" if id is None else id
         self._lookup_col = "common_name"
-        self._filepath = settings.datasetdir / SPECIES_FILENAME.split("/")[-1]
 
     @cached_property
     def df(self) -> pd.DataFrame:
@@ -30,8 +27,9 @@ class Species(EntityTable):
 
         See ingestion: https://lamin.ai/docs/bionty-assets/ingest/ensembl-species
         """
-        if not self._filepath.exists():
-            self._download_df()
+        cloudpath = s3_bionty_assets(SPECIES_FILENAME)
+        self._filepath = cloudpath.fspath
+
         df = pd.read_parquet(self._filepath)
         df.columns = df.columns.str.lower().str.replace(" ", "_")
         if not df.index.is_numeric():
@@ -40,12 +38,3 @@ class Species(EntityTable):
         df.common_name = df.common_name.str.lower()
         df.scientific_name = df.scientific_name.str.lower()
         return df.set_index(self._id_field)
-
-    @check_datasetdir_exists
-    def _download_df(self):
-        from urllib.request import urlretrieve
-
-        urlretrieve(
-            SPECIES_FILENAME,
-            self._filepath,
-        )

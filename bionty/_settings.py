@@ -2,7 +2,14 @@ from functools import wraps
 from pathlib import Path
 from typing import Union
 
+from cloudpathlib import S3Client
+
 ROOT_DIR = Path(__file__).parent.resolve()
+
+
+def s3_bionty_assets(filename: str):
+    client = S3Client(local_cache_dir=settings.datasetdir)
+    return client.CloudPath(f"s3://bionty-assets/{filename}")
 
 
 def check_datasetdir_exists(f):

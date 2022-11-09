@@ -3,10 +3,9 @@ from functools import cached_property
 import pandas as pd
 
 from .._normalize import NormalizeColumns
-from .._settings import check_datasetdir_exists, settings
+from .._settings import s3_bionty_assets
 from .._table import EntityTable
 
-S3_BUCKET = "https://bionty-assets.s3.amazonaws.com"
 FILENAMES = {
     "human": "5WBmdkTO4JCFzPzBcDOJ3.parquet",
     "mouse": "6vgntdGiAbz5bEYP53sma.parquet",
@@ -48,7 +47,6 @@ class Protein(EntityTable):
         if FILENAMES.get(species) is None:
             raise NotImplementedError
         self._species = species
-        self._filepath = settings.datasetdir / FILENAMES.get(self.species)
         self._id_field = "uniprotkb_id" if id is None else id
 
     @property
@@ -62,8 +60,9 @@ class Protein(EntityTable):
 
         See ingestion: https://lamin.ai/docs/bionty-assets/ingest/uniprot-protein
         """
-        if not self._filepath.exists():
-            self._download_df()
+        cloudpath = s3_bionty_assets(FILENAMES.get(self.species))
+        self._filepath = cloudpath.fspath
+
         df = pd.read_parquet(self._filepath)
         NormalizeColumns.protein(df)
         _get_shortest_name(
@@ -73,12 +72,3 @@ class Protein(EntityTable):
             df = df.reset_index().copy()
         df = df[~df[self._id_field].isnull()]
         return df.set_index(self._id_field)
-
-    @check_datasetdir_exists
-    def _download_df(self):
-        from urllib.request import urlretrieve
-
-        urlretrieve(
-            f"{S3_BUCKET}/{FILENAMES.get(self.species)}",
-            self._filepath,
-        )
