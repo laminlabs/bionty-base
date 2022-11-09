@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+⚡ Switch to cloudpath for caching | [141](https://github.com/laminlabs/bionty/pull/141) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-09 |
 ⚡ Cache species table | [140](https://github.com/laminlabs/bionty/pull/140) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-06 | 0.5.1
 📝 Link the species df to bionty-assets | [139](https://github.com/laminlabs/bionty/pull/139) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-25 | 0.5.0
 🍱 Updated protein table | [138](https://github.com/laminlabs/bionty/pull/138) | [sunnyosun](https://github.com/sunnyosun) | 2022-10-25 |
