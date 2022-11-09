@@ -3,11 +3,10 @@ from functools import cached_property
 import pandas as pd
 
 from .._normalize import GENE_COLUMNS, NormalizeColumns
-from .._settings import check_datasetdir_exists, settings
+from .._settings import s3_bionty_assets
 from .._table import EntityTable
 
 ALIAS_DICT = {"symbol": "synonyms"}
-S3_BUCKET = "https://bionty-assets.s3.amazonaws.com"
 FILENAMES = {
     "human": "KJ1HgB695AqbVWvfit8sl.parquet",
     "mouse": "xaBDkhBYLXWHq6gJYnedD.parquet",
@@ -38,7 +37,6 @@ class Gene(EntityTable):
         if FILENAMES.get(species) is None:
             raise NotImplementedError
         self._species = species
-        self._filepath = settings.datasetdir / FILENAMES.get(self.species)
         self._id_field = "ensembl_gene_id" if id is None else id
         self._lookup_col = "symbol"
 
@@ -53,23 +51,15 @@ class Gene(EntityTable):
 
         See ingestion: https://lamin.ai/docs/bionty-assets/ingest/ensembl-gene
         """
-        if not self._filepath.exists():
-            self._download_df()
+        cloudpath = s3_bionty_assets(FILENAMES.get(self.species))
+        self._filepath = cloudpath.fspath
+
         df = pd.read_parquet(self._filepath)
         NormalizeColumns.gene(df, species=self.species)
         if not df.index.is_numeric():
             df = df.reset_index().copy()
         df = df[~df[self._id_field].isnull()]
         return df.set_index(self._id_field)
-
-    @check_datasetdir_exists
-    def _download_df(self):
-        from urllib.request import urlretrieve
-
-        urlretrieve(
-            f"{S3_BUCKET}/{FILENAMES.get(self.species)}",
-            self._filepath,
-        )
 
     def curate(  # type: ignore
         self, df: pd.DataFrame, column: str = None

@@ -17,6 +17,8 @@ dependencies = [
     "orjson",
     "pyarrow",
     "nbproject",
+    "cloudpathlib",
+    "boto3",
 ]
 
 [project.urls]
