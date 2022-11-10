@@ -28,15 +28,7 @@ class Disease(EntityTable):
         self._filepath = settings.datasetdir / "disease_lookup.parquet"
 
         if not self._filepath.exists():
-            df = pd.DataFrame(
-                [
-                    (term.id, term.name)
-                    for term in self.ontology.terms()
-                    if term.id.startswith("MONDO:")
-                ],
-                columns=["id", "name"],
-            ).set_index("id")
-
+            df = self._ontology_to_df(self.ontology, prefix="MONDO")
             df.to_parquet(self._filepath)
 
         return pd.read_parquet(self._filepath)

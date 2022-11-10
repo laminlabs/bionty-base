@@ -28,15 +28,7 @@ class CellType(EntityTable):
         self._filepath = settings.datasetdir / "celltype_lookup.parquet"
 
         if not self._filepath.exists():
-            df = pd.DataFrame(
-                [
-                    (term.id, term.name)
-                    for term in self.ontology.terms()
-                    if term.id.startswith("CL:")
-                ],
-                columns=["id", "name"],
-            ).set_index(self._id_field)
-
+            df = self._ontology_to_df(self.ontology, prefix="CL")
             df.to_parquet(self._filepath)
 
         return pd.read_parquet(self._filepath)

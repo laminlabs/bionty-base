@@ -91,6 +91,17 @@ class EntityTable:
         )
         return list(df[0].values)
 
+    def _ontology_to_df(self, ontology: Ontology, prefix: str):
+        """Convert ontology to a DataFrame with id and name columns."""
+        return pd.DataFrame(
+            [
+                (term.id, term.name)
+                for term in ontology.terms()
+                if term.id.startswith(f"{prefix}:")
+            ],
+            columns=["id", "name"],
+        ).set_index(self._id_field)
+
     def curate(
         self, df: pd.DataFrame, column: str = None, agg_col: str = None
     ) -> pd.DataFrame:
