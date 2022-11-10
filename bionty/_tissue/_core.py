@@ -4,6 +4,7 @@ from typing import Optional
 import pandas as pd
 
 from .._ontology import Ontology
+from .._settings import settings
 from .._table import EntityTable
 
 
@@ -24,14 +25,13 @@ class Tissue(EntityTable):
     @cached_property
     def df(self) -> pd.DataFrame:
         """DataFrame."""
-        return pd.DataFrame(
-            [
-                (term.id, term.name)
-                for term in self.ontology.terms()
-                if term.id.startswith("UBERON:")
-            ],
-            columns=["id", "name"],
-        ).set_index("id")
+        self._filepath = settings.datasetdir / "tissue_lookup.parquet"
+
+        if not self._filepath.exists():
+            df = self._ontology_to_df(self.ontology, prefix="UBERON")
+            df.to_parquet(self._filepath)
+
+        return pd.read_parquet(self._filepath)
 
     @cached_property
     def ontology(self) -> Ontology:  # type:ignore
