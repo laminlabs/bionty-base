@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+⚡ Cache id and name for ontology | [144](https://github.com/laminlabs/bionty/pull/144) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-10 |
 🎨 Simplified ontology | [143](https://github.com/laminlabs/bionty/pull/143) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-10 |
 🐛 Fixed bug in tissue id | [142](https://github.com/laminlabs/bionty/pull/142) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-10 |
 ⚡ Switch to cloudpath for caching | [141](https://github.com/laminlabs/bionty/pull/141) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-09 |
