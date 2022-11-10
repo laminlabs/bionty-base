@@ -7,6 +7,7 @@ import pandas as pd
 
 from ._logger import logger
 from ._ontology import Ontology
+from ._settings import settings
 from .dev._fix_index import (
     check_if_index_compliant,
     explode_aggregated_column_to_expand,
@@ -27,7 +28,6 @@ class EntityTable:
 
     def __init__(self, id=None):
         self._id_field = "id" if id is None else id
-        self._Ontology = Ontology
         # By default lookup allows auto-completion for name and returns the id.
         # lookup column can be changed using `.lookup_col = `.
         self._lookup_col = "name"
@@ -64,11 +64,6 @@ class EntityTable:
         )
 
         return self._namedtuple_from_dict(df[self._id_field].to_dict())
-
-    @cached_property
-    def ontology(self):
-        """Ontology."""
-        raise NotImplementedError
 
     def _to_lookup_keys(self, x: list) -> list:
         """Convert a list of strings to tab-completion allowed formats."""
@@ -157,3 +152,20 @@ class EntityTable:
         logger.success(f"{n_mapped} terms ({frac_mapped}%) are linked.")
         logger.warning(f"{n_misses} terms ({frac_misses}%) are not linked.")
         return df
+
+    def ontology(
+        self,
+        url: Optional[str] = None,
+        reload: bool = False,
+        filename: Optional[str] = None,
+    ) -> Ontology:
+        """Ontology."""
+        if url is None:
+            raise ValueError("No ontology url is provided.")
+        filename = url.split("/")[-1] if filename is None else filename
+        ontology_path = settings.dynamicdir / filename.replace(".owl", ".obo")
+
+        # ontology will be pulled from the url if no cached file is found
+        url = url if ((not ontology_path.exists()) or (reload)) else None
+
+        return Ontology(handle=ontology_path, url=url, filename=filename)
