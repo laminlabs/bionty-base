@@ -1,9 +1,9 @@
 from functools import cached_property
+from typing import Optional
 
 import pandas as pd
 
 from .._ontology import Ontology
-from .._settings import settings
 from .._table import EntityTable
 
 
@@ -14,10 +14,12 @@ class Tissue(EntityTable):
     https://github.com/obophenotype/uberon
     """
 
-    def __init__(self, id=None, reload=False) -> None:
+    def __init__(
+        self, id=None, url: Optional[str] = None, reload: bool = False
+    ) -> None:
         super().__init__(id=id)
+        self._url = url
         self._reload = reload
-        self._filepath = settings.dynamicdir / "uberon-basic.obo"
 
     @cached_property
     def df(self) -> pd.DataFrame:
@@ -32,11 +34,11 @@ class Tissue(EntityTable):
         ).set_index("id")
 
     @cached_property
-    def ontology(self):
+    def ontology(self) -> Ontology:  # type:ignore
         """Uberon multi-species anatomy ontology."""
-        url = "http://purl.obolibrary.org/obo/uberon/basic.obo"
-        url = url if ((not self._filepath.exists()) or (self._reload)) else None
-        ontology_ = Ontology(handle=self._filepath, url=url)
-        if url is not None:
-            ontology_.write_obo(filename="uberon-basic.obo")
-        return ontology_
+        if self._url is None:
+            self._url = "http://purl.obolibrary.org/obo/uberon/basic.obo"
+
+        return super().ontology(
+            url=self._url, reload=self._reload, filename="uberon-basic.obo"
+        )

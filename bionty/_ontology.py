@@ -20,7 +20,6 @@ class Ontology(pronto.Ontology):
         threads: The number of threads to use when parsing.
         url: The url of ontology.
         prefix: Dev only -> prefix for get_term.
-
     """
 
     def __init__(
@@ -31,6 +30,7 @@ class Ontology(pronto.Ontology):
         threads: Optional[int] = None,
         url: Optional[str] = None,
         prefix: Optional[str] = None,
+        filename: Optional[str] = None,
     ) -> None:
         self._prefix = "" if prefix is None else prefix
         warnings.filterwarnings("ignore", category=pronto.warnings.ProntoWarning)
@@ -40,10 +40,12 @@ class Ontology(pronto.Ontology):
         super().__init__(
             handle=handle, import_depth=import_depth, timeout=timeout, threads=threads
         )
+        if url is not None:
+            self.write_obo(filename=filename)
 
     @check_dynamicdir_exists
     def write_obo(self, filename: Optional[str] = None):
-        """Write ontology to .obo file."""
+        """Write ontology to dynamicdir/{filename}.obo file."""
         if filename is None:
             filename = self.path.split("/")[-1].replace(".owl", ".obo")
         filepath = settings.dynamicdir / filename

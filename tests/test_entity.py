@@ -8,8 +8,6 @@ def test_entity_table():
     entity_table = EntityTable()
     with pytest.raises(NotImplementedError):
         entity_table.df
-    with pytest.raises(NotImplementedError):
-        entity_table.ontology
     assert entity_table.entity == "entity_table"
     assert _camel_to_snake("EntityTable") == "entity_table"
 
