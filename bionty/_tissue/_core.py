@@ -14,7 +14,7 @@ class Tissue(EntityTable):
     https://github.com/obophenotype/uberon
     """
 
-    def __init__(self, reload=False) -> None:
+    def __init__(self, id=None, reload=False) -> None:
         super().__init__(id=id)
         self._reload = reload
         self._filepath = settings.dynamicdir / "uberon-basic.obo"
