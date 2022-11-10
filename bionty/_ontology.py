@@ -20,7 +20,6 @@ class Ontology(pronto.Ontology):
         threads: The number of threads to use when parsing.
         url: The url of ontology.
         prefix: Dev only -> prefix for get_term.
-
     """
 
     def __init__(

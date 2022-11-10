@@ -31,6 +31,13 @@ Lookup of vocabulary:
 
    lookup
 
+External API:
+
+.. autosummary::
+   :toctree: .
+
+   Ontology
+
 """
 
 __version__ = "0.5.1"
