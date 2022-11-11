@@ -31,7 +31,7 @@ class Disease(EntityTable):
             df = self._ontology_to_df(self.ontology, prefix="MONDO")
             df.to_parquet(self._filepath)
 
-        return pd.read_parquet(self._filepath)
+        return pd.read_parquet(self._filepath).rename(columns={"id": "ontology_id"})
 
     @cached_property
     def ontology(self) -> Ontology:  # type:ignore
