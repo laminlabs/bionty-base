@@ -16,7 +16,7 @@ class Disease(EntityTable):
     """
 
     def __init__(
-        self, id=None, url: Optional[str] = None, reload: bool = False
+        self, id: str = "ontology_id", url: Optional[str] = None, reload: bool = False
     ) -> None:
         super().__init__(id=id)
         self._url = url
@@ -31,7 +31,7 @@ class Disease(EntityTable):
             df = self._ontology_to_df(self.ontology, prefix="MONDO")
             df.to_parquet(self._filepath)
 
-        return pd.read_parquet(self._filepath).rename(columns={"id": "ontology_id"})
+        return pd.read_parquet(self._filepath)
 
     @cached_property
     def ontology(self) -> Ontology:  # type:ignore

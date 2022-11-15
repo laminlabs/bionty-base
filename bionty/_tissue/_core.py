@@ -16,7 +16,7 @@ class Tissue(EntityTable):
     """
 
     def __init__(
-        self, id=None, url: Optional[str] = None, reload: bool = False
+        self, id: str = "ontology_id", url: Optional[str] = None, reload: bool = False
     ) -> None:
         super().__init__(id=id)
         self._url = url

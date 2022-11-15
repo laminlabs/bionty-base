@@ -26,7 +26,7 @@ class EntityTable:
     See :doc:`guide` for background.
     """
 
-    def __init__(self, id=None):
+    def __init__(self, id: str = None):
         self._id_field = "id" if id is None else id
         # By default lookup allows auto-completion for name and returns the id.
         # lookup column can be changed using `.lookup_col = `.
@@ -99,7 +99,7 @@ class EntityTable:
                 for term in ontology.terms()
                 if term.id.startswith(f"{prefix}:")
             ],
-            columns=["id", "name"],
+            columns=["ontology_id", "name"],
         ).set_index(self._id_field)
 
     def curate(
