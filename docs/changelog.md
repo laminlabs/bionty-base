@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-🩹 Removed prefix in ontology df | [147](https://github.com/laminlabs/bionty/pull/147) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-15 |
+🩹 Removed prefix in ontology df | [147](https://github.com/laminlabs/bionty/pull/147) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-15 | 0.5.3
 🎨 Default id to ontology_id | [146](https://github.com/laminlabs/bionty/pull/146) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-15 |
 🚚 Rename id to ontology_id for ontology df | [145](https://github.com/laminlabs/bionty/pull/145) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-11 | 0.5.2
 ⚡ Cache id and name for ontology | [144](https://github.com/laminlabs/bionty/pull/144) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-10 |
