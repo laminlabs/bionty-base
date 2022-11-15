@@ -28,10 +28,10 @@ class CellType(EntityTable):
         self._filepath = settings.datasetdir / "celltype_lookup.parquet"
 
         if not self._filepath.exists():
-            df = self._ontology_to_df(self.ontology, prefix="CL")
+            df = self._ontology_to_df(self.ontology)
             df.to_parquet(self._filepath)
 
-        return pd.read_parquet(self._filepath).rename(columns={"id": "ontology_id"})
+        return pd.read_parquet(self._filepath)
 
     @cached_property
     def ontology(self) -> Ontology:  # type:ignore
