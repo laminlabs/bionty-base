@@ -91,14 +91,10 @@ class EntityTable:
         )
         return list(df[0].values)
 
-    def _ontology_to_df(self, ontology: Ontology, prefix: str):
+    def _ontology_to_df(self, ontology: Ontology):
         """Convert ontology to a DataFrame with id and name columns."""
         return pd.DataFrame(
-            [
-                (term.id, term.name)
-                for term in ontology.terms()
-                if term.id.startswith(f"{prefix}:")
-            ],
+            [(term.id, term.name) for term in ontology.terms()],
             columns=["ontology_id", "name"],
         ).set_index(self._id_field)
 
