@@ -90,8 +90,9 @@ class Gene(EntityTable):
                 column = self._id_field if column_norm is None else column_norm
                 df.rename(columns={orig_column: column}, inplace=True)
             agg_col = ALIAS_DICT.get(column)
+
         return (
             super()
-            .curate(df=df, column=column, agg_col=agg_col)
+            ._curate(df=df, column=column, agg_col=agg_col)
             .rename(columns={column: orig_column})
         )

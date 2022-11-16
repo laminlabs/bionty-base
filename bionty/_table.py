@@ -98,19 +98,10 @@ class EntityTable:
             columns=["ontology_id", "name"],
         ).set_index(self._id_field)
 
-    def curate(
+    def _curate(
         self, df: pd.DataFrame, column: str = None, agg_col: str = None
     ) -> pd.DataFrame:
-        """Curate index of passed DataFrame to conform with default identifier.
-
-        - If `column` is `None`, checks the existing index for compliance with
-          the default identifier.
-        - If `column` denotes an entity identifier, tries to map that identifier
-          to the default identifier.
-
-        Returns the DataFrame with the curated index and a boolean `__curated__`
-        column that indicates compliance with the default identifier.
-        """
+        """Curate index of passed DataFrame to conform with default identifier."""
         df = df.copy()
 
         if agg_col is not None:
@@ -159,6 +150,25 @@ class EntityTable:
         logger.success(f"{n_mapped} terms ({frac_mapped}%) are linked.")
         logger.warning(f"{n_misses} terms ({frac_misses}%) are not linked.")
         return df
+
+    def curate(self, df: pd.DataFrame, column: str = None):
+        """Curate index of passed DataFrame to conform with default identifier.
+
+        - If `column` is `None`, checks the existing index for compliance with
+          the default identifier.
+        - If `column` denotes an entity identifier, tries to map that identifier
+          to the default identifier.
+
+        Returns the DataFrame with the curated index and a boolean `__curated__`
+        column that indicates compliance with the default identifier.
+        """
+        df = df.copy()
+        orig_column = column
+        if column is not None and column not in self.df.columns:
+            column = self._id_field
+            df.rename(columns={orig_column: column}, inplace=True)
+
+        return self._curate(df=df, column=column).rename(columns={column: orig_column})
 
     def ontology(
         self,
