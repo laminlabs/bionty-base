@@ -1,0 +1,32 @@
+ENSEMBL:
+  in-use: release-108
+  latest: https://ftp.ensembl.org/pub/current_mysql/
+  versions:
+    release-108: https://ftp.ensembl.org/pub/release-108/mysql/
+    release-107: https://ftp.ensembl.org/pub/release-107/mysql/
+UNIPROT:
+  in-use: 2022-04
+  latest: https://ftp.uniprot.org/pub/databases/uniprot/current_release/
+  versions:
+    2022-04: https://ftp.uniprot.org/pub/databases/uniprot/current_release/
+    2022-03: https://ftp.uniprot.org/pub/databases/uniprot/previous_releases/release-2022_03/
+CellMarker:
+  in-use: 2.0
+  latest: http://bio-bigdata.hrbmu.edu.cn/CellMarker
+  versions:
+    2.0: http://bio-bigdata.hrbmu.edu.cn/CellMarker/CellMarker_download_files/file/Cell_marker_All.xlsx
+CL:
+  in-use: 2022-08-16
+  latest: http://purl.obolibrary.org/obo/cl.owl
+  versions:
+    2022-08-16: http://purl.obolibrary.org/obo/cl/releases/2022-08-16/cl.owl
+UBERON:
+  in-use: 2022-08-19
+  latest: http://purl.obolibrary.org/obo/uberon.owl
+  versions:
+    2022-08-19: http://purl.obolibrary.org/obo/uberon/releases/2022-08-19/uberon.owl
+MONDO:
+  in-use: 2022-10-11
+  latest: http://purl.obolibrary.org/obo/mondo.owl
+  versions:
+    2022-10-11: http://purl.obolibrary.org/obo/mondo/releases/2022-10-11/mondo.owl
