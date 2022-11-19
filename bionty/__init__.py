@@ -16,6 +16,7 @@ Entities:
    CellMarker
    Tissue
    Disease
+   Readout
 
 The base model for every entity class is:
 
@@ -51,6 +52,7 @@ from ._celltype import CellType
 from ._cellmarker import CellMarker
 from ._tissue import Tissue
 from ._disease import Disease
+from ._readout import Readout
 
 # tools
 from ._normalize import NormalizeColumns

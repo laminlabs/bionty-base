@@ -175,6 +175,7 @@ class EntityTable:
         url: Optional[str] = None,
         reload: bool = False,
         filename: Optional[str] = None,
+        **kwargs,
     ) -> Ontology:
         """Ontology."""
         if url is None:
@@ -185,4 +186,4 @@ class EntityTable:
         # ontology will be pulled from the url if no cached file is found
         url = url if ((not ontology_path.exists()) or (reload)) else None
 
-        return Ontology(handle=ontology_path, url=url, filename=filename)
+        return Ontology(handle=ontology_path, url=url, filename=filename, **kwargs)
