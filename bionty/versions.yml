@@ -34,4 +34,4 @@ Readout:
   efo:
     in-use: 3.48.0
     versions:
-    3.48.0: http://www.ebi.ac.uk/efo/releases/v3.48.0/efo.owl
+      3.48.0: http://www.ebi.ac.uk/efo/releases/v3.48.0/efo.owl
