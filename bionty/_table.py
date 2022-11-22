@@ -1,18 +1,22 @@
 import re
 from collections import namedtuple
 from functools import cached_property
+from pathlib import Path
 from typing import Iterable, NamedTuple, Optional
 
 import pandas as pd
 
 from ._logger import logger
 from ._ontology import Ontology
-from ._settings import settings
+from ._settings import check_dynamicdir_exists, settings
 from .dev._fix_index import (
     check_if_index_compliant,
     explode_aggregated_column_to_expand,
     get_compliant_index_from_column,
 )
+from .dev._io import load_yaml, url_download
+
+HERE = Path(__file__).parent
 
 
 def _camel_to_snake(string: str) -> str:
@@ -151,6 +155,18 @@ class EntityTable:
         logger.warning(f"{n_misses} terms ({frac_misses}%) are not linked.")
         return df
 
+    @check_dynamicdir_exists
+    def _ontology_download(self, url: str):
+        """Download owl file to dynamicdir."""
+        logger.info("Downloading ontology for the first time might take a while...")
+        url_download(url, self._ontology_localpath_from_url(url))
+
+    def _ontology_localpath_from_url(self, url: str):
+        """Get version from the ontology url."""
+        version = url.split("/")[-2]
+        filename = url.split("/")[-1]
+        return settings.dynamicdir / f"{version}|{filename}"
+
     def curate(self, df: pd.DataFrame, column: str = None):
         """Curate index of passed DataFrame to conform with default identifier.
 
@@ -170,20 +186,17 @@ class EntityTable:
 
         return self._curate(df=df, column=column).rename(columns={column: orig_column})
 
-    def ontology(
-        self,
-        url: Optional[str] = None,
-        reload: bool = False,
-        filename: Optional[str] = None,
-        **kwargs,
-    ) -> Ontology:
+    def ontology(self, namespace: str, **kwargs) -> Ontology:
         """Ontology."""
+        # Get the in-use url from yaml file
+        info = (
+            load_yaml(HERE / "versions.yml").get(self.__class__.__name__).get(namespace)
+        )
+        url = info.get("versions").get(info.get("in-use"))
         if url is None:
             raise ValueError("No ontology url is provided.")
-        filename = url.split("/")[-1] if filename is None else filename
-        ontology_path = settings.dynamicdir / filename.replace(".owl", ".obo")
+        _ontology_localpath_from_url = self._ontology_localpath_from_url(url)
+        if not _ontology_localpath_from_url.exists():
+            self._ontology_download(url)
 
-        # ontology will be pulled from the url if no cached file is found
-        url = url if ((not ontology_path.exists()) or (reload)) else None
-
-        return Ontology(handle=ontology_path, url=url, filename=filename, **kwargs)
+        return Ontology(handle=_ontology_localpath_from_url, **kwargs)

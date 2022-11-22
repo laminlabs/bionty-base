@@ -4,9 +4,6 @@ from typing import BinaryIO, Optional, Union
 
 import pronto
 
-from ._logger import logger
-from ._settings import check_dynamicdir_exists, settings
-
 
 class Ontology(pronto.Ontology):
     """Interface with ontologies via pronto.
@@ -28,31 +25,20 @@ class Ontology(pronto.Ontology):
         import_depth: int = -1,
         timeout: int = 100,
         threads: Optional[int] = None,
-        url: Optional[str] = None,
-        prefix: Optional[str] = None,
-        filename: Optional[str] = None,
+        prefix: str = "",
     ) -> None:
-        self._prefix = "" if prefix is None else prefix
+        self._prefix = prefix
         warnings.filterwarnings("ignore", category=pronto.warnings.ProntoWarning)
-        if url is not None:
-            logger.info("Downloading ontology for the first time might take a while...")
-            handle = url
         super().__init__(
             handle=handle, import_depth=import_depth, timeout=timeout, threads=threads
         )
-        if url is not None:
-            self.write_obo(filename=filename)
 
-    @check_dynamicdir_exists
-    def write_obo(self, filename: Optional[str] = None):
+    def write_obo(self):
         """Write ontology to dynamicdir/{filename}.obo file."""
-        if filename is None:
-            filename = self.path.split("/")[-1].replace(".owl", ".obo")
-        filepath = settings.dynamicdir / filename
-        with open(filepath, "wb") as f:
+        filepath = Path(self.path)
+        filename = filepath.name.replace(".owl", ".obo")
+        with open(filepath.parent / filename, "wb") as f:
             self.dump(f, format="obo")
-
-        return filepath
 
     def get_term(self, term):
         """Search an ontology by its id."""
