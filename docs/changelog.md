@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🎨 Fetch the latest ontology from ols | [151](https://github.com/laminlabs/bionty/pull/151) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-22 |
 🚚 Moved readout from bioreadout into bionty | [150](https://github.com/laminlabs/bionty/pull/150) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-19 |
 ✨ Added a local versions tracking file | [149](https://github.com/laminlabs/bionty/pull/149) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-18 |
 🐛 Fixed column id in curate | [148](https://github.com/laminlabs/bionty/pull/148) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-16 | 0.5.4
