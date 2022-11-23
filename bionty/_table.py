@@ -40,6 +40,8 @@ class EntityTable:
         # By default lookup allows auto-completion for name and returns the id.
         # lookup column can be changed using `.lookup_col = `.
         self._lookup_col = "name"
+        if self.__class__.__name__ == "EntityTable":
+            return None
         self._get_version(database=database, version=version)
 
     @cached_property
@@ -180,14 +182,11 @@ class EntityTable:
 
     def _load_current_version(self):
         """Load current version."""
-        try:
-            ((database, version),) = (
-                load_yaml(VERSIONS_PATH / "_versions.yaml")
-                .get(self.__class__.__name__)
-                .items()
-            )
-        except AttributeError:
-            return None, None
+        ((database, version),) = (
+            load_yaml(VERSIONS_PATH / "_versions.yaml")
+            .get(self.__class__.__name__)
+            .items()
+        )
         return database, version
 
     def _load_versions(self):
