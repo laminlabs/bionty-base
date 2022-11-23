@@ -6,7 +6,7 @@ _VERSIONS_PATH = Path(__file__).parent / "_versions.yaml"
 
 # writes the most recent version to the _versions.yaml
 if not _VERSIONS_PATH.exists():
-    versions = load_yaml("versions.yaml")
+    versions = load_yaml("versions/versions.yaml")
     _versions = {}
     for name, db_versions in versions.items():
         db = next(iter(db_versions))
