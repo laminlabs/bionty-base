@@ -42,7 +42,7 @@ External API:
 """
 
 __version__ = "0.5.4"
-
+from . import _sync_versions
 
 # dynamic classes
 from ._gene import Gene
@@ -59,5 +59,3 @@ from ._normalize import NormalizeColumns
 from ._table import EntityTable
 from ._ontology import Ontology
 from ._lookup import lookup
-
-from . import _sync_versions
