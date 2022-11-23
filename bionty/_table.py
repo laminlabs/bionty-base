@@ -181,7 +181,7 @@ class EntityTable:
     def _load_current_version(self):
         """Load current version."""
         ((database, version),) = (
-            load_yaml(VERSIONS_PATH / "_versions.yml")
+            load_yaml(VERSIONS_PATH / "_versions.yaml")
             .get(self.__class__.__name__)
             .items()
         )
@@ -189,12 +189,12 @@ class EntityTable:
 
     def _load_versions(self):
         """Load all versions."""
-        return load_yaml(VERSIONS_PATH / "versions.yml").get(self.__class__.__name__)
+        return load_yaml(VERSIONS_PATH / "versions.yaml").get(self.__class__.__name__)
 
     def _get_version(
         self, database: Optional[str] = None, version: Optional[str] = None
     ):
-        # Read in all the versions from the versions.yml file.
+        # Read in all the versions from the versions.yaml file.
         database_, version_ = self._load_current_version()
         db_versions = self._load_versions()
         # Use the latest version if version is None.
