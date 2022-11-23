@@ -1,37 +1,34 @@
+Species:
+  ensembl:
+    versions:
+      release-108: https://ftp.ensembl.org/pub/release-108/mysql/
 Gene:
   ensembl:
-    in-use: release-108
     versions:
       release-108: https://ftp.ensembl.org/pub/release-108/mysql/
       release-107: https://ftp.ensembl.org/pub/release-107/mysql/
 Protein:
   uniprot:
-    in-use: 2022-04
     versions:
       2022-04: https://ftp.uniprot.org/pub/databases/uniprot/current_release/
       2022-03: https://ftp.uniprot.org/pub/databases/uniprot/previous_releases/release-2022_03/
 CellMarker:
   cellmarker:
-    in-use: 2.0
     versions:
       2.0: http://bio-bigdata.hrbmu.edu.cn/CellMarker/CellMarker_download_files/file/Cell_marker_All.xlsx
 CellType:
   cl:
-    in-use: 2022-08-16
     versions:
       2022-08-16: http://purl.obolibrary.org/obo/cl/releases/2022-08-16/cl.owl
 Tissue:
   uberon:
-    in-use: 2022-08-19
     versions:
       2022-08-19: http://purl.obolibrary.org/obo/uberon/releases/2022-08-19/uberon.owl
 Disease:
   mondo:
-    in-use: 2022-10-11
     versions:
       2022-10-11: http://purl.obolibrary.org/obo/mondo/releases/2022-10-11/mondo.owl
 Readout:
   efo:
-    in-use: 3.48.0
     versions:
       3.48.0: http://www.ebi.ac.uk/efo/releases/v3.48.0/efo.owl

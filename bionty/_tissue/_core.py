@@ -1,4 +1,5 @@
 from functools import cached_property
+from typing import Optional
 
 import pandas as pd
 
@@ -14,9 +15,14 @@ class Tissue(EntityTable):
     https://github.com/obophenotype/uberon
     """
 
-    def __init__(self, id: str = "ontology_id", namespace: str = "uberon") -> None:
-        super().__init__(id=id)
-        self._namespace = namespace
+    def __init__(
+        self,
+        id: str = "ontology_id",
+        database: Optional[str] = None,
+        version: Optional[str] = None,
+    ) -> None:
+        database = "uberon" if database is None else database
+        super().__init__(id=id, database=database, version=version)
 
     @cached_property
     def df(self) -> pd.DataFrame:
@@ -32,4 +38,4 @@ class Tissue(EntityTable):
     @cached_property
     def ontology(self) -> Ontology:  # type:ignore
         """Uberon multi-species anatomy ontology."""
-        return super().ontology(namespace=self._namespace)
+        return super().ontology()

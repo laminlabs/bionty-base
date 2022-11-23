@@ -42,7 +42,7 @@ External API:
 """
 
 __version__ = "0.5.4"
-
+from . import _sync_versions
 
 # dynamic classes
 from ._gene import Gene

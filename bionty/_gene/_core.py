@@ -1,4 +1,5 @@
 from functools import cached_property
+from typing import Optional
 
 import pandas as pd
 
@@ -30,10 +31,12 @@ class Gene(EntityTable):
 
     def __init__(
         self,
-        species="human",
-        id=None,
+        species: str = "human",
+        id: Optional[str] = None,
+        database: Optional[str] = None,
+        version: Optional[str] = None,
     ):
-        super().__init__(id=id)
+        super().__init__(id=id, database=database, version=version)
         if FILENAMES.get(species) is None:
             raise NotImplementedError
         self._species = species

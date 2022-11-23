@@ -1,4 +1,5 @@
 from functools import cached_property
+from typing import Optional
 
 import pandas as pd
 
@@ -42,8 +43,14 @@ class Protein(EntityTable):
         species: `common_name` of `Species` entity EntityTable.
     """
 
-    def __init__(self, species="human", id=None) -> None:
-        super().__init__(id=id)
+    def __init__(
+        self,
+        species: str = "human",
+        id: Optional[str] = None,
+        database: Optional[str] = None,
+        version: Optional[str] = None,
+    ) -> None:
+        super().__init__(id=id, database=database, version=version)
         if FILENAMES.get(species) is None:
             raise NotImplementedError
         self._species = species
