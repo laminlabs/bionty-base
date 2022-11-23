@@ -1,4 +1,5 @@
 from functools import cached_property
+from typing import Optional
 
 import pandas as pd
 
@@ -16,8 +17,13 @@ class Species(EntityTable):
             value. It will also be the primary key in the corresponding SQL EntityTable.
     """
 
-    def __init__(self, id=None):
-        super().__init__(id=id)
+    def __init__(
+        self,
+        id: Optional[str] = None,
+        database: Optional[str] = None,
+        version: Optional[str] = None,
+    ):
+        super().__init__(id=id, database=database, version=version)
         self._id_field = "common_name" if id is None else id
         self._lookup_col = "common_name"
 

@@ -10,12 +10,12 @@ def load_yaml(filename: Union[str, Path]):
         return yaml.safe_load(f)
 
 
-def write_yaml(data: dict, filename: str):
+def write_yaml(data: dict, filename: Union[str, Path]):
     with open(filename, "w") as f:
         yaml.dump(data, f)
 
 
-def url_download(url: str, filename: str = None, **kwargs):
+def url_download(url: str, filename: Union[str, Path, None] = None, **kwargs):
     r = requests.get(url, allow_redirects=True, **kwargs)
     if r.status_code != 200:
         raise ConnectionError(f"could not download {url}\nerror code: {r.status_code}")

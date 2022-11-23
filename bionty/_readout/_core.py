@@ -1,4 +1,5 @@
 from functools import cached_property
+from typing import Optional
 
 import pandas as pd
 
@@ -17,9 +18,14 @@ class Readout(EntityTable):
     Also see: `bionty.EntityTable <https://lamin.ai/docs/bionty/bionty.entitytable>`__
     """
 
-    def __init__(self, id: str = "ontology_id", namespace: str = "efo") -> None:
-        super().__init__(id=id)
-        self._namespace = namespace
+    def __init__(
+        self,
+        id: str = "ontology_id",
+        database: Optional[str] = None,
+        version: Optional[str] = None,
+    ) -> None:
+        super().__init__(id=id, database=database, version=version)
+        database = "efo" if database is None else database
         self._filepath = settings.datasetdir / "efo_df.json"
         self._readout_terms = {
             "assay": "OBI:0000070",
@@ -41,9 +47,7 @@ class Readout(EntityTable):
     @cached_property
     def ontology(self) -> Ontology:  # type:ignore
         """EFO."""
-        return super().ontology(
-            namespace=self._namespace, prefix="http://www.ebi.ac.uk/efo/"
-        )
+        return super().ontology(prefix="http://www.ebi.ac.uk/efo/")
 
     @cached_property
     def assay(self) -> list:

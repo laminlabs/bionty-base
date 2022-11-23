@@ -59,3 +59,5 @@ from ._normalize import NormalizeColumns
 from ._table import EntityTable
 from ._ontology import Ontology
 from ._lookup import lookup
+
+from . import _sync_versions

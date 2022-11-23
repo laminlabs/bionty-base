@@ -16,7 +16,7 @@ from .dev._fix_index import (
 )
 from .dev._io import load_yaml, url_download
 
-HERE = Path(__file__).parent
+VERSIONS_PATH = Path(__file__).parent / "versions"
 
 
 def _camel_to_snake(string: str) -> str:
@@ -30,11 +30,17 @@ class EntityTable:
     See :doc:`guide` for background.
     """
 
-    def __init__(self, id: str = None):
+    def __init__(
+        self,
+        id: Optional[str] = None,
+        database: Optional[str] = None,
+        version: Optional[str] = None,
+    ):
         self._id_field = "id" if id is None else id
         # By default lookup allows auto-completion for name and returns the id.
         # lookup column can be changed using `.lookup_col = `.
         self._lookup_col = "name"
+        self._get_version(database=database, version=version)
 
     @cached_property
     def entity(self) -> str:
@@ -156,16 +162,54 @@ class EntityTable:
         return df
 
     @check_dynamicdir_exists
-    def _ontology_download(self, url: str):
-        """Download owl file to dynamicdir."""
-        logger.info("Downloading ontology for the first time might take a while...")
-        url_download(url, self._ontology_localpath_from_url(url))
+    def _url_download(self, url: str):
+        """Download file from url to dynamicdir."""
+        filename = url.split("/")[-1]
+        if not self._localpath(filename).exists():
+            logger.info(
+                "Downloading reference for the first time might take a while..."
+            )
+            url_download(url, self._localpath(filename))
+        return self._localpath(filename)
 
     def _ontology_localpath_from_url(self, url: str):
         """Get version from the ontology url."""
         version = url.split("/")[-2]
         filename = url.split("/")[-1]
         return settings.dynamicdir / f"{version}|{filename}"
+
+    def _load_current_version(self):
+        """Load current version."""
+        ((database, version),) = (
+            load_yaml(VERSIONS_PATH / "_versions.yml")
+            .get(self.__class__.__name__)
+            .items()
+        )
+        return database, version
+
+    def _load_versions(self):
+        """Load all versions."""
+        return load_yaml(VERSIONS_PATH / "versions.yml").get(self.__class__.__name__)
+
+    def _get_version(
+        self, database: Optional[str] = None, version: Optional[str] = None
+    ):
+        # Read in all the versions from the versions.yml file.
+        database_, version_ = self._load_current_version()
+        db_versions = self._load_versions()
+        # Use the latest version if version is None.
+        self._database = database_ if database is None else database
+        self._version = version_ if version is None else version
+        self._url = db_versions.get(self._database).get("versions").get(self._version)
+        if self._url is None:
+            raise ValueError(
+                f"Databse {self._database} version {self._version} is not found, select"
+                f" one of the following: {db_versions}"
+            )
+
+    def _localpath(self, filename: str):
+        """Return the local path of a filename marked with version."""
+        return settings.dynamicdir / f"{self._version}|{filename}"
 
     def curate(self, df: pd.DataFrame, column: str = None):
         """Curate index of passed DataFrame to conform with default identifier.
@@ -186,17 +230,9 @@ class EntityTable:
 
         return self._curate(df=df, column=column).rename(columns={column: orig_column})
 
-    def ontology(self, namespace: str, **kwargs) -> Ontology:
+    def ontology(self, **kwargs) -> Ontology:
         """Ontology."""
         # Get the in-use url from yaml file
-        info = (
-            load_yaml(HERE / "versions.yml").get(self.__class__.__name__).get(namespace)
-        )
-        url = info.get("versions").get(info.get("in-use"))
-        if url is None:
-            raise ValueError("No ontology url is provided.")
-        _ontology_localpath_from_url = self._ontology_localpath_from_url(url)
-        if not _ontology_localpath_from_url.exists():
-            self._ontology_download(url)
+        localpath = self._url_download(self._url)
 
-        return Ontology(handle=_ontology_localpath_from_url, **kwargs)
+        return Ontology(handle=localpath, **kwargs)
