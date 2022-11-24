@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-✨ Add readout to lookup | [153](https://github.com/laminlabs/bionty/pull/153) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-24 |
+✨ Add readout to lookup | [153](https://github.com/laminlabs/bionty/pull/153) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-24 | 0.5.5
 ✨ Write most recent versions to `_versions.yaml` | [152](https://github.com/laminlabs/bionty/pull/152) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-23 |
 🎨 Fetch the latest ontology from ols | [151](https://github.com/laminlabs/bionty/pull/151) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-22 |
 🚚 Moved readout from bioreadout into bionty | [150](https://github.com/laminlabs/bionty/pull/150) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-19 |
