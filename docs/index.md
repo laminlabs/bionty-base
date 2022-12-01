@@ -1,6 +1,6 @@
 ```{include} ../README.md
 :start-line: 0
-:end-line: 4
+:end-line: 5
 ```
 
 Lookup & curate metadata based on scientific standards.
@@ -19,10 +19,10 @@ Install:
 pip install bionty
 ```
 
-Get started:
+Resources:
 
-- The [guide](guide/index) walks you through curating and looking up entities.
-- Browse the full [API reference](api) and [FAQ](faq/index).
+- Get started with the [guide](guide/index), or browse the [API reference](api) and [FAQ](faq/index).
+- See the [source code](https://github.com/laminlabs/bionty) on GitHub.
 - See [bionty-assets](https://lamin.ai/docs/bionty-assets) for the curation of underlying assets.
 - See the [changelog](changelog) for updates.
 
