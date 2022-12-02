@@ -183,7 +183,7 @@ class EntityTable:
     def _load_current_version(self):
         """Load current version."""
         ((database, version),) = (
-            load_yaml(VERSIONS_PATH / "_versions.yaml")
+            load_yaml(VERSIONS_PATH / "_current.yaml")
             .get(self.__class__.__name__)
             .items()
         )

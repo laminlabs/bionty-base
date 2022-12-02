@@ -5,7 +5,7 @@ Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
 ✨ Added ontology_info | [155](https://github.com/laminlabs/bionty/pull/155) | [sunnyosun](https://github.com/sunnyosun) | 2022-12-01 |
 ✨ Add readout to lookup | [153](https://github.com/laminlabs/bionty/pull/153) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-24 | 0.5.5
-✨ Write most recent versions to `_versions.yaml` | [152](https://github.com/laminlabs/bionty/pull/152) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-23 |
+✨ Write most recent versions to `_current.yaml` | [152](https://github.com/laminlabs/bionty/pull/152) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-23 |
 🎨 Fetch the latest ontology from ols | [151](https://github.com/laminlabs/bionty/pull/151) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-22 |
 🚚 Moved readout from bioreadout into bionty | [150](https://github.com/laminlabs/bionty/pull/150) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-19 |
 ✨ Added a local versions tracking file | [149](https://github.com/laminlabs/bionty/pull/149) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-18 |

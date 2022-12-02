@@ -115,4 +115,7 @@ docs/bionty.*
 _dynamic/
 *.ipynb_checkpoints/
 _docs_tmp*
-_versions.yaml
+
+# local versions
+**/versions/_current.yaml
+**/versions/_local.yaml
