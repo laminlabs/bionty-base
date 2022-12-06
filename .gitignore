@@ -119,3 +119,4 @@ _docs_tmp*
 # local versions
 **/versions/_current.yaml
 **/versions/_local.yaml
+**/versions/_lndb.yaml

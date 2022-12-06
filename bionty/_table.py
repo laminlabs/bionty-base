@@ -182,10 +182,20 @@ class EntityTable:
 
     def _load_current_version(self):
         """Load current version."""
+        try:
+            import lndb_setup
+
+            db = lndb_setup.settings._instance_exists
+        except ImportError:
+            db = False
+
+        if db:
+            filename = "_lndb.yaml"
+        else:
+            filename = "_current.yaml"
+
         ((database, version),) = (
-            load_yaml(VERSIONS_PATH / "_current.yaml")
-            .get(self.__class__.__name__)
-            .items()
+            load_yaml(VERSIONS_PATH / filename).get(self.__class__.__name__).items()
         )
         return database, version
 

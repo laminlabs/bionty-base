@@ -36,6 +36,6 @@ if not _CURRENT.exists():
     for name, db_versions in versions.items():
         db = next(iter(db_versions))
         versions = db_versions.get(db).get("versions")
-        version = sorted(versions.keys(), reverse=True)[0]
+        version = str(sorted(versions.keys(), reverse=True)[0])
         _current[name] = {db: version}
     write_yaml(_current, _CURRENT)
