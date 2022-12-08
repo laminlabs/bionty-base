@@ -201,8 +201,18 @@ class EntityTable:
         return database, version
 
     def _load_versions(self):
-        """Load all versions."""
-        return load_yaml(VERSIONS_PATH / "versions.yaml").get(self.__class__.__name__)
+        """Load all versions with string version keys."""
+        versions = load_yaml(VERSIONS_PATH / "versions.yaml").get(
+            self.__class__.__name__
+        )
+
+        versions_db = {}
+
+        for db, vers in versions.items():
+            versions_db[db] = {"versions": {}}
+            for k in vers["versions"]:
+                versions_db[db]["versions"][str(k)] = versions[db]["versions"][k]
+        return versions_db
 
     def _get_version(
         self, database: Optional[str] = None, version: Optional[str] = None

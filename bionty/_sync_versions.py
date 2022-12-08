@@ -9,13 +9,15 @@ _LOCAL = ROOT / "_local.yaml"
 _CURRENT = ROOT / "_current.yaml"
 _DB = ROOT / "_lndb.yaml"
 
+versions = load_yaml(VERSIONS)
+
 # if _local.yaml doesn't exist, copy from versions.yaml
 if not _LOCAL.exists():
     shutil.copy2(VERSIONS, _LOCAL)
-# adds entries in the public versions.yaml table to _local.yaml
-versions = load_yaml(VERSIONS)
+
 _local = load_yaml(_LOCAL)
 
+# update _local to add additional entries from the public versions.yaml table
 for entity, dbs in versions.items():
     if entity not in _local:
         _local[entity] = versions[entity]
