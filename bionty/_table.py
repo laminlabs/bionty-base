@@ -222,7 +222,7 @@ class EntityTable:
         db_versions = self._load_versions()
         # Use the latest version if version is None.
         self._database = database_ if database is None else database
-        self._version = version_ if version is None else version
+        self._version = version_ if version is None else str(version)
         self._url = db_versions.get(self._database).get("versions").get(self._version)
         if self._url is None:
             raise ValueError(
