@@ -1,3 +1,4 @@
+import shutil
 from pathlib import Path
 
 from .dev._io import load_yaml, write_yaml
@@ -6,11 +7,10 @@ ROOT = Path(__file__).parent / "versions"
 VERSIONS = ROOT / "versions.yaml"
 _LOCAL = ROOT / "_local.yaml"
 _CURRENT = ROOT / "_current.yaml"
+_DB = ROOT / "_lndb.yaml"
 
 # if _local.yaml doesn't exist, copy from versions.yaml
 if not _LOCAL.exists():
-    import shutil
-
     shutil.copy2(VERSIONS, _LOCAL)
 # adds entries in the public versions.yaml table to _local.yaml
 versions = load_yaml(VERSIONS)
@@ -39,3 +39,7 @@ if not _CURRENT.exists():
         version = str(sorted(versions.keys(), reverse=True)[0])
         _current[name] = {db: version}
     write_yaml(_current, _CURRENT)
+
+# if no _lndb file, write _current to _lndb for lndb_setup
+if not _DB.exists():
+    shutil.copy2(_CURRENT, _DB)

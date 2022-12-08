@@ -197,6 +197,7 @@ class EntityTable:
         ((database, version),) = (
             load_yaml(VERSIONS_PATH / filename).get(self.__class__.__name__).items()
         )
+
         return database, version
 
     def _load_versions(self):
