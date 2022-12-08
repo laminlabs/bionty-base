@@ -182,16 +182,37 @@ class EntityTable:
 
     def _load_current_version(self):
         """Load current version."""
+        try:
+            import lndb_setup
+
+            db = lndb_setup.settings._instance_exists
+        except ImportError:
+            db = False
+
+        if db:
+            filename = "_lndb.yaml"
+        else:
+            filename = "_current.yaml"
+
         ((database, version),) = (
-            load_yaml(VERSIONS_PATH / "_versions.yaml")
-            .get(self.__class__.__name__)
-            .items()
+            load_yaml(VERSIONS_PATH / filename).get(self.__class__.__name__).items()
         )
+
         return database, version
 
     def _load_versions(self):
-        """Load all versions."""
-        return load_yaml(VERSIONS_PATH / "versions.yaml").get(self.__class__.__name__)
+        """Load all versions with string version keys."""
+        versions = load_yaml(VERSIONS_PATH / "versions.yaml").get(
+            self.__class__.__name__
+        )
+
+        versions_db = {}
+
+        for db, vers in versions.items():
+            versions_db[db] = {"versions": {}}
+            for k in vers["versions"]:
+                versions_db[db]["versions"][str(k)] = versions[db]["versions"][k]
+        return versions_db
 
     def _get_version(
         self, database: Optional[str] = None, version: Optional[str] = None
@@ -201,7 +222,7 @@ class EntityTable:
         db_versions = self._load_versions()
         # Use the latest version if version is None.
         self._database = database_ if database is None else database
-        self._version = version_ if version is None else version
+        self._version = version_ if version is None else str(version)
         self._url = db_versions.get(self._database).get("versions").get(self._version)
         if self._url is None:
             raise ValueError(

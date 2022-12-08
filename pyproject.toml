@@ -19,6 +19,7 @@ dependencies = [
     "nbproject",
     "cloudpathlib",
     "boto3",
+    "lndb_setup",
 ]
 
 [project.urls]
