@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🐛 Fixed id=name bug | [157](https://github.com/laminlabs/bionty/pull/157) | [sunnyosun](https://github.com/sunnyosun) | 2022-12-09 |
 ♻️ Refactor version files | [156](https://github.com/laminlabs/bionty/pull/156) | [sunnyosun](https://github.com/sunnyosun) | 2022-12-08 | 0.5.6
 ✨ Added ontology_info | [155](https://github.com/laminlabs/bionty/pull/155) | [sunnyosun](https://github.com/sunnyosun) | 2022-12-01 |
 ✨ Add readout to lookup | [153](https://github.com/laminlabs/bionty/pull/153) | [sunnyosun](https://github.com/sunnyosun) | 2022-11-24 | 0.5.5
