@@ -41,7 +41,7 @@ External API:
 
 """
 
-__version__ = "0.5.6"
+__version__ = "0.5.7"
 from . import _sync_versions
 
 # dynamic classes
