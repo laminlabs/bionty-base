@@ -45,6 +45,6 @@ class Species(EntityTable):
             inplace=True,
         )
         df["common_name"] = df["common_name"].str.lower()
-        df.insert(0, "id", "NCBItaxon_" + df["taxon_id"].astype(str))
+        df.insert(0, "id", "NCBI_" + df["taxon_id"].astype(str))
 
         return df.set_index(self._id_field)
