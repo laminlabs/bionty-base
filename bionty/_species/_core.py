@@ -3,7 +3,6 @@ from typing import Optional
 
 import pandas as pd
 
-from .._settings import s3_bionty_assets
 from .._table import EntityTable
 
 SPECIES_FILENAME = "VpdUdouFahpvStwddqTwk.parquet"
@@ -33,14 +32,19 @@ class Species(EntityTable):
 
         See ingestion: https://lamin.ai/docs/bionty-assets/ingest/ensembl-species
         """
-        cloudpath = s3_bionty_assets(SPECIES_FILENAME)
-        self._filepath = cloudpath.fspath
+        url = f"https://ftp.ensembl.org/pub/{self._version}/species_EnsemblVertebrates.txt"  # noqa
+        self._filepath = self._url_download(url)
 
-        df = pd.read_parquet(self._filepath)
-        df.columns = df.columns.str.lower().str.replace(" ", "_")
-        if not df.index.is_numeric():
-            df = df.reset_index().copy()
-        df = df[~df[self._id_field].isnull()]
-        df.common_name = df.common_name.str.lower()
-        df.scientific_name = df.scientific_name.str.lower()
+        df = pd.read_csv(self._filepath, sep="\t", index_col=False)
+        df.rename(
+            columns={
+                "#name": "common_name",
+                "species": "scientific_name",
+                "taxonomy_id": "taxon_id",
+            },
+            inplace=True,
+        )
+        df["common_name"] = df["common_name"].str.lower()
+        df.insert(0, "id", "NCBItaxon_" + df["taxon_id"].astype(str))
+
         return df.set_index(self._id_field)
