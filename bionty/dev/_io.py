@@ -17,7 +17,7 @@ def write_yaml(data: dict, filename: Union[str, Path]):  # pragma: no cover
         yaml.dump(data, f)
 
 
-def url_download(
+def url_download(  # pragma: no cover
     url: str, filename: Union[str, Path, None] = None, block_size: int = 1024, **kwargs
 ) -> None:
     """Downloads a file to a specified path.
