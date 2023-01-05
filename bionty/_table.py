@@ -169,7 +169,8 @@ class EntityTable:
         filename = url.split("/")[-1]
         if not self._localpath(filename).exists():
             logger.info(
-                "Downloading reference for the first time might take a while..."
+                f"Downloading {self.entity} reference for the first time might take a"
+                " while..."
             )
             url_download(url, self._localpath(filename))
         return self._localpath(filename)
