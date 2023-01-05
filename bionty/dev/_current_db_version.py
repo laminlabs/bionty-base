@@ -16,7 +16,7 @@ def current_db_version(db: str):
             encoding="utf-8",
         ):
             lines.append(line.iloc[0, 0])
-        return " ".join(lines[1].split(" ")[1:-1])
+        return "-".join(lines[1].split(" ")[1:-1]).lower()
 
     else:
         raise NotImplementedError
