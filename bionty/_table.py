@@ -27,7 +27,7 @@ def _camel_to_snake(string: str) -> str:
 class EntityTable:
     """Biological entity as a EntityTable.
 
-    See :doc:`guide` for background.
+    See :doc:`guide/index` for background.
     """
 
     def __init__(
