@@ -43,8 +43,9 @@ jobs:
           python -m pip install --upgrade pip
           pip install nox
       - name: Lint
+        if: matrix.python-version == '3.9'
         run: |
-          nox -s lint
+          nox -s lint --python ${{ matrix.python-version }}
       - name: Build
         run: |
           nox -s build --python ${{ matrix.python-version }}
