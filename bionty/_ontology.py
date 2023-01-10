@@ -1,6 +1,6 @@
 import warnings
 from pathlib import Path
-from typing import IO, Optional, Union
+from typing import Optional, Union
 
 import pronto
 
@@ -21,7 +21,7 @@ class Ontology(pronto.Ontology):
 
     def __init__(
         self,
-        handle: Union[str, Path, IO[bytes], None] = None,
+        handle: Union[str, Path, None] = None,
         import_depth: int = -1,
         timeout: int = 100,
         threads: Optional[int] = None,
