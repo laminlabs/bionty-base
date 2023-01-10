@@ -1,7 +1,7 @@
-from functools import cached_property
 from typing import Optional
 
 import pandas as pd
+from cached_property import cached_property
 
 from .._ontology import Ontology
 from .._settings import check_datasetdir_exists, settings

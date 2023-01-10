@@ -1,7 +1,7 @@
-from functools import cached_property
 from typing import Optional
 
 import pandas as pd
+from cached_property import cached_property
 
 from .._table import EntityTable
 

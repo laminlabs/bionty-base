@@ -1,10 +1,10 @@
 import re
 from collections import namedtuple
-from functools import cached_property
 from pathlib import Path
 from typing import Iterable, NamedTuple, Optional
 
 import pandas as pd
+from cached_property import cached_property
 
 from ._logger import logger
 from ._ontology import Ontology

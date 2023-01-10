@@ -20,7 +20,8 @@ dependencies = [
     "cloudpathlib",
     "boto3",
     "lndb_setup",
-    "rich"
+    "rich",
+    "cached_property",
 ]
 
 [project.urls]
