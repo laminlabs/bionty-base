@@ -16,7 +16,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
 ]
 dependencies = [
-    "lamin_logger>=0.2.0",
+    "lamin_logger>=0.2.1",
     "anndata",
     "pandas",
     "loguru",

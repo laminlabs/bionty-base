@@ -46,7 +46,7 @@ __version__ = "0.5.7"
 # prints warning of python versions
 from lamin_logger import py_version_warning
 
-py_version_warning(__file__)
+py_version_warning("3.7", "3.11")
 
 from . import _sync_versions
 
