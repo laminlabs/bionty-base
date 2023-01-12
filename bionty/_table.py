@@ -1,10 +1,10 @@
 import re
 from collections import namedtuple
-from functools import cached_property
 from pathlib import Path
 from typing import Iterable, NamedTuple, Optional
 
 import pandas as pd
+from cached_property import cached_property
 
 from ._logger import logger
 from ._ontology import Ontology
@@ -27,7 +27,7 @@ def _camel_to_snake(string: str) -> str:
 class EntityTable:
     """Biological entity as a EntityTable.
 
-    See :doc:`guide` for background.
+    See :doc:`guide/index` for background.
     """
 
     def __init__(
