@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🐛 Fix docs | [162](https://github.com/laminlabs/bionty/pull/162) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-12 |
 👷 Expand CI to python 3.7-3.10 | [161](https://github.com/laminlabs/bionty/pull/161) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-12 | 0.6.0
 ✨ Pull species table dynamically from Ensembl | [160](https://github.com/laminlabs/bionty/pull/160) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-05 |
 Add progressbar to downloads | [159](https://github.com/laminlabs/bionty/pull/159) | [Zethson](https://github.com/Zethson) | 2023-01-05 |
