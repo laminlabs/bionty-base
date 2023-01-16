@@ -179,7 +179,7 @@ class EntityTable:
         """Get version from the ontology url."""
         version = url.split("/")[-2]
         filename = url.split("/")[-1]
-        return settings.dynamicdir / f"{version}|{filename}"
+        return settings.dynamicdir / f"{version}___{filename}"
 
     def _load_current_version(self):
         """Load current version."""
@@ -233,7 +233,7 @@ class EntityTable:
 
     def _localpath(self, filename: str):
         """Return the local path of a filename marked with version."""
-        return settings.dynamicdir / f"{self._version}|{filename}"
+        return settings.dynamicdir / f"{self._version}___{filename}"
 
     def curate(self, df: pd.DataFrame, column: str = None):
         """Curate index of passed DataFrame to conform with default identifier.
