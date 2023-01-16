@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🎨 Changed version filename separator from | to ___ | [164](https://github.com/laminlabs/bionty/pull/164) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-16 |
 🐛 Fix docs | [162](https://github.com/laminlabs/bionty/pull/162) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-12 | 0.6.1
 👷 Expand CI to python 3.7-3.10 | [161](https://github.com/laminlabs/bionty/pull/161) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-12 | 0.6.0
 ✨ Pull species table dynamically from Ensembl | [160](https://github.com/laminlabs/bionty/pull/160) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-05 |
