@@ -41,7 +41,7 @@ External API:
 
 """
 
-__version__ = "0.6.2"
+__version__ = "0.6.3"
 
 # prints warning of python versions
 from lamin_logger import py_version_warning
