@@ -20,7 +20,7 @@ class Gene(EntityTable):
     The default indexer is `ensembl_gene_id`
 
     Args:
-        species: `common_name` of `Species` entity EntityTable.
+        species: `name` of `Species` entity EntityTable.
         id: default is `ensembl_gene_id`
 
     Notes:
@@ -45,7 +45,7 @@ class Gene(EntityTable):
 
     @property
     def species(self):
-        """The `common_name` of `Species` entity EntityTable."""
+        """The `name` of `Species` entity EntityTable."""
         return self._species
 
     @cached_property

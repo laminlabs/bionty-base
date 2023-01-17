@@ -23,8 +23,8 @@ class Species(EntityTable):
         version: Optional[str] = None,
     ):
         super().__init__(id=id, database=database, version=version)
-        self._id_field = "common_name" if id is None else id
-        self._lookup_col = "common_name"
+        self._id_field = "name" if id is None else id
+        self._lookup_col = "name"
 
     @cached_property
     def df(self) -> pd.DataFrame:
@@ -38,13 +38,13 @@ class Species(EntityTable):
         df = pd.read_csv(self._filepath, sep="\t", index_col=False)
         df.rename(
             columns={
-                "#name": "common_name",
+                "#name": "name",
                 "species": "scientific_name",
                 "taxonomy_id": "taxon_id",
             },
             inplace=True,
         )
-        df["common_name"] = df["common_name"].str.lower()
+        df["name"] = df["name"].str.lower()
         df.insert(0, "id", "NCBI_" + df["taxon_id"].astype(str))
 
         return df.set_index(self._id_field)
