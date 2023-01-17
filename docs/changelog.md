@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🚚 Rename species common_name to name | [165](https://github.com/laminlabs/bionty/pull/165) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-17 |
 🎨 Changed version filename separator from | to ___ | [164](https://github.com/laminlabs/bionty/pull/164) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-16 | 0.6.2
 🐛 Fix docs | [162](https://github.com/laminlabs/bionty/pull/162) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-12 | 0.6.1
 👷 Expand CI to python 3.7-3.10 | [161](https://github.com/laminlabs/bionty/pull/161) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-12 | 0.6.0
