@@ -11,9 +11,24 @@ _DB = ROOT / "_lndb.yaml"
 
 versions = load_yaml(VERSIONS)
 
+
 # if _local.yaml doesn't exist, copy from versions.yaml
 if not _LOCAL.exists():
-    shutil.copy2(VERSIONS, _LOCAL)
+
+    def write_local_yaml(versions):
+        """Make sure version keys are strings."""
+        _local = {}
+        for name, db_versions in versions.items():
+            db = next(iter(db_versions))
+            versions = db_versions.get(db).get("versions")
+            _local[name] = {db: {"versions": {}}}
+            for v, v_url in versions.items():
+                _local[name][db]["versions"][str(v)] = v_url
+        return _local
+
+    _local = write_local_yaml(versions)
+    write_yaml(_local, _LOCAL)
+
 
 _local = load_yaml(_LOCAL)
 
@@ -34,12 +49,18 @@ for entity, dbs in versions.items():
 
 # writes the most recent version to the _current.yaml
 if not _CURRENT.exists():
-    _current = {}
-    for name, db_versions in versions.items():
-        db = next(iter(db_versions))
-        versions = db_versions.get(db).get("versions")
-        version = str(sorted(versions.keys(), reverse=True)[0])
-        _current[name] = {db: version}
+
+    def write_current_yaml(versions):
+        _current = {}
+        for name, db_versions in versions.items():
+            # this will only take the 1st db if multiple exists for the same entity
+            db = next(iter(db_versions))
+            versions = db_versions.get(db).get("versions")
+            version = str(sorted(versions.keys(), reverse=True)[0])
+            _current[name] = {db: version}
+        return _current
+
+    _current = write_current_yaml(versions)
     write_yaml(_current, _CURRENT)
 
 # if no _lndb file, write _current to _lndb for lndb_setup
