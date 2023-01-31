@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-✨ Added case_sensitive to curate | [169](https://github.com/laminlabs/bionty/pull/169) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-31 |
+✨ Added case_sensitive to curate | [169](https://github.com/laminlabs/bionty/pull/169) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-31 | 0.6.5
 🚑 Fix version key type | [166](https://github.com/laminlabs/bionty/pull/166) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-18 | 0.6.4
 🚚 Rename species common_name to name | [165](https://github.com/laminlabs/bionty/pull/165) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-17 | 0.6.3
 🎨 Changed version filename separator from | to ___ | [164](https://github.com/laminlabs/bionty/pull/164) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-16 | 0.6.2
