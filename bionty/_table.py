@@ -235,7 +235,7 @@ class EntityTable:
         """Return the local path of a filename marked with version."""
         return settings.dynamicdir / f"{self._version}___{filename}"
 
-    def curate(self, df: pd.DataFrame, column: str = None, case_sensitive=True):
+    def curate(self, df: pd.DataFrame, column: str = None, case_sensitive: bool = True):
         """Curate index of passed DataFrame to conform with default identifier.
 
         - If `column` is `None`, checks the existing index for compliance with
