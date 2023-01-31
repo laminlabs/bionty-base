@@ -235,7 +235,7 @@ class EntityTable:
         """Return the local path of a filename marked with version."""
         return settings.dynamicdir / f"{self._version}___{filename}"
 
-    def curate(self, df: pd.DataFrame, column: str = None):
+    def curate(self, df: pd.DataFrame, column: str = None, case_sensitive: bool = True):
         """Curate index of passed DataFrame to conform with default identifier.
 
         - If `column` is `None`, checks the existing index for compliance with
@@ -252,6 +252,11 @@ class EntityTable:
             column = self._id_field
             df.rename(columns={orig_column: column}, inplace=True)
 
+        if not case_sensitive:
+            if column in df.columns:
+                df[column] = df[column].str.upper()
+            else:
+                df.index = df.index.str.upper()
         return self._curate(df=df, column=column).rename(columns={column: orig_column})
 
     def ontology(self, **kwargs) -> Ontology:
