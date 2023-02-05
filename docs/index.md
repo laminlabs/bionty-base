@@ -12,6 +12,7 @@ Lookup & curate metadata based on scientific standards.
 - Cell marker: [CellMarker](http://xteam.xbio.top/CellMarker)
 - Tissue: [Uberon](http://obophenotype.github.io/uberon/)
 - Disease: [Mondo](https://mondo.monarchinitiative.org/)
+- Phenotype: [HPO](https://hpo.jax.org/app/)
 
 Install:
 
