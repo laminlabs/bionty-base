@@ -76,6 +76,8 @@ class Gene(EntityTable):
 
         Returns the DataFrame with the curated index and a boolean `__curated__`
         column that indicates compliance with the default identifier.
+
+        In addition to the .curate() in base class, this also performs alias mapping.
         """
         agg_col = ALIAS_DICT.get(self._id_field)
         df = df.copy()
