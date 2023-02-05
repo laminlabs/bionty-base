@@ -3,6 +3,8 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+Fix #167 | [168](https://github.com/laminlabs/bionty/pull/168) | [Zethson](https://github.com/Zethson) | 2023-02-05 |
+Add lamindocs secret key for CI | [173](https://github.com/laminlabs/bionty/pull/173) | [Zethson](https://github.com/Zethson) | 2023-02-05 |
 ✨ Added case_sensitive to curate | [169](https://github.com/laminlabs/bionty/pull/169) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-31 | 0.6.5
 🚑 Fix version key type | [166](https://github.com/laminlabs/bionty/pull/166) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-18 | 0.6.4
 🚚 Rename species common_name to name | [165](https://github.com/laminlabs/bionty/pull/165) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-17 | 0.6.3
