@@ -39,7 +39,7 @@ def url_download(  # pragma: no cover
         if filename is None:
             filename = url.split("/")[-1]
 
-        with Progress(refresh_per_second=1500) as progress:
+        with Progress(refresh_per_second=10000) as progress:
             task = progress.add_task("[red]Downloading...", total=total_content_length)
 
             with open(filename, "wb") as file:
