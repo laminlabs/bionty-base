@@ -27,7 +27,7 @@ def _camel_to_snake(string: str) -> str:
 class EntityTable:
     """Biological entity as a EntityTable.
 
-    See :doc:`guide/index` for background.
+    See :doc:`guide/lookup` for background.
     """
 
     def __init__(
@@ -227,8 +227,8 @@ class EntityTable:
         self._url = db_versions.get(self._database).get("versions").get(self._version)
         if self._url is None:
             raise ValueError(
-                f"Databse {self._database} version {self._version} is not found, select"
-                f" one of the following: {db_versions}"
+                f"Database {self._database} version {self._version} is not found,"
+                f" select one of the following: {db_versions}"
             )
 
     def _localpath(self, filename: str):
