@@ -15,17 +15,12 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
 ]
 dependencies = [
-    "lamin_logger>=0.2.2",
     "anndata",
-    "pandas",
-    "loguru",
     "typeguard",
     "pronto",
     "orjson",
     "pyarrow",
     "nbproject",
-    "cloudpathlib",
-    "boto3",
     "lndb_setup",
     "rich",
     "cached_property",
