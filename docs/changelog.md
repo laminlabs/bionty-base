@@ -3,10 +3,11 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+📝 Add dev APIs to docs | [183](https://github.com/laminlabs/bionty/pull/183) | [sunnyosun](https://github.com/sunnyosun) | 2023-02-06 |
 📝 Use guide/index as landing page | [182](https://github.com/laminlabs/bionty/pull/182) | [sunnyosun](https://github.com/sunnyosun) | 2023-02-06 |
 🔥 Removed _logger.py | [176](https://github.com/laminlabs/bionty/pull/176) | [sunnyosun](https://github.com/sunnyosun) | 2023-02-06 |
-Fix #167 | [168](https://github.com/laminlabs/bionty/pull/168) | [Zethson](https://github.com/Zethson) | 2023-02-05 |
-Add lamindocs secret key for CI | [173](https://github.com/laminlabs/bionty/pull/173) | [Zethson](https://github.com/Zethson) | 2023-02-05 |
+🐛 Fix #167 | [168](https://github.com/laminlabs/bionty/pull/168) | [Zethson](https://github.com/Zethson) | 2023-02-05 |
+👷 Add lamindocs secret key for CI | [173](https://github.com/laminlabs/bionty/pull/173) | [Zethson](https://github.com/Zethson) | 2023-02-05 |
 ✨ Added case_sensitive to curate | [169](https://github.com/laminlabs/bionty/pull/169) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-31 | 0.6.5
 🚑 Fix version key type | [166](https://github.com/laminlabs/bionty/pull/166) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-18 | 0.6.4
 🚚 Rename species common_name to name | [165](https://github.com/laminlabs/bionty/pull/165) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-17 | 0.6.3
@@ -14,7 +15,7 @@ Add lamindocs secret key for CI | [173](https://github.com/laminlabs/bionty/pull
 🐛 Fix docs | [162](https://github.com/laminlabs/bionty/pull/162) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-12 | 0.6.1
 👷 Expand CI to python 3.7-3.10 | [161](https://github.com/laminlabs/bionty/pull/161) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-12 | 0.6.0
 ✨ Pull species table dynamically from Ensembl | [160](https://github.com/laminlabs/bionty/pull/160) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-05 |
-Add progressbar to downloads | [159](https://github.com/laminlabs/bionty/pull/159) | [Zethson](https://github.com/Zethson) | 2023-01-05 |
+✨ Add progressbar to downloads | [159](https://github.com/laminlabs/bionty/pull/159) | [Zethson](https://github.com/Zethson) | 2023-01-05 |
 🐛 Fixed id=name bug | [157](https://github.com/laminlabs/bionty/pull/157) | [sunnyosun](https://github.com/sunnyosun) | 2022-12-09 | 0.5.7
 ♻️ Refactor version files | [156](https://github.com/laminlabs/bionty/pull/156) | [sunnyosun](https://github.com/sunnyosun) | 2022-12-08 | 0.5.6
 ✨ Added ontology_info | [155](https://github.com/laminlabs/bionty/pull/155) | [sunnyosun](https://github.com/sunnyosun) | 2022-12-01 |
