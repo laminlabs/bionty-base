@@ -65,6 +65,7 @@ from ._celltype import CellType
 from ._cellmarker import CellMarker
 from ._tissue import Tissue
 from ._disease import Disease
+from ._phenotype import Phenotype
 from ._readout import Readout
 
 # tools
