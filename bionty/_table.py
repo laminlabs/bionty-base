@@ -5,8 +5,8 @@ from typing import Iterable, NamedTuple, Optional
 
 import pandas as pd
 from cached_property import cached_property
+from lamin_logger import logger
 
-from ._logger import logger
 from ._ontology import Ontology
 from ._settings import check_dynamicdir_exists, settings
 from .dev._fix_index import (

@@ -39,6 +39,13 @@ External API:
 
    Ontology
 
+Dev API:
+
+.. autosummary::
+   :toctree: .
+
+   dev
+
 """
 
 __version__ = "0.6.5"
@@ -66,3 +73,6 @@ from ._normalize import NormalizeColumns
 from ._table import EntityTable
 from ._ontology import Ontology
 from ._lookup import lookup
+
+# dev
+from . import dev

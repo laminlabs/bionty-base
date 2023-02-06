@@ -3,9 +3,8 @@
 .. autosummary::
    :toctree: .
 
-    ontology_info
-   check_if_index_compliant
-   get_compliant_index_from_column
+   ontology_info
+   current_db_version
 """
 from ._fix_index import (
     check_if_index_compliant,

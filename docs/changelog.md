@@ -3,6 +3,8 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+📝 Use guide/index as landing page | [182](https://github.com/laminlabs/bionty/pull/182) | [sunnyosun](https://github.com/sunnyosun) | 2023-02-06 |
+🔥 Removed _logger.py | [176](https://github.com/laminlabs/bionty/pull/176) | [sunnyosun](https://github.com/sunnyosun) | 2023-02-06 |
 Fix #167 | [168](https://github.com/laminlabs/bionty/pull/168) | [Zethson](https://github.com/Zethson) | 2023-02-05 |
 Add lamindocs secret key for CI | [173](https://github.com/laminlabs/bionty/pull/173) | [Zethson](https://github.com/Zethson) | 2023-02-05 |
 ✨ Added case_sensitive to curate | [169](https://github.com/laminlabs/bionty/pull/169) | [sunnyosun](https://github.com/sunnyosun) | 2023-01-31 | 0.6.5
