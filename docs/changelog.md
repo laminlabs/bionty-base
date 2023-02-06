@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+Add dev APIs to docs (#177) | [183](https://github.com/laminlabs/bionty/pull/183) | [sunnyosun](https://github.com/sunnyosun) | 2023-02-06 |
 📝 Use guide/index as landing page | [182](https://github.com/laminlabs/bionty/pull/182) | [sunnyosun](https://github.com/sunnyosun) | 2023-02-06 |
 🔥 Removed _logger.py | [176](https://github.com/laminlabs/bionty/pull/176) | [sunnyosun](https://github.com/sunnyosun) | 2023-02-06 |
 Fix #167 | [168](https://github.com/laminlabs/bionty/pull/168) | [Zethson](https://github.com/Zethson) | 2023-02-05 |
