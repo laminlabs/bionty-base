@@ -1,8 +1,13 @@
 import warnings
 from pathlib import Path
-from typing import BinaryIO, Optional, Union
 
-import pronto
+import pronto  # compatibility with Python 3.7 and 3.8
+
+try:
+    from typing import BinaryIO
+except ImportError:
+    from typing.io import BinaryIO  # type: ignore
+from typing import Optional, Union
 
 
 class Ontology(pronto.Ontology):
