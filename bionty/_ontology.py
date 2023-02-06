@@ -1,12 +1,14 @@
+import sys
 import warnings
 from pathlib import Path
 
-import pronto  # compatibility with Python 3.7 and 3.8
+import pronto
 
-try:
-    from typing import BinaryIO
-except ImportError:
+# compatibility with Python 3.7 and 3.8
+if sys.version_info[0] < 3.9:
     from typing.io import BinaryIO  # type: ignore
+else:
+    from typing import BinaryIO
 from typing import Optional, Union
 
 
