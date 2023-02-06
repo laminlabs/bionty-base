@@ -39,6 +39,13 @@ External API:
 
    Ontology
 
+Dev API:
+
+.. autosummary::
+   :toctree: .
+
+   dev
+
 """
 
 __version__ = "0.6.5"
