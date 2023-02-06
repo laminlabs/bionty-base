@@ -33,6 +33,6 @@ Readout:
     versions:
       3.48.0: http://www.ebi.ac.uk/efo/releases/v3.48.0/efo.owl
 Phenotype:
-  hpo:
+  hp:
     versions:
-      2022-01-27: http://purl.obolibrary.org/obo/hp.owl
+      2022-01-27: https://github.com/obophenotype/human-phenotype-ontology/releases/download/v2022-01-27/hp-full.owl
