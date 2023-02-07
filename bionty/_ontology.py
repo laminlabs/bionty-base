@@ -1,15 +1,9 @@
-import sys
 import warnings
+from io import BytesIO
 from pathlib import Path
+from typing import Optional, Union
 
 import pronto
-
-# compatibility with Python 3.7 and 3.8
-if sys.version_info[0] < 3.9:
-    from typing.io import BinaryIO  # type: ignore
-else:
-    from typing import BinaryIO
-from typing import Optional, Union
 
 
 class Ontology(pronto.Ontology):
@@ -28,7 +22,7 @@ class Ontology(pronto.Ontology):
 
     def __init__(
         self,
-        handle: Union[str, Path, BinaryIO, None] = None,
+        handle: Union[str, Path, BytesIO, None] = None,
         import_depth: int = -1,
         timeout: int = 100,
         threads: Optional[int] = None,
