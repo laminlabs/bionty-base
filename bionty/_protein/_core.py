@@ -13,7 +13,7 @@ FILENAMES = {
 }
 
 
-def _get_shortest_name(df, column, new_column="name"):
+def _get_shortest_name(df: pd.DataFrame, column: str, new_column="name"):
     """Get a single shortest name from a column of lists."""
     name_list = []
     names_list = []
@@ -47,7 +47,7 @@ class Protein(EntityTable):
         self,
         species: str = "human",
         id: Optional[str] = None,
-        database: Optional[str] = None,
+        database: str = "uniprot",
         version: Optional[str] = None,
     ) -> None:
         super().__init__(id=id, database=database, version=version)

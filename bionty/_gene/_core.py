@@ -33,7 +33,7 @@ class Gene(EntityTable):
         self,
         species: str = "human",
         id: Optional[str] = None,
-        database: Optional[str] = None,
+        database: str = "ensembl",
         version: Optional[str] = None,
     ):
         super().__init__(id=id, database=database, version=version)

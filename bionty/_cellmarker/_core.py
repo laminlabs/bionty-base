@@ -22,7 +22,7 @@ class CellMarker(EntityTable):
         self,
         species: str = "human",
         id: Optional[str] = None,
-        database: Optional[str] = None,
+        database: str = "cellmarker",
         version: Optional[str] = None,
     ) -> None:
         super().__init__(id=id, database=database, version=version)

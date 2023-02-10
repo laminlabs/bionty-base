@@ -10,7 +10,7 @@ def current_db_version(db: str):
         lines = []
 
         for line in pd.read_csv(
-            "https://ftp.ensembl.org/pub/current_README",
+            "https://ftp.ensembl.org/pub/README",
             chunksize=1,
             header=None,
             encoding="utf-8",

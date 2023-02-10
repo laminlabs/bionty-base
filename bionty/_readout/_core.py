@@ -21,11 +21,10 @@ class Readout(EntityTable):
     def __init__(
         self,
         id: str = "ontology_id",
-        database: Optional[str] = None,
+        database: str = "efo",
         version: Optional[str] = None,
     ) -> None:
         super().__init__(id=id, database=database, version=version)
-        database = "efo" if database is None else database
         self._filepath = settings.datasetdir / "efo_df.json"
         self._readout_terms = {
             "assay": "OBI:0000070",

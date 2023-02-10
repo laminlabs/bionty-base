@@ -26,10 +26,9 @@ class Phenotype(EntityTable):
         self,
         species: str = "human",
         id: str = "ontology_id",
-        database: Optional[str] = None,
+        database: str = "hp",
         version: Optional[str] = None,
     ) -> None:
-        database = "hp" if database is None else database
         super().__init__(id=id, database=database, version=version)
         if FILENAMES.get(species) is None:
             raise NotImplementedError

@@ -18,10 +18,9 @@ class CellType(EntityTable):
     def __init__(
         self,
         id: str = "ontology_id",
-        database: Optional[str] = None,
+        database: str = "cl",
         version: Optional[str] = None,
     ) -> None:
-        database = "cl" if database is None else database
         super().__init__(id=id, database=database, version=version)
 
     @cached_property
