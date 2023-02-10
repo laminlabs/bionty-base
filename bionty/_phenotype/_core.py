@@ -8,7 +8,7 @@ from .._settings import settings
 from .._table import EntityTable
 
 FILENAMES = {
-    "human": "phenotype_lookup.parquet",
+    "human_hp": "phenotype_lookup.parquet",
 }
 
 
@@ -30,7 +30,7 @@ class Phenotype(EntityTable):
         version: Optional[str] = None,
     ) -> None:
         super().__init__(id=id, database=database, version=version)
-        if FILENAMES.get(species) is None:
+        if FILENAMES.get(f"{species}_{database}") is None:
             raise NotImplementedError
         self._species = species
 
@@ -42,7 +42,9 @@ class Phenotype(EntityTable):
     @cached_property
     def df(self) -> pd.DataFrame:
         """DataFrame."""
-        self._filepath = settings.datasetdir / FILENAMES.get(self.species)
+        self._filepath = settings.datasetdir / FILENAMES.get(
+            f"{self.species}_{self.database}"
+        )
 
         if not self._filepath.exists():
             df = self._ontology_to_df(self.ontology)
