@@ -18,4 +18,4 @@ jobs:
           python-version: "3.11"
 
       - name: check URLs
-        run: python ./scripts/check_urls.py
+        run: python ./scripts/check_ontologies_reachable.py
