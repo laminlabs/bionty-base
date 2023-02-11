@@ -11,8 +11,7 @@ VERSIONS_FILE_PATH = Path(f"{os.getcwd()}/../bionty/versions/versions.yaml")
 
 versions = load_yaml(VERSIONS_FILE_PATH.resolve())
 
-# We currently assume that the versions.yaml file has the structure:
-# Name -> database -> versions -> actual version with value URL
+# We currently assume that the versions.yaml file has the URLs as the final values
 flattened_df = pd.json_normalize(versions, sep="_")
 flattened_dict = flattened_df.to_dict(orient="records")[0]
 
