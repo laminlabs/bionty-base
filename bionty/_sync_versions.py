@@ -63,6 +63,6 @@ if not _CURRENT.exists():
     _current = write_current_yaml(versions)
     write_yaml(_current, _CURRENT)
 
-# if no _lndb file, write _current to _lndb for lndb_setup
+# if no _lndb file, write _current to _lndb for lndb
 if not _DB.exists():
     shutil.copy2(_CURRENT, _DB)

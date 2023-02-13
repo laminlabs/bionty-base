@@ -190,9 +190,9 @@ class EntityTable:
     def _load_current_version(self) -> str:
         """Load current version."""
         try:
-            import lndb_setup
+            import lndb
 
-            db = lndb_setup.settings._instance_exists
+            db = lndb.settings._instance_exists
         except ImportError:
             db = False
 

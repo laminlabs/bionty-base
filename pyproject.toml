@@ -21,7 +21,7 @@ dependencies = [
     "orjson",
     "pyarrow",
     "nbproject",
-    "lndb_setup",
+    "lndb",
     "rich",
     "cached_property",
 ]
