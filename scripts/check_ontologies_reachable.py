@@ -1,13 +1,19 @@
 import os
 import urllib.request
 from pathlib import Path
+from typing import Union
 from urllib.error import HTTPError, URLError
 
 import pandas as pd
+import yaml  # type:ignore
 
-from bionty.dev._io import load_yaml
 
-VERSIONS_FILE_PATH = Path(f"{os.getcwd()}/../bionty/versions/versions.yaml")
+def load_yaml(filename: Union[str, Path]):  # pragma: no cover
+    with open(filename, "r") as f:
+        return yaml.safe_load(f)
+
+
+VERSIONS_FILE_PATH = Path(f"{os.getcwd()}/bionty/versions/versions.yaml")
 
 versions = load_yaml(VERSIONS_FILE_PATH.resolve())
 
