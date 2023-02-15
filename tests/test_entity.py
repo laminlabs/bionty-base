@@ -5,7 +5,7 @@ from bionty._table import EntityTable, _camel_to_snake
 
 
 def test_entity_table():
-    entity_table = EntityTable()
+    entity_table = EntityTable(database="mondo")
     with pytest.raises(NotImplementedError):
         entity_table.df
     assert entity_table.entity == "entity_table"

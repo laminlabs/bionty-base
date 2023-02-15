@@ -1,7 +1,7 @@
 import re
 from collections import namedtuple
 from pathlib import Path
-from typing import Iterable, NamedTuple, Optional
+from typing import Dict, Iterable, NamedTuple, Optional, Tuple
 
 import pandas as pd
 from cached_property import cached_property
@@ -32,8 +32,8 @@ class EntityTable:
 
     def __init__(
         self,
+        database: Optional[str],
         id: Optional[str] = None,
-        database: Optional[str] = None,
         version: Optional[str] = None,
     ):
         self._id_field = "id" if id is None else id
@@ -43,6 +43,11 @@ class EntityTable:
         if self.__class__.__name__ == "EntityTable":
             return None
         self._get_version(database=database, version=version)
+
+    @property
+    def database(self) -> str:
+        """Name of the database."""
+        return self._database
 
     @cached_property
     def entity(self) -> str:
@@ -181,7 +186,7 @@ class EntityTable:
         filename = url.split("/")[-1]
         return settings.dynamicdir / f"{version}___{filename}"
 
-    def _load_current_version(self):
+    def _load_current_version(self) -> Tuple[str, str]:
         """Load current version."""
         try:
             import lndb
@@ -201,30 +206,32 @@ class EntityTable:
 
         return database, version
 
-    def _load_versions(self):
+    def _load_versions(self) -> Dict[str, Dict[str, Dict]]:
         """Load all versions with string version keys."""
         versions = load_yaml(VERSIONS_PATH / "versions.yaml").get(
             self.__class__.__name__
         )
 
-        versions_db = {}
+        versions_db: Dict[str, Dict[str, Dict]] = {}
 
         for db, vers in versions.items():
             versions_db[db] = {"versions": {}}
             for k in vers["versions"]:
                 versions_db[db]["versions"][str(k)] = versions[db]["versions"][k]
+
         return versions_db
 
-    def _get_version(
-        self, database: Optional[str] = None, version: Optional[str] = None
-    ):
-        # Read in all the versions from the versions.yaml file.
-        database_, version_ = self._load_current_version()
+    def _get_version(self, database: Optional[str], version: Optional[str] = None):
+        # Read in all the versions from the _lndb.yaml or the _current.yaml file.
+        current_database, current_version = self._load_current_version()
+
         db_versions = self._load_versions()
         # Use the latest version if version is None.
-        self._database = database_ if database is None else database
-        self._version = version_ if version is None else str(version)
-        self._url = db_versions.get(self._database).get("versions").get(self._version)
+        self._version = current_version if version is None else str(version)
+        self._database = current_database if database is None else str(database)
+        self._url = (
+            db_versions.get(current_database).get("versions").get(self._version)  # type: ignore  # noqa: E501
+        )
         if self._url is None:
             raise ValueError(
                 f"Database {self._database} version {self._version} is not found,"

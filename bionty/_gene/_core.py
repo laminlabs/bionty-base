@@ -9,8 +9,8 @@ from .._table import EntityTable
 
 ALIAS_DICT = {"symbol": "synonyms"}
 FILENAMES = {
-    "human": "KJ1HgB695AqbVWvfit8sl.parquet",
-    "mouse": "xaBDkhBYLXWHq6gJYnedD.parquet",
+    "human_ensembl": "KJ1HgB695AqbVWvfit8sl.parquet",
+    "mouse_ensembl": "xaBDkhBYLXWHq6gJYnedD.parquet",
 }
 
 
@@ -37,8 +37,6 @@ class Gene(EntityTable):
         version: Optional[str] = None,
     ):
         super().__init__(id=id, database=database, version=version)
-        if FILENAMES.get(species) is None:
-            raise NotImplementedError
         self._species = species
         self._id_field = "ensembl_gene_id" if id is None else id
         self._lookup_col = "symbol"
@@ -54,7 +52,7 @@ class Gene(EntityTable):
 
         See ingestion: https://lamin.ai/docs/bionty-assets/ingest/ensembl-gene
         """
-        cloudpath = s3_bionty_assets(FILENAMES.get(self.species))
+        cloudpath = s3_bionty_assets(FILENAMES.get(f"{self.species}_{self.database}"))
         self._filepath = cloudpath.fspath
 
         df = pd.read_parquet(self._filepath)

@@ -8,12 +8,12 @@ from .._settings import s3_bionty_assets
 from .._table import EntityTable
 
 FILENAMES = {
-    "human": "5WBmdkTO4JCFzPzBcDOJ3.parquet",
-    "mouse": "6vgntdGiAbz5bEYP53sma.parquet",
+    "human_uniprot": "5WBmdkTO4JCFzPzBcDOJ3.parquet",
+    "mouse_uniprot": "6vgntdGiAbz5bEYP53sma.parquet",
 }
 
 
-def _get_shortest_name(df, column, new_column="name"):
+def _get_shortest_name(df: pd.DataFrame, column: str, new_column="name"):
     """Get a single shortest name from a column of lists."""
     name_list = []
     names_list = []
@@ -51,8 +51,6 @@ class Protein(EntityTable):
         version: Optional[str] = None,
     ) -> None:
         super().__init__(id=id, database=database, version=version)
-        if FILENAMES.get(species) is None:
-            raise NotImplementedError
         self._species = species
         self._id_field = "uniprotkb_id" if id is None else id
 
@@ -67,7 +65,7 @@ class Protein(EntityTable):
 
         See ingestion: https://lamin.ai/docs/bionty-assets/ingest/uniprot-protein
         """
-        cloudpath = s3_bionty_assets(FILENAMES.get(self.species))
+        cloudpath = s3_bionty_assets(FILENAMES.get(f"{self.species}_{self.database}"))
         self._filepath = cloudpath.fspath
 
         df = pd.read_parquet(self._filepath)

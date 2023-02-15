@@ -21,7 +21,6 @@ class Tissue(EntityTable):
         database: Optional[str] = None,
         version: Optional[str] = None,
     ) -> None:
-        database = "uberon" if database is None else database
         super().__init__(id=id, database=database, version=version)
 
     @cached_property

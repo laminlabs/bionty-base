@@ -7,7 +7,7 @@ from .._settings import s3_bionty_assets
 from .._table import EntityTable
 
 FILENAMES = {
-    "human": "GbC3D7dKnsomHB7ZMeUpC.parquet",
+    "human_cellmarker": "GbC3D7dKnsomHB7ZMeUpC.parquet",
 }
 
 
@@ -26,8 +26,6 @@ class CellMarker(EntityTable):
         version: Optional[str] = None,
     ) -> None:
         super().__init__(id=id, database=database, version=version)
-        if FILENAMES.get(species) is None:
-            raise NotImplementedError
         self._species = species
         self._id_field = "name" if id is None else id
 
@@ -42,7 +40,7 @@ class CellMarker(EntityTable):
 
         See ingestion: https://lamin.ai/docs/bionty-assets/ingest/cell-marker-human
         """
-        cloudpath = s3_bionty_assets(FILENAMES.get(self.species))
+        cloudpath = s3_bionty_assets(FILENAMES.get(f"{self.species}_{self.database}"))
         self._filepath = cloudpath.fspath
 
         df = pd.read_parquet(self._filepath)
