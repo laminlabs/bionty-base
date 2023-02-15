@@ -200,7 +200,6 @@ class EntityTable:
         else:
             filename = "_current.yaml"
 
-        # TODO throw useful exception if this errors out
         ((database, version),) = (
             load_yaml(VERSIONS_PATH / filename).get(self.__class__.__name__).items()
         )
