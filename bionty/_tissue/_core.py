@@ -18,7 +18,7 @@ class Tissue(EntityTable):
     def __init__(
         self,
         id: str = "ontology_id",
-        database: str = "uberon",
+        database: Optional[str] = None,
         version: Optional[str] = None,
     ) -> None:
         super().__init__(id=id, database=database, version=version)

@@ -9,7 +9,7 @@ from .._table import EntityTable
 
 FILENAMES = {
     "human_mondo": "human_mondo_lookup.parquet",
-    "human_hd": "human_hd_lookup.parquet",
+    "human_do": "human_do_lookup.parquet",
 }
 
 
@@ -29,12 +29,10 @@ class Disease(EntityTable):
         self,
         id: str = "ontology_id",
         species: str = "human",
-        database: str = "mondo",
+        database: Optional[str] = None,
         version: Optional[str] = None,
     ) -> None:
         super().__init__(id=id, database=database, version=version)
-        if FILENAMES.get(f"{species}_{database}") is None:
-            raise NotImplementedError
         self._species = species
 
     @property

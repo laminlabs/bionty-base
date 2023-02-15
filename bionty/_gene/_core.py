@@ -33,12 +33,10 @@ class Gene(EntityTable):
         self,
         species: str = "human",
         id: Optional[str] = None,
-        database: str = "ensembl",
+        database: Optional[str] = None,
         version: Optional[str] = None,
     ):
         super().__init__(id=id, database=database, version=version)
-        if FILENAMES.get(f"{species}_{database}") is None:
-            raise NotImplementedError
         self._species = species
         self._id_field = "ensembl_gene_id" if id is None else id
         self._lookup_col = "symbol"

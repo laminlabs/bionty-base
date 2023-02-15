@@ -22,12 +22,10 @@ class CellMarker(EntityTable):
         self,
         species: str = "human",
         id: Optional[str] = None,
-        database: str = "cellmarker",
+        database: Optional[str] = None,
         version: Optional[str] = None,
     ) -> None:
         super().__init__(id=id, database=database, version=version)
-        if FILENAMES.get(f"{species}_{database}") is None:
-            raise NotImplementedError
         self._species = species
         self._id_field = "name" if id is None else id
 
