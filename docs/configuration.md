@@ -4,10 +4,10 @@
 
 Bionty tracks all supported and the currently active ontologies four `*.yaml` files.
 
-1. `versions.yaml`: Stores all available ontologies. Users should not edit this file.
-2. `_current.yaml`: Stores the currently active ontologies. Users should never edit this file.
-3. `_lndb.yaml`: Stores the currently active ontologies as defined by lamindb. Users should never edit this file.
-4. `_local.yaml`: Stores all locally available ontologies. Users may edit this file.
+1. `versions.yaml`: Stores all by Bionty supported ontologies. Users should not edit this file.
+2. `_local.yaml`: Stores all locally available ontologies. Users may edit this file.
+3. `_current.yaml`: Stores the currently active ontologies. Users should never edit this file.
+4. `_lndb.yaml`: Stores the currently active ontologies as defined by lamindb. Users should never edit this file.
 
 On startup, Bionty syncs these yaml files. If the user is operating in a lamindb instance,
 the versions specified in the `_lndb.yaml` will be used.

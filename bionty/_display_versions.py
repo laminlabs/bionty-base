@@ -1,9 +1,13 @@
+import os
 from pathlib import Path
+
+import lndb
+from rich import print
 
 try:
     from typing import Literal
 except ImportError:
-    from typing_extensions import Literal  # type: ignore
+    from typing_extensions import Literal  # type: ignore  # noqa: F401
 
 
 from rich.console import Console
@@ -13,12 +17,12 @@ from bionty.dev._io import load_yaml
 
 console = Console()
 
-CWD = Path.cwd()
+WD = os.path.dirname(__file__)
 
 
 def display_available_versions() -> None:  # pragma: no cover
     """Displays all available entities and versions in a Rich table."""
-    VERSIONS_FILE_PATH = Path(f"{CWD}/bionty/versions/versions.yaml")
+    VERSIONS_FILE_PATH = Path(f"{WD}/versions/_local.yaml")
     versions = load_yaml(VERSIONS_FILE_PATH.resolve())
 
     table = _generate_rich_versions_table(title="Available versions")
@@ -32,15 +36,18 @@ def display_available_versions() -> None:  # pragma: no cover
     console.print(table)
 
 
-def display_active_versions(
-    version_table: Literal["_current.yaml", "_lndb.yaml", "_local.yaml"]
-) -> None:  # pragma: no cover
-    """Displays all currently set as default entities and versions in a Rich table.
+def display_active_versions() -> None:  # pragma: no cover
+    """Displays all currently set as default entities and versions in a Rich table."""
+    version_table = "_current.yaml"
+    try:
+        if os.environ["LAMINDB_INSTANCE_LOADED"] == 1:
+            version_table = "_lndb.yaml"
+            print("[bold blue]Currently operating inside lamindb instance.")
+            print(lndb.settings.instance)
+    except KeyError:
+        pass
 
-    Args:
-        version_table: One of '_current.yaml', '_lndb.yaml', '_local.yaml'
-    """
-    VERSIONS_FILE_PATH = Path(f"{CWD}/bionty/versions/{version_table}")
+    VERSIONS_FILE_PATH = Path(f"{WD}/versions/{version_table}")
     versions = load_yaml(VERSIONS_FILE_PATH.resolve())
 
     table = _generate_rich_versions_table(
