@@ -15,7 +15,7 @@ Alternatively, if Bionty is run in standalone mode, the versions specified in `_
 Users may adapt the `_local.yaml` with additional sources of ontologies that Bionty may not offer out of the box.
 
 The available and currently active ontologies can also be printed to the console with
-{func}`bionty.display_available_versions` or {func}`bt.display_active_versions`.
+{func}`bionty.display_available_versions` or {func}`bionty.display_active_versions`.
 
 ## Setting default ontologies
 
