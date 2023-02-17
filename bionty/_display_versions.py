@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 from typing import Literal
 
@@ -9,10 +8,12 @@ from bionty.dev._io import load_yaml
 
 console = Console()
 
+CWD = Path.cwd()
+
 
 def display_available_versions() -> None:  # pragma: no cover
     """Displays all available entities and versions in a Rich table."""
-    VERSIONS_FILE_PATH = Path(f"{os.getcwd()}/bionty/versions/versions.yaml")
+    VERSIONS_FILE_PATH = Path(f"{CWD}/bionty/versions/versions.yaml")
     versions = load_yaml(VERSIONS_FILE_PATH.resolve())
 
     table = _generate_rich_versions_table(title="Available versions")
@@ -34,7 +35,7 @@ def display_active_versions(
     Args:
         version_table: One of '_current.yaml', '_lndb.yaml', '_local.yaml'
     """
-    VERSIONS_FILE_PATH = Path(f"{os.getcwd()}/bionty/versions/{version_table}")
+    VERSIONS_FILE_PATH = Path(f"{CWD}/bionty/versions/{version_table}")
     versions = load_yaml(VERSIONS_FILE_PATH.resolve())
 
     table = _generate_rich_versions_table(
