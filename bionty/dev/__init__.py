@@ -4,7 +4,7 @@
    :toctree: .
 
    ontology_info
-   current_db_version
+   latest_db_version
 """
 from ._fix_index import (
     check_if_index_compliant,
@@ -13,4 +13,4 @@ from ._fix_index import (
 )  # noqa
 
 from ._ontology import ontology_info
-from ._current_db_version import current_db_version
+from ._latest_db_version import latest_db_version
