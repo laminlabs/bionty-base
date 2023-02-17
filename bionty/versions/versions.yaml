@@ -28,7 +28,7 @@ Disease:
   mondo:
     versions:
       2022-10-11: http://purl.obolibrary.org/obo/mondo/releases/2022-10-11/mondo.owl
-  do:
+  doid:
     versions:
       2023-01-30: http://purl.obolibrary.org/obo/doid/releases/2023-01-30/doid.obo
 Readout:

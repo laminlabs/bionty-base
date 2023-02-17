@@ -3,6 +3,7 @@ from collections import namedtuple
 from pathlib import Path
 from typing import Dict, Iterable, NamedTuple, Optional, Tuple
 
+import bioregistry as br
 import pandas as pd
 from cached_property import cached_property
 from lamin_logger import logger
@@ -42,6 +43,9 @@ class EntityTable:
         self._lookup_col = "name"
         if self.__class__.__name__ == "EntityTable":
             return None
+
+        if database:
+            database = br.normalize_prefix(database)
         self._get_version(database=database, version=version)
 
     @property

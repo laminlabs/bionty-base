@@ -9,7 +9,7 @@ from .._table import EntityTable
 
 FILENAMES = {
     "human_mondo": "human_mondo_lookup.parquet",
-    "human_do": "human_do_lookup.parquet",
+    "human_doid": "human_doid_lookup.parquet",
 }
 
 
