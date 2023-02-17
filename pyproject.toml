@@ -24,7 +24,6 @@ dependencies = [
     "lndb",
     "rich",
     "cached_property",
-    "typing_extensions"
 ]
 
 [project.urls]

@@ -3,13 +3,6 @@ from pathlib import Path
 
 import lndb
 from rich import print
-
-try:
-    from typing import Literal
-except ImportError:
-    from typing_extensions import Literal  # type: ignore  # noqa: F401
-
-
 from rich.console import Console
 from rich.table import Table
 
