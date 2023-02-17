@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+:memo: Add better documentation & function to print currently available/active ontologies | [201](https://github.com/laminlabs/bionty/pull/201) | [Zethson](https://github.com/Zethson) | 2023-02-17 |
 Add HDO & improve support for multiple databases | [187](https://github.com/laminlabs/bionty/pull/187) | [Zethson](https://github.com/Zethson) | 2023-02-15 |
 👷 Add GH workflow to check for version URLs | [188](https://github.com/laminlabs/bionty/pull/188) | [Zethson](https://github.com/Zethson) | 2023-02-13 | 0.7.0
 ⬆️ Rename `lndb_setup` to `lndb` | [189](https://github.com/laminlabs/bionty/pull/189) | [bpenteado](https://github.com/bpenteado) | 2023-02-13 |
