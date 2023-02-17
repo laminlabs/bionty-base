@@ -3,11 +3,12 @@
 :end-line: 5
 ```
 
-Bionty - Manage biological entities.
+Bionty allows you to:
 
-Lookup & curate metadata based on scientific standards.
+1. Lookup & curate metadata based on scientific standards.
+2. Access biological knowledge without the timeouts of many existing REST endpoints.
 
-    Access biological knowledge without the timeouts of many existing REST endpoints.
+Bionty is also fully integrated into the [lamin platform](https://lamin.ai/).
 
 ```{toctree}
 :maxdepth: 1
