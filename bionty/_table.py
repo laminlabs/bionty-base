@@ -1,3 +1,4 @@
+import os
 import re
 from collections import namedtuple
 from pathlib import Path
@@ -45,6 +46,13 @@ class EntityTable:
             return None
 
         if database:
+            # We don't allow custom databases inside lamindb instances
+            # because the lamindb standard should be used
+            if os.environ["LAMINDB_INSTANCE_LOADED"] == 1:
+                raise ValueError(
+                    "Custom databases are not allowed inside lamindb instances."
+                )
+
             database = br.normalize_prefix(database)
         self._get_version(database=database, version=version)
 
