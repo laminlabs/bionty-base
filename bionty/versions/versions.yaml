@@ -19,7 +19,7 @@ CellMarker:
 CellType:
   cl:
     versions:
-      2023-02-15: http://purl.obolibrary.org/obo/cl/releases/2023-02-15/cl.owl
+      2023-02-15: http://purl.obolibrary.org/obo/cl/releases/2023-02-15/cl-base.owl
       2022-08-16: http://purl.obolibrary.org/obo/cl/releases/2022-08-16/cl.owl
 Tissue:
   uberon:
