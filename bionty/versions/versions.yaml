@@ -19,18 +19,21 @@ CellMarker:
 CellType:
   cl:
     versions:
+      2023-02-15: http://purl.obolibrary.org/obo/cl/releases/2023-02-15/cl-base.owl
       2022-08-16: http://purl.obolibrary.org/obo/cl/releases/2022-08-16/cl.owl
 Tissue:
   uberon:
     versions:
+      2023-02-14: http://purl.obolibrary.org/obo/uberon/releases/2023-02-14/uberon.owl
       2022-08-19: http://purl.obolibrary.org/obo/uberon/releases/2022-08-19/uberon.owl
 Disease:
   mondo:
     versions:
+      2023-02-06: http://purl.obolibrary.org/obo/mondo/releases/2023-02-06/mondo-base.owl
       2022-10-11: http://purl.obolibrary.org/obo/mondo/releases/2022-10-11/mondo.owl
   doid:
     versions:
-      2023-01-30: http://purl.obolibrary.org/obo/doid/releases/2023-01-30/doid.obo
+      2023-01-30: http://purl.obolibrary.org/obo/doid/releases/2023-01-30/doid-base.obo
 Readout:
   efo:
     versions:
@@ -38,4 +41,4 @@ Readout:
 Phenotype:
   hp:
     versions:
-      2023-01-27: https://github.com/obophenotype/human-phenotype-ontology/releases/download/v2023-01-27/hp-full.owl
+      2023-01-27: https://github.com/obophenotype/human-phenotype-ontology/releases/download/v2023-01-27/hp-base.owl
