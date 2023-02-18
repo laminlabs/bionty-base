@@ -41,6 +41,16 @@ Lookup of vocabulary:
 
    lookup
 
+Creating and updating ontology version files
+
+.. autosummary::
+    :toctree: .
+
+    create_local
+    update_local
+    create_current
+    create_lndb
+
 External API:
 
 .. autosummary::
@@ -64,7 +74,8 @@ from lamin_logger import py_version_warning
 
 py_version_warning("3.7", "3.10")
 
-from . import _sync_versions
+from . import sync_versions
+from .sync_versions import update_local, create_local, create_current, create_lndb
 
 # dynamic classes
 from ._gene import Gene
