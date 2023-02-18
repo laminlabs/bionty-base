@@ -41,4 +41,4 @@ Readout:
 Phenotype:
   hp:
     versions:
-      2023-01-27: https://github.com/obophenotype/human-phenotype-ontology/releases/download/v2023-01-27/hp-base.owl
+      2023-01-27: https://github.com/obophenotype/human-phenotype-ontology/releases/download/v2023-01-27/hp.owl
