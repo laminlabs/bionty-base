@@ -2,7 +2,7 @@ import os
 import re
 from collections import namedtuple
 from pathlib import Path
-from typing import Dict, Iterable, NamedTuple, Optional, Tuple
+from typing import Dict, Iterable, Literal, NamedTuple, Optional
 
 import bioregistry as br
 import pandas as pd
@@ -196,23 +196,11 @@ class EntityTable:
         filename = url.split("/")[-1]
         return settings.dynamicdir / f"{version}___{filename}"
 
-    def _load_current_version(self) -> Tuple[str, str]:
-        """Load current version."""
-        filename = (
-            "_lndb.yaml"
-            if os.getenv("LAMINDB_INSTANCE_LOADED") == 1
-            else "_current.yaml"
-        )
-
-        ((database, version),) = (
-            load_yaml(VERSIONS_PATH / filename).get(self.__class__.__name__).items()
-        )
-
-        return database, version
-
-    def _load_versions(self) -> Dict[str, Dict[str, Dict]]:
+    def _load_versions(
+        self, source: Literal["versions", "_local"] = "_local"
+    ) -> Dict[str, Dict[str, Dict]]:
         """Load all versions with string version keys."""
-        versions = load_yaml(VERSIONS_PATH / "versions.yaml").get(
+        versions = load_yaml(VERSIONS_PATH / f"{source}.yaml").get(
             self.__class__.__name__
         )
 
@@ -234,19 +222,30 @@ class EntityTable:
             database: The database to find the URL and version for.
             version: The requested version of the database.
         """
-        current_database, current_version = self._load_current_version()
+        current_defaults = (
+            "_lndb.yaml"
+            if os.getenv("LAMINDB_INSTANCE_LOADED") == 1
+            else "_current.yaml"
+        )
 
-        db_versions = self._load_versions()
+        ((current_database, current_version),) = (
+            load_yaml(VERSIONS_PATH / current_defaults)
+            .get(self.__class__.__name__)
+            .items()
+        )
+
+        available_db_versions = self._load_versions(source="_local")
+
         # Use the latest version if version is None.
         self._version = current_version if version is None else str(version)
         self._database = current_database if database is None else str(database)
         self._url = (
-            db_versions.get(current_database).get("versions").get(self._version)  # type: ignore  # noqa: E501
+            available_db_versions.get(self._database).get("versions").get(self._version)  # type: ignore  # noqa: E501
         )
         if self._url is None:
             raise ValueError(
                 f"Database {self._database} version {self._version} is not found,"
-                f" select one of the following: {db_versions}"
+                f" select one of the following: {available_db_versions}"
             )
 
     def _localpath(self, filename: str):

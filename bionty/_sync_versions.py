@@ -16,7 +16,7 @@ _CURRENT_PATH = ROOT / "_current.yaml"
 _LNDB_PATH = ROOT / "_lndb.yaml"
 
 
-def update_current(
+def update_defaults(
     new_defaults: Union[Tuple[str, str, str], List[Tuple[str, str, str]]],
     target: Literal["current", "lndb"] = "current",
 ) -> None:

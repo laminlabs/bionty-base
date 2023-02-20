@@ -16,7 +16,6 @@ Bionty is also fully integrated into the [lamin platform](https://lamin.ai/).
 
 guide/index
 api
-configuration
 faq/index
 changelog
 ```
