@@ -9,10 +9,10 @@ from bionty.dev._io import load_yaml, write_yaml
 
 ROOT = Path(__file__).parent.parent / "versions"
 VERSIONS_PATH = ROOT / "versions.yaml"
-_CURRENT_PATH = ROOT / "_current.yaml"
-_LNDB_PATH = ROOT / "_lndb.yaml"
+_CURRENT_PATH = ROOT / "._current.yaml"
+_LNDB_PATH = ROOT / "._lndb.yaml"
 
-_LOCAL_PATH = settings.versionsdir / "_local.yaml"
+_LOCAL_PATH = settings.versionsdir / "local.yaml"
 
 
 def latest_db_version(db: str) -> str:
@@ -111,6 +111,6 @@ def update_local(to_update_yaml: Dict[Any, Any]) -> None:
 
 
 def create_lndb() -> None:
-    """If no _lndb file, write _current to _lndb for lndb."""
+    """If no ._lndb file, write ._current to ._lndb for lndb."""
     if not _LNDB_PATH.exists():
         shutil.copy2(_CURRENT_PATH, _LNDB_PATH)

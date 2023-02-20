@@ -203,7 +203,7 @@ class EntityTable:
         YAML_PATH = (
             Path(f"{VERSIONS_PATH}/versions.yaml")
             if source == "versions"
-            else Path(f"{settings.versionsdir}/_local.yaml")
+            else Path(f"{settings.versionsdir}/local.yaml")
         )
         versions = load_yaml(YAML_PATH).get(self.__class__.__name__)
 
@@ -226,9 +226,9 @@ class EntityTable:
             version: The requested version of the database.
         """
         current_defaults = (
-            "_lndb.yaml"
+            "._lndb.yaml"
             if os.getenv("LAMINDB_INSTANCE_LOADED") == 1
-            else "_current.yaml"
+            else "._current.yaml"
         )
 
         ((current_database, current_version),) = (

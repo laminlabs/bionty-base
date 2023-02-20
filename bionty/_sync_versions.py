@@ -12,10 +12,10 @@ from .dev._io import load_yaml, write_yaml
 
 ROOT = Path(__file__).parent.parent / "versions"
 VERSIONS_PATH = ROOT / "versions.yaml"
-_CURRENT_PATH = ROOT / "_current.yaml"
-_LNDB_PATH = ROOT / "_lndb.yaml"
+_CURRENT_PATH = ROOT / "._current.yaml"
+_LNDB_PATH = ROOT / "._lndb.yaml"
 
-_LOCAL_PATH = settings.versionsdir / "_local.yaml"
+_LOCAL_PATH = settings.versionsdir / "local.yaml"
 
 
 def update_defaults(
@@ -25,7 +25,7 @@ def update_defaults(
     """Updates the _current.yaml file wih new user defaults.
 
     The _current.yaml stores the default databases and versions that Bionty accesses.
-    This function overwrites the current defaults in the _current.yaml file.
+    This function overwrites the current defaults in the ._current.yaml file.
 
     Args:
         new_defaults: Triplets of (entity, database, version) tuples.

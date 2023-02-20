@@ -14,7 +14,7 @@ ROOT_DIR = Path(__file__).parent.resolve()
 
 def display_available_versions() -> None:  # pragma: no cover
     """Displays all available entities and versions in a Rich table."""
-    VERSIONS_FILE_PATH = Path(f"{settings.versionsdir}/_local.yaml").resolve()
+    VERSIONS_FILE_PATH = Path(f"{settings.versionsdir}/local.yaml").resolve()
     versions = load_yaml(VERSIONS_FILE_PATH.resolve())
 
     table = _generate_rich_versions_table(title="Available versions")
@@ -31,7 +31,7 @@ def display_available_versions() -> None:  # pragma: no cover
 def display_active_versions() -> None:  # pragma: no cover
     """Displays all currently set as default entities and versions in a Rich table."""
     version_table = (
-        "_lndb.yaml" if os.getenv("LAMINDB_INSTANCE_LOADED") == 1 else "_current.yaml"
+        "._lndb.yaml" if os.getenv("LAMINDB_INSTANCE_LOADED") == 1 else "._current.yaml"
     )
 
     VERSIONS_FILE_PATH = Path(f"{ROOT_DIR}/versions/{version_table}").resolve()
