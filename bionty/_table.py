@@ -42,19 +42,17 @@ class EntityTable:
         # By default lookup allows auto-completion for name and returns the id.
         # lookup column can be changed using `.lookup_col = `.
         self._lookup_col = "name"
-        if self.__class__.__name__ == "EntityTable":
-            return None
 
         if database:
             # We don't allow custom databases inside lamindb instances
             # because the lamindb standard should be used
-            if os.environ["LAMINDB_INSTANCE_LOADED"] == 1:
+            if os.getenv("LAMINDB_INSTANCE_LOADED") == 1:
                 raise ValueError(
                     "Custom databases are not allowed inside lamindb instances."
                 )
 
             database = br.normalize_prefix(database)
-        self._get_version(database=database, version=version)
+        self._set_attributes(database=database, version=version)
 
     @property
     def database(self) -> str:
@@ -200,17 +198,11 @@ class EntityTable:
 
     def _load_current_version(self) -> Tuple[str, str]:
         """Load current version."""
-        try:
-            import lndb
-
-            db = lndb.settings._instance_exists
-        except ImportError:
-            db = False
-
-        if db:
-            filename = "_lndb.yaml"
-        else:
-            filename = "_current.yaml"
+        filename = (
+            "_lndb.yaml"
+            if os.getenv("LAMINDB_INSTANCE_LOADED") == 1
+            else "_current.yaml"
+        )
 
         ((database, version),) = (
             load_yaml(VERSIONS_PATH / filename).get(self.__class__.__name__).items()
@@ -233,8 +225,15 @@ class EntityTable:
 
         return versions_db
 
-    def _get_version(self, database: Optional[str], version: Optional[str] = None):
-        # Read in all the versions from the _lndb.yaml or the _current.yaml file.
+    def _set_attributes(
+        self, database: Optional[str], version: Optional[str] = None
+    ) -> None:
+        """Sets version, database and URL attributes for passed database and requested version.
+
+        Args:
+            database: The database to find the URL and version for.
+            version: The requested version of the database.
+        """
         current_database, current_version = self._load_current_version()
 
         db_versions = self._load_versions()

@@ -2,31 +2,62 @@ import shutil
 from pathlib import Path
 from typing import Any, Dict, Literal
 
-from .dev._io import load_yaml, write_yaml
+import pandas as pd
 
-ROOT = Path(__file__).parent / "versions"
+from bionty.dev._io import load_yaml, write_yaml
+
+ROOT = Path(__file__).parent.parent / "versions"
 VERSIONS_PATH = ROOT / "versions.yaml"
 _LOCAL_PATH = ROOT / "_local.yaml"
 _CURRENT_PATH = ROOT / "_current.yaml"
 _LNDB_PATH = ROOT / "_lndb.yaml"
 
 
+def latest_db_version(db: str) -> str:
+    """Lookup the latest version of a database.
+
+    Args:
+        db: The database to look up the version for.
+
+    Returns:
+        The version of the database. Usually a date.
+    """
+    db = db.lower()
+
+    if db == "ensembl":
+        # For Ensembl, parse the current_README file
+        lines = []
+
+        for line in pd.read_csv(
+            "https://ftp.ensembl.org/pub/README",
+            chunksize=1,
+            header=None,
+            encoding="utf-8",
+        ):
+            lines.append(line.iloc[0, 0])
+        return "-".join(lines[1].split(" ")[1:-1]).lower()
+
+    else:
+        raise NotImplementedError
+
+
 def create_current(
-    overwrite: bool = True, source: Literal["versions", "local"] = "versions"
+    overwrite: bool = True, source: Literal["versions", "local"] = "local"
 ) -> None:
     """Writes the most recent version to the _current.yaml .
 
+    Takes the 1st database defined in the source.
+
     Args:
         overwrite: Whether to overwrite the _current.yaml even if it exists already.
-        source: The yaml source to use to create the _current.yaml for.
+        source: The yaml source to use to create the _current.yaml . Defaults to local.
     """
     if not _CURRENT_PATH.exists() or overwrite:
-        if source == "versions":
-            versions = load_yaml(VERSIONS_PATH)
-        else:
-            versions = load_yaml(_LOCAL_PATH)
+        versions = (
+            load_yaml(VERSIONS_PATH) if source == "versions" else load_yaml(_LOCAL_PATH)
+        )
 
-        def write_current_yaml(versions):
+        def _write_current_yaml(versions):
             _current = {}
             for name, db_versions in versions.items():
                 # this will only take the 1st db if multiple exists for the same entity
@@ -36,7 +67,7 @@ def create_current(
                 _current[name] = {db: version}
             return _current
 
-        _current = write_current_yaml(versions)
+        _current = _write_current_yaml(versions)
         write_yaml(_current, _CURRENT_PATH)
 
 
@@ -95,10 +126,3 @@ def create_lndb() -> None:
     """If no _lndb file, write _current to _lndb for lndb."""
     if not _LNDB_PATH.exists():
         shutil.copy2(_CURRENT_PATH, _LNDB_PATH)
-
-
-create_local(overwrite=False)
-_local = load_yaml(_LOCAL_PATH)
-update_local(_local)
-create_current(overwrite=False)
-create_lndb()

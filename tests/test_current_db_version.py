@@ -1,4 +1,4 @@
-from bionty.dev import latest_db_version
+from bionty.dev._handle_versions import latest_db_version
 
 
 def test_current_db_version():

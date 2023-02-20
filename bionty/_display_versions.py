@@ -1,8 +1,6 @@
 import os
 from pathlib import Path
 
-import lndb
-from rich import print
 from rich.console import Console
 from rich.table import Table
 
@@ -31,14 +29,9 @@ def display_available_versions() -> None:  # pragma: no cover
 
 def display_active_versions() -> None:  # pragma: no cover
     """Displays all currently set as default entities and versions in a Rich table."""
-    version_table = "_current.yaml"
-    try:
-        if os.environ["LAMINDB_INSTANCE_LOADED"] == 1:
-            version_table = "_lndb.yaml"
-            print("[bold blue]Currently operating inside lamindb instance.")
-            print(lndb.settings.instance)
-    except KeyError:
-        pass
+    version_table = (
+        "_lndb.yaml" if os.getenv("LAMINDB_INSTANCE_LOADED") == 1 else "_current.yaml"
+    )
 
     VERSIONS_FILE_PATH = Path(f"{WD}/versions/{version_table}")
     versions = load_yaml(VERSIONS_FILE_PATH.resolve())
