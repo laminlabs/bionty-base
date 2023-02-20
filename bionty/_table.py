@@ -1,6 +1,7 @@
 import os
 import re
 from collections import namedtuple
+from pathlib import Path
 from typing import Dict, Iterable, Literal, NamedTuple, Optional
 
 import bioregistry as br
@@ -17,7 +18,7 @@ from .dev._fix_index import (
 )
 from .dev._io import load_yaml, url_download
 
-VERSIONS_PATH = settings.versionsdir
+VERSIONS_PATH = Path(__file__).parent / "versions"
 
 
 def _camel_to_snake(string: str) -> str:
@@ -199,9 +200,12 @@ class EntityTable:
         self, source: Literal["versions", "_local"] = "_local"
     ) -> Dict[str, Dict[str, Dict]]:
         """Load all versions with string version keys."""
-        versions = load_yaml(VERSIONS_PATH / f"{source}.yaml").get(
-            self.__class__.__name__
+        YAML_PATH = (
+            Path(f"{VERSIONS_PATH}/versions.yaml")
+            if source == "versions"
+            else Path(f"{settings.versionsdir}/_local.yaml")
         )
+        versions = load_yaml(YAML_PATH).get(self.__class__.__name__)
 
         versions_db: Dict[str, Dict[str, Dict]] = {}
 
