@@ -71,20 +71,6 @@ def create_current(
         write_yaml(_current, _CURRENT_PATH)
 
 
-def write_local_yaml(versions):
-    """Make sure version keys are strings."""
-    _local = {}
-
-    for name, db_versions in versions.items():
-        db = next(iter(db_versions))
-        versions = db_versions.get(db).get("versions")
-        _local[name] = {db: {"versions": {}}}
-        for version, version_url in versions.items():
-            _local[name][db]["versions"][str(version)] = version_url
-
-    write_yaml(_local, _LOCAL_PATH)
-
-
 def create_local(overwrite: bool = True) -> None:
     """If _local.yaml doesn't exist, copy from versions.yaml and create it.
 
@@ -94,7 +80,7 @@ def create_local(overwrite: bool = True) -> None:
     if not _LOCAL_PATH.exists() or overwrite:
         versions = load_yaml(VERSIONS_PATH)
 
-        write_local_yaml(versions)
+        write_yaml(versions, _LOCAL_PATH)
 
 
 def update_local(to_update_yaml: Dict[Any, Any]) -> None:
@@ -119,7 +105,7 @@ def update_local(to_update_yaml: Dict[Any, Any]) -> None:
                                 "versions"
                             ][version]
 
-    write_local_yaml(to_update_yaml)
+    write_yaml(to_update_yaml, _LOCAL_PATH)
 
 
 def create_lndb() -> None:

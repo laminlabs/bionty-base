@@ -5,7 +5,7 @@ from typing import Union
 import boto3
 from cloudpathlib import S3Client
 
-ROOT_DIR = Path(__file__).parent.resolve()
+ROOT_DIR = Path(f"{Path.home()}/.lamin/bionty").resolve()
 
 
 def s3_bionty_assets(filename: str):
