@@ -4,13 +4,15 @@ from typing import Any, Dict, Literal
 
 import pandas as pd
 
+from bionty._settings import settings
 from bionty.dev._io import load_yaml, write_yaml
 
 ROOT = Path(__file__).parent.parent / "versions"
 VERSIONS_PATH = ROOT / "versions.yaml"
-_LOCAL_PATH = ROOT / "_local.yaml"
 _CURRENT_PATH = ROOT / "_current.yaml"
 _LNDB_PATH = ROOT / "_lndb.yaml"
+
+_LOCAL_PATH = settings.versionsdir / "_local.yaml"
 
 
 def latest_db_version(db: str) -> str:

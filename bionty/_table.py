@@ -1,7 +1,6 @@
 import os
 import re
 from collections import namedtuple
-from pathlib import Path
 from typing import Dict, Iterable, Literal, NamedTuple, Optional
 
 import bioregistry as br
@@ -18,7 +17,7 @@ from .dev._fix_index import (
 )
 from .dev._io import load_yaml, url_download
 
-VERSIONS_PATH = Path(__file__).parent / "versions"
+VERSIONS_PATH = settings.versionsdir
 
 
 def _camel_to_snake(string: str) -> str:

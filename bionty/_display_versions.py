@@ -4,16 +4,17 @@ from pathlib import Path
 from rich.console import Console
 from rich.table import Table
 
+from bionty._settings import settings
 from bionty.dev._io import load_yaml
 
 console = Console()
 
-WD = os.path.dirname(__file__)
+ROOT_DIR = Path(__file__).parent.resolve()
 
 
 def display_available_versions() -> None:  # pragma: no cover
     """Displays all available entities and versions in a Rich table."""
-    VERSIONS_FILE_PATH = Path(f"{WD}/versions/_local.yaml")
+    VERSIONS_FILE_PATH = Path(f"{settings.versionsdir}/_local.yaml").resolve()
     versions = load_yaml(VERSIONS_FILE_PATH.resolve())
 
     table = _generate_rich_versions_table(title="Available versions")
@@ -33,7 +34,7 @@ def display_active_versions() -> None:  # pragma: no cover
         "_lndb.yaml" if os.getenv("LAMINDB_INSTANCE_LOADED") == 1 else "_current.yaml"
     )
 
-    VERSIONS_FILE_PATH = Path(f"{WD}/versions/{version_table}")
+    VERSIONS_FILE_PATH = Path(f"{ROOT_DIR}/versions/{version_table}").resolve()
     versions = load_yaml(VERSIONS_FILE_PATH.resolve())
 
     table = _generate_rich_versions_table(

@@ -1,6 +1,7 @@
 from pathlib import Path
 from typing import List, Literal, Tuple, Union
 
+from ._settings import settings
 from .dev._handle_versions import (
     create_current,
     create_lndb,
@@ -9,11 +10,12 @@ from .dev._handle_versions import (
 )
 from .dev._io import load_yaml, write_yaml
 
-ROOT = Path(__file__).parent / "versions"
+ROOT = Path(__file__).parent.parent / "versions"
 VERSIONS_PATH = ROOT / "versions.yaml"
-_LOCAL_PATH = ROOT / "_local.yaml"
 _CURRENT_PATH = ROOT / "_current.yaml"
 _LNDB_PATH = ROOT / "_lndb.yaml"
+
+_LOCAL_PATH = settings.versionsdir / "_local.yaml"
 
 
 def update_defaults(
