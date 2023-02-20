@@ -2,8 +2,6 @@ from collections import namedtuple
 from typing import Iterable
 
 from ._normalize import GENE_COLUMNS, PROTEIN_COLUMNS
-from ._readout import Readout
-from ._species import Species
 
 
 def _lookup(values: Iterable[str]):
@@ -17,5 +15,3 @@ class lookup:
 
     gene_id = _lookup(values=set(GENE_COLUMNS.values()))
     protein_id = _lookup(values=set(PROTEIN_COLUMNS.values()))
-    species = Species().lookup
-    readout = Readout().lookup
