@@ -46,7 +46,7 @@ class Settings:
         self.datasetdir = datasetdir
         self.dynamicdir = dynamicdir
         self.versionsdir = versionsdir
-        Path(self.versionsdir).mkdir(exist_ok=True)
+        Path(self.versionsdir).mkdir(exist_ok=True, parents=True)
 
     @property
     def datasetdir(self):
