@@ -5,6 +5,7 @@ from typing import Union
 import boto3
 from cloudpathlib import S3Client
 
+HOME_DIR = Path(f"{Path.home()}/.lamin/bionty").resolve()
 ROOT_DIR = Path(__file__).parent.resolve()
 
 
@@ -40,9 +41,12 @@ class Settings:
         self,
         datasetdir: Union[str, Path] = ROOT_DIR / "data/",
         dynamicdir: Union[str, Path] = ROOT_DIR / "_dynamic/",
+        versionsdir: Union[str, Path] = HOME_DIR / "versions/",
     ):
         self.datasetdir = datasetdir
         self.dynamicdir = dynamicdir
+        self.versionsdir = versionsdir
+        Path(self.versionsdir).mkdir(exist_ok=True, parents=True)
 
     @property
     def datasetdir(self):
@@ -61,6 +65,15 @@ class Settings:
     @dynamicdir.setter
     def dynamicdir(self, dynamicdir: Union[str, Path]):
         self._dynamicdir = Path(dynamicdir).resolve()
+
+    @property
+    def versionsdir(self):
+        """Directory for version yamls."""
+        return self._versionsdir
+
+    @versionsdir.setter
+    def versionsdir(self, versionsdir: Union[str, Path]):
+        self._versionsdir = Path(versionsdir).resolve()
 
 
 settings = Settings()

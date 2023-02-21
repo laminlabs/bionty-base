@@ -13,4 +13,4 @@ from ._fix_index import (
 )  # noqa
 
 from ._ontology import ontology_info
-from ._latest_db_version import latest_db_version
+from ._handle_versions import latest_db_version

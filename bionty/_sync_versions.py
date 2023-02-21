@@ -1,68 +1,56 @@
-import shutil
 from pathlib import Path
+from typing import List, Literal, Tuple, Union
 
+from ._settings import settings
+from .dev._handle_versions import (
+    create_current,
+    create_lndb,
+    create_local,
+    update_local,
+)
 from .dev._io import load_yaml, write_yaml
 
-ROOT = Path(__file__).parent / "versions"
-VERSIONS = ROOT / "versions.yaml"
-_LOCAL = ROOT / "_local.yaml"
-_CURRENT = ROOT / "_current.yaml"
-_DB = ROOT / "_lndb.yaml"
+ROOT = Path(__file__).parent.parent / "versions"
+VERSIONS_PATH = ROOT / "versions.yaml"
+_CURRENT_PATH = ROOT / "._current.yaml"
+_LNDB_PATH = ROOT / "._lndb.yaml"
 
-versions = load_yaml(VERSIONS)
-
-
-# if _local.yaml doesn't exist, copy from versions.yaml
-if not _LOCAL.exists():
-
-    def write_local_yaml(versions):
-        """Make sure version keys are strings."""
-        _local = {}
-        for name, db_versions in versions.items():
-            db = next(iter(db_versions))
-            versions = db_versions.get(db).get("versions")
-            _local[name] = {db: {"versions": {}}}
-            for v, v_url in versions.items():
-                _local[name][db]["versions"][str(v)] = v_url
-        return _local
-
-    _local = write_local_yaml(versions)
-    write_yaml(_local, _LOCAL)
+_LOCAL_PATH = settings.versionsdir / "local.yaml"
 
 
-_local = load_yaml(_LOCAL)
+def update_defaults(
+    new_defaults: Union[Tuple[str, str, str], List[Tuple[str, str, str]]],
+    target: Literal["current", "lndb"] = "current",
+) -> None:
+    """Updates the _current.yaml file wih new user defaults.
 
-# update _local to add additional entries from the public versions.yaml table
-for entity, dbs in versions.items():
-    if entity not in _local:
-        _local[entity] = versions[entity]
-    else:
-        for db_name, v in dbs.items():
-            if db_name not in _local[entity]:
-                _local[entity][db_name] = dbs[db_name]
-            else:
-                for version in v["versions"]:
-                    if version not in _local[entity][db_name]["versions"]:
-                        _local[entity][db_name]["versions"][version] = v["versions"][
-                            version
-                        ]
+    The _current.yaml stores the default databases and versions that Bionty accesses.
+    This function overwrites the current defaults in the ._current.yaml file.
 
-# writes the most recent version to the _current.yaml
-if not _CURRENT.exists():
+    Args:
+        new_defaults: Triplets of (entity, database, version) tuples.
+        target: The yaml file to update. Defaults to current
+    """
+    defaults = (
+        load_yaml(_CURRENT_PATH) if target == "current" else load_yaml(_LNDB_PATH)
+    )
 
-    def write_current_yaml(versions):
-        _current = {}
-        for name, db_versions in versions.items():
-            # this will only take the 1st db if multiple exists for the same entity
-            db = next(iter(db_versions))
-            versions = db_versions.get(db).get("versions")
-            version = str(sorted(versions.keys(), reverse=True)[0])
-            _current[name] = {db: version}
-        return _current
+    if isinstance(new_defaults, Tuple):  # type: ignore
+        new_defaults = [new_defaults]  # type: ignore
 
-    _current = write_current_yaml(versions)
-    write_yaml(_current, _CURRENT)
+    # TODO Validate whether new defaults are also available in the local.yaml
+    for nd in new_defaults:
+        entity = nd[0]
+        new_db = nd[1]
+        new_version = nd[2]
 
-# if no _lndb file, write _current to _lndb for lndb
-if not _DB.exists():
-    shutil.copy2(_CURRENT, _DB)
+        defaults[entity] = {new_db: new_version}
+
+    write_yaml(defaults, _CURRENT_PATH)
+
+
+create_local(overwrite=False)
+_local = load_yaml(_LOCAL_PATH)
+update_local(_local)
+create_current(overwrite=False)
+create_lndb()

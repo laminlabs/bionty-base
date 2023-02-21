@@ -41,6 +41,13 @@ Lookup of vocabulary:
 
    lookup
 
+Setting default ontologies
+
+.. autosummary::
+    :toctree: .
+
+    update_defaults
+
 External API:
 
 .. autosummary::
@@ -65,6 +72,7 @@ from lamin_logger import py_version_warning
 py_version_warning("3.7", "3.10")
 
 from . import _sync_versions
+from ._sync_versions import update_defaults
 
 # dynamic classes
 from ._gene import Gene
