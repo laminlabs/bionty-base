@@ -45,3 +45,6 @@ Phenotype:
   hp:
     versions:
       2023-01-27: https://github.com/obophenotype/human-phenotype-ontology/releases/download/v2023-01-27/hp.owl
+  phenio:
+    versions:
+      2022-12-13: https://github.com/monarch-initiative/phenio/releases/download/2022-12-13/phenio.owl

@@ -9,17 +9,21 @@ from .._table import EntityTable
 
 FILENAMES = {
     "human_hp": "phenotype_lookup.parquet",
+    "all_phenio": "phenio_lookup.parquet",
 }
 
 
 class Phenotype(EntityTable):
-    """Phenotype.
+    """Phenotype ontology.
 
-    Args:
-        species: `name` of `Species` entity EntityTable.
-
+    1. Human phenotype ontology
     Edits of terms are coordinated and reviewed on:
     https://hpo.jax.org/app/
+
+    2. Phenomics Integrated Ontology (PHENIO)
+    Edits of terms are coordinated and reviewed on:
+    https://github.com/monarch-initiative/phenio
+    Set species to "all" to use it.
     """
 
     def __init__(

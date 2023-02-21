@@ -52,7 +52,9 @@ class EntityTable:
                     "Check active databases using `bionty.display_active_versions`."
                 )
 
-            database = br.normalize_prefix(database)
+            normalized_database = br.normalize_prefix(database)
+            if normalized_database:
+                database = normalized_database
         self._set_attributes(database=database, version=version)
 
     @property
