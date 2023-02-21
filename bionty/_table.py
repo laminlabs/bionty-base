@@ -49,6 +49,7 @@ class EntityTable:
             if os.getenv("LAMINDB_INSTANCE_LOADED") == 1:
                 raise ValueError(
                     "Custom databases are not allowed inside lamindb instances."
+                    "Check active databases using `bionty.display_active_versions`."
                 )
 
             database = br.normalize_prefix(database)
