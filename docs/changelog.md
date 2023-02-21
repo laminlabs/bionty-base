@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+:sparkles: Add HCA ontology | [209](https://github.com/laminlabs/bionty/pull/209) | [Zethson](https://github.com/Zethson) | 2023-02-21 |
 :sparkles: Improve version handling | [202](https://github.com/laminlabs/bionty/pull/202) | [Zethson](https://github.com/Zethson) | 2023-02-21 |
 🔥 No downloading upon import | [205](https://github.com/laminlabs/bionty/pull/205) | [sunnyosun](https://github.com/sunnyosun) | 2023-02-20 |
 👷 Remove py3.7 from CI | [206](https://github.com/laminlabs/bionty/pull/206) | [sunnyosun](https://github.com/sunnyosun) | 2023-02-20 |
