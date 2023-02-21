@@ -21,6 +21,9 @@ CellType:
     versions:
       2023-02-15: http://purl.obolibrary.org/obo/cl/releases/2023-02-15/cl-base.owl
       2022-08-16: http://purl.obolibrary.org/obo/cl/releases/2022-08-16/cl.owl
+  ca:
+    versions:
+      2022-12-16: https://www.ebi.ac.uk/ols/ontologies/hcao/download
 Tissue:
   uberon:
     versions:
