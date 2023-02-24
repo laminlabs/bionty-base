@@ -21,6 +21,7 @@ dependencies = [
     "pyarrow",
     "nbproject",
     "lndb",
+    "laminci",
     "rich",
     "cached_property",
     "bioregistry"
