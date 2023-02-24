@@ -43,30 +43,10 @@ jobs:
         with:
           path: ~/.cache/pre-commit
           key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
-      - name: Cache postgres
-        id: cache-postgres
-        uses: actions/cache@v3
-        with:
-          path: ~/postgres.tar
-          key: cache-postgres-0
-      - name: Cache postgres miss
-        if: steps.cache-postgres.outputs.cache-hit != 'true'
-        run: docker pull postgres:latest && docker image save postgres:latest --output ~/postgres.tar
-      - name: Cache postgres use
-        if: steps.cache-postgres.outputs.cache-hit == 'true'
-        run: docker image load --input ~/postgres.tar
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install laminci>=0.2.0
-          sudo apt-get -y install graphviz
-          sudo apt-get install sqlite3-tools=3.37.2-2
-      - name: Configure AWS
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: eu-central-1
       - name: Lint
         if: matrix.python-version == '3.9'
         run: |
