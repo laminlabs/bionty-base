@@ -3,16 +3,16 @@ from typing import Optional
 import pandas as pd
 from cached_property import cached_property
 
+from .._entity import Entity
 from .._ontology import Ontology
 from .._settings import settings
-from .._table import EntityTable
 
 FILENAMES = {
     "human_hp": "phenotype_lookup.parquet",
 }
 
 
-class Phenotype(EntityTable):
+class Phenotype(Entity):
     """Phenotype.
 
     Args:

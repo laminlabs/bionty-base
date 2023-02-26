@@ -3,12 +3,12 @@ from typing import Optional
 import pandas as pd
 from cached_property import cached_property
 
-from .._table import EntityTable
+from .._entity import Entity
 
 SPECIES_FILENAME = "VpdUdouFahpvStwddqTwk.parquet"
 
 
-class Species(EntityTable):
+class Species(Entity):
     """Species.
 
     Args:

@@ -3,12 +3,12 @@ from typing import Optional
 import pandas as pd
 from cached_property import cached_property
 
+from .._entity import Entity
 from .._ontology import Ontology
 from .._settings import settings
-from .._table import EntityTable
 
 
-class Tissue(EntityTable):
+class Tissue(Entity):
     """Tissue.
 
     Edits of terms are coordinated and reviewed on:
