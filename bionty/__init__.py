@@ -24,7 +24,7 @@ The base model for every entity class is:
 .. autosummary::
    :toctree: .
 
-   EntityTable
+   Entity
 
 Display of currently available or used versions:
 
@@ -87,7 +87,7 @@ from ._readout import Readout
 
 # tools
 from ._normalize import NormalizeColumns
-from ._table import EntityTable
+from ._entity import Entity
 from ._ontology import Ontology
 from ._lookup import lookup
 from ._display_versions import display_active_versions, display_available_versions

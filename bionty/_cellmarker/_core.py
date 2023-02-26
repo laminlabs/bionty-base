@@ -3,15 +3,15 @@ from typing import Optional
 import pandas as pd
 from cached_property import cached_property
 
+from .._entity import Entity
 from .._settings import s3_bionty_assets
-from .._table import EntityTable
 
 FILENAMES = {
     "human_cellmarker": "GbC3D7dKnsomHB7ZMeUpC.parquet",
 }
 
 
-class CellMarker(EntityTable):
+class CellMarker(Entity):
     """Cell markers.
 
     Args:

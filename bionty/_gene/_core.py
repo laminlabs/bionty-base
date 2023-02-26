@@ -3,9 +3,9 @@ from typing import Optional
 import pandas as pd
 from cached_property import cached_property
 
+from .._entity import Entity
 from .._normalize import GENE_COLUMNS, NormalizeColumns
 from .._settings import s3_bionty_assets
-from .._table import EntityTable
 
 ALIAS_DICT = {"symbol": "synonyms"}
 FILENAMES = {
@@ -14,7 +14,7 @@ FILENAMES = {
 }
 
 
-class Gene(EntityTable):
+class Gene(Entity):
     """Gene.
 
     The default indexer is `ensembl_gene_id`

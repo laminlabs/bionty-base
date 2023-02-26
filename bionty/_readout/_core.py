@@ -3,14 +3,14 @@ from typing import Optional
 import pandas as pd
 from cached_property import cached_property
 
+from .._entity import Entity
 from .._ontology import Ontology
 from .._settings import check_datasetdir_exists, settings
-from .._table import EntityTable
 
 EFO_DF_D3 = "https://bionty-assets.s3.amazonaws.com/efo_df.json"
 
 
-class Readout(EntityTable):
+class Readout(Entity):
     """Experimental Factor Ontology.
 
     https://www.ebi.ac.uk/ols/ontologies/efo

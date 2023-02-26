@@ -9,8 +9,8 @@ In many practical applications, a biological entity (e.g., `Species`) represents
    Typically, vocabularies are based on a given version of a public ontology,
    and may contain “custom” terms representing new knowledge, that’s not yet represented publicly.
 
-We address 1. with a so-called EntityTable model: Within Bionty, the primary representation for an entity is an EntityTable,
-in which each column of the EntityTable corresponds to a vocabulary.
+We address 1. with a so-called Entity table model: Within Bionty, the primary representation for an entity is an Entity object,
+in which each column of the Entity table attribute corresponds to a vocabulary.
 
 We address 2. through a user-setup process consisting in
 

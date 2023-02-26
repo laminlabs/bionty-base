@@ -26,8 +26,8 @@ def _camel_to_snake(string: str) -> str:
     return re.sub(r"(?<!^)(?=[A-Z])", "_", string).lower()
 
 
-class EntityTable:
-    """Biological entity as a EntityTable.
+class Entity:
+    """Biological entity as an Entity.
 
     See :doc:`guide/index` for background.
     """

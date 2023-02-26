@@ -3,9 +3,9 @@ from typing import Optional
 import pandas as pd
 from cached_property import cached_property
 
+from .._entity import Entity
 from .._normalize import NormalizeColumns
 from .._settings import s3_bionty_assets
-from .._table import EntityTable
 
 FILENAMES = {
     "human_uniprot": "5WBmdkTO4JCFzPzBcDOJ3.parquet",
@@ -36,7 +36,7 @@ def _get_shortest_name(df: pd.DataFrame, column: str, new_column="name"):
     df[column] = names_list
 
 
-class Protein(EntityTable):
+class Protein(Entity):
     """Protein.
 
     Args:
