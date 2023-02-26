@@ -37,6 +37,7 @@ dev = [
 test = [
     "pytest>=6.0",
     "pytest-cov",
+    "laminci",
     "nbmake",
     "scanpy",
 ]
