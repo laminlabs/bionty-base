@@ -38,12 +38,15 @@ class Entity:
         id: Optional[str] = None,
         version: Optional[str] = None,
         species: Optional[str] = None,
+        filenames: Optional[Dict[str, str]] = None,
     ):
         self._id = "id" if id is None else id
         # By default lookup allows auto-completion for name and returns the id.
         # lookup column can be changed using `.lookup_col = `.
         self._lookup_col = "name"
         self._species = "human" if species is None else species
+        if filenames:
+            self.filenames = filenames
 
         if database:
             # We don't allow custom databases inside lamindb instances
@@ -79,8 +82,16 @@ class Entity:
 
     @cached_property
     def df(self) -> pd.DataFrame:
-        """DataFrame representation of Entity."""
-        raise NotImplementedError
+        """DataFrame."""
+        self._filepath = settings.datasetdir / self.filenames.get(
+            f"{self.species}_{self.database}"
+        )
+
+        if not self._filepath.exists():
+            df = self._ontology_to_df(self.ontology())
+            df.to_parquet(self._filepath)
+
+        return pd.read_parquet(self._filepath).reset_index().set_index(self._id)
 
     @property
     def lookup_col(self) -> str:
