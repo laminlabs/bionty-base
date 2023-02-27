@@ -1,9 +1,6 @@
 from typing import Optional
 
-from cached_property import cached_property
-
 from .._entity import Entity
-from .._ontology import Ontology
 
 FILENAMES = {
     "human_hp": "phenotype_lookup.parquet",
@@ -34,8 +31,3 @@ class Phenotype(Entity):
             species=species,
             filenames=FILENAMES,
         )
-
-    @cached_property
-    def ontology(self) -> Ontology:  # type:ignore
-        """HPO ontology."""
-        return super().ontology()
