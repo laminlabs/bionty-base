@@ -32,13 +32,7 @@ class CellType(Entity):
         database: Optional[str] = None,
         version: Optional[str] = None,
     ) -> None:
-        super().__init__(id=id, database=database, version=version)
-        self._species = species
-
-    @property
-    def species(self):
-        """The `name` of `Species` entity EntityTable."""
-        return self._species
+        super().__init__(id=id, database=database, version=version, species=species)
 
     @cached_property
     def df(self) -> pd.DataFrame:

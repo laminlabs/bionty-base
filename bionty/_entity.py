@@ -37,11 +37,13 @@ class Entity:
         database: Optional[str],
         id: Optional[str] = None,
         version: Optional[str] = None,
+        species: Optional[str] = None,
     ):
         self._id_field = "id" if id is None else id
         # By default lookup allows auto-completion for name and returns the id.
         # lookup column can be changed using `.lookup_col = `.
         self._lookup_col = "name"
+        self._species = "human" if species is None else species
 
         if database:
             # We don't allow custom databases inside lamindb instances
@@ -65,9 +67,19 @@ class Entity:
         """Name of the entity."""
         return _camel_to_snake(self.__class__.__name__)
 
+    @property
+    def species(self):
+        """The `name` of `Species` Entity."""
+        return self._species
+
+    @property
+    def version(self):
+        """The `name` of `version` entity Entity."""
+        return self._version
+
     @cached_property
     def df(self) -> pd.DataFrame:
-        """DataFrame representation of EntityTable."""
+        """DataFrame representation of Entity."""
         raise NotImplementedError
 
     @property

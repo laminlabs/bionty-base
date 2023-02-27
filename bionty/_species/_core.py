@@ -13,7 +13,7 @@ class Species(Entity):
 
     Args:
         id: Field name that should constitute the primary reference for each
-            value. It will also be the primary key in the corresponding SQL EntityTable.
+            value. It will also be the primary key in the corresponding SQL Entity.
     """
 
     def __init__(
@@ -23,8 +23,6 @@ class Species(Entity):
         version: Optional[str] = None,
     ):
         super().__init__(id=id, database=database, version=version)
-        self._id_field = "name" if id is None else id
-        self._lookup_col = "name"
 
     @cached_property
     def df(self) -> pd.DataFrame:

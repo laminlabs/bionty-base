@@ -20,7 +20,7 @@ class Gene(Entity):
     The default indexer is `ensembl_gene_id`
 
     Args:
-        species: `name` of `Species` entity EntityTable.
+        species: `name` of `Species` Entity.
         id: default is `ensembl_gene_id`
 
     Notes:
@@ -36,15 +36,8 @@ class Gene(Entity):
         database: Optional[str] = None,
         version: Optional[str] = None,
     ):
-        super().__init__(id=id, database=database, version=version)
-        self._species = species
-        self._id_field = "ensembl_gene_id" if id is None else id
+        super().__init__(id=id, database=database, version=version, species=species)
         self._lookup_col = "symbol"
-
-    @property
-    def species(self):
-        """The `name` of `Species` entity EntityTable."""
-        return self._species
 
     @cached_property
     def df(self):

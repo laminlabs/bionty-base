@@ -16,7 +16,7 @@ class Phenotype(Entity):
     """Phenotype.
 
     Args:
-        species: `name` of `Species` entity EntityTable.
+        species: `name` of `Species` entity Entity.
 
     Edits of terms are coordinated and reviewed on:
     https://hpo.jax.org/app/
@@ -29,13 +29,7 @@ class Phenotype(Entity):
         database: Optional[str] = None,
         version: Optional[str] = None,
     ) -> None:
-        super().__init__(id=id, database=database, version=version)
-        self._species = species
-
-    @property
-    def species(self):
-        """The `name` of `Species` entity EntityTable."""
-        return self._species
+        super().__init__(id=id, database=database, version=version, species=species)
 
     @cached_property
     def df(self) -> pd.DataFrame:

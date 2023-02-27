@@ -40,7 +40,7 @@ class Protein(Entity):
     """Protein.
 
     Args:
-        species: `name` of `Species` entity EntityTable.
+        species: `name` of `Species` Entity.
     """
 
     def __init__(
@@ -50,14 +50,8 @@ class Protein(Entity):
         database: Optional[str] = None,
         version: Optional[str] = None,
     ) -> None:
-        super().__init__(id=id, database=database, version=version)
-        self._species = species
+        super().__init__(id=id, database=database, version=version, species=species)
         self._id_field = "uniprotkb_id" if id is None else id
-
-    @property
-    def species(self):
-        """The `name` of `Species` entity EntityTable."""
-        return self._species
 
     @cached_property
     def df(self):
