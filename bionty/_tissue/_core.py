@@ -27,6 +27,7 @@ class Tissue(Entity):
     ) -> None:
         super().__init__(id=id, database=database, version=version)
 
+    @cached_property
     def df(self) -> pd.DataFrame:
         """DataFrame."""
         self._filepath = settings.datasetdir / FILENAMES.get(
