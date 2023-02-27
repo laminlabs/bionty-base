@@ -42,7 +42,7 @@ class Phenotype(Entity):
             df = self._ontology_to_df(self.ontology)
             df.to_parquet(self._filepath)
 
-        return pd.read_parquet(self._filepath).reset_index().set_index(self._id_field)
+        return pd.read_parquet(self._filepath).reset_index().set_index(self._id)
 
     @cached_property
     def ontology(self) -> Ontology:  # type:ignore

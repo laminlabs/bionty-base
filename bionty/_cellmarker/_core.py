@@ -43,6 +43,6 @@ class CellMarker(Entity):
         df = df.drop_duplicates(subset=["name"])
         if not df.index.is_numeric():
             df = df.reset_index().copy()
-        df = df[~df[self._id_field].isnull()]
+        df = df[~df[self._id].isnull()]
 
-        return df.set_index(self._id_field)
+        return df.set_index(self._id)

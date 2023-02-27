@@ -22,6 +22,7 @@ class Species(Entity):
         database: Optional[str] = None,
         version: Optional[str] = None,
     ):
+        id = "name" if id is None else id
         super().__init__(id=id, database=database, version=version)
 
     @cached_property
@@ -45,4 +46,4 @@ class Species(Entity):
         df["name"] = df["name"].str.lower()
         df.insert(0, "id", "NCBI_" + df["taxon_id"].astype(str))
 
-        return df.set_index(self._id_field)
+        return df.set_index(self._id)

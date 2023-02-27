@@ -39,7 +39,7 @@ class Entity:
         version: Optional[str] = None,
         species: Optional[str] = None,
     ):
-        self._id_field = "id" if id is None else id
+        self._id = "id" if id is None else id
         # By default lookup allows auto-completion for name and returns the id.
         # lookup column can be changed using `.lookup_col = `.
         self._lookup_col = "name"
@@ -103,7 +103,7 @@ class Entity:
             self._to_lookup_keys(df[self._lookup_col].values)
         )
 
-        return self._namedtuple_from_dict(df[self._id_field].to_dict())
+        return self._namedtuple_from_dict(df[self._id].to_dict())
 
     def _to_lookup_keys(self, x: list) -> list:
         """Convert a list of strings to tab-completion allowed formats."""
@@ -136,7 +136,7 @@ class Entity:
         return pd.DataFrame(
             [(term.id, term.name) for term in ontology.terms()],
             columns=["ontology_id", "name"],
-        ).set_index(self._id_field)
+        ).set_index(self._id)
 
     def _curate(
         self, df: pd.DataFrame, column: str = None, agg_col: str = None
@@ -147,8 +147,8 @@ class Entity:
         if agg_col is not None:
             # if provided a column with aggregated values, performs alias mapping
             alias_map = explode_aggregated_column_to_expand(
-                self.df.reset_index(), aggregated_col=agg_col, target_col=self._id_field
-            )[self._id_field]
+                self.df.reset_index(), aggregated_col=agg_col, target_col=self._id
+            )[self._id]
 
         if column is None:
             # when column is None, use index as the input column
@@ -178,7 +178,7 @@ class Entity:
             else:
                 df[df.index.name] = df.index
             df.index = new_index
-            df.index.name = self._id_field
+            df.index.name = self._id
             df[column] = orig_series.values  # keep the original column untouched
         # annotated what complies with the default ID
         df["__curated__"] = matches
@@ -282,7 +282,7 @@ class Entity:
         df = df.copy()
         orig_column = column
         if column is not None and column not in self.df.columns:
-            column = self._id_field
+            column = self._id
             df.rename(columns={orig_column: column}, inplace=True)
 
         if not case_sensitive:
