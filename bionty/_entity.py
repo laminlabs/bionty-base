@@ -81,6 +81,12 @@ class Entity:
         return self._version
 
     @cached_property
+    def ontology(self, **kwargs) -> Ontology:  # type:ignore
+        localpath = self._url_download(self._url)
+
+        return Ontology(handle=localpath, **kwargs)
+
+    @cached_property
     def df(self) -> pd.DataFrame:
         """DataFrame."""
         self._filepath = settings.datasetdir / self.filenames.get(
@@ -88,7 +94,7 @@ class Entity:
         )
 
         if not self._filepath.exists():
-            df = self._ontology_to_df(self.ontology())
+            df = self._ontology_to_df(self.ontology)
             df.to_parquet(self._filepath)
 
         return pd.read_parquet(self._filepath).reset_index().set_index(self._id)
@@ -302,10 +308,3 @@ class Entity:
             else:
                 df.index = df.index.str.upper()
         return self._curate(df=df, column=column).rename(columns={column: orig_column})
-
-    def ontology(self, **kwargs) -> Ontology:
-        """Ontology."""
-        # Get the in-use url from yaml file
-        localpath = self._url_download(self._url)
-
-        return Ontology(handle=localpath, **kwargs)
