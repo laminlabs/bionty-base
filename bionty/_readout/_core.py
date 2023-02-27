@@ -15,7 +15,7 @@ class Readout(Entity):
 
     https://www.ebi.ac.uk/ols/ontologies/efo
 
-    Also see: `bionty.EntityTable <https://lamin.ai/docs/bionty/bionty.entitytable>`__
+    Also see: `bionty.Entity <https://lamin.ai/docs/bionty/bionty.entity>`__
     """
 
     def __init__(

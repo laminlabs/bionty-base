@@ -15,7 +15,7 @@ class CellMarker(Entity):
     """Cell markers.
 
     Args:
-        species: `name` of `Species` entity EntityTable.
+        species: `name` of `Species` entity Entity.
     """
 
     def __init__(
@@ -25,14 +25,7 @@ class CellMarker(Entity):
         database: Optional[str] = None,
         version: Optional[str] = None,
     ) -> None:
-        super().__init__(id=id, database=database, version=version)
-        self._species = species
-        self._id_field = "name" if id is None else id
-
-    @property
-    def species(self):
-        """The `name` of `Species` entity EntityTable."""
-        return self._species
+        super().__init__(id=id, database=database, version=version, species=species)
 
     @cached_property
     def df(self):
@@ -50,5 +43,6 @@ class CellMarker(Entity):
         df = df.drop_duplicates(subset=["name"])
         if not df.index.is_numeric():
             df = df.reset_index().copy()
-        df = df[~df[self._id_field].isnull()]
-        return df.set_index(self._id_field)
+        df = df[~df[self._id].isnull()]
+
+        return df.set_index(self._id)

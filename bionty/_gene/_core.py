@@ -20,7 +20,7 @@ class Gene(Entity):
     The default indexer is `ensembl_gene_id`
 
     Args:
-        species: `name` of `Species` entity EntityTable.
+        species: `name` of `Species` Entity.
         id: default is `ensembl_gene_id`
 
     Notes:
@@ -36,15 +36,8 @@ class Gene(Entity):
         database: Optional[str] = None,
         version: Optional[str] = None,
     ):
-        super().__init__(id=id, database=database, version=version)
-        self._species = species
-        self._id_field = "ensembl_gene_id" if id is None else id
+        super().__init__(id=id, database=database, version=version, species=species)
         self._lookup_col = "symbol"
-
-    @property
-    def species(self):
-        """The `name` of `Species` entity EntityTable."""
-        return self._species
 
     @cached_property
     def df(self):
@@ -59,8 +52,8 @@ class Gene(Entity):
         NormalizeColumns.gene(df, species=self.species)
         if not df.index.is_numeric():
             df = df.reset_index().copy()
-        df = df[~df[self._id_field].isnull()]
-        return df.set_index(self._id_field)
+        df = df[~df[self._id].isnull()]
+        return df.set_index(self._id)
 
     def curate(  # type: ignore
         self, df: pd.DataFrame, column: str = None
@@ -77,7 +70,7 @@ class Gene(Entity):
 
         In addition to the .curate() in base class, this also performs alias mapping.
         """
-        agg_col = ALIAS_DICT.get(self._id_field)
+        agg_col = ALIAS_DICT.get(self._id)
         df = df.copy()
 
         # if the query column name does not match any columns in the self.df
@@ -90,7 +83,7 @@ class Gene(Entity):
             if column_norm in df.columns:
                 raise ValueError("{column_norm} column already exist!")
             else:
-                column = self._id_field if column_norm is None else column_norm
+                column = self._id if column_norm is None else column_norm
                 df.rename(columns={orig_column: column}, inplace=True)
             agg_col = ALIAS_DICT.get(column)
 

@@ -7,6 +7,10 @@ from .._entity import Entity
 from .._ontology import Ontology
 from .._settings import settings
 
+FILENAMES = {
+    "human_uberon": "human_uberon_lookup.parquet",
+}
+
 
 class Tissue(Entity):
     """Tissue.
@@ -26,13 +30,15 @@ class Tissue(Entity):
     @cached_property
     def df(self) -> pd.DataFrame:
         """DataFrame."""
-        self._filepath = settings.datasetdir / "tissue_lookup.parquet"
+        self._filepath = settings.datasetdir / FILENAMES.get(
+            f"{self.species}_{self.database}"
+        )
 
         if not self._filepath.exists():
             df = self._ontology_to_df(self.ontology)
             df.to_parquet(self._filepath)
 
-        return pd.read_parquet(self._filepath).reset_index().set_index(self._id_field)
+        return pd.read_parquet(self._filepath).reset_index().set_index(self._id)
 
     @cached_property
     def ontology(self) -> Ontology:  # type:ignore
