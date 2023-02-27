@@ -12,8 +12,8 @@ Lookup & curate metadata based on scientific standards.
 - Cell type: [Cell Ontology](https://obophenotype.github.io/cell-ontology/)
 - Cell marker: [CellMarker](http://xteam.xbio.top/CellMarker)
 - Tissue: [Uberon](http://obophenotype.github.io/uberon/)
-- Disease: [Mondo](https://mondo.monarchinitiative.org/)
-- Phenotype: [HPO](https://hpo.jax.org/app/)
+- Disease: [Mondo](https://mondo.monarchinitiative.org/), [Human Disease](https://disease-ontology.org/)
+- Phenotype: [Human Phenotype](https://hpo.jax.org/app/)
 
 ## Getting started
 
