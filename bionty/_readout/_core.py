@@ -46,7 +46,9 @@ class Readout(Entity):
     @cached_property
     def ontology(self) -> Ontology:  # type:ignore
         """EFO."""
-        return super().ontology(prefix="http://www.ebi.ac.uk/efo/")
+        localpath = self._url_download(self._url)
+
+        return Ontology(handle=localpath, prefix="http://www.ebi.ac.uk/efo/")
 
     @cached_property
     def assay(self) -> list:

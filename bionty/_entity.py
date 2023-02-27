@@ -38,12 +38,15 @@ class Entity:
         id: Optional[str] = None,
         version: Optional[str] = None,
         species: Optional[str] = None,
+        filenames: Optional[Dict[str, str]] = None,
     ):
         self._id = "id" if id is None else id
         # By default lookup allows auto-completion for name and returns the id.
         # lookup column can be changed using `.lookup_col = `.
         self._lookup_col = "name"
         self._species = "human" if species is None else species
+        if filenames:
+            self.filenames = filenames
 
         if database:
             # We don't allow custom databases inside lamindb instances
@@ -78,9 +81,23 @@ class Entity:
         return self._version
 
     @cached_property
+    def ontology(self, **kwargs) -> Ontology:  # type:ignore
+        localpath = self._url_download(self._url)
+
+        return Ontology(handle=localpath, **kwargs)
+
+    @cached_property
     def df(self) -> pd.DataFrame:
-        """DataFrame representation of Entity."""
-        raise NotImplementedError
+        """DataFrame."""
+        self._filepath = settings.datasetdir / self.filenames.get(
+            f"{self.species}_{self.database}"
+        )
+
+        if not self._filepath.exists():
+            df = self._ontology_to_df(self.ontology)
+            df.to_parquet(self._filepath)
+
+        return pd.read_parquet(self._filepath).reset_index().set_index(self._id)
 
     @property
     def lookup_col(self) -> str:
@@ -291,10 +308,3 @@ class Entity:
             else:
                 df.index = df.index.str.upper()
         return self._curate(df=df, column=column).rename(columns={column: orig_column})
-
-    def ontology(self, **kwargs) -> Ontology:
-        """Ontology."""
-        # Get the in-use url from yaml file
-        localpath = self._url_download(self._url)
-
-        return Ontology(handle=localpath, **kwargs)
