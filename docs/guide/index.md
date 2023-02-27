@@ -39,10 +39,10 @@ See [bionty-assets](https://lamin.ai/docs/bionty-assets) for the curation of und
 :maxdepth: 2
 :hidden:
 
+concepts
+ontology
 curate
 lookup
-ontology
-concepts
-readout
 configuration
+extending_bionty
 ```
