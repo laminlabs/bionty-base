@@ -82,13 +82,14 @@ class Entity:
 
     @cached_property
     def ontology(self, **kwargs) -> Ontology:  # type:ignore
+        """The Pronto Ontology object."""
         localpath = self._url_download(self._url)
 
         return Ontology(handle=localpath, **kwargs)
 
     @cached_property
     def df(self) -> pd.DataFrame:
-        """DataFrame."""
+        """Pandas DataFrame."""
         self._filepath = settings.datasetdir / self.filenames.get(
             f"{self.species}_{self.database}"
         )
