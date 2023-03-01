@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+:art: Deduce filenames on the fly for non-S3 Entites | [223](https://github.com/laminlabs/bionty/pull/223) | [Zethson](https://github.com/Zethson) | 2023-03-01 |
 Simplify FAQ | [218](https://github.com/laminlabs/bionty/pull/218) | [Zethson](https://github.com/Zethson) | 2023-02-27 |
 Simplify ontology accesses | [217](https://github.com/laminlabs/bionty/pull/217) | [Zethson](https://github.com/Zethson) | 2023-02-27 |
 :art: Move Species to Entity | [216](https://github.com/laminlabs/bionty/pull/216) | [Zethson](https://github.com/Zethson) | 2023-02-27 |
