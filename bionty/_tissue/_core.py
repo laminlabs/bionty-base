@@ -2,10 +2,6 @@ from typing import Optional
 
 from .._entity import Entity
 
-FILENAMES = {
-    "human_uberon": "human_uberon_lookup.parquet",
-}
-
 
 class Tissue(Entity):
     """Tissue.
@@ -20,4 +16,4 @@ class Tissue(Entity):
         database: Optional[str] = None,
         version: Optional[str] = None,
     ) -> None:
-        super().__init__(id=id, database=database, version=version, filenames=FILENAMES)
+        super().__init__(id=id, database=database, version=version)

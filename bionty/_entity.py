@@ -45,8 +45,7 @@ class Entity:
         # lookup column can be changed using `.lookup_col = `.
         self._lookup_col = "name"
         self._species = "human" if species is None else species
-        if filenames:
-            self.filenames = filenames
+        self.filenames = filenames if filenames else None
 
         if database:
             # We don't allow custom databases inside lamindb instances
@@ -90,9 +89,15 @@ class Entity:
     @cached_property
     def df(self) -> pd.DataFrame:
         """Pandas DataFrame."""
-        self._filepath = settings.datasetdir / self.filenames.get(
-            f"{self.species}_{self.database}"
-        )
+        if self.filenames:
+            self._filepath = settings.datasetdir / self.filenames.get(
+                f"{self.species}_{self.database}"
+            )
+        else:
+            self._filepath = (
+                settings.datasetdir
+                / f"{self.species}_{self.database}_{self.__class__.__name__}_lookup.parquet"  # noqa: W503,E501
+            )
 
         if not self._filepath.exists():
             df = self._ontology_to_df(self.ontology)
