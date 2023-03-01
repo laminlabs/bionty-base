@@ -2,11 +2,6 @@ from typing import Optional
 
 from .._entity import Entity
 
-FILENAMES = {
-    "human_cl_ontology": "human_cl_lookup.parquet",
-    "human_ca": "human_ca_lookup.parquet",
-}
-
 
 class CellType(Entity):
     """Cell type ontologies.
@@ -32,5 +27,4 @@ class CellType(Entity):
             database=database,
             version=version,
             species=species,
-            filenames=FILENAMES,
         )

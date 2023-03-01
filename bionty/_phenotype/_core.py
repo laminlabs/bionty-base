@@ -2,10 +2,6 @@ from typing import Optional
 
 from .._entity import Entity
 
-FILENAMES = {
-    "human_hp": "phenotype_lookup.parquet",
-}
-
 
 class Phenotype(Entity):
     """Phenotype.
@@ -29,5 +25,4 @@ class Phenotype(Entity):
             database=database,
             version=version,
             species=species,
-            filenames=FILENAMES,
         )
