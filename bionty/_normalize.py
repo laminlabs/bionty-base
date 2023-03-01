@@ -31,11 +31,11 @@ class NormalizeColumns:
     """Standardizing column names."""
 
     @staticmethod
-    def gene(df: pd.DataFrame, species=None):
+    def gene(df: pd.DataFrame):
         """Column names of gene Entity."""
         df.rename(columns=GENE_COLUMNS, inplace=True)
 
     @staticmethod
-    def protein(df: pd.DataFrame, species=None):
+    def protein(df: pd.DataFrame):
         """Column names of protein Entity."""
         df.rename(columns=PROTEIN_COLUMNS, inplace=True)
