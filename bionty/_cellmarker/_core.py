@@ -17,7 +17,7 @@ class CellMarker(Entity):
     def __init__(
         self,
         species: str = "human",
-        id: Optional[str] = None,
+        id: Optional[str] = "name",
         database: Optional[str] = None,
         version: Optional[str] = None,
     ) -> None:
