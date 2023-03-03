@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+:sparkles: Add CellLine ontology | [229](https://github.com/laminlabs/bionty/pull/229) | [Zethson](https://github.com/Zethson) | 2023-03-03 |
 :art: Simplify filenames | [227](https://github.com/laminlabs/bionty/pull/227) | [Zethson](https://github.com/Zethson) | 2023-03-03 |
 :art: Deduce filenames on the fly for non-S3 Entites | [223](https://github.com/laminlabs/bionty/pull/223) | [Zethson](https://github.com/Zethson) | 2023-03-01 |
 Simplify FAQ | [218](https://github.com/laminlabs/bionty/pull/218) | [Zethson](https://github.com/Zethson) | 2023-02-27 |
