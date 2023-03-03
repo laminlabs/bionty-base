@@ -10,7 +10,7 @@ class CellLine(Entity):
         species: `name` of `Species` entity Entity.
 
     Edits of terms are coordinated and reviewed on:
-    https://hpo.jax.org/app/
+    https://github.com/CLO-ontology/CLO
     """
 
     def __init__(
