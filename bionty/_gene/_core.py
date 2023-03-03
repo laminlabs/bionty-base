@@ -8,10 +8,6 @@ from .._normalize import GENE_COLUMNS, NormalizeColumns
 from .._settings import s3_bionty_assets
 
 ALIAS_DICT = {"symbol": "synonyms"}
-FILENAMES = {
-    "human_ensembl": "KJ1HgB695AqbVWvfit8sl.parquet",
-    "mouse_ensembl": "xaBDkhBYLXWHq6gJYnedD.parquet",
-}
 
 
 class Gene(Entity):
@@ -45,7 +41,7 @@ class Gene(Entity):
 
         See ingestion: https://lamin.ai/docs/bionty-assets/ingest/ensembl-gene
         """
-        cloudpath = s3_bionty_assets(FILENAMES.get(f"{self.species}_{self.database}"))
+        cloudpath = s3_bionty_assets(self._cloud_file_path)
         self._filepath = cloudpath.fspath
 
         df = pd.read_parquet(self._filepath)

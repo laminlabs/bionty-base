@@ -88,16 +88,6 @@ class Entity:
     @cached_property
     def df(self) -> pd.DataFrame:
         """DataFrame."""
-        if self.filenames:
-            self._filepath = settings.datasetdir / self.filenames.get(
-                f"{self.species}_{self.database}"
-            )
-        else:
-            self._filepath = (
-                settings.datasetdir
-                / f"{self.species}_{self.database}_{self.__class__.__name__}_lookup.parquet"  # noqa: W503,E501
-            )
-
         if not self._filepath.exists():
             df = self._ontology_to_df(self.ontology)
             df.to_parquet(self._filepath)
@@ -285,6 +275,9 @@ class Entity:
                 f"Database {self._database} version {self._version} is not found,"
                 f" select one of the following: {available_db_versions}"
             )
+
+        self._cloud_file_path = f"{self.species}_{self.database}_{self.version}_{self.__class__.__name__}_lookup.parquet"  # noqa: E501
+        self._filepath = settings.datasetdir / self._cloud_file_path  # noqa: W503,E501
 
     def _localpath(self, filename: str):
         """Return the local path of a filename marked with version."""

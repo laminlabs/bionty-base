@@ -2,11 +2,6 @@ from typing import Optional
 
 from .._entity import Entity
 
-FILENAMES = {
-    "human_mondo": "human_mondo_lookup.parquet",
-    "human_doid": "human_doid_lookup.parquet",
-}
-
 
 class Disease(Entity):
     """Disease ontologies.
@@ -32,5 +27,4 @@ class Disease(Entity):
             database=database,
             version=version,
             species=species,
-            filenames=FILENAMES,
         )
