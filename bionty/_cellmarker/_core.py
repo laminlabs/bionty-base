@@ -6,10 +6,6 @@ from cached_property import cached_property
 from .._entity import Entity
 from .._settings import s3_bionty_assets
 
-FILENAMES = {
-    "human_cellmarker": "GbC3D7dKnsomHB7ZMeUpC.parquet",
-}
-
 
 class CellMarker(Entity):
     """Cell markers.
@@ -33,7 +29,7 @@ class CellMarker(Entity):
 
         See ingestion: https://lamin.ai/docs/bionty-assets/ingest/cell-marker-human
         """
-        cloudpath = s3_bionty_assets(FILENAMES.get(f"{self.species}_{self.database}"))
+        cloudpath = s3_bionty_assets(self._cloud_file_path)
         self._filepath = cloudpath.fspath
 
         df = pd.read_parquet(self._filepath)

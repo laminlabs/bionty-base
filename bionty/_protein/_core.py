@@ -7,11 +7,6 @@ from .._entity import Entity
 from .._normalize import NormalizeColumns
 from .._settings import s3_bionty_assets
 
-FILENAMES = {
-    "human_uniprot": "5WBmdkTO4JCFzPzBcDOJ3.parquet",
-    "mouse_uniprot": "6vgntdGiAbz5bEYP53sma.parquet",
-}
-
 
 def _get_shortest_name(df: pd.DataFrame, column: str, new_column="name"):
     """Get a single shortest name from a column of lists."""
@@ -59,7 +54,7 @@ class Protein(Entity):
 
         See ingestion: https://lamin.ai/docs/bionty-assets/ingest/uniprot-protein
         """
-        cloudpath = s3_bionty_assets(FILENAMES.get(f"{self.species}_{self.database}"))
+        cloudpath = s3_bionty_assets(self._cloud_file_path)
         self._filepath = cloudpath.fspath
 
         df = pd.read_parquet(self._filepath)
