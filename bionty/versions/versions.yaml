@@ -16,6 +16,10 @@ CellMarker:
   cellmarker:
     versions:
       2.0: http://bio-bigdata.hrbmu.edu.cn/CellMarker/CellMarker_download_files/file/Cell_marker_All.xlsx
+CellLine:
+  clo:
+    versions:
+      2022-03-21: https://data.bioontology.org/ontologies/CLO/submissions/65/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
 CellType:
   cl:
     versions:
