@@ -12,6 +12,7 @@ Entities:
    Gene
    Protein
    Species
+   CellLine
    CellType
    CellMarker
    Tissue
@@ -78,6 +79,7 @@ from ._sync_versions import update_defaults
 from ._gene import Gene
 from ._species import Species
 from ._protein import Protein
+from ._cellline import CellLine
 from ._celltype import CellType
 from ._cellmarker import CellMarker
 from ._tissue import Tissue
