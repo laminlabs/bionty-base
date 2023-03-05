@@ -76,16 +76,16 @@ from . import _sync_versions
 from ._sync_versions import update_defaults
 
 # dynamic classes
-from ._gene import Gene
-from ._species import Species
-from ._protein import Protein
-from ._cellline import CellLine
-from ._celltype import CellType
-from ._cellmarker import CellMarker
-from ._tissue import Tissue
-from ._disease import Disease
-from ._phenotype import Phenotype
-from ._readout import Readout
+from ._entities._gene import Gene
+from ._entities._species import Species
+from ._entities._protein import Protein
+from ._entities._cellline import CellLine
+from ._entities._celltype import CellType
+from ._entities._cellmarker import CellMarker
+from ._entities._tissue import Tissue
+from ._entities._disease import Disease
+from ._entities._phenotype import Phenotype
+from ._entities._readout import Readout
 
 # tools
 from ._normalize import NormalizeColumns

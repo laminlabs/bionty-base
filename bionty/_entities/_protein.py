@@ -49,7 +49,7 @@ class Protein(Entity):
         self._id_field = "uniprotkb_id" if id is None else id
 
     @cached_property
-    def df(self):
+    def df(self) -> pd.DataFrame:
         """DataFrame.
 
         See ingestion: https://lamin.ai/docs/bionty-assets/ingest/uniprot-protein
@@ -65,4 +65,5 @@ class Protein(Entity):
         if not df.index.is_numeric():
             df = df.reset_index().copy()
         df = df[~df[self._id_field].isnull()]
+
         return df.set_index(self._id_field)

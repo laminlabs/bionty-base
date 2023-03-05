@@ -1,18 +1,17 @@
 from typing import Optional
 
 from .._entity import Entity
+from ._shared_docstrings import _doc_params, doc_entites
 
 
 class Phenotype(Entity):
     """Phenotype.
 
-    Args:
-        species: `name` of `Species` entity Entity.
-
     Edits of terms are coordinated and reviewed on:
     https://hpo.jax.org/app/
     """
 
+    @_doc_params(doc_entities=doc_entites)
     def __init__(
         self,
         species: str = "human",
@@ -20,6 +19,11 @@ class Phenotype(Entity):
         database: Optional[str] = None,
         version: Optional[str] = None,
     ) -> None:
+        """Test.
+
+        Args:
+            {doc_entities}
+        """
         super().__init__(
             id=id,
             database=database,
