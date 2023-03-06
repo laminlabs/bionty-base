@@ -1,8 +1,9 @@
 from typing import Literal, Optional
 
 import pandas as pd
-from bionty.entities._shared_docstrings import _doc_params, species_removed
 from cached_property import cached_property
+
+from bionty.entities._shared_docstrings import _doc_params, species_removed
 
 from .._entity import Entity
 from .._ontology import Ontology

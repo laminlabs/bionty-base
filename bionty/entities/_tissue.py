@@ -1,7 +1,7 @@
 from typing import Literal, Optional
 
-from ._shared_docstrings import doc_entites, _doc_params
 from .._entity import Entity
+from ._shared_docstrings import _doc_params, doc_entites
 
 
 @_doc_params(doc_entities=doc_entites)

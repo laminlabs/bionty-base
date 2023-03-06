@@ -21,6 +21,8 @@ species: `name` of `Species` entity Entity.
         database: The key of the database in the local.yml versions file.
                   Get all available databases with `bionty.display_available_versions`.
         version: The version of the ontology. Typically a date or an actual version.
-                  Get all available database versions with `bionty.display_available_versions`.
+                  Get available versions with `bionty.display_available_versions`.
 """
-species_removed = "\n".join(doc_entites.split("\n")[1:])
+species_removed_tmp = "\n".join(doc_entites.split("\n")[1:]).split("\n")
+species_removed_tmp[0] = species_removed_tmp[0].removeprefix("        ")
+species_removed = "\n".join(species_removed_tmp)
