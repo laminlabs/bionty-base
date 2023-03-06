@@ -13,7 +13,7 @@ def test_clo_cellline_curation_ontology_id():
             "This cell line does not exist",
         ]
     )
-    curated_df = bt.CellLine().curate(df)
+    curated_df = bt.CellLine(database="clo", version="2022-03-21").curate(df)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
@@ -31,7 +31,7 @@ def test_clo_cellline_curation_name():
             "This cell line does not exist",
         ]
     )
-    curated_df = bt.CellLine(id="name").curate(df)
+    curated_df = bt.CellLine(id="name", database="clo", version="2022-03-21").curate(df)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])

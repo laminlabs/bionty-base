@@ -8,7 +8,7 @@ def test_uniprot_cellmarker_curation_ontology_id():
         index=["CCR7", "CD69", "CD8A", "CD45RA", "This protein does not exist"]
     )
 
-    curated_df = bt.CellMarker().curate(df)
+    curated_df = bt.CellMarker(database="cellmarker", version="2.0").curate(df)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
@@ -26,7 +26,9 @@ def test_uniprot_cellmarker_curation_name():
             "This protein does not exist",
         ]
     )
-    curated_df = bt.CellMarker(id="name").curate(df)
+    curated_df = bt.CellMarker(id="name", database="cellmarker", version="2.0").curate(
+        df
+    )
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])

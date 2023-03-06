@@ -172,7 +172,6 @@ class Entity:
             df.index = df["__mapped_index"].fillna(df["orig_index"])
             del df["__mapped_index"]
             df.index.name = index_name
-            print(self.df)
             matches = check_if_index_compliant(df.index, self.df.index)
         else:
             orig_series = df[column]
