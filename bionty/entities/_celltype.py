@@ -1,29 +1,32 @@
-from typing import Optional
+from typing import Literal, Optional
 
 from .._entity import Entity
 from ._shared_docstrings import _doc_params, doc_entites
 
 
-class Phenotype(Entity):
-    """Phenotype.
+@_doc_params(doc_entities=doc_entites)
+class CellType(Entity):
+    """Cell type ontologies.
 
+    1. Cell ontology
     Edits of terms are coordinated and reviewed on:
-    https://hpo.jax.org/app/
+    https://github.com/obophenotype/cell-ontology
+
+    2. Human cell atlas ontology
+    Edits of terms are coordinated and reviewed on:
+    https://github.com/HumanCellAtlas/ontology
+
+    Args:
+        {doc_entities}
     """
 
-    @_doc_params(doc_entities=doc_entites)
     def __init__(
         self,
         species: str = "human",
         id: str = "ontology_id",
-        database: Optional[str] = None,
+        database: Optional[Literal["cl", "ca"]] = None,
         version: Optional[str] = None,
     ) -> None:
-        """Test.
-
-        Args:
-            {doc_entities}
-        """
         super().__init__(
             id=id,
             database=database,

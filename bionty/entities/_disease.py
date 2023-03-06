@@ -1,25 +1,30 @@
-from typing import Optional
+from typing import Literal, Optional
 
 from .._entity import Entity
+from ._shared_docstrings import _doc_params, doc_entites
 
 
-class CellType(Entity):
-    """Cell type ontologies.
+@_doc_params(doc_entities=doc_entites)
+class Disease(Entity):
+    """Disease ontologies.
 
-    1. Cell ontology
+    1. Mondo
     Edits of terms are coordinated and reviewed on:
-    https://github.com/obophenotype/cell-ontology
+    https://github.com/monarch-initiative/mondo
 
-    2. Human cell atlas ontology
+    2. Human Disease Ontology
     Edits of terms are coordinated and reviewed on:
-    https://github.com/HumanCellAtlas/ontology
+    https://github.com/DiseaseOntology/HumanDiseaseOntology
+
+    Args:
+        {doc_entities}
     """
 
     def __init__(
         self,
         id: str = "ontology_id",
         species: str = "human",
-        database: Optional[str] = None,
+        database: Optional[Literal["mondo", "hd"]] = None,
         version: Optional[str] = None,
     ) -> None:
         super().__init__(

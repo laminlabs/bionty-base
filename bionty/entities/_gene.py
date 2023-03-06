@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Literal, Optional
 
 import pandas as pd
 from cached_property import cached_property
@@ -6,30 +6,34 @@ from cached_property import cached_property
 from .._entity import Entity
 from .._normalize import GENE_COLUMNS, NormalizeColumns
 from .._settings import s3_bionty_assets
+from ._shared_docstrings import _doc_params, doc_entites
 
 ALIAS_DICT = {"symbol": "synonyms"}
 
 
+@_doc_params(doc_entities=doc_entites)
 class Gene(Entity):
     """Gene.
+
+    1. Ensembl
+    Edits of terms are coordinated and reviewed on:
+    https://github.com/geneontology/
 
     The default indexer is `ensembl_gene_id`
 
     Args:
-        species: `name` of `Species` Entity.
-        id: default is `ensembl_gene_id`
+        {doc_entities}
 
     Notes:
         Biotypes: https://www.ensembl.org/info/genome/genebuild/biotypes.html
         Gene Naming: https://www.ensembl.org/info/genome/genebuild/gene_names.html
-
     """
 
     def __init__(
         self,
         species: str = "human",
         id: Optional[str] = None,
-        database: Optional[str] = None,
+        database: Optional[Literal["ensembl"]] = None,
         version: Optional[str] = None,
     ):
         super().__init__(id=id, database=database, version=version, species=species)

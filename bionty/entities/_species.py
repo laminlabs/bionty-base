@@ -1,25 +1,28 @@
-from typing import Optional
+from typing import Literal, Optional
 
 import pandas as pd
+from bionty.entities._shared_docstrings import species_removed, _doc_params
 from cached_property import cached_property
 
 from .._entity import Entity
 
-SPECIES_FILENAME = "VpdUdouFahpvStwddqTwk.parquet"
 
-
+@_doc_params(doc_entities=species_removed)
 class Species(Entity):
     """Species.
 
+    1. Species ontology
+    Edits of terms are coordinated and reviewed on:
+    https://www.ensembl.org/index.html
+
     Args:
-        id: Field name that should constitute the primary reference for each
-            value. It will also be the primary key in the corresponding SQL Entity.
+        {doc_entities}
     """
 
     def __init__(
         self,
         id: Optional[str] = None,
-        database: Optional[str] = None,
+        database: Optional[Literal["ensembl"]] = None,
         version: Optional[str] = None,
     ):
         id = "name" if id is None else id
