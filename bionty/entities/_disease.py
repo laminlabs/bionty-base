@@ -1,8 +1,10 @@
-from typing import Optional
+from typing import Literal, Optional
 
 from .._entity import Entity
+from ._shared_docstrings import _doc_params, doc_entites
 
 
+@_doc_params(doc_entities=doc_entites)
 class Disease(Entity):
     """Disease ontologies.
 
@@ -13,13 +15,16 @@ class Disease(Entity):
     2. Human Disease Ontology
     Edits of terms are coordinated and reviewed on:
     https://github.com/DiseaseOntology/HumanDiseaseOntology
+
+    Args:
+        {doc_entities}
     """
 
     def __init__(
         self,
         id: str = "ontology_id",
         species: str = "human",
-        database: Optional[str] = None,
+        database: Optional[Literal["mondo", "hd"]] = None,
         version: Optional[str] = None,
     ) -> None:
         super().__init__(

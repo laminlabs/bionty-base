@@ -53,6 +53,7 @@ repos:
     hooks:
       - id: isort
         args: ["--profile", "black"]
+        additional_dependencies: ["toml"]
         exclude: |
           (?x)(
               __init__.py
@@ -69,5 +70,5 @@ repos:
           - --ignore=D100,D101,D102,D103,D105,D107,D203,D204,D213,D215,D400,D401,D402,D403,D404,D406,D407,D408,D409,D413
         exclude: |
           (?x)(
-              __init__.py
+              __init__.py | bionty/entities/_shared_docstrings.py
           )

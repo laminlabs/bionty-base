@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Literal, Optional
 
 import pandas as pd
 from cached_property import cached_property
@@ -10,6 +10,10 @@ from .._settings import s3_bionty_assets
 class CellMarker(Entity):
     """Cell markers.
 
+    1. Cell Marker Ontology
+    Edits of terms are coordinated and reviewed on:
+    http://bio-bigdata.hrbmu.edu.cn/CellMarker/
+
     Args:
         species: `name` of `Species` entity Entity.
     """
@@ -18,7 +22,7 @@ class CellMarker(Entity):
         self,
         species: str = "human",
         id: Optional[str] = "name",
-        database: Optional[str] = None,
+        database: Optional[Literal["cellmarker"]] = None,
         version: Optional[str] = None,
     ) -> None:
         super().__init__(id=id, database=database, version=version, species=species)
