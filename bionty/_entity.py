@@ -172,6 +172,7 @@ class Entity:
             df.index = df["__mapped_index"].fillna(df["orig_index"])
             del df["__mapped_index"]
             df.index.name = index_name
+            print(self.df)
             matches = check_if_index_compliant(df.index, self.df.index)
         else:
             orig_series = df[column]
@@ -201,6 +202,7 @@ class Entity:
         frac_mapped = 100 - frac_misses
         logger.success(f"{n_mapped} terms ({frac_mapped}%) are linked.")
         logger.warning(f"{n_misses} terms ({frac_misses}%) are not linked.")
+
         return df
 
     @check_dynamicdir_exists
@@ -283,7 +285,9 @@ class Entity:
         """Return the local path of a filename marked with version."""
         return settings.dynamicdir / f"{self._version}___{filename}"
 
-    def curate(self, df: pd.DataFrame, column: str = None, case_sensitive: bool = True):
+    def curate(
+        self, df: pd.DataFrame, column: str = None, case_sensitive: bool = True
+    ) -> pd.DataFrame:
         """Curate index of passed DataFrame to conform with default identifier.
 
         - If `column` is `None`, checks the existing index for compliance with
