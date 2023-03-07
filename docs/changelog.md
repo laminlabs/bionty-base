@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+:sparkles: Add names/website per ontology & improve versions rich tables | [232](https://github.com/laminlabs/bionty/pull/232) | [Zethson](https://github.com/Zethson) | 2023-03-06 |
 Add better docstrings and docstring decorator | [231](https://github.com/laminlabs/bionty/pull/231) | [Zethson](https://github.com/Zethson) | 2023-03-06 |
 :bug: Fix cellmarker ontology | [230](https://github.com/laminlabs/bionty/pull/230) | [Zethson](https://github.com/Zethson) | 2023-03-03 | 0.8rc1
 :sparkles: Add CellLine ontology | [229](https://github.com/laminlabs/bionty/pull/229) | [Zethson](https://github.com/Zethson) | 2023-03-03 |
