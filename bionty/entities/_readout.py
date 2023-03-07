@@ -49,7 +49,10 @@ class Readout(Entity):
             self._download_df()
         df = pd.read_json(self._filepath)
 
-        return df
+        if self._id != "ontology_id":
+            return df.reset_index().set_index(self._id)
+        else:
+            return df
 
     @cached_property
     def ontology(self) -> Ontology:  # type:ignore

@@ -10,7 +10,7 @@ def test_hp_phenotype_curation_ontology_id():
             "HGNC:9958",
             "HGNC:8582",
             "BFO:0000006",
-            "This cell line does not exist",
+            "This phenotype does not exist",
         ]
     )
     curated_df = bt.Phenotype(database="hp", version="2023-01-27").curate(df)
