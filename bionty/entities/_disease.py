@@ -24,7 +24,7 @@ class Disease(Entity):
         self,
         id: str = "ontology_id",
         species: str = "human",
-        database: Optional[Literal["mondo", "hd"]] = None,
+        database: Optional[Literal["mondo", "doid"]] = None,
         version: Optional[str] = None,
     ) -> None:
         super().__init__(
