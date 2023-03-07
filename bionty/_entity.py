@@ -39,6 +39,8 @@ class Entity:
         version: Optional[str] = None,
         species: Optional[str] = None,
         filenames: Optional[Dict[str, str]] = None,
+        *,
+        prefix: Optional[str] = None,
     ):
         self._id = "id" if id is None else id
         # By default lookup allows auto-completion for name and returns the id.
@@ -46,6 +48,7 @@ class Entity:
         self._lookup_col = "name"
         self._species = "human" if species is None else species
         self.filenames = filenames if filenames else None
+        self.prefix = prefix
 
         if database:
             # We don't allow custom databases inside lamindb instances
@@ -145,10 +148,20 @@ class Entity:
 
     def _ontology_to_df(self, ontology: Ontology):
         """Convert ontology to a DataFrame with id and name columns."""
-        return pd.DataFrame(
-            [(term.id, term.name) for term in ontology.terms()],
-            columns=["ontology_id", "name"],
-        ).set_index(self._id)
+        if self.prefix:
+            return pd.DataFrame(
+                [
+                    (term.id, term.name)
+                    for term in ontology.terms()
+                    if term.id.startswith(f"{self.prefix}:")
+                ],
+                columns=["ontology_id", "name"],
+            ).set_index(self._id)
+        else:
+            return pd.DataFrame(
+                [(term.id, term.name) for term in ontology.terms()],
+                columns=["ontology_id", "name"],
+            ).set_index(self._id)
 
     def _curate(
         self, df: pd.DataFrame, column: str = None, agg_col: str = None

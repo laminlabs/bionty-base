@@ -23,4 +23,6 @@ class Tissue(Entity):
         database: Optional[Literal["uberon"]] = None,
         version: Optional[str] = None,
     ) -> None:
-        super().__init__(id=id, database=database, version=version, species=species)
+        super().__init__(
+            id=id, database=database, version=version, species=species, prefix="UBERON"
+        )

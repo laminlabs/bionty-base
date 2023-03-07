@@ -21,7 +21,6 @@ def test_efo_readout_curation_ontology_id():
     assert curation.equals(expected_series)
 
 
-# TODO Not sure why this fails -> check
 # def test_efo_readout_curation_name():
 #     df = pd.DataFrame(
 #         index=[

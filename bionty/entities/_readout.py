@@ -48,7 +48,7 @@ class Readout(Entity):
         if not self._filepath.exists():
             self._download_df()
         df = pd.read_json(self._filepath)
-        df.index.name = "ontology_id"
+
         return df
 
     @cached_property
