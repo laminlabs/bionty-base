@@ -6,10 +6,10 @@ import bionty as bt
 def test_uberon_tissue_curation_ontology_id():
     df = pd.DataFrame(
         index=[
-            "http://birdgenenames.org/cgnc/GeneReport?id=49160",
-            "http://www.ncbi.nlm.nih.gov/gene/396453",
-            "http://www.ncbi.nlm.nih.gov/gene/396217",
-            "http://birdgenenames.org/cgnc/GeneReport?id=16227",
+            "UBERON:0000000",
+            "UBERON:0000005",
+            "UBERON:8600001",
+            "UBERON:8600002",
             "This cell line does not exist",
         ]
     )
