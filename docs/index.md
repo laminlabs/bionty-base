@@ -7,7 +7,7 @@
 - Map and curate metadata.
 - Manage public & custom ontologies and their versions.
 
-To query, collaborate on, and persistently store knowledge & data, consider Bionty's SQL interface with [LaminDB](https://lamin.ai/docs/) - open-source data lake for biology.
+To query, collaborate on, and persistently store knowledge & data, consider [Bionty's SQL interface](https://lamin.ai/docs/lnschema-bionty/) with [LaminDB](https://lamin.ai/docs/) - open-source data lake for biology.
 
 ## Out-of-the-box ontologies
 
