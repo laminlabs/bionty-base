@@ -69,7 +69,6 @@ curated_df = bt.CellType(id="name").curate(df)
 
 See [curate](guide/curate) for more.
 
-
 ```{toctree}
 :maxdepth: 1
 :hidden:
