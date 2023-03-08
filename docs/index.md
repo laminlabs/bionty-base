@@ -9,16 +9,18 @@
 
 To query, collaborate on, and persistently store knowledge, consider Bionty's SQL interface with [LaminDB](LaminDB) - open-source data lake for biology.
 
-## Supported ontologies
+## Out-of-the-box ontologies
 
 - Gene: [Ensembl](https://ensembl.org/), [NCBI Gene](https://www.ncbi.nlm.nih.gov/gene/), [HGNC](https://www.genenames.org/), [MGI](http://www.informatics.jax.org/)
 - Protein: [Uniprot](https://www.uniprot.org/)
 - Species: [NCBI Taxonomy](https://www.ncbi.nlm.nih.gov/taxonomy/), [Ensembl Species](https://useast.ensembl.org/info/about/species.html)
-- Cell type: [Cell Ontology](https://obophenotype.github.io/cell-ontology/)
-- Cell marker: [CellMarker](http://xteam.xbio.top/CellMarker)
+- CellLine: [Cell Line Ontology](https://github.com/CLO-ontology/CLO)
+- CellType: [Cell Ontology](https://obophenotype.github.io/cell-ontology/)
+- CellMarker (protein complexes): [CellMarker](http://xteam.xbio.top/CellMarker)
 - Tissue: [Uberon](http://obophenotype.github.io/uberon/)
 - Disease: [Mondo](https://mondo.monarchinitiative.org/), [Human Disease](https://disease-ontology.org/)
 - Phenotype: [Human Phenotype](https://hpo.jax.org/app/)
+- Readout: [Experimental Factor Ontology](https://www.ebi.ac.uk/ols/ontologies/efo)
 
 ## Installation
 
@@ -37,9 +39,11 @@ species = bt.Species()
 species.lookup.white_tufted_ear_marmoset
 ```
 
+<br>
+
 See [lookup](guide/lookup) for more.
 
-## Curate biological metadata such as cell types:
+## Curate metadata
 
 ```python
 import bionty as bt
@@ -61,13 +65,10 @@ curated_df = bt.CellType(id="name").curate(df)
 # 🔶 1 terms (33.3%) are not linked.
 ```
 
+<br>
+
 See [curate](guide/curate) for more.
 
-## Documentation:
-
-- See the [Guide](guide/index) for in depth tutorials.
-- See the [API reference](api) and the [FAQ](faq/index) for tips, edge cases & errors.
-- See the [source code](https://github.com/laminlabs/bionty) on GitHub.
 
 ```{toctree}
 :maxdepth: 1
