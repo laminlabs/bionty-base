@@ -3,7 +3,7 @@
 :end-line: 5
 ```
 
-- Look up terms with auto-complete.
+- Look up records with auto-complete.
 - Map and curate metadata.
 - Manage public & custom ontologies and their versions.
 
