@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+📝 A take on 3 summary bullets | [240](https://github.com/laminlabs/bionty/pull/240) | [falexwolf](https://github.com/falexwolf) | 2023-03-08 |
 💚 Fix CI build | [239](https://github.com/laminlabs/bionty/pull/239) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-08 |
 :memo: Improving documentation | [220](https://github.com/laminlabs/bionty/pull/220) | [Zethson](https://github.com/Zethson) | 2023-03-08 |
 :white_check_mark: Add entity tests | [234](https://github.com/laminlabs/bionty/pull/234) | [Zethson](https://github.com/Zethson) | 2023-03-07 |
