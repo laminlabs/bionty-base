@@ -61,8 +61,8 @@ df = pd.DataFrame(
 # The DataFrame can either be curated by ontology ID (id="ontology_id") or by ontology term names (id="name").
 curated_df = bt.CellType(id="name").curate(df)
 
-# ✅ 2 terms (66.7%) are linked.
-# 🔶 1 terms (33.3%) are not linked.
+# ✅ 2 terms (66.7%) are mapped.
+# 🔶 1 terms (33.3%) are not mapped.
 ```
 
 <br>

@@ -213,8 +213,8 @@ class Entity:
         frac_misses = round(n_misses / len(matches) * 100, 1)
         n_mapped = matches.sum()
         frac_mapped = 100 - frac_misses
-        logger.success(f"{n_mapped} terms ({frac_mapped}%) are linked.")
-        logger.warning(f"{n_misses} terms ({frac_misses}%) are not linked.")
+        logger.success(f"{n_mapped} terms ({frac_mapped}%) are mapped.")
+        logger.warning(f"{n_misses} terms ({frac_misses}%) are not mapped.")
 
         return df
 
