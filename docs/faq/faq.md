@@ -1,6 +1,6 @@
 # Frequently asked questions
 
-Frequently asked questions about the usage and design of bionty.
+Frequently asked questions about the usage and design of Bionty.
 
 ---
 
@@ -17,3 +17,7 @@ This section will be populated soon.
 ## How do I add new ontologies?
 
 ## How do I add new entities?
+
+## How were the underlying assets curated?
+
+See [bionty-assets](https://lamin.ai/docs/bionty-assets) for the curation of underlying assets.

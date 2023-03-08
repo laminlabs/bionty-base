@@ -1,48 +1,50 @@
 # Guide
 
-Welcome to bionty! 👋
+Welcome to the Bionty guide! 👋
 
-## Resources
+In the following we will outline the main concepts and terminology of Bionty.
 
-Lookup & curate metadata based on scientific standards.
+## Entities
 
-- Gene: [Ensembl](https://ensembl.org/), [NCBI Gene](https://www.ncbi.nlm.nih.gov/gene/), [HGNC](https://www.genenames.org/), [MGI](http://www.informatics.jax.org/)
-- Protein: [Uniprot](https://www.uniprot.org/)
-- Species: [NCBI Taxonomy](https://www.ncbi.nlm.nih.gov/taxonomy/), [Ensembl Species](https://useast.ensembl.org/info/about/species.html)
-- Cell type: [Cell Ontology](https://obophenotype.github.io/cell-ontology/)
-- Cell marker: [CellMarker](http://xteam.xbio.top/CellMarker)
-- Tissue: [Uberon](http://obophenotype.github.io/uberon/)
-- Disease: [Mondo](https://mondo.monarchinitiative.org/), [Human Disease](https://disease-ontology.org/)
-- Phenotype: [Human Phenotype](https://hpo.jax.org/app/)
+In many practical applications, a biological entity (e.g., `Species`) represents a variable that can take values from a vocabulary of terms.
 
-## Getting started
+1. There are different roughly equivalent vocabularies for the same entity.
+   For example, one can describe species with the vocabulary of the scientific names, the vocabulary of the common names,
+   or the vocabulary of ontology IDs for the same species.
+2. There are different versions and granularity of these vocabularies.
+   Typically, vocabularies are based on a given version of a public ontology,
+   and may contain “custom” terms representing new knowledge that is not yet represented publicly.
 
-Install:
+## Entity table model
 
-```
-pip install bionty
-```
+We address 1. with a so-called Entity table model: Within Bionty, the primary representation for an entity is an Entity object,
+in which each column of the Entity table attribute corresponds to a vocabulary.
 
-Get started with the following walk-through:
+We address 2. through a user-setup process consisting in
 
-- {doc}`curate`
-- {doc}`lookup`
-- {doc}`concepts`
+- looking up a standard ontology, fixing a resolution/depth of terms in the ontology and writing it to the vocabulary.
+- adding user-defined terms to the ontology, or, if their relation within the ontology is not yet clear, directly to the vocabulary.
 
-Explore additional entities:
+Example:
 
-- {doc}`ontology`
+- Species is an entity.
+- Take one value that the entity can take: _human_ is a choice (the common name) for a descriptor of the abstract entry/ value/ term _homo sapiens_
 
-See [bionty-assets](https://lamin.ai/docs/bionty-assets) for the curation of underlying assets.
+## Vocabulary used in Bionty
+
+1. entity (lower case) refers to biological entities as described above.
+2. Entity refers to the entity class.
+3. Entity table refers to a table where the columns are vocabularies.
+4. Vocabularies are sets of terms that describe an entity.
+5. Ontologies refer to sets of standardized terms that constitute a vocabulary.
 
 ```{toctree}
 :maxdepth: 2
 :hidden:
 
-curate
 lookup
 ontology
-concepts
-readout
+curate
 configuration
+extending_bionty
 ```
