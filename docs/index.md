@@ -3,24 +3,24 @@
 :end-line: 5
 ```
 
-Organization of biological knowledge and metadata curation.
+- Look up records with auto-complete.
+- Map and curate metadata.
+- Manage public & custom ontologies and their versions.
 
-- Lookup & curate metadata based on scientific standards.
-- Access biological knowledge without the timeouts of many existing REST endpoints.
-- Extend Bionty with custom ontologies or terms.
+To query, collaborate on, and persistently store knowledge & data, consider Bionty's SQL interface with [LaminDB](https://lamin.ai/docs/) - open-source data lake for biology.
 
-Bionty is also fully integrated into [lamin](https://lamin.ai/).
-
-## Supported ontologies
+## Out-of-the-box ontologies
 
 - Gene: [Ensembl](https://ensembl.org/), [NCBI Gene](https://www.ncbi.nlm.nih.gov/gene/), [HGNC](https://www.genenames.org/), [MGI](http://www.informatics.jax.org/)
 - Protein: [Uniprot](https://www.uniprot.org/)
 - Species: [NCBI Taxonomy](https://www.ncbi.nlm.nih.gov/taxonomy/), [Ensembl Species](https://useast.ensembl.org/info/about/species.html)
-- Cell type: [Cell Ontology](https://obophenotype.github.io/cell-ontology/)
-- Cell marker: [CellMarker](http://xteam.xbio.top/CellMarker)
+- CellLine: [Cell Line Ontology](https://github.com/CLO-ontology/CLO)
+- CellType: [Cell Ontology](https://obophenotype.github.io/cell-ontology/)
+- CellMarker (protein complexes): [CellMarker](http://xteam.xbio.top/CellMarker)
 - Tissue: [Uberon](http://obophenotype.github.io/uberon/)
 - Disease: [Mondo](https://mondo.monarchinitiative.org/), [Human Disease](https://disease-ontology.org/)
 - Phenotype: [Human Phenotype](https://hpo.jax.org/app/)
+- Readout: [Experimental Factor Ontology](https://www.ebi.ac.uk/ols/ontologies/efo)
 
 ## Installation
 
@@ -39,9 +39,11 @@ species = bt.Species()
 species.lookup.white_tufted_ear_marmoset
 ```
 
+<br>
+
 See [lookup](guide/lookup) for more.
 
-## Curate biological metadata such as cell types:
+## Curate metadata
 
 ```python
 import bionty as bt
@@ -59,17 +61,13 @@ df = pd.DataFrame(
 # The DataFrame can either be curated by ontology ID (id="ontology_id") or by ontology term names (id="name").
 curated_df = bt.CellType(id="name").curate(df)
 
-# ✅ 2 terms (66.7%) are linked.
-# 🔶 1 terms (33.3%) are not linked.
+# ✅ 2 terms (66.7%) are mapped.
+# 🔶 1 terms (33.3%) are not mapped.
 ```
 
+<br>
+
 See [curate](guide/curate) for more.
-
-## Documentation:
-
-- See the [Guide](guide/index) for in depth tutorials.
-- See the [API reference](api) and the [FAQ](faq/index) for tips, edge cases & errors.
-- See the [source code](https://github.com/laminlabs/bionty) on GitHub.
 
 ```{toctree}
 :maxdepth: 1
