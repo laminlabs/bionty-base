@@ -9,7 +9,6 @@
 
 To query, collaborate on, and persistently store knowledge, consider Bionty's SQL interface with [LaminDB](LaminDB) - open-source data lake for biology.
 
-
 ## Supported ontologies
 
 - Gene: [Ensembl](https://ensembl.org/), [NCBI Gene](https://www.ncbi.nlm.nih.gov/gene/), [HGNC](https://www.genenames.org/), [MGI](http://www.informatics.jax.org/)
