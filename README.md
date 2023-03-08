@@ -4,4 +4,4 @@
 
 # Bionty: Manage ontologies & curate metadata
 
-Read the [docs](https://lamin.ai/docs/bionty).
+Read the [docs](https://lamin.ai/docs/bionty/).
