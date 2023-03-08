@@ -3,13 +3,12 @@
 :end-line: 5
 ```
 
-Organization of biological knowledge and metadata curation.
+- Look up terms with auto-complete.
+- Map and curate metadata.
+- Manage public & custom ontologies and their versions.
 
-- Lookup & curate metadata based on scientific standards.
-- Access biological knowledge without the timeouts of many existing REST endpoints.
-- Extend Bionty with custom ontologies or terms.
+To query, collaborate on, and persistently store knowledge, consider Bionty's SQL interface with [LaminDB](LaminDB) - open-source data lake for biology.
 
-Bionty is also fully integrated into [lamin](https://lamin.ai/).
 
 ## Supported ontologies
 
