@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+:memo: Improving documentation | [220](https://github.com/laminlabs/bionty/pull/220) | [Zethson](https://github.com/Zethson) | 2023-03-08 |
 :white_check_mark: Add entity tests | [234](https://github.com/laminlabs/bionty/pull/234) | [Zethson](https://github.com/Zethson) | 2023-03-07 |
 :sparkles: Add names/website per ontology & improve versions rich tables | [232](https://github.com/laminlabs/bionty/pull/232) | [Zethson](https://github.com/Zethson) | 2023-03-06 |
 Add better docstrings and docstring decorator | [231](https://github.com/laminlabs/bionty/pull/231) | [Zethson](https://github.com/Zethson) | 2023-03-06 |
