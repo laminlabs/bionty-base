@@ -39,6 +39,8 @@ class Entity:
         version: Optional[str] = None,
         species: Optional[str] = None,
         filenames: Optional[Dict[str, str]] = None,
+        *,
+        prefix: Optional[str] = None,
     ):
         self._id = "id" if id is None else id
         # By default lookup allows auto-completion for name and returns the id.
@@ -46,6 +48,7 @@ class Entity:
         self._lookup_col = "name"
         self._species = "human" if species is None else species
         self.filenames = filenames if filenames else None
+        self.prefix = prefix
 
         if database:
             # We don't allow custom databases inside lamindb instances
@@ -89,16 +92,6 @@ class Entity:
     @cached_property
     def df(self) -> pd.DataFrame:
         """Pandas DataFrame."""
-        if self.filenames:
-            self._filepath = settings.datasetdir / self.filenames.get(
-                f"{self.species}_{self.database}"
-            )
-        else:
-            self._filepath = (
-                settings.datasetdir
-                / f"{self.species}_{self.database}_{self.__class__.__name__}_lookup.parquet"  # noqa: W503,E501
-            )
-
         if not self._filepath.exists():
             df = self._ontology_to_df(self.ontology)
             df.to_parquet(self._filepath)
@@ -156,10 +149,20 @@ class Entity:
 
     def _ontology_to_df(self, ontology: Ontology):
         """Convert ontology to a DataFrame with id and name columns."""
-        return pd.DataFrame(
-            [(term.id, term.name) for term in ontology.terms()],
-            columns=["ontology_id", "name"],
-        ).set_index(self._id)
+        if self.prefix:
+            return pd.DataFrame(
+                [
+                    (term.id, term.name)
+                    for term in ontology.terms()
+                    if term.id.startswith(f"{self.prefix}:")
+                ],
+                columns=["ontology_id", "name"],
+            ).set_index(self._id)
+        else:
+            return pd.DataFrame(
+                [(term.id, term.name) for term in ontology.terms()],
+                columns=["ontology_id", "name"],
+            ).set_index(self._id)
 
     def _curate(
         self, df: pd.DataFrame, column: str = None, agg_col: str = None
@@ -212,6 +215,7 @@ class Entity:
         frac_mapped = 100 - frac_misses
         logger.success(f"{n_mapped} terms ({frac_mapped}%) are linked.")
         logger.warning(f"{n_misses} terms ({frac_misses}%) are not linked.")
+
         return df
 
     @check_dynamicdir_exists
@@ -287,11 +291,16 @@ class Entity:
                 f" select one of the following: {available_db_versions}"
             )
 
+        self._cloud_file_path = f"{self.species}_{self.database}_{self.version}_{self.__class__.__name__}_lookup.parquet"  # noqa: E501
+        self._filepath = settings.datasetdir / self._cloud_file_path  # noqa: W503,E501
+
     def _localpath(self, filename: str):
         """Return the local path of a filename marked with version."""
         return settings.dynamicdir / f"{self._version}___{filename}"
 
-    def curate(self, df: pd.DataFrame, column: str = None, case_sensitive: bool = True):
+    def curate(
+        self, df: pd.DataFrame, column: str = None, case_sensitive: bool = True
+    ) -> pd.DataFrame:
         """Curate index of passed DataFrame to conform with default identifier.
 
         - If `column` is `None`, checks the existing index for compliance with

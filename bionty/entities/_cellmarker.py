@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Literal, Optional
 
 import pandas as pd
 from cached_property import cached_property
@@ -6,13 +6,13 @@ from cached_property import cached_property
 from .._entity import Entity
 from .._settings import s3_bionty_assets
 
-FILENAMES = {
-    "human_cellmarker": "GbC3D7dKnsomHB7ZMeUpC.parquet",
-}
-
 
 class CellMarker(Entity):
     """Cell markers.
+
+    1. Cell Marker Ontology
+    Edits of terms are coordinated and reviewed on:
+    http://bio-bigdata.hrbmu.edu.cn/CellMarker/
 
     Args:
         species: `name` of `Species` entity Entity.
@@ -21,8 +21,8 @@ class CellMarker(Entity):
     def __init__(
         self,
         species: str = "human",
-        id: Optional[str] = None,
-        database: Optional[str] = None,
+        id: Optional[str] = "name",
+        database: Optional[Literal["cellmarker"]] = None,
         version: Optional[str] = None,
     ) -> None:
         super().__init__(id=id, database=database, version=version, species=species)
@@ -33,7 +33,7 @@ class CellMarker(Entity):
 
         See ingestion: https://lamin.ai/docs/bionty-assets/ingest/cell-marker-human
         """
-        cloudpath = s3_bionty_assets(FILENAMES.get(f"{self.species}_{self.database}"))
+        cloudpath = s3_bionty_assets(self._cloud_file_path)
         self._filepath = cloudpath.fspath
 
         df = pd.read_parquet(self._filepath)

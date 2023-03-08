@@ -12,6 +12,7 @@ Entities:
    Gene
    Protein
    Species
+   CellLine
    CellType
    CellMarker
    Tissue
@@ -64,7 +65,7 @@ Dev API:
 
 """
 
-__version__ = "0.7.0"
+__version__ = "0.8rc1"  # denote release candidate for 0.1.0 with 0.1rc1
 
 # prints warning of python versions
 from lamin_logger import py_version_warning
@@ -75,15 +76,16 @@ from . import _sync_versions
 from ._sync_versions import update_defaults
 
 # dynamic classes
-from ._gene import Gene
-from ._species import Species
-from ._protein import Protein
-from ._celltype import CellType
-from ._cellmarker import CellMarker
-from ._tissue import Tissue
-from ._disease import Disease
-from ._phenotype import Phenotype
-from ._readout import Readout
+from .entities._gene import Gene
+from .entities._species import Species
+from .entities._protein import Protein
+from .entities._cellline import CellLine
+from .entities._celltype import CellType
+from .entities._cellmarker import CellMarker
+from .entities._tissue import Tissue
+from .entities._disease import Disease
+from .entities._phenotype import Phenotype
+from .entities._readout import Readout
 
 # tools
 from ._normalize import NormalizeColumns

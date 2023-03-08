@@ -1,8 +1,10 @@
-from typing import Optional
+from typing import Literal, Optional
 
 from .._entity import Entity
+from ._shared_docstrings import _doc_params, doc_entites
 
 
+@_doc_params(doc_entities=doc_entites)
 class CellType(Entity):
     """Cell type ontologies.
 
@@ -13,13 +15,16 @@ class CellType(Entity):
     2. Human cell atlas ontology
     Edits of terms are coordinated and reviewed on:
     https://github.com/HumanCellAtlas/ontology
+
+    Args:
+        {doc_entities}
     """
 
     def __init__(
         self,
-        id: str = "ontology_id",
         species: str = "human",
-        database: Optional[str] = None,
+        id: str = "ontology_id",
+        database: Optional[Literal["cl", "ca"]] = None,
         version: Optional[str] = None,
     ) -> None:
         super().__init__(

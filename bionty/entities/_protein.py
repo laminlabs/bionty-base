@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Literal, Optional
 
 import pandas as pd
 from cached_property import cached_property
@@ -6,60 +6,38 @@ from cached_property import cached_property
 from .._entity import Entity
 from .._normalize import NormalizeColumns
 from .._settings import s3_bionty_assets
-
-FILENAMES = {
-    "human_uniprot": "5WBmdkTO4JCFzPzBcDOJ3.parquet",
-    "mouse_uniprot": "6vgntdGiAbz5bEYP53sma.parquet",
-}
+from ._shared_docstrings import _doc_params, doc_entites
 
 
-def _get_shortest_name(df: pd.DataFrame, column: str, new_column="name"):
-    """Get a single shortest name from a column of lists."""
-    name_list = []
-    names_list = []
-    for i in df[column]:
-        i = i.replace(", ", "|")
-        names_list.append(i)
-
-        def shortest_name(lst: list):
-            return min(lst, key=len)
-
-        names = i.split("|")
-        no_space_names = [i for i in names if " " not in i]
-        if len(no_space_names) == 0:
-            name = shortest_name(names)
-        else:
-            name = shortest_name(no_space_names)
-        name_list.append(name)
-
-    df[new_column] = name_list
-    df[column] = names_list
-
-
+@_doc_params(doc_entities=doc_entites)
 class Protein(Entity):
     """Protein.
 
+    1. Uniprot
+    Edits of terms are coordinated and reviewed on:
+    https://www.uniprot.org/
+
     Args:
-        species: `name` of `Species` Entity.
+        {doc_entities}
     """
 
     def __init__(
         self,
         species: str = "human",
         id: Optional[str] = None,
-        database: Optional[str] = None,
+        database: Optional[Literal["uniprot"]] = None,
         version: Optional[str] = None,
     ) -> None:
         super().__init__(id=id, database=database, version=version, species=species)
         self._id_field = "uniprotkb_id" if id is None else id
 
     @cached_property
-    def df(self):
+    def df(self) -> pd.DataFrame:
         """DataFrame.
 
         See ingestion: https://lamin.ai/docs/bionty-assets/ingest/uniprot-protein
         """
-        cloudpath = s3_bionty_assets(FILENAMES.get(f"{self.species}_{self.database}"))
+        cloudpath = s3_bionty_assets(self._cloud_file_path)
         self._filepath = cloudpath.fspath
 
         df = pd.read_parquet(self._filepath)
@@ -70,4 +48,28 @@ class Protein(Entity):
         if not df.index.is_numeric():
             df = df.reset_index().copy()
         df = df[~df[self._id_field].isnull()]
+
         return df.set_index(self._id_field)
+
+
+def _get_shortest_name(df: pd.DataFrame, column: str, new_column="name"):
+    """Get a single shortest name from a column of lists."""
+    name_list = []
+    names_list = []
+    for lst in df[column]:
+        lst = lst.replace(", ", "|")
+        names_list.append(lst)
+
+        def shortest_name(lst: list):
+            return min(lst, key=len)
+
+        names = lst.split("|")
+        no_space_names = [i for i in names if " " not in i]
+        if len(no_space_names) == 0:
+            name = shortest_name(names)
+        else:
+            name = shortest_name(no_space_names)
+        name_list.append(name)
+
+    df[new_column] = name_list
+    df[column] = names_list

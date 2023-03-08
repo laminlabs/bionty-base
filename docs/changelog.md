@@ -3,6 +3,13 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+:white_check_mark: Add entity tests | [234](https://github.com/laminlabs/bionty/pull/234) | [Zethson](https://github.com/Zethson) | 2023-03-07 |
+:sparkles: Add names/website per ontology & improve versions rich tables | [232](https://github.com/laminlabs/bionty/pull/232) | [Zethson](https://github.com/Zethson) | 2023-03-06 |
+Add better docstrings and docstring decorator | [231](https://github.com/laminlabs/bionty/pull/231) | [Zethson](https://github.com/Zethson) | 2023-03-06 |
+:bug: Fix cellmarker ontology | [230](https://github.com/laminlabs/bionty/pull/230) | [Zethson](https://github.com/Zethson) | 2023-03-03 | 0.8rc1
+:sparkles: Add CellLine ontology | [229](https://github.com/laminlabs/bionty/pull/229) | [Zethson](https://github.com/Zethson) | 2023-03-03 |
+:art: Simplify filenames | [227](https://github.com/laminlabs/bionty/pull/227) | [Zethson](https://github.com/Zethson) | 2023-03-03 |
+:art: Deduce filenames on the fly for non-S3 Entites | [223](https://github.com/laminlabs/bionty/pull/223) | [Zethson](https://github.com/Zethson) | 2023-03-01 |
 Simplify FAQ | [218](https://github.com/laminlabs/bionty/pull/218) | [Zethson](https://github.com/Zethson) | 2023-02-27 |
 Simplify ontology accesses | [217](https://github.com/laminlabs/bionty/pull/217) | [Zethson](https://github.com/Zethson) | 2023-02-27 |
 :art: Move Species to Entity | [216](https://github.com/laminlabs/bionty/pull/216) | [Zethson](https://github.com/Zethson) | 2023-02-27 |

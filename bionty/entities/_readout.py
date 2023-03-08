@@ -1,7 +1,9 @@
-from typing import Optional
+from typing import Literal, Optional
 
 import pandas as pd
 from cached_property import cached_property
+
+from bionty.entities._shared_docstrings import _doc_params, species_removed
 
 from .._entity import Entity
 from .._ontology import Ontology
@@ -10,10 +12,16 @@ from .._settings import check_datasetdir_exists, settings
 EFO_DF_D3 = "https://bionty-assets.s3.amazonaws.com/efo_df.json"
 
 
+@_doc_params(doc_entities=species_removed)
 class Readout(Entity):
-    """Experimental Factor Ontology.
+    """Experimental Factor.
 
+    1. Experimental Factor Ontology
+    Edits of terms are coordinated and reviewed on:
     https://www.ebi.ac.uk/ols/ontologies/efo
+
+    Args:
+        {doc_entities}
 
     Also see: `bionty.Entity <https://lamin.ai/docs/bionty/bionty.entity>`__
     """
@@ -21,7 +29,7 @@ class Readout(Entity):
     def __init__(
         self,
         id: str = "ontology_id",
-        database: Optional[str] = None,
+        database: Optional[Literal["efo"]] = None,
         version: Optional[str] = None,
     ) -> None:
         super().__init__(id=id, database=database, version=version)
@@ -40,8 +48,11 @@ class Readout(Entity):
         if not self._filepath.exists():
             self._download_df()
         df = pd.read_json(self._filepath)
-        df.index.name = "ontology_id"
-        return df
+
+        if self._id != "ontology_id":
+            return df.reset_index().set_index(self._id)
+        else:
+            return df
 
     @cached_property
     def ontology(self) -> Ontology:  # type:ignore

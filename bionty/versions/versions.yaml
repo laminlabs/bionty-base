@@ -2,46 +2,74 @@ Species:
   ensembl:
     versions:
       release-108: https://ftp.ensembl.org/pub/release-108/mysql/
+    name: Ensembl
+    website: https://www.ensembl.org/index.html
 Gene:
   ensembl:
     versions:
       release-108: https://ftp.ensembl.org/pub/release-108/mysql/
       release-107: https://ftp.ensembl.org/pub/release-107/mysql/
+    name: Ensembl
+    website: https://www.ensembl.org/index.html
 Protein:
   uniprot:
     versions:
       2022-04: https://ftp.uniprot.org/pub/databases/uniprot/current_release/
       2022-03: https://ftp.uniprot.org/pub/databases/uniprot/previous_releases/release-2022_03/
+    name: Uniprot
+    website: https://www.uniprot.org/
 CellMarker:
   cellmarker:
     versions:
       2.0: http://bio-bigdata.hrbmu.edu.cn/CellMarker/CellMarker_download_files/file/Cell_marker_All.xlsx
+    name: CellMarker
+    website: http://bio-bigdata.hrbmu.edu.cn/CellMarker/
+CellLine:
+  clo:
+    versions:
+      2022-03-21: https://data.bioontology.org/ontologies/CLO/submissions/65/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
+    name: Cell Line Ontology
+    website: https://bioportal.bioontology.org/ontologies/CLO
 CellType:
   cl:
     versions:
       2023-02-15: http://purl.obolibrary.org/obo/cl/releases/2023-02-15/cl-base.owl
       2022-08-16: http://purl.obolibrary.org/obo/cl/releases/2022-08-16/cl.owl
+    name: Cell Ontology
+    website: https://obophenotype.github.io/cell-ontology/
   ca:
     versions:
       2022-12-16: https://www.ebi.ac.uk/ols/ontologies/hcao/download
+    name: Human Cell Atlas Ontology
+    website: https://github.com/HumanCellAtlas/ontology
 Tissue:
   uberon:
     versions:
       2023-02-14: http://purl.obolibrary.org/obo/uberon/releases/2023-02-14/uberon.owl
       2022-08-19: http://purl.obolibrary.org/obo/uberon/releases/2022-08-19/uberon.owl
+    name: Uberon multi-species anatomy ontology
+    website: http://obophenotype.github.io/uberon/
 Disease:
   mondo:
     versions:
       2023-02-06: http://purl.obolibrary.org/obo/mondo/releases/2023-02-06/mondo.owl
       2022-10-11: http://purl.obolibrary.org/obo/mondo/releases/2022-10-11/mondo.owl
+    name: Mondo Disease Ontology
+    website: https://mondo.monarchinitiative.org/
   doid:
     versions:
       2023-01-30: http://purl.obolibrary.org/obo/doid/releases/2023-01-30/doid.obo
+    name: Human Disease Ontology
+    website: https://disease-ontology.org/
 Readout:
   efo:
     versions:
       3.48.0: http://www.ebi.ac.uk/efo/releases/v3.48.0/efo.owl
+    name: The Experimental Factor Ontology
+    website: https://bioportal.bioontology.org/ontologies/EFO
 Phenotype:
   hp:
     versions:
       2023-01-27: https://github.com/obophenotype/human-phenotype-ontology/releases/download/v2023-01-27/hp.owl
+    name: Human Phenotype Ontology
+    website: https://hpo.jax.org/
