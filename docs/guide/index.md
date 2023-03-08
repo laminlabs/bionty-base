@@ -2,9 +2,9 @@
 
 Welcome to the Bionty guide! 👋
 
-## Concepts
+In the following we will outline the main concepts and terminology of Bionty.
 
-### Entities
+## Entities
 
 In many practical applications, a biological entity (e.g., `Species`) represents a variable that can take values from a vocabulary of terms.
 
@@ -15,7 +15,7 @@ In many practical applications, a biological entity (e.g., `Species`) represents
    Typically, vocabularies are based on a given version of a public ontology,
    and may contain “custom” terms representing new knowledge that is not yet represented publicly.
 
-### Entity table model
+## Entity table model
 
 We address 1. with a so-called Entity table model: Within Bionty, the primary representation for an entity is an Entity object,
 in which each column of the Entity table attribute corresponds to a vocabulary.
@@ -30,7 +30,7 @@ Example:
 - Species is an entity.
 - Take one value that the entity can take: _human_ is a choice (the common name) for a descriptor of the abstract entry/ value/ term _homo sapiens_
 
-### Vocabulary used in Bionty
+## Vocabulary used in Bionty
 
 1. entity (lower case) refers to biological entities as described above.
 2. Entity refers to the entity class.
@@ -42,7 +42,6 @@ Example:
 :maxdepth: 2
 :hidden:
 
-concepts
 lookup
 ontology
 curate
