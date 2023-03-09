@@ -59,6 +59,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install laminci>=0.2.0
+          pip install lamindb
           sudo apt-get -y install graphviz
           sudo apt-get install sqlite3-tools=3.37.2-2
       - name: Configure AWS
