@@ -10,7 +10,7 @@ from cached_property import cached_property
 from lamin_logger import logger
 
 from ._ontology import Ontology
-from ._settings import check_dynamicdir_exists, settings
+from ._settings import check_datasetdir_exists, check_dynamicdir_exists, settings
 from .dev._fix_index import (
     check_if_index_compliant,
     explode_aggregated_column_to_expand,
@@ -256,6 +256,7 @@ class Entity:
 
         return versions_db
 
+    @check_datasetdir_exists
     def _set_attributes(
         self, database: Optional[str], version: Optional[str] = None
     ) -> None:
