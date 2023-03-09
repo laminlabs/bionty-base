@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-🐛 Fixed readout lookup | [244](https://github.com/laminlabs/bionty/pull/244) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-09 | 0.8rc3
+🐛 Fixed readout lookup | [244](https://github.com/laminlabs/bionty/pull/244) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-09 | 0.8.0
 📝 A take on 3 summary bullets | [240](https://github.com/laminlabs/bionty/pull/240) | [falexwolf](https://github.com/falexwolf) | 2023-03-08 | 0.8rc2
 💚 Fix CI build | [239](https://github.com/laminlabs/bionty/pull/239) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-08 |
 :memo: Improving documentation | [220](https://github.com/laminlabs/bionty/pull/220) | [Zethson](https://github.com/Zethson) | 2023-03-08 |
