@@ -12,9 +12,11 @@ def load_yaml(filename: Union[str, Path]):  # pragma: no cover
         return yaml.safe_load(f)
 
 
-def write_yaml(data: dict, filename: Union[str, Path]):  # pragma: no cover
+def write_yaml(
+    data: dict, filename: Union[str, Path], sort_keys: bool = False
+):  # pragma: no cover
     with open(filename, "w") as f:
-        yaml.dump(data, f)
+        yaml.dump(data, f, sort_keys=sort_keys)
 
 
 def url_download(  # pragma: no cover

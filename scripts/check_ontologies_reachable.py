@@ -52,10 +52,11 @@ failed_urls = []
 for pair in versions_only:
     for url_md5s in pair.values():
         url = url_md5s[0]
-        try:
-            assert urllib.request.urlopen(url, timeout=1000).getcode() == 200
-        except (AssertionError, ValueError, HTTPError, URLError) as e:
-            failed_urls.append([url, e])
+        if url.startswith("http"):
+            try:
+                assert urllib.request.urlopen(url, timeout=1000).getcode() == 200
+            except (AssertionError, ValueError, HTTPError, URLError) as e:
+                failed_urls.append([url, e])
 
 if len(failed_urls) != 0:
     for fail in failed_urls:
