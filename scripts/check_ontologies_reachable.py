@@ -1,29 +1,56 @@
 import os
 import urllib.request
 from pathlib import Path
-from typing import Union
+from typing import Dict, List
 from urllib.error import HTTPError, URLError
 
-import pandas as pd
 import yaml  # type:ignore
-
-
-def load_yaml(filename: Union[str, Path]):  # pragma: no cover
-    with open(filename, "r") as f:
-        return yaml.safe_load(f)
-
 
 VERSIONS_FILE_PATH = Path(f"{os.getcwd()}/bionty/versions/versions.yaml")
 
-versions = load_yaml(VERSIONS_FILE_PATH.resolve())
 
-# We currently assume that the versions.yaml file has the URLs as the final values
-flattened_df = pd.json_normalize(versions, sep="_")
-flattened_dict = flattened_df.to_dict(orient="records")[0]
+def get_yaml_key_values(
+    yaml_file_path: Path, key: str = "versions"
+) -> List[Dict[str, str]]:
+    """Extracts the version pairs from the versions file.
+
+    Args:
+        yaml_file_path: Path to the yaml file.
+        key: The key of all versions
+
+    Returns:
+        A list of Dictionaries of versions to URLs.
+    """
+    with open(yaml_file_path, "r") as stream:
+        versions = yaml.safe_load(stream)
+    key_values = []
+
+    for k, v in versions.items():
+        if k == key:
+            key_values.append(v)
+        elif isinstance(v, dict):
+
+            def get_key_values_from_dict(dictionary: Dict, key: str):
+                key_values = []
+                for k, v in dictionary.items():
+                    if k == key:
+                        key_values.append(v)
+                    elif isinstance(v, dict):
+                        nested_key_values = get_key_values_from_dict(v, key)
+                        key_values.extend(nested_key_values)
+                return key_values
+
+            nested_key_values = get_key_values_from_dict(v, key)
+            key_values.extend(nested_key_values)
+
+    return key_values
+
+
+versions_only = get_yaml_key_values(VERSIONS_FILE_PATH.resolve(), key="versions")
 
 failed_urls = []
-for url in flattened_dict.values():
-    if url.startswith("https://"):
+for pair in versions_only:
+    for url in pair.values():
         try:
             assert urllib.request.urlopen(url, timeout=100).getcode() == 200
         except (AssertionError, ValueError, HTTPError, URLError) as e:
