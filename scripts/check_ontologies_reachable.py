@@ -51,10 +51,11 @@ versions_only = get_yaml_key_values(VERSIONS_FILE_PATH.resolve(), key="versions"
 failed_urls = []
 for pair in versions_only:
     for url in pair.values():
-        try:
-            assert urllib.request.urlopen(url, timeout=100).getcode() == 200
-        except (AssertionError, ValueError, HTTPError, URLError) as e:
-            failed_urls.append([url, e])
+        if url.startswith("http"):
+            try:
+                assert urllib.request.urlopen(url, timeout=100).getcode() == 200
+            except (AssertionError, ValueError, HTTPError, URLError) as e:
+                failed_urls.append([url, e])
 
 if len(failed_urls) != 0:
     for fail in failed_urls:

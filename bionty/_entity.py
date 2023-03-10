@@ -59,7 +59,8 @@ class Entity:
                     "Check active databases using `bionty.display_active_versions`."
                 )
 
-            database = br.normalize_prefix(database)
+            if br.normalize_prefix(database):
+                database = br.normalize_prefix(database)
         self._set_attributes(database=database, version=version)
 
     @property
@@ -237,7 +238,7 @@ class Entity:
         return settings.dynamicdir / f"{version}___{filename}"
 
     def _load_versions(
-        self, source: Literal["versions", "_local"] = "_local"
+        self, source: Literal["versions", "local"] = "local"
     ) -> Dict[str, Dict[str, Dict]]:
         """Load all versions with string version keys."""
         YAML_PATH = (
@@ -278,7 +279,7 @@ class Entity:
             .items()
         )
 
-        available_db_versions = self._load_versions(source="_local")
+        available_db_versions = self._load_versions(source="local")
 
         # Use the latest version if version is None.
         self._version = current_version if version is None else str(version)
