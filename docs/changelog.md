@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+📝 Keep improving docs | [250](https://github.com/laminlabs/bionty/pull/250) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-11 |
 🐛 Fix version order | [248](https://github.com/laminlabs/bionty/pull/248) | [Zethson](https://github.com/Zethson) | 2023-03-10 |
 🐛 Ensure datadir is created | [245](https://github.com/laminlabs/bionty/pull/245) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-09 | 0.8.1
 🐛 Fixed readout lookup | [244](https://github.com/laminlabs/bionty/pull/244) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-09 | 0.8.0
