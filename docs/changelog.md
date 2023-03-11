@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+💄 Actually fix image display | [253](https://github.com/laminlabs/bionty/pull/253) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-11 |
 🐛 Fix img links | [252](https://github.com/laminlabs/bionty/pull/252) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-11 |
 📝 Keep improving docs | [250](https://github.com/laminlabs/bionty/pull/250) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-11 |
 🐛 Fix version order | [248](https://github.com/laminlabs/bionty/pull/248) | [Zethson](https://github.com/Zethson) | 2023-03-10 |
