@@ -51,7 +51,7 @@ gene.lookup.LNMA
 
 <br>
 
-See [lookup](guide/lookup) for more.
+See {doc}`/guide/lookup` for more.
 
 ## Curate metadata
 
@@ -77,7 +77,7 @@ curated_df = bt.CellType(id="name").curate(df)
 
 <br>
 
-See [curate](guide/curate) for more.
+See {doc}`/guide/curate` for more.
 
 ## Access ontology databases and versions
 
