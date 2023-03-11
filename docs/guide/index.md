@@ -45,6 +45,6 @@ Example:
 lookup
 ontology
 curate
-configuration
+config
 extend
 ```
