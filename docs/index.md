@@ -40,7 +40,7 @@ In your python script, import Bionty as:
 import bionty as bt
 ```
 
-## Lookup ontology terms with autocompletion
+## Look up ontology terms with autocompletion
 
 ```{figure} /img/gene_lookup.png
 ---
