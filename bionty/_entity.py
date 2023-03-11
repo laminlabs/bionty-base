@@ -138,7 +138,12 @@ class Entity:
         if name is None:
             name = self.entity
         nt = namedtuple(name, df.index)  # type:ignore
-        return nt(**{i: row for i, row in df.iterrows()})
+        return nt(
+            **{
+                df.index[i]: row
+                for i, row in enumerate(df.itertuples(name=name, index=False))
+            }
+        )
 
     def _uniquefy_duplicates(self, lst: Iterable) -> list:
         """Uniquefy duplicated values in a list."""
