@@ -309,7 +309,6 @@ class Entity:
         # Use the latest version if version is None.
         self._version = current_version if version is None else str(version)
         self._database = current_database if database is None else str(database)
-        # The first element is the URL, the second element would be the md5 sum
         self._url, self._md5 = (
             available_db_versions.get(self._database).get("versions").get(self._version)  # type: ignore  # noqa: E501
         )
