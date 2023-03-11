@@ -76,7 +76,7 @@ def get_compliant_index_from_column(
 
 def explode_aggregated_column_to_expand(
     df: pd.DataFrame, aggregated_col=str, target_col=None, sep="|"
-):
+) -> pd.DataFrame:
     """Explode values from an aggregated DataFrame column to expand a target column.
 
     Args:
