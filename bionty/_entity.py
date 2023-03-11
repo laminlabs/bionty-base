@@ -43,7 +43,7 @@ class Entity:
         prefix: Optional[str] = None,
     ):
         self._id = "id" if id is None else id
-        # By default lookup allows auto-completion for name and returns the id.
+        # By default lookup allows auto-completion for the `name` field.
         # lookup column can be changed using `.lookup_col = `.
         self._lookup_col = "name"
         self._species = "human" if species is None else species
@@ -106,6 +106,7 @@ class Entity:
 
     @lookup_col.setter
     def lookup_col(self, column_name) -> None:
+        """Set the lookup column."""
         self._lookup_col = column_name
 
     @cached_property
@@ -120,7 +121,7 @@ class Entity:
             self._to_lookup_keys(df[self._lookup_col].values)
         )
 
-        return self._namedtuple_from_dict(df[self._id].to_dict())
+        return self._namedtuple_from_dict(df)
 
     def _to_lookup_keys(self, x: list) -> list:
         """Convert a list of strings to tab-completion allowed formats."""
@@ -131,13 +132,18 @@ class Entity:
         return lookup
 
     def _namedtuple_from_dict(
-        self, mydict: dict, name: Optional[str] = None
+        self, df: pd.DataFrame, name: Optional[str] = None
     ) -> NamedTuple:
         """Create a namedtuple from a dict to allow autocompletion."""
         if name is None:
             name = self.entity
-        nt = namedtuple(name, mydict)  # type:ignore
-        return nt(**mydict)
+        nt = namedtuple(name, df.index)  # type:ignore
+        return nt(
+            **{
+                df.index[i]: row
+                for i, row in enumerate(df.itertuples(name=name, index=False))
+            }
+        )
 
     def _uniquefy_duplicates(self, lst: Iterable) -> list:
         """Uniquefy duplicated values in a list."""
@@ -319,9 +325,24 @@ class Entity:
             column = self._id
             df.rename(columns={orig_column: column}, inplace=True)
 
+        # uppercasing the target column before curating
+        orig_column_values = None
         if not case_sensitive:
             if column in df.columns:
+                orig_column_values = df[column].values
                 df[column] = df[column].str.upper()
             else:
+                orig_column_values = df.index.values
                 df.index = df.index.str.upper()
-        return self._curate(df=df, column=column).rename(columns={column: orig_column})
+        curated_df = self._curate(df=df, column=column).rename(
+            columns={column: orig_column}
+        )
+
+        # change the original column values back
+        if orig_column_values is not None:
+            if "orig_index" in curated_df:
+                curated_df["orig_index"] = orig_column_values
+            else:
+                curated_df[orig_column] = orig_column_values
+
+        return curated_df
