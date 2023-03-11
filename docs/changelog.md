@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🎨 Fixed case sensitivity, lookup output as namedtuple | [255](https://github.com/laminlabs/bionty/pull/255) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-11 |
 💥 Lookup returns the full record | [254](https://github.com/laminlabs/bionty/pull/254) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-11 |
 💄 Actually fix image display | [253](https://github.com/laminlabs/bionty/pull/253) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-11 |
 🐛 Fix img links | [252](https://github.com/laminlabs/bionty/pull/252) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-11 |
