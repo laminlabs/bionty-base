@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🐛 Fix img links | [252](https://github.com/laminlabs/bionty/pull/252) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-11 |
 📝 Keep improving docs | [250](https://github.com/laminlabs/bionty/pull/250) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-11 |
 🐛 Fix version order | [248](https://github.com/laminlabs/bionty/pull/248) | [Zethson](https://github.com/Zethson) | 2023-03-10 |
 🐛 Ensure datadir is created | [245](https://github.com/laminlabs/bionty/pull/245) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-09 | 0.8.1
