@@ -1,5 +1,3 @@
-(configuration)=
-
 # Configuration
 
 ## On the various yaml files

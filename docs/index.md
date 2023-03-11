@@ -3,8 +3,8 @@
 :end-line: 5
 ```
 
-- Look up records with auto-complete.
-- Map and curate metadata.
+- Look up records with autocompletion.
+- Map, curate and standardize metadata.
 - Manage public & custom ontologies and their versions.
 
 To query, collaborate on, and persistently store knowledge & data, consider [Bionty's SQL interface](https://lamin.ai/docs/lnschema-bionty/) with [LaminDB](https://lamin.ai/docs/) - open-source data lake for biology.
@@ -16,27 +16,37 @@ To query, collaborate on, and persistently store knowledge & data, consider [Bio
 - Species: [NCBI Taxonomy](https://www.ncbi.nlm.nih.gov/taxonomy/), [Ensembl Species](https://useast.ensembl.org/info/about/species.html)
 - CellLine: [Cell Line Ontology](https://github.com/CLO-ontology/CLO)
 - CellType: [Cell Ontology](https://obophenotype.github.io/cell-ontology/)
-- CellMarker (protein complexes): [CellMarker](http://xteam.xbio.top/CellMarker)
+- CellMarker: [CellMarker](http://xteam.xbio.top/CellMarker)
 - Tissue: [Uberon](http://obophenotype.github.io/uberon/)
 - Disease: [Mondo](https://mondo.monarchinitiative.org/), [Human Disease](https://disease-ontology.org/)
 - Phenotype: [Human Phenotype](https://hpo.jax.org/app/)
 - Readout: [Experimental Factor Ontology](https://www.ebi.ac.uk/ols/ontologies/efo)
 
+Check out [versions.yaml](https://github.com/laminlabs/bionty/blob/main/bionty/versions/versions.yaml) for details.
+
 ## Installation
 
 Bionty is a Python package available for ![pyversions](https://img.shields.io/pypi/pyversions/bionty)
 
-```
+```shell
 pip install bionty
 ```
 
-## Lookup ontology terms
+## Import
+
+In your python script, import Bionty as:
 
 ```python
 import bionty as bt
+```
 
-species = bt.Species()
-species.lookup.white_tufted_ear_marmoset
+## Lookup ontology terms with autocompletion
+
+<img class="shadow" src="https://github.com/laminlabs/bionty/docs/img/gene_lookup.png" style="width: 50%;">
+
+```python
+gene = bt.Gene()
+gene.lookup.LNMA
 ```
 
 <br>
@@ -46,7 +56,6 @@ See [lookup](guide/lookup) for more.
 ## Curate metadata
 
 ```python
-import bionty as bt
 import pandas as pd
 
 # Create an example Pandas DataFrame of various cell types.
@@ -58,7 +67,8 @@ df = pd.DataFrame(
     ]
 )
 
-# The DataFrame can either be curated by ontology ID (id="ontology_id") or by ontology term names (id="name").
+# The DataFrame can either be curated by ontology ID (id="ontology_id")
+# or by ontology term names (id="name").
 curated_df = bt.CellType(id="name").curate(df)
 
 # ✅ 2 terms (66.7%) are mapped.
@@ -68,6 +78,23 @@ curated_df = bt.CellType(id="name").curate(df)
 <br>
 
 See [curate](guide/curate) for more.
+
+## Access ontology databases and versions
+
+```python
+# Display all managed versions
+bt.display_available_versions()
+
+# Access to the Mondo ontology
+disease = bt.Disease(database="mondo")
+
+# Access to the Human Disease ontology
+disease = bt.Disease(database="doid", version="2023-01-30")
+```
+
+<br>
+
+Didn't see your favorite database or version? See how to {doc}`/guide/extend`.
 
 ```{toctree}
 :maxdepth: 1
