@@ -46,5 +46,5 @@ lookup
 ontology
 curate
 configuration
-extending_bionty
+extend
 ```
