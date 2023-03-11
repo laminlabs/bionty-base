@@ -138,7 +138,12 @@ class Entity:
         if name is None:
             name = self.entity
         nt = namedtuple(name, df.index)  # type:ignore
-        return nt(**{i: row for i, row in df.iterrows()})
+        return nt(
+            **{
+                df.index[i]: row
+                for i, row in enumerate(df.itertuples(name=name, index=False))
+            }
+        )
 
     def _uniquefy_duplicates(self, lst: Iterable) -> list:
         """Uniquefy duplicated values in a list."""
@@ -320,9 +325,24 @@ class Entity:
             column = self._id
             df.rename(columns={orig_column: column}, inplace=True)
 
+        # uppercasing the target column before curating
+        orig_column_values = None
         if not case_sensitive:
             if column in df.columns:
+                orig_column_values = df[column].values
                 df[column] = df[column].str.upper()
             else:
+                orig_column_values = df.index.values
                 df.index = df.index.str.upper()
-        return self._curate(df=df, column=column).rename(columns={column: orig_column})
+        curated_df = self._curate(df=df, column=column).rename(
+            columns={column: orig_column}
+        )
+
+        # change the original column values back
+        if orig_column_values is not None:
+            if "orig_index" in curated_df:
+                curated_df["orig_index"] = orig_column_values
+            else:
+                curated_df[orig_column] = orig_column_values
+
+        return curated_df
