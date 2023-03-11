@@ -42,7 +42,7 @@ import bionty as bt
 
 ## Lookup ontology terms with autocompletion
 
-<img class="shadow" src="https://github.com/laminlabs/bionty/docs/img/gene_lookup.png" style="width: 50%;">
+<img class="shadow" src="img/gene_lookup.png" style="width: 30%;">
 
 ```python
 gene = bt.Gene()
