@@ -3,30 +3,30 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-:bug: Fix version order | [248](https://github.com/laminlabs/bionty/pull/248) | [Zethson](https://github.com/Zethson) | 2023-03-10 |
+🐛 Fix version order | [248](https://github.com/laminlabs/bionty/pull/248) | [Zethson](https://github.com/Zethson) | 2023-03-10 |
 🐛 Ensure datadir is created | [245](https://github.com/laminlabs/bionty/pull/245) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-09 | 0.8.1
 🐛 Fixed readout lookup | [244](https://github.com/laminlabs/bionty/pull/244) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-09 | 0.8.0
 📝 A take on 3 summary bullets | [240](https://github.com/laminlabs/bionty/pull/240) | [falexwolf](https://github.com/falexwolf) | 2023-03-08 | 0.8rc2
 💚 Fix CI build | [239](https://github.com/laminlabs/bionty/pull/239) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-08 |
-:memo: Improving documentation | [220](https://github.com/laminlabs/bionty/pull/220) | [Zethson](https://github.com/Zethson) | 2023-03-08 |
-:white_check_mark: Add entity tests | [234](https://github.com/laminlabs/bionty/pull/234) | [Zethson](https://github.com/Zethson) | 2023-03-07 |
-:sparkles: Add names/website per ontology & improve versions rich tables | [232](https://github.com/laminlabs/bionty/pull/232) | [Zethson](https://github.com/Zethson) | 2023-03-06 |
-Add better docstrings and docstring decorator | [231](https://github.com/laminlabs/bionty/pull/231) | [Zethson](https://github.com/Zethson) | 2023-03-06 |
-:bug: Fix cellmarker ontology | [230](https://github.com/laminlabs/bionty/pull/230) | [Zethson](https://github.com/Zethson) | 2023-03-03 | 0.8rc1
-:sparkles: Add CellLine ontology | [229](https://github.com/laminlabs/bionty/pull/229) | [Zethson](https://github.com/Zethson) | 2023-03-03 |
-:art: Simplify filenames | [227](https://github.com/laminlabs/bionty/pull/227) | [Zethson](https://github.com/Zethson) | 2023-03-03 |
-:art: Deduce filenames on the fly for non-S3 Entites | [223](https://github.com/laminlabs/bionty/pull/223) | [Zethson](https://github.com/Zethson) | 2023-03-01 |
-Simplify FAQ | [218](https://github.com/laminlabs/bionty/pull/218) | [Zethson](https://github.com/Zethson) | 2023-02-27 |
-Simplify ontology accesses | [217](https://github.com/laminlabs/bionty/pull/217) | [Zethson](https://github.com/Zethson) | 2023-02-27 |
-:art: Move Species to Entity | [216](https://github.com/laminlabs/bionty/pull/216) | [Zethson](https://github.com/Zethson) | 2023-02-27 |
-:art: Rename EntityTable to Entity | [214](https://github.com/laminlabs/bionty/pull/214) | [Zethson](https://github.com/Zethson) | 2023-02-26 |
-:art: Add laminci | [213](https://github.com/laminlabs/bionty/pull/213) | [Zethson](https://github.com/Zethson) | 2023-02-26 |
-:sparkles: Add HCA ontology | [209](https://github.com/laminlabs/bionty/pull/209) | [Zethson](https://github.com/Zethson) | 2023-02-21 |
-:sparkles: Improve version handling | [202](https://github.com/laminlabs/bionty/pull/202) | [Zethson](https://github.com/Zethson) | 2023-02-21 |
+📝 Improving documentation | [220](https://github.com/laminlabs/bionty/pull/220) | [Zethson](https://github.com/Zethson) | 2023-03-08 |
+👷 Add entity tests | [234](https://github.com/laminlabs/bionty/pull/234) | [Zethson](https://github.com/Zethson) | 2023-03-07 |
+✨ Add names/website per ontology & improve versions rich tables | [232](https://github.com/laminlabs/bionty/pull/232) | [Zethson](https://github.com/Zethson) | 2023-03-06 |
+📝 Add better docstrings and docstring decorator | [231](https://github.com/laminlabs/bionty/pull/231) | [Zethson](https://github.com/Zethson) | 2023-03-06 |
+🐛 Fix cellmarker ontology | [230](https://github.com/laminlabs/bionty/pull/230) | [Zethson](https://github.com/Zethson) | 2023-03-03 | 0.8rc1
+✨ Add CellLine ontology | [229](https://github.com/laminlabs/bionty/pull/229) | [Zethson](https://github.com/Zethson) | 2023-03-03 |
+🎨 Simplify filenames | [227](https://github.com/laminlabs/bionty/pull/227) | [Zethson](https://github.com/Zethson) | 2023-03-03 |
+🎨 Deduce filenames on the fly for non-S3 Entites | [223](https://github.com/laminlabs/bionty/pull/223) | [Zethson](https://github.com/Zethson) | 2023-03-01 |
+📝 Simplify FAQ | [218](https://github.com/laminlabs/bionty/pull/218) | [Zethson](https://github.com/Zethson) | 2023-02-27 |
+🎨 Simplify ontology accesses | [217](https://github.com/laminlabs/bionty/pull/217) | [Zethson](https://github.com/Zethson) | 2023-02-27 |
+🎨 Move Species to Entity | [216](https://github.com/laminlabs/bionty/pull/216) | [Zethson](https://github.com/Zethson) | 2023-02-27 |
+🎨 Rename EntityTable to Entity | [214](https://github.com/laminlabs/bionty/pull/214) | [Zethson](https://github.com/Zethson) | 2023-02-26 |
+🎨 Add laminci | [213](https://github.com/laminlabs/bionty/pull/213) | [Zethson](https://github.com/Zethson) | 2023-02-26 |
+✨ Add HCA ontology | [209](https://github.com/laminlabs/bionty/pull/209) | [Zethson](https://github.com/Zethson) | 2023-02-21 |
+✨ Improve version handling | [202](https://github.com/laminlabs/bionty/pull/202) | [Zethson](https://github.com/Zethson) | 2023-02-21 |
 🔥 No downloading upon import | [205](https://github.com/laminlabs/bionty/pull/205) | [sunnyosun](https://github.com/sunnyosun) | 2023-02-20 |
 👷 Remove py3.7 from CI | [206](https://github.com/laminlabs/bionty/pull/206) | [sunnyosun](https://github.com/sunnyosun) | 2023-02-20 |
-:memo: Add better documentation & function to print currently available/active ontologies | [201](https://github.com/laminlabs/bionty/pull/201) | [Zethson](https://github.com/Zethson) | 2023-02-17 |
-Add HDO & improve support for multiple databases | [187](https://github.com/laminlabs/bionty/pull/187) | [Zethson](https://github.com/Zethson) | 2023-02-15 |
+📝 Add better documentation & function to print currently available/active ontologies | [201](https://github.com/laminlabs/bionty/pull/201) | [Zethson](https://github.com/Zethson) | 2023-02-17 |
+👷 Add HDO & improve support for multiple databases | [187](https://github.com/laminlabs/bionty/pull/187) | [Zethson](https://github.com/Zethson) | 2023-02-15 |
 👷 Add GH workflow to check for version URLs | [188](https://github.com/laminlabs/bionty/pull/188) | [Zethson](https://github.com/Zethson) | 2023-02-13 | 0.7.0
 ⬆️ Rename `lndb_setup` to `lndb` | [189](https://github.com/laminlabs/bionty/pull/189) | [bpenteado](https://github.com/bpenteado) | 2023-02-13 |
 ✨ Add human phenotype ontology | [172](https://github.com/laminlabs/bionty/pull/172) | [Zethson](https://github.com/Zethson) | 2023-02-06 |
