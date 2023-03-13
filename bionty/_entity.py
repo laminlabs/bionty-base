@@ -243,7 +243,7 @@ class Entity:
         return df
 
     @check_dynamicdir_exists
-    def _url_download(self, url: str, check_md5: bool = True):
+    def _url_download(self, url: str):
         """Download file from url to dynamicdir."""
         if not self._ontology_download_path.exists():
             logger.info(
@@ -251,12 +251,7 @@ class Entity:
                 " while..."
             )
             url_download(url, self._ontology_download_path)
-            if check_md5:
-                if not (verify_md5(self._ontology_download_path, self._md5)):
-                    logger.warning(
-                        f"MD5 sum for {self._ontology_download_path} should be"
-                        f" {self._md5} but they do not match."
-                    )
+
         return self._ontology_download_path
 
     def _ontology_localpath_from_url(self, url: str):
