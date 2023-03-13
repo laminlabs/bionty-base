@@ -42,7 +42,7 @@ import bionty as bt
 
 ## Look up ontology terms with autocompletion
 
-```{figure} /img/gene_lookup.png
+```{figure} ./img/gene_lookup.png
 ---
 width: 40%
 align: left
@@ -57,7 +57,7 @@ gene.lookup.LNMA
 
 <br>
 
-See {doc}`/guide/lookup` for more.
+See {doc}`./guide/lookup` for more.
 
 ## Curate metadata
 
@@ -83,7 +83,7 @@ curated_df = bt.CellType(id="name").curate(df)
 
 <br>
 
-See {doc}`/guide/curate` for more.
+See {doc}`./guide/curate` for more.
 
 ## Access ontology databases and versions
 
@@ -100,7 +100,7 @@ disease = bt.Disease(database="doid", version="2023-01-30")
 
 <br>
 
-Didn't see your favorite database or version? See how to {doc}`/guide/extend`.
+Didn't see your favorite database or version? See how to {doc}`./guide/extend`.
 
 ```{toctree}
 :maxdepth: 1
