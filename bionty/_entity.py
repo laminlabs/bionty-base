@@ -2,12 +2,14 @@ import os
 import re
 from collections import namedtuple
 from pathlib import Path
-from typing import Dict, Iterable, Literal, NamedTuple, Optional
+from typing import Dict, Iterable, Literal, Optional
 
 import bioregistry as br
 import pandas as pd
 from cached_property import cached_property
 from lamin_logger import logger
+
+from bionty._md5 import verify_md5
 
 from ._ontology import Ontology
 from ._settings import check_datasetdir_exists, check_dynamicdir_exists, settings
@@ -93,11 +95,26 @@ class Entity:
     @cached_property
     def df(self) -> pd.DataFrame:
         """Pandas DataFrame."""
-        if not self._filepath.exists():
-            df = self._ontology_to_df(self.ontology)
-            df.to_parquet(self._filepath)
+        if not self._local_parquet_path.exists():
+            try:
+                self._url_download(self._url)
+            finally:
+                # Only verify md5 if it's actually available
+                if len(self._md5) > 0:
+                    if not verify_md5(self._ontology_download_path, self._md5):
+                        logger.warning(
+                            f"MD5 sum for {self._ontology_download_path} did not match"
+                            f" {self._md5}! Redownloading..."
+                        )
+                        os.remove(self._ontology_download_path)
+                        self._url_download(self._url)
 
-        return pd.read_parquet(self._filepath).reset_index().set_index(self._id)
+        df = self._ontology_to_df(self.ontology)
+        df.to_parquet(self._local_parquet_path)
+
+        return (
+            pd.read_parquet(self._local_parquet_path).reset_index().set_index(self._id)
+        )
 
     @property
     def lookup_col(self) -> str:
@@ -110,7 +127,7 @@ class Entity:
         self._lookup_col = column_name
 
     @cached_property
-    def lookup(self) -> NamedTuple:
+    def lookup(self) -> tuple:
         """Return an auto-complete object for the bionty id."""
         df = self.df.reset_index()
         if self._lookup_col not in df:
@@ -133,7 +150,7 @@ class Entity:
 
     def _namedtuple_from_dict(
         self, df: pd.DataFrame, name: Optional[str] = None
-    ) -> NamedTuple:
+    ) -> tuple:
         """Create a namedtuple from a dict to allow autocompletion."""
         if name is None:
             name = self.entity
@@ -228,14 +245,14 @@ class Entity:
     @check_dynamicdir_exists
     def _url_download(self, url: str):
         """Download file from url to dynamicdir."""
-        filename = url.split("/")[-1]
-        if not self._localpath(filename).exists():
+        if not self._ontology_download_path.exists():
             logger.info(
                 f"Downloading {self.entity} reference for the first time might take a"
                 " while..."
             )
-            url_download(url, self._localpath(filename))
-        return self._localpath(filename)
+            url_download(url, self._ontology_download_path)
+
+        return self._ontology_download_path
 
     def _ontology_localpath_from_url(self, url: str):
         """Get version from the ontology url."""
@@ -290,7 +307,7 @@ class Entity:
         # Use the latest version if version is None.
         self._version = current_version if version is None else str(version)
         self._database = current_database if database is None else str(database)
-        self._url = (
+        self._url, self._md5 = (
             available_db_versions.get(self._database).get("versions").get(self._version)  # type: ignore  # noqa: E501
         )
         if self._url is None:
@@ -299,12 +316,13 @@ class Entity:
                 f" select one of the following: {available_db_versions}"
             )
 
-        self._cloud_file_path = f"{self.species}_{self.database}_{self.version}_{self.__class__.__name__}_lookup.parquet"  # noqa: E501
-        self._filepath = settings.datasetdir / self._cloud_file_path  # noqa: W503,E501
-
-    def _localpath(self, filename: str):
-        """Return the local path of a filename marked with version."""
-        return settings.dynamicdir / f"{self._version}___{filename}"
+        self._cloud_parquet_path = f"{self.species}_{self.database}_{self.version}_{self.__class__.__name__}_lookup.parquet"  # noqa: E501
+        self._local_parquet_path = (
+            settings.datasetdir / self._cloud_parquet_path
+        )  # noqa: W503,E501
+        self._ontology_download_path = (
+            settings.dynamicdir / f"{self.version}___{self._url.split('/')[-1]}"
+        )
 
     def curate(
         self, df: pd.DataFrame, column: str = None, case_sensitive: bool = True
