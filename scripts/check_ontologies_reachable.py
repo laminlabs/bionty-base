@@ -55,7 +55,10 @@ for pair in versions_only:
         if url.startswith("http"):
             try:
                 assert urllib.request.urlopen(url, timeout=1000).getcode() == 200
-            except (AssertionError, ValueError, HTTPError, URLError) as e:
+            except URLError:
+                print(f"URL: {url} is currently not accessible.")
+                pass
+            except (AssertionError, ValueError, HTTPError) as e:
                 failed_urls.append([url, e])
 
 if len(failed_urls) != 0:

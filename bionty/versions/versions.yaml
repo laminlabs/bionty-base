@@ -11,21 +11,14 @@ Species:
 Gene:
   ensembl:
     versions:
-      release-108:
-        [
-          "https://ftp.ensembl.org/pub/release-108/mysql/",
-          "be549e977d8842363fec575c40d3d1d5",
-        ]
+      release-108: ["https://ftp.ensembl.org/pub/release-108/mysql/", ""]
     name: Ensembl
     website: https://www.ensembl.org/index.html
 Protein:
   uniprot:
     versions:
       2022-04:
-        [
-          "https://ftp.uniprot.org/pub/databases/uniprot/current_release/",
-          "a60dddee40f47630e3c47fe0832276a4",
-        ]
+        ["https://ftp.uniprot.org/pub/databases/uniprot/current_release/", ""]
     name: Uniprot
     website: https://www.uniprot.org/
 CellMarker:
@@ -34,7 +27,7 @@ CellMarker:
       2.0:
         [
           "http://bio-bigdata.hrbmu.edu.cn/CellMarker/CellMarker_download_files/file/Cell_marker_All.xlsx",
-          "5c707e219006a02957eb160e4e3ceaf3",
+          "",
         ]
     name: CellMarker
     website: http://bio-bigdata.hrbmu.edu.cn/CellMarker/

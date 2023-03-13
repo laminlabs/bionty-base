@@ -96,15 +96,18 @@ class Entity:
     def df(self) -> pd.DataFrame:
         """Pandas DataFrame."""
         if not self._local_parquet_path.exists():
-            self._url_download(self._url)
-        else:
-            if not verify_md5(self._ontology_download_path, self._md5):
-                logger.warning(
-                    f"MD5 sum for {self._ontology_download_path} did not match"
-                    f" {self._md5}! Redownloading..."
-                )
-                os.remove(self._ontology_download_path)
+            try:
                 self._url_download(self._url)
+            finally:
+                # Only verify md5 if it's actually available
+                if len(self._md5) > 0:
+                    if not verify_md5(self._ontology_download_path, self._md5):
+                        logger.warning(
+                            f"MD5 sum for {self._ontology_download_path} did not match"
+                            f" {self._md5}! Redownloading..."
+                        )
+                        os.remove(self._ontology_download_path)
+                        self._url_download(self._url)
 
         df = self._ontology_to_df(self.ontology)
         df.to_parquet(self._local_parquet_path)
