@@ -53,6 +53,24 @@ Disease:
     website: http://some-website.com
 ```
 
+The md5 sum is optional (leave empty if not available) and can be calculated with for example:
+
+```python
+import hashlib
+from pathlib import Path
+
+def calculate_md5(file_path: Path | str) -> str:
+    with open(file_path, "rb") as f:
+        md5 = hashlib.md5()
+        while True:
+            data = f.read(8192)
+            if not data:
+                break
+            md5.update(data)
+        file_md5 = md5.hexdigest()
+    print(file_md5)
+```
+
 If desired, the new ontology can be set as default. See {doc}`./config` for more details.
 
 ## New entites
