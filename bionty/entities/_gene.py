@@ -17,7 +17,7 @@ class Gene(Entity):
 
     1. Ensembl
     Edits of terms are coordinated and reviewed on:
-    https://github.com/geneontology/
+    https://www.ensembl.org/
 
     The default indexer is `ensembl_gene_id`
 
@@ -38,6 +38,8 @@ class Gene(Entity):
     ):
         super().__init__(id=id, database=database, version=version, species=species)
         self._lookup_col = "symbol"
+        if self.database == "ensembl" and id is None:
+            self._id = "ensembl_gene_id"
 
     @cached_property
     def df(self):
