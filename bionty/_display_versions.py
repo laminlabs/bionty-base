@@ -26,6 +26,8 @@ def display_available_versions() -> None:  # pragma: no cover
     table.add_column("All versions", justify="right", style="cyan", no_wrap=True)
 
     for entity, db_to_version in versions.items():
+        if entity == "version":
+            continue
         for db, _to_versions_url in db_to_version.items():
             versions = ""
             _ontology_name = _to_versions_url["name"]

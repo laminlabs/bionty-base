@@ -1,6 +1,6 @@
 import shutil
 from pathlib import Path
-from typing import Any, Dict, Literal
+from typing import Literal
 
 import pandas as pd
 
@@ -85,15 +85,19 @@ def create_local(overwrite: bool = True) -> None:
         write_yaml(versions, _LOCAL_PATH)
 
 
-def update_local(to_update_yaml: Dict[Any, Any]) -> None:
+def update_local() -> None:
     """Update _local to add additional entries from the public versions.yaml table.
 
     Args:
         to_update_yaml: Dictionary of the current _local.yaml .
     """
+    to_update_yaml = load_yaml(_LOCAL_PATH)
+
     versions = load_yaml(VERSIONS_PATH)
 
     for entity, dbs in versions.items():
+        if entity == "version":
+            continue
         if entity not in to_update_yaml:
             to_update_yaml[entity] = versions[entity]
         else:
