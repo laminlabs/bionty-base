@@ -26,8 +26,9 @@ class Species(Entity):
         database: Optional[Literal["ensembl"]] = None,
         version: Optional[str] = None,
     ):
-        id = "name" if id is None else id
         super().__init__(id=id, database=database, version=version)
+        if self.database == "ensembl" and id is None:
+            self._id = "name"
 
     @cached_property
     def df(self) -> pd.DataFrame:
