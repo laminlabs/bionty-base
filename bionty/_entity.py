@@ -188,60 +188,6 @@ class Entity:
                 columns=["ontology_id", "name"],
             ).set_index(self._id)
 
-    def _curate(
-        self, df: pd.DataFrame, column: str = None, agg_col: str = None
-    ) -> pd.DataFrame:
-        """Curate index of passed DataFrame to conform with default identifier."""
-        df = df.copy()
-
-        if agg_col is not None:
-            # if provided a column with aggregated values, performs alias mapping
-            alias_map = explode_aggregated_column_to_expand(
-                self.df.reset_index(), aggregated_col=agg_col, target_col=self._id
-            )[self._id]
-
-        if column is None:
-            # when column is None, use index as the input column
-            index_name = df.index.name
-            df["__mapped_index"] = (
-                df.index if agg_col is None else df.index.map(alias_map)
-            )
-            df["orig_index"] = df.index
-            df.index = df["__mapped_index"].fillna(df["orig_index"])
-            del df["__mapped_index"]
-            df.index.name = index_name
-            matches = check_if_index_compliant(df.index, self.df.index)
-        else:
-            orig_series = df[column]
-            df[column] = df[column] if agg_col is None else df[column].map(alias_map)
-            df[column] = df[column].fillna(orig_series)
-            new_index, matches = get_compliant_index_from_column(
-                df=df,
-                ref_df=self.df,
-                column=column,
-            )
-
-            # keep the original index name as column name if exists
-            # otherwise name it "orig_index"
-            if df.index.name is None:
-                df["orig_index"] = df.index
-            else:
-                df[df.index.name] = df.index
-            df.index = new_index
-            df.index.name = self._id
-            df[column] = orig_series.values  # keep the original column untouched
-        # annotated what complies with the default ID
-        df["__curated__"] = matches
-        # some stats for logging
-        n_misses = len(matches) - matches.sum()
-        frac_misses = round(n_misses / len(matches) * 100, 1)
-        n_mapped = matches.sum()
-        frac_mapped = 100 - frac_misses
-        logger.success(f"{n_mapped} terms ({frac_mapped}%) are mapped.")
-        logger.warning(f"{n_misses} terms ({frac_misses}%) are not mapped.")
-
-        return df
-
     @check_dynamicdir_exists
     def _url_download(self, url: str):
         """Download file from url to dynamicdir."""
@@ -305,8 +251,14 @@ class Entity:
         available_db_versions = self._load_versions(source="local")
 
         # Use the latest version if version is None.
-        self._version = current_version if version is None else str(version)
         self._database = current_database if database is None else str(database)
+        # Only the database was passed -> get the latest version from the available db versions  # noqa: E501
+        if database and not version:
+            self._version = next(
+                iter(available_db_versions[self._database]["versions"])
+            )
+        else:
+            self._version = current_version if version is None else str(version)
         self._url, self._md5 = (
             available_db_versions.get(self._database).get("versions").get(self._version)  # type: ignore  # noqa: E501
         )
@@ -364,3 +316,57 @@ class Entity:
                 curated_df[orig_column] = orig_column_values
 
         return curated_df
+
+    def _curate(
+        self, df: pd.DataFrame, column: str = None, agg_col: str = None
+    ) -> pd.DataFrame:
+        """Curate index of passed DataFrame to conform with default identifier."""
+        df = df.copy()
+
+        if agg_col is not None:
+            # if provided a column with aggregated values, performs alias mapping
+            alias_map = explode_aggregated_column_to_expand(
+                self.df.reset_index(), aggregated_col=agg_col, target_col=self._id
+            )[self._id]
+
+        if column is None:
+            # when column is None, use index as the input column
+            index_name = df.index.name
+            df["__mapped_index"] = (
+                df.index if agg_col is None else df.index.map(alias_map)
+            )
+            df["orig_index"] = df.index
+            df.index = df["__mapped_index"].fillna(df["orig_index"])
+            del df["__mapped_index"]
+            df.index.name = index_name
+            matches = check_if_index_compliant(df.index, self.df.index)
+        else:
+            orig_series = df[column]
+            df[column] = df[column] if agg_col is None else df[column].map(alias_map)
+            df[column] = df[column].fillna(orig_series)
+            new_index, matches = get_compliant_index_from_column(
+                df=df,
+                ref_df=self.df,
+                column=column,
+            )
+
+            # keep the original index name as column name if exists
+            # otherwise name it "orig_index"
+            if df.index.name is None:
+                df["orig_index"] = df.index
+            else:
+                df[df.index.name] = df.index
+            df.index = new_index
+            df.index.name = self._id
+            df[column] = orig_series.values  # keep the original column untouched
+        # annotated what complies with the default ID
+        df["__curated__"] = matches
+        # some stats for logging
+        n_misses = len(matches) - matches.sum()
+        frac_misses = round(n_misses / len(matches) * 100, 1)
+        n_mapped = matches.sum()
+        frac_mapped = 100 - frac_misses
+        logger.success(f"{n_mapped} terms ({frac_mapped}%) are mapped.")
+        logger.warning(f"{n_misses} terms ({frac_misses}%) are not mapped.")
+
+        return df
