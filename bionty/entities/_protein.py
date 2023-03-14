@@ -28,9 +28,9 @@ class Protein(Entity):
         database: Optional[Literal["uniprot"]] = None,
         version: Optional[str] = None,
     ) -> None:
-        if database == "uniprot" and id is None:
-            id = "uniprotkb_id"
         super().__init__(id=id, database=database, version=version, species=species)
+        if self.database == "uniprot" and id is None:
+            self._id = "uniprotkb_id"
 
     @cached_property
     def df(self) -> pd.DataFrame:

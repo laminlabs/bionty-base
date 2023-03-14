@@ -25,9 +25,9 @@ class CellMarker(Entity):
         database: Optional[Literal["cellmarker"]] = None,
         version: Optional[str] = None,
     ) -> None:
-        if database == "cellmarker" and id is None:
-            id = "name"
         super().__init__(id=id, database=database, version=version, species=species)
+        if self.database == "cellmarker" and id is None:
+            self._id = "name"
 
     @cached_property
     def df(self):

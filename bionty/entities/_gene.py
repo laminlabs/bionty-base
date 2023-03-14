@@ -36,10 +36,10 @@ class Gene(Entity):
         database: Optional[Literal["ensembl"]] = None,
         version: Optional[str] = None,
     ):
-        if database == "ensembl" and id is None:
-            id = "ensembl_gene_id"
         super().__init__(id=id, database=database, version=version, species=species)
         self._lookup_col = "symbol"
+        if self.database == "ensembl" and id is None:
+            self._id = "ensembl_gene_id"
 
     @cached_property
     def df(self):
