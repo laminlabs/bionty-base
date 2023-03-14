@@ -273,7 +273,8 @@ class Entity:
             settings.datasetdir / self._cloud_parquet_path
         )  # noqa: W503,E501
         self._ontology_download_path = (
-            settings.dynamicdir / f"{self.version}___{self._url.split('/')[-1]}"
+            settings.dynamicdir
+            / f"{self.species}_{self.database}_{self.version}_{self.__class__.__name__}"  # noqa: E501 W503
         )
 
     def curate(
