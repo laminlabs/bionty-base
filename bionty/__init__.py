@@ -70,7 +70,7 @@ __version__ = "0.8.1"  # denote release candidate for 0.1.0 with 0.1rc1
 # prints warning of python versions
 from lamin_logger import py_version_warning
 
-py_version_warning("3.7", "3.10")
+py_version_warning("3.8", "3.10")
 
 from . import _sync_versions
 from ._sync_versions import update_defaults

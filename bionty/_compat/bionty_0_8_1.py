@@ -4,7 +4,7 @@ from bionty.dev._io import load_yaml, write_yaml
 _LOCAL_PATH = settings.versionsdir / "local.yaml"
 
 
-def update_yaml_unversionized_to_0_1() -> None:
+def update_yaml_from_unversionized_to_0_1() -> None:
     """Update an old YAML format (unversionized) to version 0.1.
 
     Args:
