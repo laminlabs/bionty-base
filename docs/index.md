@@ -20,6 +20,7 @@ To query, collaborate on, and persistently store knowledge & data, consider [Bio
 - Tissue: [Uberon](http://obophenotype.github.io/uberon/)
 - Disease: [Mondo](https://mondo.monarchinitiative.org/), [Human Disease](https://disease-ontology.org/)
 - Phenotype: [Human Phenotype](https://hpo.jax.org/app/)
+- Pathway: [Pathway Ontology](https://bioportal.bioontology.org/ontologies/PW)
 - Readout: [Experimental Factor Ontology](https://www.ebi.ac.uk/ols/ontologies/efo)
 
 Check out [versions.yaml](https://github.com/laminlabs/bionty/blob/main/bionty/versions/versions.yaml) for details.

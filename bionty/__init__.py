@@ -85,6 +85,7 @@ from .entities._cellmarker import CellMarker
 from .entities._tissue import Tissue
 from .entities._disease import Disease
 from .entities._phenotype import Phenotype
+from .entities._pathway import Pathway
 from .entities._readout import Readout
 
 # tools
