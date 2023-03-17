@@ -13,10 +13,13 @@ def load_yaml(filename: Union[str, Path]):  # pragma: no cover
 
 
 def write_yaml(
-    data: dict, filename: Union[str, Path], sort_keys: bool = False
+    data: dict,
+    filename: Union[str, Path],
+    sort_keys: bool = False,
+    default_flow_style: bool = False,
 ):  # pragma: no cover
     with open(filename, "w") as f:
-        yaml.dump(data, f, sort_keys=sort_keys)
+        yaml.dump(data, f, sort_keys=sort_keys, default_flow_style=default_flow_style)
 
 
 def url_download(  # pragma: no cover

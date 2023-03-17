@@ -1,6 +1,7 @@
 from pathlib import Path
 from typing import List, Literal, Tuple, Union
 
+from ._compat.update_yaml_format import sync_yaml_format
 from ._settings import settings
 from .dev._handle_versions import (
     create_current,
@@ -50,7 +51,7 @@ def update_defaults(
 
 
 create_local(overwrite=False)
-_local = load_yaml(_LOCAL_PATH)
-update_local(_local)
+sync_yaml_format()
+update_local()
 create_current(overwrite=False)
 create_lndb()
