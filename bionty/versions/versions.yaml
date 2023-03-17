@@ -42,7 +42,7 @@ CellLine:
     versions:
       2022-03-21:
         - https://data.bioontology.org/ontologies/CLO/submissions/65/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
-        - ""
+        - ea58a1010b7e745702a8397a526b3a33
     name: Cell Line Ontology
     website: https://bioportal.bioontology.org/ontologies/CLO
 CellType:
@@ -50,17 +50,17 @@ CellType:
     versions:
       2023-02-15:
         - http://purl.obolibrary.org/obo/cl/releases/2023-02-15/cl-base.owl
-        - ""
+        - 9331a6a029cb1863bd0584ab41508df7
       2022-08-16:
         - http://purl.obolibrary.org/obo/cl/releases/2022-08-16/cl.owl
-        - ""
+        - d0655766574e63f3fe5ed56d3c030880
     name: Cell Ontology
     website: https://obophenotype.github.io/cell-ontology/
   ca:
     versions:
       2022-12-16:
         - https://www.ebi.ac.uk/ols/ontologies/hcao/download
-        - ""
+        - 98ba0d340bd1b34659e8a0bdd9535127
     name: Human Cell Atlas Ontology
     website: https://github.com/HumanCellAtlas/ontology
 Tissue:
@@ -68,10 +68,10 @@ Tissue:
     versions:
       2023-02-14:
         - http://purl.obolibrary.org/obo/uberon/releases/2023-02-14/uberon.owl
-        - ""
+        - 3f94e22fae4cdde88a555c5cd59c47da
       2022-08-19:
         - http://purl.obolibrary.org/obo/uberon/releases/2022-08-19/uberon.owl
-        - ""
+        - c7c958a1ee48fdce146f2c1763eed27e
     name: Uberon multi-species anatomy ontology
     website: http://obophenotype.github.io/uberon/
 Disease:
@@ -79,17 +79,17 @@ Disease:
     versions:
       2023-02-06:
         - http://purl.obolibrary.org/obo/mondo/releases/2023-02-06/mondo.owl
-        - ""
+        - 2b7d479d4bd02a94eab47d1c9e64c5db
       2022-10-11:
         - http://purl.obolibrary.org/obo/mondo/releases/2022-10-11/mondo.owl
-        - ""
+        - 04b808d05c2c2e81430b20a0e87552bb
     name: Mondo Disease Ontology
     website: https://mondo.monarchinitiative.org/
   doid:
     versions:
       2023-01-30:
         - http://purl.obolibrary.org/obo/doid/releases/2023-01-30/doid.obo
-        - ""
+        - 9f0c92ad2896dda82195e9226a06dc36
     name: Human Disease Ontology
     website: https://disease-ontology.org/
 Readout:
@@ -97,7 +97,7 @@ Readout:
     versions:
       3.48.0:
         - http://www.ebi.ac.uk/efo/releases/v3.48.0/efo.owl
-        - ""
+        - 3367e9a9ae3dee9113024e5108c49091
     name: The Experimental Factor Ontology
     website: https://bioportal.bioontology.org/ontologies/EFO
 Phenotype:
@@ -105,6 +105,14 @@ Phenotype:
     versions:
       2023-01-27:
         - https://github.com/obophenotype/human-phenotype-ontology/releases/download/v2023-01-27/hp.owl
-        - ""
+        - ceeb3ada771908deef620d74cd8e6b0f
     name: Human Phenotype Ontology
     website: https://hpo.jax.org/
+Pathway:
+  pw:
+    versions:
+      7.74:
+        - https://data.bioontology.org/ontologies/PW/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb&download_format=rdf
+        - a6df86616149dcdfe08fe16c900cba85
+    name: Pathway Ontology
+    website: https://www.ebi.ac.uk/ols/ontologies/pw
