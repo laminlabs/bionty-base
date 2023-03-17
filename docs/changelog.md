@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+:sparkles: Add compatibility functions | [264](https://github.com/laminlabs/bionty/pull/264) | [Zethson](https://github.com/Zethson) | 2023-03-17 |
 :sparkles: Add latest version inference if only db is passed | [256](https://github.com/laminlabs/bionty/pull/256) | [Zethson](https://github.com/Zethson) | 2023-03-14 |
 🐛 Fix default ids | [257](https://github.com/laminlabs/bionty/pull/257) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-14 |
 Add md5 sums | [249](https://github.com/laminlabs/bionty/pull/249) | [Zethson](https://github.com/Zethson) | 2023-03-13 |
