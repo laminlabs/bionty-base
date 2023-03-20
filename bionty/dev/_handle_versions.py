@@ -12,7 +12,7 @@ VERSIONS_PATH = ROOT / "versions.yaml"
 _CURRENT_PATH = ROOT / "._current.yaml"
 _LNDB_PATH = ROOT / "._lndb.yaml"
 
-_LOCAL_PATH = settings.versionsdir / "local.yaml"
+LOCAL_PATH = settings.versionsdir / "local.yaml"
 
 
 def latest_db_version(db: str) -> str:
@@ -56,7 +56,7 @@ def create_current(
     """
     if not _CURRENT_PATH.exists() or overwrite:
         versions = (
-            load_yaml(VERSIONS_PATH) if source == "versions" else load_yaml(_LOCAL_PATH)
+            load_yaml(VERSIONS_PATH) if source == "versions" else load_yaml(LOCAL_PATH)
         )
 
         def _write_current_yaml(versions):
@@ -76,24 +76,37 @@ def create_current(
 
 
 def create_local(overwrite: bool = True) -> None:
-    """If _local.yaml doesn't exist, copy from versions.yaml and create it.
+    """If local.yaml doesn't exist, copy from versions.yaml and create it.
 
     Args:
-        overwrite: Whether to overwrite the current _local.yaml .
+        overwrite: Whether to overwrite the current local.yaml .
     """
-    if not _LOCAL_PATH.exists() or overwrite:
+    if not LOCAL_PATH.exists() or overwrite:
         versions = load_yaml(VERSIONS_PATH)
+        # convert all non string keys to strings
+        local_versions = {}
+        for entity, dbs in versions.items():
+            local_versions[entity] = versions[entity]
+            if entity == "version":
+                continue
+            for db_name, v in dbs.items():
+                # list is needed here to avoid dict key change error
+                for version in list(v["versions"]):
+                    if str(version) != version:
+                        local_versions[entity][db_name]["versions"][
+                            str(version)
+                        ] = local_versions[entity][db_name]["versions"].pop(version)
 
-        write_yaml(versions, _LOCAL_PATH)
+        write_yaml(local_versions, LOCAL_PATH)
 
 
 def update_local() -> None:
     """Update _local to add additional entries from the public versions.yaml table.
 
     Args:
-        to_update_yaml: Dictionary of the current _local.yaml .
+        to_update_yaml: Dictionary of the current local.yaml .
     """
-    to_update_yaml = load_yaml(_LOCAL_PATH)
+    to_update_yaml = load_yaml(LOCAL_PATH)
 
     versions = load_yaml(VERSIONS_PATH)
 
@@ -108,12 +121,15 @@ def update_local() -> None:
                     to_update_yaml[entity][db_name] = dbs[db_name]
                 else:
                     for version in v["versions"]:
-                        if version not in to_update_yaml[entity][db_name]["versions"]:
+                        if (
+                            str(version)
+                            not in to_update_yaml[entity][db_name]["versions"]
+                        ):
                             to_update_yaml[entity][db_name]["versions"][version] = v[
                                 "versions"
                             ][version]
 
-    write_yaml(to_update_yaml, _LOCAL_PATH)
+    write_yaml(to_update_yaml, LOCAL_PATH)
 
 
 def create_lndb() -> None:
