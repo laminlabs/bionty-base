@@ -92,10 +92,11 @@ def create_local(overwrite: bool = True) -> None:
             for db_name, v in dbs.items():
                 # list is needed here to avoid dict key change error
                 for version in list(v["versions"]):
-                    if str(version) != version:
-                        local_versions[entity][db_name]["versions"][
-                            str(version)
-                        ] = local_versions[entity][db_name]["versions"].pop(version)
+                    if isinstance(version, str):
+                        continue
+                    local_versions[entity][db_name]["versions"][
+                        str(version)
+                    ] = local_versions[entity][db_name]["versions"].pop(version)
 
         write_yaml(local_versions, LOCAL_PATH)
 
