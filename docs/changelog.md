@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🚑 Ensure version names are strings | [269](https://github.com/laminlabs/bionty/pull/269) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-20 |
 ✨ Add pathway ontology | [267](https://github.com/laminlabs/bionty/pull/267) | [Zethson](https://github.com/Zethson) | 2023-03-17 | 0.9.0rc1
 ✨ Add compatibility functions | [264](https://github.com/laminlabs/bionty/pull/264) | [Zethson](https://github.com/Zethson) | 2023-03-17 |
 ✨ Add latest version inference if only db is passed | [256](https://github.com/laminlabs/bionty/pull/256) | [Zethson](https://github.com/Zethson) | 2023-03-14 |
