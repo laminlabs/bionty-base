@@ -33,18 +33,9 @@ class CellMarker(Entity):
     def df(self):
         """DataFrame.
 
-        See ingestion: https://lamin.ai/docs/bionty-assets/ingest/cell-marker-human
+        See ingestion: https://lamin.ai/docs/bionty-assets/ingest/cell-marker-2.0
         """
         cloudpath = s3_bionty_assets(self._cloud_parquet_path)
-        self._filepath = cloudpath.fspath
-
-        df = pd.read_parquet(self._filepath)
-        df.rename(columns={"cell_marker": "name"}, inplace=True)
-        df["name"] = df["name"].str.upper()
-        # TODO: add to bionty-assets
-        df = df.drop_duplicates(subset=["name"])
-        if not df.index.is_numeric():
-            df = df.reset_index().copy()
-        df = df[~df[self._id].isnull()]
+        df = pd.read_parquet(cloudpath.fspath)
 
         return df.set_index(self._id)
