@@ -3,7 +3,7 @@ import pandas as pd
 import bionty as bt
 
 
-def test_uniprot_protein_curation_ontology_id():
+def test_uniprot_protein_curation_uniprotkb_id():
     df = pd.DataFrame(
         index=[
             "A0A024QZ08",

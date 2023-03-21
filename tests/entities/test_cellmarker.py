@@ -3,8 +3,7 @@ import pandas as pd
 import bionty as bt
 
 
-def test_cellmarker_cellmarker_curation_name():
-    # human
+def test_cellmarker_cellmarker_curation_name_human():
     df = pd.DataFrame(
         index=["CCR7", "CD69", "CD8A", "CD45RA", "This protein does not exist"]
     )
@@ -16,7 +15,8 @@ def test_cellmarker_cellmarker_curation_name():
 
     assert curation.equals(expected_series)
 
-    # mouse
+
+def test_cellmarker_cellmarker_curation_name_mouse():
     df = pd.DataFrame(
         index=["Tcf4", "Cd36", "Cd34", "Cd45", "This protein does not exist"]
     )
