@@ -3,7 +3,7 @@ import pandas as pd
 import bionty as bt
 
 
-def test_ensemble_gene_curation_ontology_id():
+def test_ensemble_gene_curation_hgnc_id():
     data = {
         "gene symbol": ["A1CF", "A1BG", "FANCD1", "corrupted"],
         "hgnc id": ["HGNC:24086", "HGNC:5", "HGNC:1101", "corrupted"],
