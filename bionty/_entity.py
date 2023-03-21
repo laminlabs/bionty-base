@@ -37,20 +37,20 @@ class Entity:
     def __init__(
         self,
         database: Optional[str],
-        id: Optional[str] = None,
         version: Optional[str] = None,
         species: Optional[str] = None,
         filenames: Optional[Dict[str, str]] = None,
         *,
         prefix: Optional[str] = None,
+        reference_index: Optional[str] = None,
     ):
-        self._id = "id" if id is None else id
         # By default lookup allows auto-completion for the `name` field.
         # lookup column can be changed using `.lookup_col = `.
         self._lookup_col = "name"
         self._species = "human" if species is None else species
         self.filenames = filenames if filenames else None
         self.prefix = prefix
+        self.reference_index = reference_index
 
         if database:
             # We don't allow custom databases inside lamindb instances
@@ -121,9 +121,9 @@ class Entity:
         df = self._ontology_to_df(self.ontology)
         df.to_parquet(self._local_parquet_path)
 
-        return (
-            pd.read_parquet(self._local_parquet_path).reset_index().set_index(self._id)
-        )
+        indexed_df = pd.read_parquet(self._local_parquet_path).reset_index()
+
+        return indexed_df
 
     @property
     def lookup_col(self) -> str:
@@ -190,12 +190,12 @@ class Entity:
                     if term.id.startswith(f"{self.prefix}:")
                 ],
                 columns=["ontology_id", "name"],
-            ).set_index(self._id)
+            ).set_index("ontology_id")
         else:
             return pd.DataFrame(
                 [(term.id, term.name) for term in ontology.terms()],
                 columns=["ontology_id", "name"],
-            ).set_index(self._id)
+            ).set_index("ontology_id")
 
     @check_dynamicdir_exists
     def _url_download(self, url: str):
@@ -287,7 +287,11 @@ class Entity:
         )
 
     def curate(
-        self, df: pd.DataFrame, column: str = None, case_sensitive: bool = True
+        self,
+        df: pd.DataFrame,
+        reference_index: str = "ontology_id",
+        column: str = None,
+        case_sensitive: bool = True,
     ) -> pd.DataFrame:
         """Curate index of passed DataFrame to conform with default identifier.
 
@@ -299,10 +303,15 @@ class Entity:
         Returns the DataFrame with the curated index and a boolean `__curated__`
         column that indicates compliance with the default identifier.
         """
+        if self.reference_index and reference_index != "ontology_id":
+            reference_index = reference_index
+        elif self.reference_index:
+            reference_index = self.reference_index
+
         df = df.copy()
         orig_column = column
         if column is not None and column not in self.df.columns:
-            column = self._id
+            column = reference_index
             df.rename(columns={orig_column: column}, inplace=True)
 
         # uppercasing the target column before curating
@@ -314,9 +323,10 @@ class Entity:
             else:
                 orig_column_values = df.index.values
                 df.index = df.index.str.upper()
-        curated_df = self._curate(df=df, column=column).rename(
-            columns={column: orig_column}
-        )
+
+        curated_df = self._curate(
+            df=df, column=column, reference_index=reference_index
+        ).rename(columns={column: orig_column})
 
         # change the original column values back
         if orig_column_values is not None:
@@ -328,7 +338,11 @@ class Entity:
         return curated_df
 
     def _curate(
-        self, df: pd.DataFrame, column: str = None, agg_col: str = None
+        self,
+        df: pd.DataFrame,
+        reference_index: str = "ontology_id",
+        column: str = None,
+        agg_col: str = None,
     ) -> pd.DataFrame:
         """Curate index of passed DataFrame to conform with default identifier."""
         df = df.copy()
@@ -336,8 +350,10 @@ class Entity:
         if agg_col is not None:
             # if provided a column with aggregated values, performs alias mapping
             alias_map = explode_aggregated_column_to_expand(
-                self.df.reset_index(), aggregated_col=agg_col, target_col=self._id
-            )[self._id]
+                self.df.reset_index(),
+                aggregated_col=agg_col,
+                target_col=reference_index,
+            )[reference_index]
 
         if column is None:
             # when column is None, use index as the input column
@@ -349,7 +365,7 @@ class Entity:
             df.index = df["__mapped_index"].fillna(df["orig_index"])
             del df["__mapped_index"]
             df.index.name = index_name
-            matches = check_if_index_compliant(df.index, self.df.index)
+            matches = check_if_index_compliant(df.index, self.df[reference_index])
         else:
             orig_series = df[column]
             df[column] = df[column] if agg_col is None else df[column].map(alias_map)
@@ -367,7 +383,7 @@ class Entity:
             else:
                 df[df.index.name] = df.index
             df.index = new_index
-            df.index.name = self._id
+            df.index.name = reference_index
             df[column] = orig_series.values  # keep the original column untouched
         # annotated what complies with the default ID
         df["__curated__"] = matches

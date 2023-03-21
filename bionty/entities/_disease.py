@@ -22,13 +22,11 @@ class Disease(Entity):
 
     def __init__(
         self,
-        id: str = "ontology_id",
         species: str = "human",
         database: Optional[Literal["mondo", "doid"]] = None,
         version: Optional[str] = None,
     ) -> None:
         super().__init__(
-            id=id,
             database=database,
             version=version,
             species=species,

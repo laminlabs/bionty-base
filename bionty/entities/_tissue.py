@@ -19,10 +19,9 @@ class Tissue(Entity):
     def __init__(
         self,
         species: str = "all",
-        id: str = "ontology_id",
         database: Optional[Literal["uberon"]] = None,
         version: Optional[str] = None,
     ) -> None:
         super().__init__(
-            id=id, database=database, version=version, species=species, prefix="UBERON"
+            database=database, version=version, species=species, prefix="UBERON"
         )

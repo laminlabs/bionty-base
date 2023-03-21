@@ -28,11 +28,12 @@ class Readout(Entity):
 
     def __init__(
         self,
-        id: str = "ontology_id",
         database: Optional[Literal["efo"]] = None,
         version: Optional[str] = None,
     ) -> None:
-        super().__init__(id=id, database=database, version=version)
+        super().__init__(
+            database=database, version=version, reference_index="ontology_id"
+        )
         self._filepath = settings.datasetdir / "efo_df.json"
         self._readout_terms = {
             "assay": "OBI:0000070",
@@ -49,11 +50,9 @@ class Readout(Entity):
             self._download_df()
         df = pd.read_json(self._filepath)
         df.index.name = "ontology_id"
+        df = df.reset_index()
 
-        if self._id != "ontology_id":
-            return df.reset_index().set_index(self._id)
-        else:
-            return df
+        return df
 
     @cached_property
     def ontology(self) -> Ontology:  # type:ignore
