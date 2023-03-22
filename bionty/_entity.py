@@ -50,7 +50,9 @@ class Entity:
         self._species = "human" if species is None else species
         self.filenames = filenames if filenames else None
         self.prefix = prefix
-        self.reference_index = reference_index
+        self.reference_index = (
+            "ontology_id" if reference_index is None else reference_index
+        )
 
         if database:
             # We don't allow custom databases inside lamindb instances
@@ -123,7 +125,7 @@ class Entity:
 
         indexed_df = pd.read_parquet(self._local_parquet_path).reset_index()
 
-        return indexed_df
+        return indexed_df.set_index(self.reference_index)
 
     @property
     def lookup_col(self) -> str:
@@ -365,7 +367,9 @@ class Entity:
             df.index = df["__mapped_index"].fillna(df["orig_index"])
             del df["__mapped_index"]
             df.index.name = index_name
-            matches = check_if_index_compliant(df.index, self.df[reference_index])
+            matches = check_if_index_compliant(
+                df.index, self.df.reset_index()[reference_index]
+            )
         else:
             orig_series = df[column]
             df[column] = df[column] if agg_col is None else df[column].map(alias_map)
