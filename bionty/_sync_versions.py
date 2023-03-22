@@ -11,7 +11,7 @@ from .dev._handle_versions import (
 )
 from .dev._io import load_yaml, write_yaml
 
-ROOT = Path(__file__).parent.parent / "versions"
+ROOT = Path(__file__).parent / "versions"
 VERSIONS_PATH = ROOT / "versions.yaml"
 _CURRENT_PATH = ROOT / "._current.yaml"
 _LNDB_PATH = ROOT / "._lndb.yaml"
