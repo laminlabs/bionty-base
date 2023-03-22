@@ -292,18 +292,27 @@ class Entity:
         self,
         df: pd.DataFrame,
         reference_index: str = "ontology_id",
-        column: str = None,
+        target_column: str = None,
         case_sensitive: bool = True,
     ) -> pd.DataFrame:
         """Curate index of passed DataFrame to conform with default identifier.
 
-        - If `column` is `None`, checks the existing index for compliance with
-          the default identifier.
-        - If `column` denotes an entity identifier, tries to map that identifier
-          to the default identifier.
+        - If `target_column` is `None`, checks the existing index for compliance
+          with the default identifier.
+        - If `target_column` denotes an entity identifier,
+          tries to map that identifier to the default identifier.
 
-        Returns the DataFrame with the curated index and a boolean `__curated__`
-        column that indicates compliance with the default identifier.
+        Args:
+            df: The input Pandas DataFrame to curate.
+            reference_index: The reference column in the ontology Pandas DataFrame.
+                             'Defaults to ontology_id'.
+            target_column: The column in the passed Pandas DataFrame to curate.
+            case_sensitive: Whether the curation should be case sensitive or not.
+                            Defaults to True.
+
+        Returns:
+            Returns the DataFrame with the curated index and a boolean `__curated__`
+            column that indicates compliance with the default identifier.
         """
         if self.reference_index and reference_index != "ontology_id":
             reference_index = reference_index
@@ -311,24 +320,24 @@ class Entity:
             reference_index = self.reference_index
 
         df = df.copy()
-        orig_column = column
-        if column is not None and column not in self.df.columns:
-            column = reference_index
-            df.rename(columns={orig_column: column}, inplace=True)
+        orig_column = target_column
+        if target_column is not None and target_column not in self.df.columns:
+            target_column = reference_index
+            df.rename(columns={orig_column: target_column}, inplace=True)
 
         # uppercasing the target column before curating
         orig_column_values = None
         if not case_sensitive:
-            if column in df.columns:
-                orig_column_values = df[column].values
-                df[column] = df[column].str.upper()
+            if target_column in df.columns:
+                orig_column_values = df[target_column].values
+                df[target_column] = df[target_column].str.upper()
             else:
                 orig_column_values = df.index.values
                 df.index = df.index.str.upper()
 
         curated_df = self._curate(
-            df=df, column=column, reference_index=reference_index
-        ).rename(columns={column: orig_column})
+            df=df, column=target_column, reference_index=reference_index
+        ).rename(columns={target_column: orig_column})
 
         # change the original column values back
         if orig_column_values is not None:

@@ -63,7 +63,7 @@ class Gene(Entity):
     def curate(  # type: ignore
         self,
         df: pd.DataFrame,
-        column: str = None,
+        target_column: str = None,
         reference_index: str = "ensembl_gene_id",
     ) -> pd.DataFrame:
         """Curate index of passed DataFrame to conform with default identifier.
@@ -84,21 +84,24 @@ class Gene(Entity):
         # if the query column name does not match any columns in the self.df
         # Bionty assume the query column and the self._id_field uses the same type of
         # identifier
-        orig_column = column
-        if column is not None and column not in self.df.columns:
+        orig_column = target_column
+        if target_column is not None and target_column not in self.df.columns:
             # normalize the identifier column
-            column_norm = GENE_COLUMNS.get(column)
+            column_norm = GENE_COLUMNS.get(target_column)
             if column_norm in df.columns:
                 raise ValueError("{column_norm} column already exist!")
             else:
-                column = reference_index if column_norm is None else column_norm
-                df.rename(columns={orig_column: column}, inplace=True)
-            agg_col = ALIAS_DICT.get(column)
+                target_column = reference_index if column_norm is None else column_norm
+                df.rename(columns={orig_column: target_column}, inplace=True)
+            agg_col = ALIAS_DICT.get(target_column)
 
         return (
             super()
             ._curate(
-                df=df, column=column, agg_col=agg_col, reference_index=reference_index
+                df=df,
+                column=target_column,
+                agg_col=agg_col,
+                reference_index=reference_index,
             )
-            .rename(columns={column: orig_column})
+            .rename(columns={target_column: orig_column})
         )

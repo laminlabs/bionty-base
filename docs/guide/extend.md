@@ -80,7 +80,6 @@ Adding new entities to Bionty requires subclassing the {class}`bionty.Entity` an
 The {class}`bionty.Entity` requires several properties to be defined:
 
 ```python
-id: str,
 species: str,
 database: str,
 version: str,
@@ -99,12 +98,10 @@ class MyEntity(Entity):
     def __init__(
         self,
         species: str = "human",
-        id: str = "ontology_id",
         database: str | None = None,
         version: str | None = None,
     ) -> None:
         super().__init__(
-            id=id,
             database=database,
             version=version,
             species=species,
@@ -145,7 +142,7 @@ If the ontology file is not a standard `*.owl` file, the generation of the Panda
             df = self._ontology_to_df(self.ontology)
             df.to_parquet(self._filepath)
 
-        return pd.read_parquet(self._filepath).reset_index().set_index(self._id)
+        return pd.read_parquet(self._filepath)
 ```
 
 should be overwritten in the Entity class:
