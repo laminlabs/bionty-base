@@ -14,6 +14,14 @@ def _doc_params(**kwds):  # pragma: no cover
     return dec
 
 
+def remove_prefix(
+    text, prefix
+):  # pragma: no cover  # TODO replace with removeprefix Python 3.9+
+    if text.startswith(prefix):
+        return text[len(prefix) :]
+    return text
+
+
 doc_entites = """\
 species: `name` of `Species` entity Entity.
         id: Field name that should constitute the primary reference for each value.
@@ -24,5 +32,5 @@ species: `name` of `Species` entity Entity.
                   Get available versions with `bionty.display_available_versions`.
 """
 species_removed_tmp = "\n".join(doc_entites.split("\n")[1:]).split("\n")
-species_removed_tmp[0] = species_removed_tmp[0].removeprefix("        ")
+species_removed_tmp[0] = remove_prefix(species_removed_tmp[0], "        ")
 species_removed = "\n".join(species_removed_tmp)
