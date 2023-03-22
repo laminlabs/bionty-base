@@ -123,9 +123,11 @@ class Entity:
         df = self._ontology_to_df(self.ontology)
         df.to_parquet(self._local_parquet_path)
 
-        indexed_df = pd.read_parquet(self._local_parquet_path).reset_index()
-
-        return indexed_df.set_index(self.reference_index)
+        return (
+            pd.read_parquet(self._local_parquet_path)
+            .reset_index()
+            .set_index(self.reference_index)
+        )
 
     @property
     def lookup_col(self) -> str:
@@ -192,12 +194,12 @@ class Entity:
                     if term.id.startswith(f"{self.prefix}:")
                 ],
                 columns=["ontology_id", "name"],
-            ).set_index("ontology_id")
+            ).set_index(self.reference_index)
         else:
             return pd.DataFrame(
                 [(term.id, term.name) for term in ontology.terms()],
                 columns=["ontology_id", "name"],
-            ).set_index("ontology_id")
+            ).set_index(self.reference_index)
 
     @check_dynamicdir_exists
     def _url_download(self, url: str):
