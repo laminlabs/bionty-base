@@ -42,17 +42,15 @@ class Entity:
         filenames: Optional[Dict[str, str]] = None,
         *,
         prefix: Optional[str] = None,
-        reference_index: Optional[str] = None,
+        reference_id: Optional[str] = None,
     ):
         # By default lookup allows auto-completion for the `name` field.
         # lookup column can be changed using `.lookup_col = `.
-        self._lookup_col = "name"
+        self._lookup_field = "name"
         self._species = "human" if species is None else species
         self.filenames = filenames if filenames else None
         self.prefix = prefix
-        self.reference_index = (
-            "ontology_id" if reference_index is None else reference_index
-        )
+        self.reference_index = "ontology_id" if reference_id is None else reference_id
 
         if database:
             # We don't allow custom databases inside lamindb instances
@@ -132,23 +130,23 @@ class Entity:
     @property
     def lookup_col(self) -> str:
         """The column that allows auto-completion."""
-        return self._lookup_col
+        return self._lookup_field
 
     @lookup_col.setter
     def lookup_col(self, column_name) -> None:
         """Set the lookup column."""
-        self._lookup_col = column_name
+        self._lookup_field = column_name
 
     @cached_property
     def lookup(self) -> tuple:
         """Return an auto-complete object for the bionty id."""
         df = self.df.reset_index()
-        if self._lookup_col not in df:
-            raise AssertionError(f"No {self._lookup_col} column exists!")
+        if self._lookup_field not in df:
+            raise AssertionError(f"No {self._lookup_field} column exists!")
 
         # uniquefy lookup keys
         df.index = self._uniquefy_duplicates(
-            self._to_lookup_keys(df[self._lookup_col].values)
+            self._to_lookup_keys(df[self._lookup_field].values)
         )
 
         return self._namedtuple_from_dict(df)
@@ -293,8 +291,8 @@ class Entity:
     def curate(
         self,
         df: pd.DataFrame,
+        column: str = None,
         reference_index: str = "ontology_id",
-        target_column: str = None,
         case_sensitive: bool = True,
     ) -> pd.DataFrame:
         """Curate index of passed DataFrame to conform with default identifier.
@@ -306,9 +304,9 @@ class Entity:
 
         Args:
             df: The input Pandas DataFrame to curate.
+            column: The column in the passed Pandas DataFrame to curate.
             reference_index: The reference column in the ontology Pandas DataFrame.
                              'Defaults to ontology_id'.
-            target_column: The column in the passed Pandas DataFrame to curate.
             case_sensitive: Whether the curation should be case sensitive or not.
                             Defaults to True.
 
@@ -322,24 +320,24 @@ class Entity:
             reference_index = self.reference_index
 
         df = df.copy()
-        orig_column = target_column
-        if target_column is not None and target_column not in self.df.columns:
-            target_column = reference_index
-            df.rename(columns={orig_column: target_column}, inplace=True)
+        orig_column = column
+        if column is not None and column not in self.df.columns:
+            column = reference_index
+            df.rename(columns={orig_column: column}, inplace=True)
 
         # uppercasing the target column before curating
         orig_column_values = None
         if not case_sensitive:
-            if target_column in df.columns:
-                orig_column_values = df[target_column].values
-                df[target_column] = df[target_column].str.upper()
+            if column in df.columns:
+                orig_column_values = df[column].values
+                df[column] = df[column].str.upper()
             else:
                 orig_column_values = df.index.values
                 df.index = df.index.str.upper()
 
         curated_df = self._curate(
-            df=df, column=target_column, reference_index=reference_index
-        ).rename(columns={target_column: orig_column})
+            df=df, column=column, reference_id=reference_index
+        ).rename(columns={column: orig_column})
 
         # change the original column values back
         if orig_column_values is not None:
@@ -353,7 +351,7 @@ class Entity:
     def _curate(
         self,
         df: pd.DataFrame,
-        reference_index: str = "ontology_id",
+        reference_id: str = "ontology_id",
         column: str = None,
         agg_col: str = None,
     ) -> pd.DataFrame:
@@ -365,8 +363,8 @@ class Entity:
             alias_map = explode_aggregated_column_to_expand(
                 self.df.reset_index(),
                 aggregated_col=agg_col,
-                target_col=reference_index,
-            )[reference_index]
+                target_col=reference_id,
+            )[reference_id]
 
         if column is None:
             # when column is None, use index as the input column
@@ -379,7 +377,7 @@ class Entity:
             del df["__mapped_index"]
             df.index.name = index_name
             matches = check_if_index_compliant(
-                df.index, self.df.reset_index()[reference_index]
+                df.index, self.df.reset_index()[reference_id]
             )
         else:
             orig_series = df[column]
@@ -398,7 +396,7 @@ class Entity:
             else:
                 df[df.index.name] = df.index
             df.index = new_index
-            df.index.name = reference_index
+            df.index.name = reference_id
             df[column] = orig_series.values  # keep the original column untouched
         # annotated what complies with the default ID
         df["__curated__"] = matches

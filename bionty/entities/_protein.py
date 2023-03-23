@@ -31,7 +31,7 @@ class Protein(Entity):
             database=database,
             version=version,
             species=species,
-            reference_index="uniprotkb_id",
+            reference_id="uniprotkb_id",
         )
 
     @cached_property

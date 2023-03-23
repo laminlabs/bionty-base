@@ -25,7 +25,7 @@ class CellMarker(Entity):
         version: Optional[str] = None,
     ) -> None:
         super().__init__(
-            database=database, version=version, species=species, reference_index="name"
+            database=database, version=version, species=species, reference_id="name"
         )
 
     @cached_property

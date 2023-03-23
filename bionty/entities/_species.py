@@ -25,7 +25,7 @@ class Species(Entity):
         database: Optional[Literal["ensembl"]] = None,
         version: Optional[str] = None,
     ):
-        super().__init__(database=database, version=version, reference_index="name")
+        super().__init__(database=database, version=version, reference_id="name")
 
     @cached_property
     def df(self) -> pd.DataFrame:
