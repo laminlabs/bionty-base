@@ -41,7 +41,7 @@ class Gene(Entity):
             species=species,
             reference_id="ensembl_gene_id",
         )
-        self._lookup_col = "symbol"
+        self._lookup_field = "symbol"
 
     @cached_property
     def df(self):
