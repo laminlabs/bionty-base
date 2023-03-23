@@ -62,8 +62,8 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            ${{ python -c 'import bionty; print(bionty.settings.datasetdir)' }}
-            ${{ python -c 'import bionty; print(bionty.settings.dynamicdir)' }}
+            /usr/local/lib/{{ matrix.python-version }}/sites-packages/bionty/data
+            /usr/local/lib/{{ matrix.python-version }}/sites-packages/bionty/_dynamic
           key: bionty-${{ runner.os }}
 
       - name: Install dependencies
