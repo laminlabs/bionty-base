@@ -30,9 +30,10 @@ jobs:
           path: lndocs
           ref: main
       - name: Setup Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
+
       - name: Cache nox
         uses: actions/cache@v3
         with:
@@ -55,6 +56,14 @@ jobs:
       - name: Cache postgres use
         if: steps.cache-postgres.outputs.cache-hit == 'true'
         run: docker image load --input ~/postgres.tar
+      - name: Cache Bionty downloads
+        uses: actions/cache@v3
+        with:
+          path: |
+            ${{ python -c 'import bionty; print(bionty.settings.datasetdir)' }}
+            ${{ python -c 'import bionty; print(bionty.settings.dynamicdir)' }}
+          key: bionty-${{ runner.os }}
+
       - name: Install dependencies
         run: |
           python -m pip install -U pip
@@ -68,6 +77,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
+
       - name: Lint
         if: matrix.python-version == '3.9'
         run: |

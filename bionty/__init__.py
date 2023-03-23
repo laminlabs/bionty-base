@@ -72,6 +72,7 @@ from lamin_logger import py_version_warning
 
 py_version_warning("3.8", "3.10")
 
+# versions handling
 from . import _sync_versions
 from ._sync_versions import update_defaults
 
@@ -94,6 +95,9 @@ from ._entity import Entity
 from ._ontology import Ontology
 from ._lookup import lookup
 from ._display_versions import display_active_versions, display_available_versions
+
+# settings
+from ._settings import settings
 
 # dev
 from . import dev
