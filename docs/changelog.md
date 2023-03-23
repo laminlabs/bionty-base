@@ -3,7 +3,8 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-:bug: Fix removeprefix 3.8 & versions pathing | [277](https://github.com/laminlabs/bionty/pull/277) | [Zethson](https://github.com/Zethson) | 2023-03-22 |
+:sparkles: Move ID from Entity to curate | [268](https://github.com/laminlabs/bionty/pull/268) | [Zethson](https://github.com/Zethson) | 2023-03-23 |
+🐛 Fix removeprefix 3.8 & versions pathing | [277](https://github.com/laminlabs/bionty/pull/277) | [Zethson](https://github.com/Zethson) | 2023-03-22 | 0.10.1
 📝 Updated the curation notebook for cellmarker | [274](https://github.com/laminlabs/bionty/pull/274) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-22 |
 🍱 Updated CellMarker assets | [271](https://github.com/laminlabs/bionty/pull/271) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-21 | 0.10.0
 🚑 Ensure version names are strings | [269](https://github.com/laminlabs/bionty/pull/269) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-20 | 0.9.0
