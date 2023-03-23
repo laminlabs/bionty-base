@@ -3,6 +3,8 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+:white_check_mark: Add update_defaults test | [280](https://github.com/laminlabs/bionty/pull/280) | [Zethson](https://github.com/Zethson) | 2023-03-23 |
+👷 Test against `lnschema-bionty` | [279](https://github.com/laminlabs/bionty/pull/279) | [falexwolf](https://github.com/falexwolf) | 2023-03-23 |
 :sparkles: Move ID from Entity to curate | [268](https://github.com/laminlabs/bionty/pull/268) | [Zethson](https://github.com/Zethson) | 2023-03-23 |
 🐛 Fix removeprefix 3.8 & versions pathing | [277](https://github.com/laminlabs/bionty/pull/277) | [Zethson](https://github.com/Zethson) | 2023-03-22 | 0.10.1
 📝 Updated the curation notebook for cellmarker | [274](https://github.com/laminlabs/bionty/pull/274) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-22 |
