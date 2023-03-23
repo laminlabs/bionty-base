@@ -16,7 +16,7 @@ def lint(session: nox.Session) -> None:
     run_pre_commit(session)
 
 
-@nox.session(python=["3.8", "3.9", "3.10", "3.11"])
+@nox.session
 @nox.parametrize("package", ["bionty", "lnschema-bionty"])
 def build(session, package):
     login_testuser1(session)

@@ -76,7 +76,7 @@ jobs:
           nox -s lint --python ${{ matrix.python-version }}
       - name: Build
         run: |
-          nox -s "build(package='${{ matrix.package }}')" --python ${{ matrix.python-version }}
+          nox -s "build(package='${{ matrix.package }}')"
       - name: Codecov
         if: matrix.python-version == '3.9'
         uses: codecov/codecov-action@v2
