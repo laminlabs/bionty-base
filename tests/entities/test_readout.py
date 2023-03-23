@@ -31,7 +31,9 @@ def test_efo_readout_curation_name():
             "This readout does not exist",
         ]
     )
-    curated_df = bt.Readout(id="name", database="efo", version="3.48.0").curate(df)
+    curated_df = bt.Readout(database="efo", version="3.48.0").curate(
+        df, reference_index="name"
+    )
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])

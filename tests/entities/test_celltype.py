@@ -32,7 +32,9 @@ def test_cl_celltype_curation_name():
             "This cell type does not exist",
         ]
     )
-    curated_df = bt.CellType(id="name", database="cl", version="2022-08-16").curate(df)
+    curated_df = bt.CellType(database="cl", version="2022-08-16").curate(
+        df, reference_index="name"
+    )
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
@@ -69,7 +71,9 @@ def test_ca_celltype_curation_name():
             "This cell type does not exist",
         ]
     )
-    curated_df = bt.CellType(id="name", database="ca", version="2022-12-16").curate(df)
+    curated_df = bt.CellType(database="ca", version="2022-12-16").curate(
+        df, reference_index="name"
+    )
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])

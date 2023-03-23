@@ -30,6 +30,22 @@ Example:
 - Species is an entity.
 - Take one value that the entity can take: _human_ is a choice (the name) for a descriptor of the abstract entry/ value/ term _homo sapiens_
 
+## The Entity class
+
+The {class}`~bionty.Entity` class is the core class of Bionty that implements the above introduced Entity model.
+
+It offers three primary functionalities (`.df`, `.lookup`, `.curate`) that are managed by a single parameter `id`.
+When instantiating an Entity set the default `id` by, for example, `bionty.Phenotype(id="id")`.
+The `id` corresponds to the field name that constitutes the primary reference for every subsequent operation (`.df`, `.lookup`, `.curate`).
+
+1. Accessing ontology DataFrames: The `id` parameter sets the default index of the Pandas DataFrame when it is accessed (`.df`).
+   See {doc}`./lookup`.
+2. Looking up records: Entity offers a `.lookup` function to lookup identifiers of Entity records.
+   See {doc}`./lookup`.
+3. Curating ontologies: By default, `.curate` curates any specified column in the target Pandas DataFrame
+   against the index as defined by the `id` of the Entity DataFrame.
+   See {doc}`./curate`.
+
 ## Glossary
 
 1. **entity** (lower case) refers to biological entities as described above.

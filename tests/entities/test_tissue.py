@@ -31,8 +31,8 @@ def test_uberon_tissue_curation_name():
             "This tissue does not exist",
         ]
     )
-    curated_df = bt.Tissue(id="name", database="uberon", version="2023-02-14").curate(
-        df
+    curated_df = bt.Tissue(database="uberon", version="2023-02-14").curate(
+        df, reference_index="name"
     )
 
     curation = curated_df["__curated__"].reset_index(drop=True)

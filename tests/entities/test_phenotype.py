@@ -31,7 +31,9 @@ def test_hp_phenotype_curation_name():
             "This phenotype does not exist",
         ]
     )
-    curated_df = bt.Phenotype(id="name", database="hp", version="2023-01-27").curate(df)
+    curated_df = bt.Phenotype(database="hp", version="2023-01-27").curate(
+        df, reference_index="name"
+    )
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])

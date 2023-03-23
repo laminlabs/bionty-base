@@ -32,14 +32,16 @@ class Gene(Entity):
     def __init__(
         self,
         species: str = "human",
-        id: Optional[str] = None,
         database: Optional[Literal["ensembl"]] = None,
         version: Optional[str] = None,
     ):
-        super().__init__(id=id, database=database, version=version, species=species)
+        super().__init__(
+            database=database,
+            version=version,
+            species=species,
+            reference_index="ensembl_gene_id",
+        )
         self._lookup_col = "symbol"
-        if self.database == "ensembl" and id is None:
-            self._id = "ensembl_gene_id"
 
     @cached_property
     def df(self):
@@ -54,11 +56,15 @@ class Gene(Entity):
         NormalizeColumns.gene(df, species=self.species)
         if not df.index.is_numeric():
             df = df.reset_index().copy()
-        df = df[~df[self._id].isnull()]
-        return df.set_index(self._id)
+        df = df[~df[self.reference_index].isnull()]
+
+        return df
 
     def curate(  # type: ignore
-        self, df: pd.DataFrame, column: str = None
+        self,
+        df: pd.DataFrame,
+        target_column: str = None,
+        reference_index: str = "ensembl_gene_id",
     ) -> pd.DataFrame:
         """Curate index of passed DataFrame to conform with default identifier.
 
@@ -72,25 +78,30 @@ class Gene(Entity):
 
         In addition to the .curate() in base class, this also performs alias mapping.
         """
-        agg_col = ALIAS_DICT.get(self._id)
+        agg_col = ALIAS_DICT.get(reference_index)
         df = df.copy()
 
         # if the query column name does not match any columns in the self.df
         # Bionty assume the query column and the self._id_field uses the same type of
         # identifier
-        orig_column = column
-        if column is not None and column not in self.df.columns:
+        orig_column = target_column
+        if target_column is not None and target_column not in self.df.columns:
             # normalize the identifier column
-            column_norm = GENE_COLUMNS.get(column)
+            column_norm = GENE_COLUMNS.get(target_column)
             if column_norm in df.columns:
                 raise ValueError("{column_norm} column already exist!")
             else:
-                column = self._id if column_norm is None else column_norm
-                df.rename(columns={orig_column: column}, inplace=True)
-            agg_col = ALIAS_DICT.get(column)
+                target_column = reference_index if column_norm is None else column_norm
+                df.rename(columns={orig_column: target_column}, inplace=True)
+            agg_col = ALIAS_DICT.get(target_column)
 
         return (
             super()
-            ._curate(df=df, column=column, agg_col=agg_col)
-            .rename(columns={column: orig_column})
+            ._curate(
+                df=df,
+                column=target_column,
+                agg_col=agg_col,
+                reference_index=reference_index,
+            )
+            .rename(columns={target_column: orig_column})
         )

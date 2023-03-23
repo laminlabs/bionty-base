@@ -21,13 +21,12 @@ class CellMarker(Entity):
     def __init__(
         self,
         species: str = "human",
-        id: Optional[str] = None,
         database: Optional[Literal["cellmarker"]] = None,
         version: Optional[str] = None,
     ) -> None:
-        super().__init__(id=id, database=database, version=version, species=species)
-        if self.database == "cellmarker" and id is None:
-            self._id = "name"
+        super().__init__(
+            database=database, version=version, species=species, reference_index="name"
+        )
 
     @cached_property
     def df(self):
@@ -38,4 +37,4 @@ class CellMarker(Entity):
         cloudpath = s3_bionty_assets(self._cloud_parquet_path)
         df = pd.read_parquet(cloudpath.fspath)
 
-        return df.set_index(self._id)
+        return df

@@ -22,13 +22,10 @@ class Species(Entity):
 
     def __init__(
         self,
-        id: Optional[str] = None,
         database: Optional[Literal["ensembl"]] = None,
         version: Optional[str] = None,
     ):
-        super().__init__(id=id, database=database, version=version)
-        if self.database == "ensembl" and id is None:
-            self._id = "name"
+        super().__init__(database=database, version=version, reference_index="name")
 
     @cached_property
     def df(self) -> pd.DataFrame:
@@ -51,4 +48,4 @@ class Species(Entity):
         df["name"] = df["name"].str.lower()
         df.insert(0, "id", "NCBI_" + df["taxon_id"].astype(str))
 
-        return df.set_index(self._id)
+        return df

@@ -24,13 +24,15 @@ class Protein(Entity):
     def __init__(
         self,
         species: str = "human",
-        id: Optional[str] = None,
         database: Optional[Literal["uniprot"]] = None,
         version: Optional[str] = None,
     ) -> None:
-        super().__init__(id=id, database=database, version=version, species=species)
-        if self.database == "uniprot" and id is None:
-            self._id = "uniprotkb_id"
+        super().__init__(
+            database=database,
+            version=version,
+            species=species,
+            reference_index="uniprotkb_id",
+        )
 
     @cached_property
     def df(self) -> pd.DataFrame:
@@ -48,9 +50,9 @@ class Protein(Entity):
         )  # Take the shortest name in protein names list as name
         if not df.index.is_numeric():
             df = df.reset_index().copy()
-        df = df[~df[self._id].isnull()]
+        df = df[~df[self.reference_index].isnull()]
 
-        return df.set_index(self._id)
+        return df
 
 
 def _get_shortest_name(df: pd.DataFrame, column: str, new_column="name"):

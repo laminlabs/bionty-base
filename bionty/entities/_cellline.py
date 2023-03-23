@@ -19,12 +19,10 @@ class CellLine(Entity):
     def __init__(
         self,
         species: str = "human",
-        id: str = "ontology_id",
         database: Optional[Literal["clo"]] = None,
         version: Optional[str] = None,
     ) -> None:
         super().__init__(
-            id=id,
             database=database,
             version=version,
             species=species,
