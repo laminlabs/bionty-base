@@ -45,7 +45,7 @@ class Entity:
         reference_id: Optional[str] = None,
     ):
         # By default lookup allows auto-completion for the `name` field.
-        # lookup column can be changed using `.lookup_col = `.
+        # lookup column can be changed using `.lookup_field = `.
         self._lookup_field = "name"
         self._species = "human" if species is None else species
         self.filenames = filenames if filenames else None
@@ -128,13 +128,13 @@ class Entity:
         )
 
     @property
-    def lookup_col(self) -> str:
+    def lookup_field(self) -> str:
         """The column that allows auto-completion."""
         return self._lookup_field
 
-    @lookup_col.setter
-    def lookup_col(self, column_name) -> None:
-        """Set the lookup column."""
+    @lookup_field.setter
+    def lookup_field(self, column_name) -> None:
+        """Set the lookup field."""
         self._lookup_field = column_name
 
     @cached_property
