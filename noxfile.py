@@ -22,7 +22,7 @@ def lint(session: nox.Session) -> None:
 @nox.parametrize("package", ["bionty", "lnschema-bionty"])
 def build(session, package):
     login_testuser1(session)
-    setup_test_instances_from_main_branch(session)
+    setup_test_instances_from_main_branch(session, schema="bionty")
     session.install(".[dev,test]")
     session.install("./lnschema-bionty[dev,test]")
     if package == "bionty":
