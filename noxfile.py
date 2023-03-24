@@ -1,3 +1,5 @@
+import os
+
 import nox
 from laminci import move_built_docs_to_docs_slash_project_slug, upload_docs_dir
 from laminci.nox import (
@@ -29,4 +31,6 @@ def build(session, package):
         upload_docs_dir()
         move_built_docs_to_docs_slash_project_slug()
     else:
-        session.run("pytest", "-s", "./lnschema-bionty/tests")
+        # navigate into submodule so that lamin-project.yml is correctly read
+        os.chdir("./lnschema-bionty")
+        session.run("pytest", "-s", "./tests")
