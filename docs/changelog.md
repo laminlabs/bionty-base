@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-🚚 Rename property `lookup_col` to `lookup_field` | [283](https://github.com/laminlabs/bionty/pull/283) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-24 |
+🚚 Rename property `lookup_col` to `lookup_field` | [283](https://github.com/laminlabs/bionty/pull/283) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-24 | 0.11.0
 :white_check_mark: Add update_defaults test | [280](https://github.com/laminlabs/bionty/pull/280) | [Zethson](https://github.com/Zethson) | 2023-03-23 |
 👷 Test against `lnschema-bionty` | [279](https://github.com/laminlabs/bionty/pull/279) | [falexwolf](https://github.com/falexwolf) | 2023-03-23 |
 :sparkles: Move ID from Entity to curate | [268](https://github.com/laminlabs/bionty/pull/268) | [Zethson](https://github.com/Zethson) | 2023-03-23 |
