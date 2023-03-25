@@ -3,13 +3,13 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-🚚 Rename property `lookup_col` to `lookup_field` | [283](https://github.com/laminlabs/bionty/pull/283) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-24 | 0.11.0
-:white_check_mark: Add update_defaults test | [280](https://github.com/laminlabs/bionty/pull/280) | [Zethson](https://github.com/Zethson) | 2023-03-23 |
+🚚 Rename property `lookup_col` to `lookup_field` <span class="badge badge-warning">Breaking</span> | [283](https://github.com/laminlabs/bionty/pull/283) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-24 | 0.11.0
+✅ Add update_defaults test | [280](https://github.com/laminlabs/bionty/pull/280) | [Zethson](https://github.com/Zethson) | 2023-03-23 |
 👷 Test against `lnschema-bionty` | [279](https://github.com/laminlabs/bionty/pull/279) | [falexwolf](https://github.com/falexwolf) | 2023-03-23 |
-:sparkles: Move ID from Entity to curate | [268](https://github.com/laminlabs/bionty/pull/268) | [Zethson](https://github.com/Zethson) | 2023-03-23 |
+✨ Move ID from Entity to curate <span class="badge badge-warning">Breaking</span> | [268](https://github.com/laminlabs/bionty/pull/268) | [Zethson](https://github.com/Zethson) | 2023-03-23 |
 🐛 Fix removeprefix 3.8 & versions pathing | [277](https://github.com/laminlabs/bionty/pull/277) | [Zethson](https://github.com/Zethson) | 2023-03-22 | 0.10.1
 📝 Updated the curation notebook for cellmarker | [274](https://github.com/laminlabs/bionty/pull/274) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-22 |
-🍱 Updated CellMarker assets | [271](https://github.com/laminlabs/bionty/pull/271) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-21 | 0.10.0
+🍱 Updated CellMarker assets <span class="badge badge-warning">Breaking</span> | [271](https://github.com/laminlabs/bionty/pull/271) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-21 | 0.10.0
 🚑 Ensure version names are strings | [269](https://github.com/laminlabs/bionty/pull/269) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-20 | 0.9.0
 ✨ Add pathway ontology | [267](https://github.com/laminlabs/bionty/pull/267) | [Zethson](https://github.com/Zethson) | 2023-03-17 | 0.9.0rc1
 ✨ Add compatibility functions | [264](https://github.com/laminlabs/bionty/pull/264) | [Zethson](https://github.com/Zethson) | 2023-03-17 |
@@ -17,7 +17,7 @@ Name | PR | User | Date | Patch
 🐛 Fix default ids | [257](https://github.com/laminlabs/bionty/pull/257) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-14 |
 Add md5 sums | [249](https://github.com/laminlabs/bionty/pull/249) | [Zethson](https://github.com/Zethson) | 2023-03-13 |
 🎨 Fixed case sensitivity, lookup output as namedtuple | [255](https://github.com/laminlabs/bionty/pull/255) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-11 |
-💥 Lookup returns the full record | [254](https://github.com/laminlabs/bionty/pull/254) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-11 |
+💥 Lookup returns the full record <span class="badge badge-warning">Breaking</span> | [254](https://github.com/laminlabs/bionty/pull/254) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-11 |
 💄 Actually fix image display | [253](https://github.com/laminlabs/bionty/pull/253) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-11 |
 🐛 Fix img links | [252](https://github.com/laminlabs/bionty/pull/252) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-11 |
 📝 Keep improving docs | [250](https://github.com/laminlabs/bionty/pull/250) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-11 |
@@ -37,7 +37,7 @@ Add md5 sums | [249](https://github.com/laminlabs/bionty/pull/249) | [Zethson](h
 📝 Simplify FAQ | [218](https://github.com/laminlabs/bionty/pull/218) | [Zethson](https://github.com/Zethson) | 2023-02-27 |
 🎨 Simplify ontology accesses | [217](https://github.com/laminlabs/bionty/pull/217) | [Zethson](https://github.com/Zethson) | 2023-02-27 |
 🎨 Move Species to Entity | [216](https://github.com/laminlabs/bionty/pull/216) | [Zethson](https://github.com/Zethson) | 2023-02-27 |
-🎨 Rename EntityTable to Entity | [214](https://github.com/laminlabs/bionty/pull/214) | [Zethson](https://github.com/Zethson) | 2023-02-26 |
+🎨 Rename EntityTable to Entity <span class="badge badge-warning">Breaking</span> | [214](https://github.com/laminlabs/bionty/pull/214) | [Zethson](https://github.com/Zethson) | 2023-02-26 |
 🎨 Add laminci | [213](https://github.com/laminlabs/bionty/pull/213) | [Zethson](https://github.com/Zethson) | 2023-02-26 |
 ✨ Add HCA ontology | [209](https://github.com/laminlabs/bionty/pull/209) | [Zethson](https://github.com/Zethson) | 2023-02-21 |
 ✨ Improve version handling | [202](https://github.com/laminlabs/bionty/pull/202) | [Zethson](https://github.com/Zethson) | 2023-02-21 |
