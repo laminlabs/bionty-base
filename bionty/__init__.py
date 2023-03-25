@@ -18,6 +18,7 @@ Entities:
    Tissue
    Disease
    Phenotype
+   Pathway
    Readout
 
 The base model for every entity class is:
