@@ -39,7 +39,6 @@ class Entity:
         database: Optional[str],
         version: Optional[str] = None,
         species: Optional[str] = None,
-        filenames: Optional[Dict[str, str]] = None,
         *,
         prefix: Optional[str] = None,
         reference_id: Optional[str] = None,
@@ -48,9 +47,8 @@ class Entity:
         # lookup column can be changed using `.lookup_field = `.
         self._lookup_field = "name"
         self._species = "human" if species is None else species
-        self.filenames = filenames if filenames else None
         self.prefix = prefix
-        self.reference_index = "ontology_id" if reference_id is None else reference_id
+        self.reference_id = reference_id
 
         if database:
             # We don't allow custom databases inside lamindb instances
@@ -104,6 +102,7 @@ class Entity:
     @cached_property
     def df(self) -> pd.DataFrame:
         """Pandas DataFrame."""
+        # download
         if not self._local_parquet_path.exists():
             try:
                 self._url_download(self._url)
@@ -117,15 +116,18 @@ class Entity:
                         )
                         os.remove(self._ontology_download_path)
                         self._url_download(self._url)
-
+        # write df to parquet file
         df = self._ontology_to_df(self.ontology)
         df.to_parquet(self._local_parquet_path)
 
-        return (
-            pd.read_parquet(self._local_parquet_path)
-            .reset_index()
-            .set_index(self.reference_index)
-        )
+        # loads the df and set index
+        df = pd.read_parquet(self._local_parquet_path).reset_index()
+        if self.reference_id is None and "ontology_id" in df.columns:
+            self.reference_id = "ontology_id"
+        try:
+            return df.set_index(self.reference_id)
+        except KeyError:
+            return df
 
     @property
     def lookup_field(self) -> str:
@@ -183,7 +185,7 @@ class Entity:
         return list(df[0].values)
 
     def _ontology_to_df(self, ontology: Ontology):
-        """Convert ontology to a DataFrame with id and name columns."""
+        """Convert ontology to a DataFrame with ontology_id and name columns."""
         if self.prefix:
             return pd.DataFrame(
                 [
@@ -192,12 +194,12 @@ class Entity:
                     if term.id.startswith(f"{self.prefix}:")
                 ],
                 columns=["ontology_id", "name"],
-            ).set_index(self.reference_index)
+            ).set_index("ontology_id")
         else:
             return pd.DataFrame(
                 [(term.id, term.name) for term in ontology.terms()],
                 columns=["ontology_id", "name"],
-            ).set_index(self.reference_index)
+            ).set_index("ontology_id")
 
     @check_dynamicdir_exists
     def _url_download(self, url: str):
@@ -292,7 +294,7 @@ class Entity:
         self,
         df: pd.DataFrame,
         column: str = None,
-        reference_index: str = "ontology_id",
+        reference_id: str = "ontology_id",
         case_sensitive: bool = True,
     ) -> pd.DataFrame:
         """Curate index of passed DataFrame to conform with default identifier.
@@ -305,7 +307,7 @@ class Entity:
         Args:
             df: The input Pandas DataFrame to curate.
             column: The column in the passed Pandas DataFrame to curate.
-            reference_index: The reference column in the ontology Pandas DataFrame.
+            reference_id: The reference column in the ontology Pandas DataFrame.
                              'Defaults to ontology_id'.
             case_sensitive: Whether the curation should be case sensitive or not.
                             Defaults to True.
@@ -314,15 +316,15 @@ class Entity:
             Returns the DataFrame with the curated index and a boolean `__curated__`
             column that indicates compliance with the default identifier.
         """
-        if self.reference_index and reference_index != "ontology_id":
-            reference_index = reference_index
-        elif self.reference_index:
-            reference_index = self.reference_index
+        if self.reference_id and reference_id != "ontology_id":
+            reference_id = reference_id
+        elif self.reference_id:
+            reference_id = self.reference_id
 
         df = df.copy()
         orig_column = column
         if column is not None and column not in self.df.columns:
-            column = reference_index
+            column = reference_id
             df.rename(columns={orig_column: column}, inplace=True)
 
         # uppercasing the target column before curating
@@ -336,7 +338,7 @@ class Entity:
                 df.index = df.index.str.upper()
 
         curated_df = self._curate(
-            df=df, column=column, reference_id=reference_index
+            df=df, column=column, reference_id=reference_id
         ).rename(columns={column: orig_column})
 
         # change the original column values back

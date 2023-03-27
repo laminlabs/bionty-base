@@ -23,9 +23,7 @@ def remove_prefix(
 
 
 doc_entites = """\
-species: `name` of `Species` entity Entity.
-        id: Field name that should constitute the primary reference for each value.
-            It will also be the primary key in the corresponding SQL Entity.
+species: `name` of `Species` entity.
         database: The key of the database in the local.yml versions file.
                   Get all available databases with `bionty.display_available_versions`.
         version: The version of the ontology. Typically a date or an actual version.
