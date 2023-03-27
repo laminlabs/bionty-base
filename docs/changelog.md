@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+💚 Try fixing `lnschema-bionty` CI | [289](https://github.com/laminlabs/bionty/pull/289) | [falexwolf](https://github.com/falexwolf) | 2023-03-27 |
 🐛 Fix reference_id for gene and protein | [288](https://github.com/laminlabs/bionty/pull/288) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-27 | 0.11.2
 🚚 Renamed to reference_id everywhere | [287](https://github.com/laminlabs/bionty/pull/287) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-27 | 0.11.1
 👷 Fix lnschema-bionty CI | [284](https://github.com/laminlabs/bionty/pull/284) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-27 |
