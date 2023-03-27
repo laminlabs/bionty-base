@@ -320,6 +320,8 @@ class Entity:
             reference_id = reference_id
         elif self.reference_id:
             reference_id = self.reference_id
+        # this is needed for features parsing in lamindb
+        self._parsing_id = reference_id
 
         df = df.copy()
         orig_column = column
