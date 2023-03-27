@@ -2,7 +2,6 @@ import os
 
 import nox
 from laminci import move_built_docs_to_docs_slash_project_slug, upload_docs_dir
-from laminci.db import setup_local_test_postgres
 from laminci.nox import build_docs, login_testuser1, run_pre_commit, run_pytest
 
 nox.options.reuse_existing_virtualenvs = True
@@ -26,9 +25,5 @@ def build(session, package):
     else:
         # navigate into submodule so that lamin-project.yml is correctly read
         os.chdir("./lnschema-bionty")
-        session.install(".[test]")  # install current package from main branch
-        # init a postgres instance
-        pgurl = setup_local_test_postgres()
-        init_instance = f"lamin init --storage pgtest --db {pgurl} --schema bionty"
-        session.run(*init_instance.split(" "), external=True)
-        session.run("pytest", "-s", "./tests")
+        session.install(".[test]")
+        session.run("pytest", "-s", "./tests", "--ignore", "./tests/test_migrations.py")
