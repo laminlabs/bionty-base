@@ -32,7 +32,7 @@ def test_uniprot_protein_curation_name():
         ]
     )
     curated_df = bt.Protein(database="uniprot", version="2022-04").curate(
-        df, reference_index="name"
+        df, reference_id="name"
     )
 
     curation = curated_df["__curated__"].reset_index(drop=True)

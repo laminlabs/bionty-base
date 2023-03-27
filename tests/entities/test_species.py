@@ -14,7 +14,7 @@ def test_ensemble_species_curation_ontology_id():
         ]
     )
     curated_df = bt.Species(database="ensembl", version="release-108").curate(
-        df, reference_index="id"
+        df, reference_id="id"
     )
 
     curation = curated_df["__curated__"].reset_index(drop=True)
@@ -34,7 +34,7 @@ def test_ensemble_species_curation_name():
         ]
     )
     curated_df = bt.Species(database="ensembl", version="release-108").curate(
-        df, reference_index="name"
+        df, reference_id="name"
     )
 
     curation = curated_df["__curated__"].reset_index(drop=True)

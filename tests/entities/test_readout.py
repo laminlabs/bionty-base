@@ -32,7 +32,7 @@ def test_efo_readout_curation_name():
         ]
     )
     curated_df = bt.Readout(database="efo", version="3.48.0").curate(
-        df, reference_index="name"
+        df, reference_id="name"
     )
 
     curation = curated_df["__curated__"].reset_index(drop=True)
