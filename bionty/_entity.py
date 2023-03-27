@@ -320,8 +320,6 @@ class Entity:
             reference_id = reference_id
         elif self.reference_id:
             reference_id = self.reference_id
-        # this is needed for features parsing in lamindb
-        self._parsing_id = reference_id
 
         df = df.copy()
         orig_column = column
@@ -361,6 +359,8 @@ class Entity:
     ) -> pd.DataFrame:
         """Curate index of passed DataFrame to conform with default identifier."""
         df = df.copy()
+        # this is needed for features parsing in lamindb
+        self._parsing_id = reference_id
 
         if agg_col is not None:
             # if provided a column with aggregated values, performs alias mapping
