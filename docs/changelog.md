@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🐛 Fix reference_id for gene and protein | [288](https://github.com/laminlabs/bionty/pull/288) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-27 |
 🚚 Renamed to reference_id everywhere | [287](https://github.com/laminlabs/bionty/pull/287) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-27 | 0.11.1
 👷 Fix lnschema-bionty CI | [284](https://github.com/laminlabs/bionty/pull/284) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-27 |
 🚚 Rename property `lookup_col` to `lookup_field` <span class="badge badge-warning">Breaking</span> | [283](https://github.com/laminlabs/bionty/pull/283) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-24 | 0.11.0
