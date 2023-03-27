@@ -32,7 +32,7 @@ def test_clo_cellline_curation_name():
         ]
     )
     curated_df = bt.CellLine(database="clo", version="2022-03-21").curate(
-        df, reference_index="name"
+        df, reference_id="name"
     )
 
     curation = curated_df["__curated__"].reset_index(drop=True)

@@ -9,7 +9,7 @@ def test_cellmarker_cellmarker_curation_name_human():
     )
 
     curated_df = bt.CellMarker(database="cellmarker", version="2.0").curate(
-        df, reference_index="name"
+        df, reference_id="name"
     )
 
     curation = curated_df["__curated__"].reset_index(drop=True)
@@ -25,7 +25,7 @@ def test_cellmarker_cellmarker_curation_name_mouse():
 
     curated_df = bt.CellMarker(
         species="mouse", database="cellmarker", version="2.0"
-    ).curate(df, reference_index="name")
+    ).curate(df, reference_id="name")
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])

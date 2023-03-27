@@ -32,7 +32,7 @@ def test_uberon_tissue_curation_name():
         ]
     )
     curated_df = bt.Tissue(database="uberon", version="2023-02-14").curate(
-        df, reference_index="name"
+        df, reference_id="name"
     )
 
     curation = curated_df["__curated__"].reset_index(drop=True)

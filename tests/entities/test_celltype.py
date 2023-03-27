@@ -33,7 +33,7 @@ def test_cl_celltype_curation_name():
         ]
     )
     curated_df = bt.CellType(database="cl", version="2022-08-16").curate(
-        df, reference_index="name"
+        df, reference_id="name"
     )
 
     curation = curated_df["__curated__"].reset_index(drop=True)
@@ -72,7 +72,7 @@ def test_ca_celltype_curation_name():
         ]
     )
     curated_df = bt.CellType(database="ca", version="2022-12-16").curate(
-        df, reference_index="name"
+        df, reference_id="name"
     )
 
     curation = curated_df["__curated__"].reset_index(drop=True)

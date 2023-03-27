@@ -32,7 +32,7 @@ def test_hp_phenotype_curation_name():
         ]
     )
     curated_df = bt.Phenotype(database="hp", version="2023-01-27").curate(
-        df, reference_index="name"
+        df, reference_id="name"
     )
 
     curation = curated_df["__curated__"].reset_index(drop=True)

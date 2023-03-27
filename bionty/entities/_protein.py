@@ -50,7 +50,7 @@ class Protein(Entity):
         )  # Take the shortest name in protein names list as name
         if not df.index.is_numeric():
             df = df.reset_index().copy()
-        df = df[~df[self.reference_index].isnull()]
+        df = df[~df[self.reference_id].isnull()]
 
         return df
 

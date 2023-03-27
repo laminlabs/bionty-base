@@ -56,7 +56,7 @@ class Gene(Entity):
         NormalizeColumns.gene(df, species=self.species)
         if not df.index.is_numeric():
             df = df.reset_index().copy()
-        df = df[~df[self.reference_index].isnull()]
+        df = df[~df[self.reference_id].isnull()]
 
         return df
 
