@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+👷 Fix lnschema-bionty CI | [284](https://github.com/laminlabs/bionty/pull/284) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-27 |
 🚚 Rename property `lookup_col` to `lookup_field` <span class="badge badge-warning">Breaking</span> | [283](https://github.com/laminlabs/bionty/pull/283) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-24 | 0.11.0
 ✅ Add update_defaults test | [280](https://github.com/laminlabs/bionty/pull/280) | [Zethson](https://github.com/Zethson) | 2023-03-23 |
 👷 Test against `lnschema-bionty` | [279](https://github.com/laminlabs/bionty/pull/279) | [falexwolf](https://github.com/falexwolf) | 2023-03-23 |
