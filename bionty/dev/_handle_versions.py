@@ -140,7 +140,7 @@ def create_lndb() -> None:
         shutil.copy2(_CURRENT_PATH, _LNDB_PATH)
 
 
-def get_missing_defaults(
+def _get_missing_defaults(
     source: Literal["versions", "local"] = "local",
     defaults: Literal["current", "lndb"] = "current",
 ) -> List[Tuple[str, str, str]]:
@@ -169,9 +169,9 @@ def get_missing_defaults(
 
     for entity in missing_entites:
         database, _ = list(versions_yaml.get(entity).items())[0]
-        version = list(
-            versions_yaml.get(entity, {}).get(database, {}).get("versions", {})
-        )[0]
+        version = str(
+            list(versions_yaml.get(entity, {}).get(database, {}).get("versions", {}))[0]
+        )
         formatted_missing.append((entity, database, version))
 
     return formatted_missing
