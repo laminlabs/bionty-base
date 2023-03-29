@@ -287,7 +287,7 @@ class Entity:
         )  # noqa: W503,E501
         self._ontology_download_path = (
             settings.dynamicdir
-            / f"{self.species}_{self.database}_{self.version}_{self.__class__.__name__}___{self._url.split('/')[-1]}"  # noqa: E501 W503
+            / f"{self.species}_{self.database}_{self.version}_{self.__class__.__name__}"  # noqa: E501 W503
         )
 
     def curate(
