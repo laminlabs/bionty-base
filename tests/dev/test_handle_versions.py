@@ -34,6 +34,9 @@ def versions_yaml_replica():
           7.74:
             - https://data.bioontology.org/ontologies/PW/filename
             - a6df86616149dcdfe08fe16c900cba85
+          99.99:
+            - https://data.bioontology.org/ontologies/PW/filename
+            - a6df86616149dcdfe08fe16c900cba85
         name: Pathway Ontology
         website: https://www.ebi.ac.uk/ols/ontologies/pw
     """
