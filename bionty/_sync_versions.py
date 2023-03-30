@@ -4,6 +4,7 @@ from typing import List, Literal, Tuple, Union
 from ._compat.update_yaml_format import sync_yaml_format
 from ._settings import settings
 from .dev._handle_versions import (
+    _get_missing_defaults,
     create_current,
     create_lndb,
     create_local,
@@ -55,3 +56,6 @@ sync_yaml_format()
 update_local()
 create_current(overwrite=False)
 create_lndb()
+for default in ["current", "lndb"]:
+    missing_defaults = _get_missing_defaults(source="local", defaults=default)  # type: ignore  # noqa: E501
+    update_defaults(missing_defaults, target=default)  # type: ignore

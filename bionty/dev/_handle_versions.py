@@ -1,6 +1,6 @@
 import shutil
 from pathlib import Path
-from typing import Literal
+from typing import List, Literal, Tuple
 
 import pandas as pd
 
@@ -52,7 +52,8 @@ def create_current(
 
     Args:
         overwrite: Whether to overwrite the _current.yaml even if it exists already.
-        source: The yaml source to use to create the _current.yaml . Defaults to local.
+        source: The yaml source to use to create the _current.yaml .
+                Defaults to 'local'.
     """
     if not _CURRENT_PATH.exists() or overwrite:
         versions = (
@@ -137,3 +138,40 @@ def create_lndb() -> None:
     """If no ._lndb file, write ._current to ._lndb for lndb."""
     if not _LNDB_PATH.exists():
         shutil.copy2(_CURRENT_PATH, _LNDB_PATH)
+
+
+def _get_missing_defaults(
+    source: Literal["versions", "local"] = "local",
+    defaults: Literal["current", "lndb"] = "current",
+) -> List[Tuple[str, str, str]]:
+    """Compares a version yaml file against a defaults yaml file and determines a diff.
+
+    Args:
+        source: The complete versions yaml file. One of "versions, "local".
+                Defaults to "local".
+        defaults: The current defaults yaml file. One of "current", "lndb".
+                  Defaults to "current".
+
+    Returns:
+        A list of tuples in the form of [(Entity, database, version)] that
+        can serve as input for `update_defaults`.
+    """
+    versions_yaml = (
+        load_yaml(VERSIONS_PATH) if source == "versions" else load_yaml(LOCAL_PATH)
+    )
+    defaults_yaml = (
+        load_yaml(_CURRENT_PATH) if defaults == "current" else load_yaml(_LNDB_PATH)
+    )
+
+    formatted_missing = []
+    missing_entites = set(versions_yaml.keys()) - set(defaults_yaml.keys())
+    missing_entites.remove("version")
+
+    for entity in missing_entites:
+        database, _ = list(versions_yaml.get(entity).items())[0]
+        version = str(
+            list(versions_yaml.get(entity, {}).get(database, {}).get("versions", {}))[0]
+        )
+        formatted_missing.append((entity, database, version))
+
+    return formatted_missing
