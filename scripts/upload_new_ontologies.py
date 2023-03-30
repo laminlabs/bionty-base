@@ -35,8 +35,10 @@ def _get_latest_ontology_files() -> Dict[str, str]:
     return entity_to_latest_ontology
 
 
-def _upload_ontology_artifacts(entity_to_latest_ontology: Dict[str, str]):
-    ln.setup.load("testuser1/lamin-site-assets", migrate=True)
+def _upload_ontology_artifacts(
+    instance: str, entity_to_latest_ontology: Dict[str, str]
+):
+    ln.setup.load(instance, migrate=True)
     with ln.Session() as ss:
         transform = ln.add(ln.Transform, name="Bionty ontology artifacts upload")
         run = ln.Run(transform=transform)
@@ -52,12 +54,18 @@ def _upload_ontology_artifacts(entity_to_latest_ontology: Dict[str, str]):
             ss.add(ontology_ln_file)
 
 
-def _run_upload():
-    if os.environ["GITHUB_EVENT_NAME"] != "push" or os.environ["GITHUB_REF"] != "main":
-        return
+def _run_upload(instance: str, check_github: bool = True) -> None:
+    if check_github:
+        if (
+            os.environ["GITHUB_EVENT_NAME"] != "push"
+            or os.environ["GITHUB_REF"] != "main"
+        ):
+            return
 
     entity_to_latest_ontology = _get_latest_ontology_files()
-    _upload_ontology_artifacts(entity_to_latest_ontology)
+    _upload_ontology_artifacts(
+        instance=instance, entity_to_latest_ontology=entity_to_latest_ontology
+    )
 
 
-_run_upload()
+_run_upload(instance="lukas-bionty-test", check_github=False)
