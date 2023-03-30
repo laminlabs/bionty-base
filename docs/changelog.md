@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+Add current/lndb updating on new entities | [290](https://github.com/laminlabs/bionty/pull/290) | [Zethson](https://github.com/Zethson) | 2023-03-30 |
 💚 Try fixing `lnschema-bionty` CI | [289](https://github.com/laminlabs/bionty/pull/289) | [falexwolf](https://github.com/falexwolf) | 2023-03-27 |
 🐛 Fix reference_id for gene and protein | [288](https://github.com/laminlabs/bionty/pull/288) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-27 | 0.11.2
 🚚 Renamed to reference_id everywhere | [287](https://github.com/laminlabs/bionty/pull/287) | [sunnyosun](https://github.com/sunnyosun) | 2023-03-27 | 0.11.1
