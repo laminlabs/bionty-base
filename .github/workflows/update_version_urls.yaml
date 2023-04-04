@@ -1,4 +1,4 @@
-name: build
+name: Update Version URLs
 
 on:
   push:
@@ -17,6 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.9"]
+        package: ["bionty", "lnschema-bionty"]
     timeout-minutes: 25
 
     steps:
@@ -71,7 +72,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
 
-      - name: Build
+      - name: Nox tests
         run: |
           nox -s "build(package='${{ matrix.package }}')"
 
