@@ -202,7 +202,7 @@ class Entity:
             ).set_index("ontology_id")
 
     @check_dynamicdir_exists
-    def _url_download(self, url: str):
+    def _url_download(self, url: str) -> str:
         """Download file from url to dynamicdir."""
         if not self._ontology_download_path.exists():
             logger.info(
@@ -213,10 +213,11 @@ class Entity:
 
         return self._ontology_download_path
 
-    def _ontology_localpath_from_url(self, url: str):
+    def _ontology_localpath_from_url(self, url: str) -> str:
         """Get version from the ontology url."""
         version = url.split("/")[-2]
         filename = url.split("/")[-1]
+
         return settings.dynamicdir / f"{version}___{filename}"
 
     def _load_versions(
@@ -287,7 +288,9 @@ class Entity:
         )  # noqa: W503,E501
         self._ontology_download_path = (
             settings.dynamicdir
-            / f"{self.species}_{self.database}_{self.version}_{self.__class__.__name__}"  # noqa: E501 W503
+            / f"{self.species}___{self.database}___{self.version}___{self.__class__.__name__}".replace(
+                " ", "_"
+            )
         )
 
     def curate(
