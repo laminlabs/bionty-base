@@ -44,23 +44,21 @@ def _upload_ontology_artifacts(
         run = ln.Run(transform=transform)
 
         for entity, ontology_path in entity_to_latest_ontology.items():
-            ontology_ln_file = ss.select(ln.File, name=f"{entity}_latest").one_or_none()
+            # TODO Remove the file extension code as soon as File uses the full filename.
+            file_name = ontology_path.split("/")[-1]
+            file_name_no_extension = file_name.split(".")[0]
+            ontology_ln_file = ss.select(
+                ln.File, name=file_name_no_extension
+            ).one_or_none()
             if ontology_ln_file is not None:
-                ontology_ln_file._cloud_filepath = None
-                ontology_ln_file._local_filepath = Path(ontology_path)
-                ontology_ln_file.source = run
+                print(
+                    "[bold yellow]Found"
+                    f" {ontology_ln_file.name}{ontology_ln_file.suffix} on S3. Skipping"
+                    " ingestion..."
+                )
             else:
                 ontology_ln_file = ln.File(ontology_path, source=run)
-            try:
-                ss.aüdd(ontology_ln_file)
-            except RuntimeError as e:
-                if "A file with same hash is already in the DB" in str(e):
-                    print(
-                        f"[bold yellow]Skipping {ontology_ln_file.name} which is"
-                        " already in the DB."
-                    )
-                else:
-                    raise
+                ss.add(ontology_ln_file)
 
 
 def _run_upload(instance: str, check_github: bool = True) -> None:
