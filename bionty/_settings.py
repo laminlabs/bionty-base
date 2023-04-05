@@ -2,20 +2,19 @@ from functools import wraps
 from pathlib import Path
 from typing import Union
 
-import boto3
-from cloudpathlib import S3Client
+from lndb_storage import UPath
 
 HOME_DIR = Path(f"{Path.home()}/.lamin/bionty").resolve()
 ROOT_DIR = Path(__file__).parent.resolve()
 
 
 def s3_bionty_assets(filename: str):
-    client = S3Client(
-        local_cache_dir=settings.datasetdir,
-        no_sign_request=True,
-        boto3_session=boto3.Session(),
-    )
-    return client.CloudPath(f"s3://bionty-assets/{filename}")
+    cloudpath = UPath(f"s3://bionty-assets/{filename}", anon=True, cache_regions=True)
+    localpath = settings.datasetdir / filename
+
+    cloudpath.synchronize(localpath)
+
+    return localpath
 
 
 def check_datasetdir_exists(f):
@@ -43,10 +42,12 @@ class Settings:
         dynamicdir: Union[str, Path] = ROOT_DIR / "_dynamic/",
         versionsdir: Union[str, Path] = HOME_DIR / "versions/",
     ):
+        # setters convert to Path and resolve:
         self.datasetdir = datasetdir
         self.dynamicdir = dynamicdir
         self.versionsdir = versionsdir
-        Path(self.versionsdir).mkdir(exist_ok=True, parents=True)
+
+        self.versionsdir.mkdir(exist_ok=True, parents=True)  # type: ignore
 
     @property
     def datasetdir(self):

@@ -225,9 +225,9 @@ class Entity:
     ) -> Dict[str, Dict[str, Dict]]:
         """Load all versions with string version keys."""
         YAML_PATH = (
-            Path(f"{VERSIONS_PATH}/versions.yaml")
+            VERSIONS_PATH / "versions.yaml"
             if source == "versions"
-            else Path(f"{settings.versionsdir}/local.yaml")
+            else settings.versionsdir / "local.yaml"
         )
         versions = load_yaml(YAML_PATH).get(self.__class__.__name__)
 
