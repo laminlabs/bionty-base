@@ -11,6 +11,7 @@ from bionty.dev._io import load_yaml, write_yaml
 
 ROOT = Path(__file__).parent / "bionty/versions"
 VERSIONS_PATH = ROOT / "versions.yaml"
+S3_VERSIONS_PATH = ROOT / ".s3_assets_versions.yaml"
 _CURRENT_PATH = ROOT / "._current.yaml"
 _LNDB_PATH = ROOT / "._lndb.yaml"
 
@@ -55,6 +56,9 @@ def _upload_ontology_artifacts(
         load_yaml(VERSIONS_PATH) if source == "versions" else load_yaml(LOCAL_PATH)
     )
 
+    ln.setup.login(
+        "testuser2@lamin.ai", password="goeoNJKE61ygbz1vhaCVynGERaRrlviPBVQsjkhz"
+    )
     ln.setup.load(instance, migrate=True)
     with ln.Session() as ss:
         transform = ln.add(ln.Transform, name="Bionty ontology artifacts upload")
@@ -81,15 +85,13 @@ def _upload_ontology_artifacts(
             s3_path_ID = str(ontology_ln_file.load()).split("/")[-1]
             species, database, version, class_entity = ontology_path.split("___")
 
-            S3_BASE_URL = "s3://lukas-bionty-test/"
+            S3_BASE_URL = "s3://bionty-assets-test/"
 
             versions_yaml[class_entity][database]["versions"][version][0] = (
                 S3_BASE_URL + s3_path_ID
             )
 
-    write_yaml(versions_yaml, VERSIONS_PATH) if source == "versions" else write_yaml(
-        versions_yaml, LOCAL_PATH
-    )
+    write_yaml(versions_yaml, S3_VERSIONS_PATH)
 
 
 def _run_update_version_url(instance: str, check_github: bool = True) -> None:
@@ -106,4 +108,4 @@ def _run_update_version_url(instance: str, check_github: bool = True) -> None:
     )
 
 
-_run_update_version_url(instance="lukas-bionty-test", check_github=False)
+_run_update_version_url(instance="bionty-assets-test", check_github=False)

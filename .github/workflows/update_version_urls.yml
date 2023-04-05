@@ -85,15 +85,15 @@ jobs:
 
       - name: Update version URLs
         run: python ./scripts/upload_new_ontologies.py
-#      - name: Create Pull Request
-#        uses: peter-evans/create-pull-request@v5
-#        with:
-#          base: "staging"
-#          commit-message: Update ontology URLs
-#          committer: GitHub <noreply@github.com>
-#          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-#          branch: s3_ontologies_update
-#          delete-branch: true
-#          title: "Updating ontology URLs"
-#          add-paths: |
-#            bionty/versions/versions.yaml
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          base: "staging"
+          commit-message: Update ontology URLs
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          branch: s3_ontologies_update
+          delete-branch: true
+          title: "Updating ontology URLs"
+          add-paths: |
+            bionty/versions/.s3_assets_versions.yaml
