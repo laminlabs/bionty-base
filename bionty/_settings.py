@@ -1,8 +1,8 @@
 from functools import wraps
 from pathlib import Path
 from typing import Union
-from lndb_storage import UPath
 
+from lndb_storage import UPath
 
 HOME_DIR = Path(f"{Path.home()}/.lamin/bionty").resolve()
 ROOT_DIR = Path(__file__).parent.resolve()
@@ -45,7 +45,7 @@ class Settings:
         self.datasetdir = datasetdir
         self.dynamicdir = dynamicdir
         self.versionsdir = versionsdir
-        Path(self.versionsdir).mkdir(exist_ok=True, parents=True)
+        self.versionsdir.mkdir(exist_ok=True, parents=True)  # type: ignore
 
     @property
     def datasetdir(self):
