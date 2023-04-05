@@ -14,8 +14,8 @@ ROOT_DIR = Path(__file__).parent.resolve()
 
 def display_available_versions() -> None:  # pragma: no cover
     """Displays all available entities and versions in a Rich table."""
-    VERSIONS_FILE_PATH = Path(f"{settings.versionsdir}/local.yaml").resolve()
-    versions = load_yaml(VERSIONS_FILE_PATH.resolve())
+    VERSIONS_FILE_PATH = (settings.versionsdir / "local.yaml").resolve()
+    versions = load_yaml(VERSIONS_FILE_PATH)
 
     table = Table(title="Available versions")
 
