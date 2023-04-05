@@ -9,7 +9,7 @@ from bionty import Entity
 from bionty._settings import settings
 from bionty.dev._io import load_yaml, write_yaml
 
-ROOT = Path(__file__).parent / "bionty/versions"
+ROOT = Path(f"{os.getcwd()}/bionty/versions")
 VERSIONS_PATH = ROOT / "versions.yaml"
 S3_VERSIONS_PATH = ROOT / ".s3_assets_versions.yaml"
 _CURRENT_PATH = ROOT / "._current.yaml"
@@ -20,7 +20,7 @@ LOCAL_PATH = settings.versionsdir / "local.yaml"
 
 def _get_latest_ontology_files() -> Dict[str, str]:
     _DYNAMIC_PATH = Path(
-        f"{os.getcwd()}/.nox/build-package-bionty/lib/python3.9/site-packages/bionty/_dynamic"
+        f"{os.getcwd()}/.nox/build-package-bionty/lib/python3.10/site-packages/bionty/_dynamic"
     )
     entity_to_latest_ontology = {}
     for cls in Entity.__subclasses__():
