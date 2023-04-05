@@ -12,8 +12,6 @@ from bionty.dev._io import load_yaml, write_yaml
 ROOT = Path(f"{os.getcwd()}/bionty/versions")
 VERSIONS_PATH = ROOT / "versions.yaml"
 S3_VERSIONS_PATH = ROOT / ".s3_assets_versions.yaml"
-_CURRENT_PATH = ROOT / "._current.yaml"
-_LNDB_PATH = ROOT / "._lndb.yaml"
 
 LOCAL_PATH = settings.versionsdir / "local.yaml"
 
@@ -55,6 +53,8 @@ def _upload_ontology_artifacts(
     versions_yaml = (
         load_yaml(VERSIONS_PATH) if source == "versions" else load_yaml(LOCAL_PATH)
     )
+
+    print(versions_yaml)
 
     ln.setup.login(
         "testuser2@lamin.ai", password="goeoNJKE61ygbz1vhaCVynGERaRrlviPBVQsjkhz"
