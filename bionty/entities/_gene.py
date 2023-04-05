@@ -49,8 +49,7 @@ class Gene(Entity):
 
         See ingestion: https://lamin.ai/docs/bionty-assets/ingest/ensembl-gene
         """
-        cloudpath = s3_bionty_assets(self._cloud_parquet_path)
-        self._filepath = cloudpath.fspath
+        self._filepath = s3_bionty_assets(self._cloud_parquet_path)
 
         df = pd.read_parquet(self._filepath)
         NormalizeColumns.gene(df, species=self.species)

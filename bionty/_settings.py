@@ -1,21 +1,20 @@
 from functools import wraps
 from pathlib import Path
 from typing import Union
+from lndb_storage import UPath
 
-import boto3
-from cloudpathlib import S3Client
 
 HOME_DIR = Path(f"{Path.home()}/.lamin/bionty").resolve()
 ROOT_DIR = Path(__file__).parent.resolve()
 
 
 def s3_bionty_assets(filename: str):
-    client = S3Client(
-        local_cache_dir=settings.datasetdir,
-        no_sign_request=True,
-        boto3_session=boto3.Session(),
-    )
-    return client.CloudPath(f"s3://bionty-assets/{filename}")
+    cloudpath = UPath(f"s3://bionty-assets/{filename}", anon=True)
+    localpath = settings.datasetdir / filename
+
+    cloudpath.synchronize(localpath)
+
+    return localpath
 
 
 def check_datasetdir_exists(f):
