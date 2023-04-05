@@ -42,9 +42,11 @@ class Settings:
         dynamicdir: Union[str, Path] = ROOT_DIR / "_dynamic/",
         versionsdir: Union[str, Path] = HOME_DIR / "versions/",
     ):
+        # setters convert to Path and resolve:
         self.datasetdir = datasetdir
         self.dynamicdir = dynamicdir
         self.versionsdir = versionsdir
+
         self.versionsdir.mkdir(exist_ok=True, parents=True)  # type: ignore
 
     @property
