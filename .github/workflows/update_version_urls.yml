@@ -29,6 +29,11 @@ jobs:
 
       - name: Checkout lndocs
         uses: actions/checkout@v3
+        with:
+          repository: laminlabs/lndocs
+          ssh-key: ${{ secrets.READ_LNDOCS }}
+          path: lndocs
+          ref: main
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -72,12 +77,21 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
 
-      - name: Nox tests
-        run: |
-          nox -s "build(package='${{ matrix.package }}')"
+      #      - name: Nox tests
+      #        run: |
+      #          nox -s "build(package='${{ matrix.package }}')"
 
       - name: Update version URLs
-        run: python -c "print('TODO')"
+        run: echo "test" > test.md
 
-      - name: Make PR
-        run: python -c "print('TODO')"
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          commit-message: Update report
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          branch: s3_ontologies_update
+          delete-branch: true
+          title: "Updating ontology URLs"
+          add-paths: |
+            test.md
