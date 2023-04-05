@@ -77,22 +77,23 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
 
-      #      - name: Nox tests
-      #        run: |
-      #          nox -s "build(package='${{ matrix.package }}')"
+      - name: Nox tests
+        run: nox -s "build(package='${{ matrix.package }}')"
+
+      - name: Install updating dependencies
+        run: pip install lndb rich .
 
       - name: Update version URLs
-        run: echo "test" > test.md
-
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
-        with:
-          base: "staging"
-          commit-message: Update ontology URLs
-          committer: GitHub <noreply@github.com>
-          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          branch: s3_ontologies_update
-          delete-branch: true
-          title: "Updating ontology URLs"
-          add-paths: |
-            test.md
+        run: python ./scripts/upload_new_ontologies.py
+#      - name: Create Pull Request
+#        uses: peter-evans/create-pull-request@v5
+#        with:
+#          base: "staging"
+#          commit-message: Update ontology URLs
+#          committer: GitHub <noreply@github.com>
+#          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+#          branch: s3_ontologies_update
+#          delete-branch: true
+#          title: "Updating ontology URLs"
+#          add-paths: |
+#            bionty/versions/versions.yaml

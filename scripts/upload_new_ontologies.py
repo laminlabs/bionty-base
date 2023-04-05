@@ -16,8 +16,6 @@ _LNDB_PATH = ROOT / "._lndb.yaml"
 
 LOCAL_PATH = settings.versionsdir / "local.yaml"
 
-S3_URL_BASE = "s3://lukas-bionty-test/"
-
 
 def _get_latest_ontology_files() -> Dict[str, str]:
     _DYNAMIC_PATH = Path(
@@ -51,7 +49,7 @@ def _get_latest_ontology_files() -> Dict[str, str]:
 def _upload_ontology_artifacts(
     instance: str,
     entity_to_latest_ontology: Dict[str, str],
-    source: Literal["versions", "local"] = "local",
+    source: Literal["versions", "local"] = "versions",
 ):
     versions_yaml = (
         load_yaml(VERSIONS_PATH) if source == "versions" else load_yaml(LOCAL_PATH)
@@ -83,11 +81,12 @@ def _upload_ontology_artifacts(
             s3_path_ID = str(ontology_ln_file.load()).split("/")[-1]
             species, database, version, class_entity = ontology_path.split("___")
 
+            S3_BASE_URL = "s3://lukas-bionty-test/"
+
             versions_yaml[class_entity][database]["versions"][version][0] = (
-                S3_URL_BASE + s3_path_ID
+                S3_BASE_URL + s3_path_ID
             )
 
-    # DISABLE THIS WHEN TESTING
     write_yaml(versions_yaml, VERSIONS_PATH) if source == "versions" else write_yaml(
         versions_yaml, LOCAL_PATH
     )
