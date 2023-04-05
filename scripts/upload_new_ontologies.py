@@ -20,7 +20,7 @@ LOCAL_PATH = settings.versionsdir / "local.yaml"
 
 def _get_latest_ontology_files() -> Dict[str, str]:
     _DYNAMIC_PATH = Path(
-        f"{os.getcwd()}/.nox/build-package-bionty/lib/python3.10/site-packages/bionty/_dynamic"
+        f"{os.getcwd()}/.nox/build-package-bionty/lib/python3.9/site-packages/bionty/_dynamic"
     )
     entity_to_latest_ontology = {}
     for cls in Entity.__subclasses__():
