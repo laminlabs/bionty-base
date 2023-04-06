@@ -51,7 +51,9 @@ def _upload_ontology_artifacts(
     source: Literal["versions", "local"] = "versions",
 ):
     versions_yaml = (
-        load_yaml(VERSIONS_PATH) if source == "versions" else load_yaml(LOCAL_PATH)
+        load_yaml(VERSIONS_PATH, convert_dates=False)
+        if source == "versions"
+        else load_yaml(LOCAL_PATH, convert_dates=False)
     )
 
     print(versions_yaml)

@@ -7,7 +7,33 @@ from rich import print
 from rich.progress import Progress
 
 
-def load_yaml(filename: Union[str, Path]):  # pragma: no cover
+class NoDatesSafeLoader(yaml.SafeLoader):
+    @classmethod
+    def remove_implicit_resolver(cls, tag_to_remove):
+        """Remove implicit resolvers for a particular tag.
+
+        Source: https://stackoverflow.com/questions/34667108/ignore-dates-and-times-while-parsing-yaml
+
+        Takes care not to modify resolvers in super classes.
+        """
+        if "yaml_implicit_resolvers" not in cls.__dict__:
+            cls.yaml_implicit_resolvers = cls.yaml_implicit_resolvers.copy()
+
+        for first_letter, mappings in cls.yaml_implicit_resolvers.items():
+            cls.yaml_implicit_resolvers[first_letter] = [
+                (tag, regexp) for tag, regexp in mappings if tag != tag_to_remove
+            ]
+
+
+def load_yaml(
+    filename: Union[str, Path], convert_dates: bool = True
+):  # pragma: no cover
+    if not convert_dates:
+        NoDatesSafeLoader.remove_implicit_resolver("tag:yaml.org,2002:timestamp")
+
+        with open(filename, "r") as f:
+            return yaml.load(f, Loader=NoDatesSafeLoader)
+
     with open(filename, "r") as f:
         return yaml.safe_load(f)
 
