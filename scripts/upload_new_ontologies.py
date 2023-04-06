@@ -56,8 +56,6 @@ def _upload_ontology_artifacts(
         else load_yaml(LOCAL_PATH, convert_dates=False)
     )
 
-    print(versions_yaml)
-
     ln.setup.login(
         "testuser2@lamin.ai", password="goeoNJKE61ygbz1vhaCVynGERaRrlviPBVQsjkhz"
     )
@@ -86,6 +84,7 @@ def _upload_ontology_artifacts(
 
             s3_path_ID = str(ontology_ln_file.load()).split("/")[-1]
             species, database, version, class_entity = ontology_path.split("___")
+            version = str(version)  # To ensure that versions aren't quoted in the yaml.
 
             S3_BASE_URL = "s3://bionty-assets-test/"
 

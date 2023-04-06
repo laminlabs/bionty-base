@@ -45,7 +45,9 @@ def write_yaml(
     default_flow_style: bool = False,
 ):  # pragma: no cover
     with open(filename, "w") as f:
-        yaml.dump(data, f, sort_keys=sort_keys, default_flow_style=default_flow_style)
+        yaml.safe_dump(
+            data, f, sort_keys=sort_keys, default_flow_style=default_flow_style
+        )
 
 
 def url_download(  # pragma: no cover
