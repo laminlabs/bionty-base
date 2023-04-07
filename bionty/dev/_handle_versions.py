@@ -103,11 +103,7 @@ def create_local(overwrite: bool = True) -> None:
 
 
 def update_local() -> None:
-    """Update _local to add additional entries from the public versions.yaml table.
-
-    Args:
-        to_update_yaml: Dictionary of the current local.yaml .
-    """
+    """Update local.yaml to add additional entries from the public versions.yaml table."""
     to_update_yaml = load_yaml(LOCAL_PATH)
 
     versions = load_yaml(VERSIONS_PATH)

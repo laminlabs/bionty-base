@@ -88,11 +88,11 @@ def _upload_ontology_artifacts(
 
             S3_BASE_URL = "s3://bionty-assets-test/"
 
-            versions_yaml[class_entity][database]["versions"][version][0] = (
+            versions_yaml[class_entity][database]["versions"][version][2] = (
                 S3_BASE_URL + s3_path_ID
             )
 
-    write_yaml(versions_yaml, S3_VERSIONS_PATH)
+    write_yaml(versions_yaml, VERSIONS_PATH)
 
 
 def _run_update_version_url(instance: str, check_github: bool = True) -> None:

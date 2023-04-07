@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Dict, Iterable, Literal, Optional
 
 import bioregistry as br
+import boto3
 import pandas as pd
 from cached_property import cached_property
 from lamin_logger import logger
@@ -204,12 +205,20 @@ class Entity:
     @check_dynamicdir_exists
     def _url_download(self, url: str) -> str:
         """Download file from url to dynamicdir."""
-        if not self._ontology_download_path.exists():
-            logger.info(
-                f"Downloading {self.entity} reference for the first time might take a"
-                " while..."
-            )
-            url_download(url, self._ontology_download_path)
+        if url.startswith("s3"):
+            file_key = url.split("/")[-1]
+            s3 = boto3.resource("s3")
+            bucket = s3.Bucket("bionty-assets-test")
+            obj = bucket.Object(file_key)
+            obj.download_file(str(self._ontology_download_path))
+            # s3_bionty_assets(filename=file_key, assets_base_url="s3://bionty-assets-test")
+        else:
+            if not self._ontology_download_path.exists():
+                logger.info(
+                    f"Downloading {self.entity} reference for the first time might take"
+                    " a while..."
+                )
+                url_download(url, self._ontology_download_path)
 
         return self._ontology_download_path
 
@@ -273,9 +282,11 @@ class Entity:
             )
         else:
             self._version = current_version if version is None else str(version)
-        self._url, self._md5 = (
+        self._url, self._md5, s3_url = (
             available_db_versions.get(self._database).get("versions").get(self._version)  # type: ignore  # noqa: E501
         )
+        if len(s3_url) > 0:
+            self._url = s3_url
         if self._url is None:
             raise ValueError(
                 f"Database {self._database} version {self._version} is not found,"

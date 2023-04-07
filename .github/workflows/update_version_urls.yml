@@ -98,8 +98,9 @@ jobs:
           commit-message: Update ontology URLs
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          body: "Updating latest ontology sources with Lamin S3 URLs"
           branch: s3_ontologies_update
           delete-branch: true
           title: "Updating ontology URLs"
           add-paths: |
-            bionty/versions/.s3_assets_versions.yaml
+            bionty/versions/versions.yaml

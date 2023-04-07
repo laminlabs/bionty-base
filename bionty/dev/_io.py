@@ -46,7 +46,11 @@ def write_yaml(
 ):  # pragma: no cover
     with open(filename, "w") as f:
         yaml.safe_dump(
-            data, f, sort_keys=sort_keys, default_flow_style=default_flow_style
+            data,
+            f,
+            sort_keys=sort_keys,
+            default_flow_style=default_flow_style,
+            default_style='"',
         )
 
 
