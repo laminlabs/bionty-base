@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.10"]
-        package: ["bionty", "lnschema-bionty"]
+        package: ["bionty"]
     timeout-minutes: 45
 
     steps:
