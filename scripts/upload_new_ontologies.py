@@ -97,9 +97,7 @@ def _upload_ontology_artifacts(
 
                 s3_path_ID = str(ontology_ln_file.load()).split("/")[-1]
                 species, database, version, class_entity = latest_path.split("___")
-                version = str(
-                    version
-                )  # To ensure that versions aren't quoted in the yaml.
+                version = str(version)
 
                 S3_BASE_URL = "s3://bionty-assets-test/"
 

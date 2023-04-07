@@ -1,3 +1,4 @@
+from datetime import datetime
 from pathlib import Path
 from typing import Union
 
@@ -44,13 +45,24 @@ def write_yaml(
     sort_keys: bool = False,
     default_flow_style: bool = False,
 ):  # pragma: no cover
+    def datetime_representer(dumper, data):
+        return dumper.represent_scalar(
+            "tag:yaml.org,2002:str", data.strftime("%Y-%m-%d %H:%M:%S"), style=""
+        )
+
+    def noalias_dumper(*args, **kwargs):
+        kwargs["default_style"] = ""
+        return yaml.dumper.SafeDumper(*args, **kwargs)
+
+    yaml.add_representer(datetime, datetime_representer)
+
     with open(filename, "w") as f:
-        yaml.safe_dump(
+        yaml.dump(
             data,
             f,
             sort_keys=sort_keys,
             default_flow_style=default_flow_style,
-            default_style='"',
+            Dumper=noalias_dumper,
         )
 
 
