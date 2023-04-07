@@ -26,7 +26,6 @@ dependencies = [
     "cached_property",
     "bioregistry",
     "pandas < 2.0.0",
-    "boto3"  # TODO Remove as soon as upath does what it's supposed to
 ]
 
 [project.urls]

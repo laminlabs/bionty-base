@@ -5,7 +5,6 @@ from pathlib import Path
 from typing import Dict, Iterable, Literal, Optional
 
 import bioregistry as br
-import boto3
 import pandas as pd
 from cached_property import cached_property
 from lamin_logger import logger
@@ -13,7 +12,12 @@ from lamin_logger import logger
 from bionty._md5 import verify_md5
 
 from ._ontology import Ontology
-from ._settings import check_datasetdir_exists, check_dynamicdir_exists, settings
+from ._settings import (
+    check_datasetdir_exists,
+    check_dynamicdir_exists,
+    s3_bionty_assets,
+    settings,
+)
 from .dev._fix_index import (
     check_if_index_compliant,
     explode_aggregated_column_to_expand,
@@ -207,11 +211,11 @@ class Entity:
         """Download file from url to dynamicdir."""
         if url.startswith("s3"):
             file_key = url.split("/")[-1]
-            s3 = boto3.resource("s3")
-            bucket = s3.Bucket("bionty-assets-test")
-            obj = bucket.Object(file_key)
-            obj.download_file(str(self._ontology_download_path))
-            # s3_bionty_assets(filename=file_key, assets_base_url="s3://bionty-assets-test")
+            s3_bionty_assets(
+                filename=file_key,
+                assets_base_url="s3://bionty-assets-test",
+                localpath=self._ontology_download_path,
+            )
         else:
             if not self._ontology_download_path.exists():
                 logger.info(

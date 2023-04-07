@@ -1,11 +1,10 @@
 import os
 from pathlib import Path
-from typing import Dict, Literal
+from typing import Dict, Literal, Tuple
 
 import lamindb as ln
 from rich import print
 
-from bionty import Entity
 from bionty._settings import settings
 from bionty.dev._io import load_yaml, write_yaml
 
@@ -16,38 +15,49 @@ S3_VERSIONS_PATH = ROOT / ".s3_assets_versions.yaml"
 LOCAL_PATH = settings.versionsdir / "local.yaml"
 
 
-def _get_latest_ontology_files() -> Dict[str, str]:
+def _get_latest_ontology_files() -> Dict[str, Dict[str, Tuple[str, str]]]:
     _DYNAMIC_PATH = Path(
         f"{os.getcwd()}/.nox/build-package-bionty/lib/python3.10/site-packages/bionty/_dynamic"
     )
-    entity_to_latest_ontology = {}
-    for cls in Entity.__subclasses__():
-        latest_file = None
-        latest_date = None
+    entity_to_latest_ontology_dict: Dict[str, Dict[str, Tuple[str, str]]] = {}
 
-        for filename in os.listdir(_DYNAMIC_PATH.absolute()):
-            if cls.__name__ in filename:
-                file_date = os.path.getmtime(
-                    os.path.join(_DYNAMIC_PATH.absolute(), filename)
-                )
-                if latest_date is None or file_date > latest_date:
-                    latest_file = filename
-                    latest_date = file_date
+    versions_yaml = load_yaml(VERSIONS_PATH, convert_dates=False)
 
-        if latest_file is not None:
-            latest_file_path = os.path.join(_DYNAMIC_PATH.absolute(), latest_file)
-            entity_to_latest_ontology[cls.__name__] = latest_file_path
-        else:
-            print(
-                f"[bold yellow]No matching files found for Entity [blue]{cls.__name__}."
-            )
+    ontology_to_latest_versions: Dict[str, Dict[str, str]] = {}
+    for ontology, ontology_data in versions_yaml.items():
+        if ontology == "version":
+            continue
 
-    return entity_to_latest_ontology
+        for database, version_data in ontology_data.items():
+            latest_version = list(version_data["versions"].keys())[0]
+
+            if ontology not in ontology_to_latest_versions:
+                ontology_to_latest_versions[ontology] = {}
+            ontology_to_latest_versions[ontology][database] = latest_version
+
+    all_files = os.listdir(_DYNAMIC_PATH.absolute())
+    for ontology, db_to_version in ontology_to_latest_versions.items():
+        for latest_database, latest_version in db_to_version.items():
+
+            for filename in all_files:
+                if (
+                    ontology in filename
+                    and latest_database in filename
+                    and latest_version in filename
+                ):
+                    if ontology not in entity_to_latest_ontology_dict:
+                        entity_to_latest_ontology_dict[ontology] = {}
+                    entity_to_latest_ontology_dict[ontology][latest_database] = (
+                        latest_version,
+                        os.path.join(_DYNAMIC_PATH.absolute(), filename),
+                    )
+
+    return entity_to_latest_ontology_dict
 
 
 def _upload_ontology_artifacts(
     instance: str,
-    entity_to_latest_ontology: Dict[str, str],
+    entity_to_latest_ontology: Dict[str, Dict[str, Tuple[str, str]]],
     source: Literal["versions", "local"] = "versions",
 ):
     versions_yaml = (
@@ -64,33 +74,38 @@ def _upload_ontology_artifacts(
         transform = ln.add(ln.Transform, name="Bionty ontology artifacts upload")
         run = ln.Run(transform=transform)
 
-        for entity, ontology_path in entity_to_latest_ontology.items():
-            # TODO Remove the file extension code as soon as File uses the full filename.
-            file_name = ontology_path.split("/")[-1]
-            file_name_no_extension = file_name.split(".")[0]
-            ontology_ln_file = ss.select(
-                ln.File, name=file_name_no_extension
-            ).one_or_none()
+        for entity, db_to_version_path in entity_to_latest_ontology.items():
+            for db, version_path in db_to_version_path.items():
+                latest_path = version_path[1]
 
-            if ontology_ln_file is not None:
-                print(
-                    "[bold yellow]Found"
-                    f" {ontology_ln_file.name}{ontology_ln_file.suffix} on S3. Skipping"
-                    " ingestion..."
+                # TODO Remove the file extension code as soon as File uses the full filename.
+                file_name = latest_path.split("/")[-1]
+                file_name_no_extension = file_name.split(".")[0]
+                ontology_ln_file = ss.select(
+                    ln.File, name=file_name_no_extension
+                ).one_or_none()
+
+                if ontology_ln_file is not None:
+                    print(
+                        "[bold yellow]Found"
+                        f" {ontology_ln_file.name}{ontology_ln_file.suffix} on S3."
+                        " Skipping ingestion..."
+                    )
+                else:
+                    ontology_ln_file = ln.File(latest_path, source=run)
+                    ss.add(ontology_ln_file)
+
+                s3_path_ID = str(ontology_ln_file.load()).split("/")[-1]
+                species, database, version, class_entity = latest_path.split("___")
+                version = str(
+                    version
+                )  # To ensure that versions aren't quoted in the yaml.
+
+                S3_BASE_URL = "s3://bionty-assets-test/"
+
+                versions_yaml[class_entity][database]["versions"][version][2] = (
+                    S3_BASE_URL + s3_path_ID
                 )
-            else:
-                ontology_ln_file = ln.File(ontology_path, source=run)
-                ss.add(ontology_ln_file)
-
-            s3_path_ID = str(ontology_ln_file.load()).split("/")[-1]
-            species, database, version, class_entity = ontology_path.split("___")
-            version = str(version)  # To ensure that versions aren't quoted in the yaml.
-
-            S3_BASE_URL = "s3://bionty-assets-test/"
-
-            versions_yaml[class_entity][database]["versions"][version][2] = (
-                S3_BASE_URL + s3_path_ID
-            )
 
     write_yaml(versions_yaml, VERSIONS_PATH)
 
