@@ -34,6 +34,7 @@ def test_update_defaults(current_yaml_replica):
 
         with open(current_yaml_replica, "r") as f:
             content = f.read()
-            content_split = content.split("\n")
-            species_content = content_split[1].strip()
-            assert '"new_database": "new_version"' in species_content
+            assert (
+                "new_database: new_version"
+                in content.split("Species:\n", 1)[1].split("\nGene:", 1)[0]
+            )
