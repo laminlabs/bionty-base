@@ -3,8 +3,8 @@
 :end-line: 5
 ```
 
-- Look up records with autocompletion.
-- Map, curate and standardize metadata.
+- Look up records with auto-completion.
+- Map & curate metadata.
 - Manage public & custom ontologies and their versions.
 
 To query, collaborate on, and persistently store knowledge & data, consider [Bionty's SQL interface](https://lamin.ai/docs/lnschema-bionty/) with [LaminDB](https://lamin.ai/docs/) - open-source data lake for biology.

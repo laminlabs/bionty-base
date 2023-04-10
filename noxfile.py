@@ -26,4 +26,12 @@ def build(session, package):
         # navigate into submodule so that lamin-project.yml is correctly read
         os.chdir("./lnschema-bionty")
         session.install(".[test]")
+        session.run(
+            "lamin",
+            "init",
+            "--storage",
+            "./docs/guide/lnbionty-test",
+            "--schema",
+            "bionty",
+        )
         session.run("pytest", "-s", "./tests", "--ignore", "./tests/test_migrations.py")
