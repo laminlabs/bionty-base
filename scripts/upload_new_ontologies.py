@@ -10,7 +10,6 @@ from bionty.dev._io import load_yaml, write_yaml
 
 ROOT = Path(f"{os.getcwd()}/bionty/versions")
 VERSIONS_PATH = ROOT / "versions.yaml"
-S3_VERSIONS_PATH = ROOT / ".s3_assets_versions.yaml"
 
 LOCAL_PATH = settings.versionsdir / "local.yaml"
 
@@ -58,6 +57,9 @@ def _get_latest_ontology_files() -> Dict[str, Dict[str, Tuple[str, str]]]:
 def _upload_ontology_artifacts(
     instance: str,
     entity_to_latest_ontology: Dict[str, Dict[str, Tuple[str, str]]],
+    lndb_user: str,
+    lndb_password: str,
+    s3_base_url: str,
     source: Literal["versions", "local"] = "versions",
 ):
     versions_yaml = (
@@ -66,9 +68,7 @@ def _upload_ontology_artifacts(
         else load_yaml(LOCAL_PATH, convert_dates=False)
     )
 
-    ln.setup.login(
-        "testuser2@lamin.ai", password="goeoNJKE61ygbz1vhaCVynGERaRrlviPBVQsjkhz"
-    )
+    ln.setup.login(lndb_user, password=lndb_password)
     ln.setup.load(instance, migrate=True)
     with ln.Session() as ss:
         transform = ln.add(ln.Transform, name="Bionty ontology artifacts upload")
@@ -77,13 +77,8 @@ def _upload_ontology_artifacts(
         for entity, db_to_version_path in entity_to_latest_ontology.items():
             for db, version_path in db_to_version_path.items():
                 latest_path = version_path[1]
-
-                # TODO Remove the file extension code as soon as File uses the full filename.
                 file_name = latest_path.split("/")[-1]
-                file_name_no_extension = file_name.split(".")[0]
-                ontology_ln_file = ss.select(
-                    ln.File, name=file_name_no_extension
-                ).one_or_none()
+                ontology_ln_file = ss.select(ln.File, name=file_name).one_or_none()
 
                 if ontology_ln_file is not None:
                     print(
@@ -99,10 +94,8 @@ def _upload_ontology_artifacts(
                 species, database, version, class_entity = latest_path.split("___")
                 version = str(version)
 
-                S3_BASE_URL = "s3://bionty-assets-test/"
-
                 versions_yaml[class_entity][database]["versions"][version][2] = (
-                    S3_BASE_URL + s3_path_ID
+                    s3_base_url + s3_path_ID
                 )
 
     write_yaml(versions_yaml, VERSIONS_PATH)
@@ -118,7 +111,11 @@ def _run_update_version_url(instance: str, check_github: bool = True) -> None:
 
     entity_to_latest_ontology_dict = _get_latest_ontology_files()
     _upload_ontology_artifacts(
-        instance=instance, entity_to_latest_ontology=entity_to_latest_ontology_dict
+        instance=instance,
+        lndb_user="testuser2@lamin.ai",
+        lndb_password="goeoNJKE61ygbz1vhaCVynGERaRrlviPBVQsjkhz",
+        s3_base_url="s3://bionty-assets-test/",
+        entity_to_latest_ontology=entity_to_latest_ontology_dict,
     )
 
 
