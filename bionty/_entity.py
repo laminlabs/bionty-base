@@ -209,20 +209,18 @@ class Entity:
     @check_dynamicdir_exists
     def _url_download(self, url: str) -> str:
         """Download file from url to dynamicdir."""
-        if url.startswith("s3"):
-            file_key = url.split("/")[-1]
-            s3_bionty_assets(
-                filename=file_key,
-                assets_base_url="s3://bionty-assets-test",
-                localpath=self._ontology_download_path,
+        s3_bionty_assets(
+            filename=self._semantic_file_name,
+            assets_base_url="s3://bionty-assets-test",
+            localpath=self._ontology_download_path,
+        )
+
+        if not self._ontology_download_path.exists():
+            logger.info(
+                f"Downloading {self.entity} reference for the first time might take"
+                " a while..."
             )
-        else:
-            if not self._ontology_download_path.exists():
-                logger.info(
-                    f"Downloading {self.entity} reference for the first time might take"
-                    " a while..."
-                )
-                url_download(url, self._ontology_download_path)
+            url_download(url, self._ontology_download_path)
 
         return self._ontology_download_path
 
@@ -286,11 +284,9 @@ class Entity:
             )
         else:
             self._version = current_version if version is None else str(version)
-        self._url, self._md5, s3_url = (
+        self._url, self._md5 = (
             available_db_versions.get(self._database).get("versions").get(self._version)  # type: ignore  # noqa: E501
         )
-        if len(s3_url) > 0:
-            self._url = s3_url
         if self._url is None:
             raise ValueError(
                 f"Database {self._database} version {self._version} is not found,"
@@ -301,12 +297,10 @@ class Entity:
         self._local_parquet_path = (
             settings.datasetdir / self._cloud_parquet_path
         )  # noqa: W503,E501
-        self._ontology_download_path = (
-            settings.dynamicdir
-            / f"{self.species}___{self.database}___{self.version}___{self.__class__.__name__}".replace(
-                " ", "_"
-            )
+        self._semantic_file_name = f"{self.species}___{self.database}___{self.version}___{self.__class__.__name__}".replace(
+            " ", "_"
         )
+        self._ontology_download_path = settings.dynamicdir / self._semantic_file_name
 
     def curate(
         self,

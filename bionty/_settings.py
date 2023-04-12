@@ -8,9 +8,12 @@ HOME_DIR = Path(f"{Path.home()}/.lamin/bionty").resolve()
 ROOT_DIR = Path(__file__).parent.resolve()
 
 
-def s3_bionty_assets(filename: str):
-    cloudpath = UPath(f"s3://bionty-assets/{filename}", anon=True, cache_regions=True)
-    localpath = settings.datasetdir / filename
+def s3_bionty_assets(
+    filename: str, localpath: Path = None, assets_base_url: str = "s3://bionty-assets"
+):
+    cloudpath = UPath(f"{assets_base_url}/{filename}", anon=True, cache_regions=True)
+    if not localpath:
+        localpath = settings.datasetdir / filename
 
     cloudpath.synchronize(localpath)
 

@@ -1,72 +1,19 @@
 import os
 from pathlib import Path
-from typing import Dict, Literal, Tuple
 
 import lamindb as ln
 from rich import print
 
-from bionty._settings import settings
-from bionty.dev._io import load_yaml, write_yaml
-
-ROOT = Path(f"{os.getcwd()}/bionty/versions")
-VERSIONS_PATH = ROOT / "versions.yaml"
-
-LOCAL_PATH = settings.versionsdir / "local.yaml"
-
-
-def _get_latest_ontology_files() -> Dict[str, Dict[str, Tuple[str, str]]]:
-    _DYNAMIC_PATH = Path(
-        f"{os.getcwd()}/.nox/build-package-bionty/lib/python3.10/site-packages/bionty/_dynamic"
-    )
-    entity_to_latest_ontology_dict: Dict[str, Dict[str, Tuple[str, str]]] = {}
-
-    versions_yaml = load_yaml(VERSIONS_PATH, convert_dates=False)
-
-    ontology_to_latest_versions: Dict[str, Dict[str, str]] = {}
-    for ontology, ontology_data in versions_yaml.items():
-        if ontology == "version":
-            continue
-
-        for database, version_data in ontology_data.items():
-            latest_version = list(version_data["versions"].keys())[0]
-
-            if ontology not in ontology_to_latest_versions:
-                ontology_to_latest_versions[ontology] = {}
-            ontology_to_latest_versions[ontology][database] = latest_version
-
-    all_files = os.listdir(_DYNAMIC_PATH.absolute())
-    for ontology, db_to_version in ontology_to_latest_versions.items():
-        for latest_database, latest_version in db_to_version.items():
-
-            for filename in all_files:
-                if (
-                    ontology in filename
-                    and latest_database in filename
-                    and latest_version in filename
-                ):
-                    if ontology not in entity_to_latest_ontology_dict:
-                        entity_to_latest_ontology_dict[ontology] = {}
-                    entity_to_latest_ontology_dict[ontology][latest_database] = (
-                        latest_version,
-                        os.path.join(_DYNAMIC_PATH.absolute(), filename),
-                    )
-
-    return entity_to_latest_ontology_dict
-
 
 def _upload_ontology_artifacts(
-    instance: str,
-    entity_to_latest_ontology: Dict[str, Dict[str, Tuple[str, str]]],
-    lndb_user: str,
-    lndb_password: str,
-    s3_base_url: str,
-    source: Literal["versions", "local"] = "versions",
+    instance: str, lndb_user: str, lndb_password: str, python_version: str = "3.10"
 ):
-    versions_yaml = (
-        load_yaml(VERSIONS_PATH, convert_dates=False)
-        if source == "versions"
-        else load_yaml(LOCAL_PATH, convert_dates=False)
+    _DYNAMIC_PATH = Path(
+        f"{os.getcwd()}/.nox/build-package-bionty/lib/python{python_version}/site-packages/bionty/_dynamic"
     )
+
+    # TODO: REMOVE THIS when going to production
+    ln.settings.error_on_file_hash_exists = False
 
     ln.setup.login(lndb_user, password=lndb_password)
     ln.setup.load(instance, migrate=True)
@@ -74,31 +21,22 @@ def _upload_ontology_artifacts(
         transform = ln.add(ln.Transform, name="Bionty ontology artifacts upload")
         run = ln.Run(transform=transform)
 
-        for entity, db_to_version_path in entity_to_latest_ontology.items():
-            for db, version_path in db_to_version_path.items():
-                latest_path = version_path[1]
-                file_name = latest_path.split("/")[-1]
-                ontology_ln_file = ss.select(ln.File, name=file_name).one_or_none()
+        for filename in os.listdir(_DYNAMIC_PATH.absolute()):
+            nox_ontology_file_path = os.path.join(_DYNAMIC_PATH.absolute(), filename)
 
-                if ontology_ln_file is not None:
-                    print(
-                        "[bold yellow]Found"
-                        f" {ontology_ln_file.name}{ontology_ln_file.suffix} on S3."
-                        " Skipping ingestion..."
-                    )
-                else:
-                    ontology_ln_file = ln.File(latest_path, source=run)
-                    ss.add(ontology_ln_file)
+            ontology_ln_file = ss.select(ln.File, name=filename).one_or_none()
 
-                s3_path_ID = str(ontology_ln_file.load()).split("/")[-1]
-                species, database, version, class_entity = latest_path.split("___")
-                version = str(version)
-
-                versions_yaml[class_entity][database]["versions"][version][2] = (
-                    s3_base_url + s3_path_ID
+            if ontology_ln_file is not None:
+                print(
+                    "[bold yellow]Found"
+                    f" {ontology_ln_file.name}{ontology_ln_file.suffix} on S3."
+                    " Skipping ingestion..."
                 )
-
-    write_yaml(versions_yaml, VERSIONS_PATH)
+            else:
+                ontology_ln_file = ln.File(
+                    nox_ontology_file_path, key=filename, source=run
+                )
+                ss.add(ontology_ln_file)
 
 
 def _run_update_version_url(instance: str, check_github: bool = True) -> None:
@@ -109,14 +47,13 @@ def _run_update_version_url(instance: str, check_github: bool = True) -> None:
         ):
             return
 
-    entity_to_latest_ontology_dict = _get_latest_ontology_files()
     _upload_ontology_artifacts(
         instance=instance,
         lndb_user="testuser2@lamin.ai",
         lndb_password="goeoNJKE61ygbz1vhaCVynGERaRrlviPBVQsjkhz",
-        s3_base_url="s3://bionty-assets-test/",
-        entity_to_latest_ontology=entity_to_latest_ontology_dict,
+        python_version="3.10",
     )
 
 
+# TODO Change the URL when going into production
 _run_update_version_url(instance="bionty-assets-test", check_github=False)
