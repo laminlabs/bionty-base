@@ -19,7 +19,7 @@ def _upload_ontology_artifacts(
         python_version: The Python version that ran nox. Defaults to '3.10'.
     """
     _DYNAMIC_PATH = Path(
-        f"{os.getcwd()}/../.nox/build-package-bionty/lib/python{python_version}/site-packages/bionty/_dynamic"
+        f"{os.getcwd()}/.nox/build-package-bionty/lib/python{python_version}/site-packages/bionty/_dynamic"
     )
 
     ln.setup.login(lndb_user, password=lndb_password)
@@ -50,5 +50,5 @@ _upload_ontology_artifacts(
     instance="bionty-assets",
     lndb_user="testuser2@lamin.ai",
     lndb_password="goeoNJKE61ygbz1vhaCVynGERaRrlviPBVQsjkhz",
-    python_version="3.10",
+    python_version="3.9",
 )
