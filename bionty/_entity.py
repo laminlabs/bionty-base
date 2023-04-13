@@ -12,7 +12,12 @@ from lamin_logger import logger
 from bionty._md5 import verify_md5
 
 from ._ontology import Ontology
-from ._settings import check_datasetdir_exists, check_dynamicdir_exists, settings
+from ._settings import (
+    check_datasetdir_exists,
+    check_dynamicdir_exists,
+    s3_bionty_assets,
+    settings,
+)
 from .dev._fix_index import (
     check_if_index_compliant,
     explode_aggregated_column_to_expand,
@@ -202,21 +207,28 @@ class Entity:
             ).set_index("ontology_id")
 
     @check_dynamicdir_exists
-    def _url_download(self, url: str):
+    def _url_download(self, url: str) -> str:
         """Download file from url to dynamicdir."""
+        s3_bionty_assets(
+            filename=self._semantic_file_name,
+            assets_base_url="s3://bionty-assets",
+            localpath=self._ontology_download_path,
+        )
+
         if not self._ontology_download_path.exists():
             logger.info(
-                f"Downloading {self.entity} reference for the first time might take a"
-                " while..."
+                f"Downloading {self.entity} reference for the first time might take"
+                " a while..."
             )
             url_download(url, self._ontology_download_path)
 
         return self._ontology_download_path
 
-    def _ontology_localpath_from_url(self, url: str):
+    def _ontology_localpath_from_url(self, url: str) -> str:
         """Get version from the ontology url."""
         version = url.split("/")[-2]
         filename = url.split("/")[-1]
+
         return settings.dynamicdir / f"{version}___{filename}"
 
     def _load_versions(
@@ -272,8 +284,9 @@ class Entity:
             )
         else:
             self._version = current_version if version is None else str(version)
+
         self._url, self._md5 = (
-            available_db_versions.get(self._database).get("versions").get(self._version)  # type: ignore  # noqa: E501
+            available_db_versions.get(self._database).get("versions").get(str(self._version))  # type: ignore  # noqa: E501
         )
         if self._url is None:
             raise ValueError(
@@ -285,10 +298,10 @@ class Entity:
         self._local_parquet_path = (
             settings.datasetdir / self._cloud_parquet_path
         )  # noqa: W503,E501
-        self._ontology_download_path = (
-            settings.dynamicdir
-            / f"{self.species}_{self.database}_{self.version}_{self.__class__.__name__}___{self._url.split('/')[-1]}"  # noqa: E501 W503
+        self._semantic_file_name = f"{self.species}___{self.database}___{self.version}___{self.__class__.__name__}".replace(
+            " ", "_"
         )
+        self._ontology_download_path = settings.dynamicdir / self._semantic_file_name
 
     def curate(
         self,
