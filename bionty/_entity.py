@@ -284,8 +284,9 @@ class Entity:
             )
         else:
             self._version = current_version if version is None else str(version)
+
         self._url, self._md5 = (
-            available_db_versions.get(self._database).get("versions").get(self._version)  # type: ignore  # noqa: E501
+            available_db_versions.get(self._database).get("versions").get(str(self._version))  # type: ignore  # noqa: E501
         )
         if self._url is None:
             raise ValueError(
