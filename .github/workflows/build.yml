@@ -71,6 +71,7 @@ jobs:
           python -m pip install -U pip
           pip install -U laminci
           pip install -U lamindb
+          pip install rich
       - name: Install apt-get dependencies
         run: |
           sudo apt-get -y install graphviz
