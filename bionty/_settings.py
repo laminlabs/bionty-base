@@ -2,7 +2,7 @@ from functools import wraps
 from pathlib import Path
 from typing import Union
 
-from lndb_storage import UPath
+from lndb.dev.upath import UPath
 
 HOME_DIR = Path(f"{Path.home()}/.lamin/bionty").resolve()
 ROOT_DIR = Path(__file__).parent.resolve()

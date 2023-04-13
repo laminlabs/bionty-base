@@ -12,9 +12,6 @@ def _upload_ontology_artifacts(
         f"{os.getcwd()}/.nox/build-package-bionty/lib/python{python_version}/site-packages/bionty/_dynamic"
     )
 
-    # TODO: REMOVE THIS when going to production
-    ln.settings.error_on_file_hash_exists = False
-
     ln.setup.login(lndb_user, password=lndb_password)
     ln.setup.load(instance, migrate=True)
     with ln.Session() as ss:
