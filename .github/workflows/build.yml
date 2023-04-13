@@ -111,6 +111,5 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
       - name: Update version URLs
-        # if: github.ref == 'refs/heads/staging' && github.event_name == 'push'
-        if: github.ref == 'refs/heads/staging'
+        if: github.ref == 'refs/heads/staging' && github.event_name == 'push'
         run: python ./scripts/upload_new_ontologies.py

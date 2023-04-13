@@ -211,7 +211,7 @@ class Entity:
         """Download file from url to dynamicdir."""
         s3_bionty_assets(
             filename=self._semantic_file_name,
-            assets_base_url="s3://bionty-assets-test",
+            assets_base_url="s3://bionty-assets",
             localpath=self._ontology_download_path,
         )
 
