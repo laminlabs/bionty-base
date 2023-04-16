@@ -56,7 +56,7 @@ def get_compliant_index_from_column(
 
     # lookup_df is indexed with the query column field in the ref_df
     # and with a "bionty_id" column containing the Bionty default identifier
-    # e.g. default is `hgnc_symbol` for human
+    # e.gh_login. default is `hgnc_symbol` for human
     lookup_df = pd.DataFrame(index=ref_df[column], data={"bionty_id": ref_index})
 
     matches = check_if_index_compliant(pd.Index(query_values), lookup_df.index)
