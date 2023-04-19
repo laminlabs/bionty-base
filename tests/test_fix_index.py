@@ -23,7 +23,8 @@ df = pd.DataFrame(
         "gene symbol": ["corrupted"],
         "hgnc id": ["corrupted"],
         "ensembl_gene_id": ["corrupted1"],
-    }
+    },
+    index=["id"],
 )
 
 
