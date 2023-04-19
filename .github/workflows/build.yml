@@ -70,7 +70,7 @@ jobs:
           pip install -U lamindb
       - name: Install apt-get dependencies
         run: |
-          sudo apt-get -y install graphviz
+          sudo apt-get -y install graphviz --fix-missing
           sudo apt-get install sqlite3-tools=3.37.2-2
           sudo apt-get install libpq-dev
       - name: Configure AWS
