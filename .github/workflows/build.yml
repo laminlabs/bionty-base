@@ -2,13 +2,11 @@ name: build
 
 on:
   push:
-    branches:
-      - "main"
-      - "staging"
+    branches: [main]
   pull_request:
-    branches:
-      - "main"
-      - "staging"
+    branches: [main, staging]
+env:
+  BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
 jobs:
   build:
@@ -112,5 +110,5 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
       - name: Update version URLs
-        if: github.ref == 'refs/heads/staging' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: python ./scripts/upload_new_ontologies.py
