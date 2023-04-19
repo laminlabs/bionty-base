@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+⚡ Fix loading of ontology df | [305](https://github.com/laminlabs/bionty/pull/305) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-19 |
 :construction_worker: Add staging to CI | [293](https://github.com/laminlabs/bionty/pull/293) | [Zethson](https://github.com/Zethson) | 2023-04-04 |
 💚 Add current/lndb updating on new entities | [290](https://github.com/laminlabs/bionty/pull/290) | [Zethson](https://github.com/Zethson) | 2023-03-30 | 0.11.3
 💚 Try fixing `lnschema-bionty` CI | [289](https://github.com/laminlabs/bionty/pull/289) | [falexwolf](https://github.com/falexwolf) | 2023-03-27 |
