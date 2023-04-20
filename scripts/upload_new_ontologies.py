@@ -25,7 +25,13 @@ def _upload_ontology_artifacts(
     ln.setup.login(lndb_user, password=lndb_password)
     ln.setup.load(instance, migrate=True)
     with ln.Session() as ss:
-        transform = ln.add(ln.Transform, name="Bionty ontology artifacts upload")
+        transform = ln.select(
+            ln.Transform, name="Bionty ontology artifacts upload"
+        ).one_or_none()
+
+        if transform is None:
+            transform = ln.add(ln.Transform(name="Bionty ontology artifacts"))
+
         run = ln.Run(transform=transform)
 
         for filename in os.listdir(_DYNAMIC_PATH.absolute()):
@@ -47,7 +53,7 @@ def _upload_ontology_artifacts(
 
 
 _upload_ontology_artifacts(
-    instance="bionty-assets",
+    instance="sunnyosun/bionty-assets",
     lndb_user="testuser2@lamin.ai",
     lndb_password="goeoNJKE61ygbz1vhaCVynGERaRrlviPBVQsjkhz",
     python_version="3.9",

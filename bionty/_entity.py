@@ -121,9 +121,9 @@ class Entity:
                         )
                         os.remove(self._ontology_download_path)
                         self._url_download(self._url)
-        # write df to parquet file
-        df = self._ontology_to_df(self.ontology)
-        df.to_parquet(self._local_parquet_path)
+            # write df to parquet file
+            df = self._ontology_to_df(self.ontology)
+            df.to_parquet(self._local_parquet_path)
 
         # loads the df and set index
         df = pd.read_parquet(self._local_parquet_path).reset_index()
