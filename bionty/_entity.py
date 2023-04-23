@@ -157,7 +157,7 @@ class Entity:
         """Convert a list of strings to tab-completion allowed formats."""
         lookup = [re.sub("[^0-9a-zA-Z]+", "_", str(i)) for i in x]
         for i, value in enumerate(lookup):
-            if not value[0].isalpha():
+            if value == "" or (not value[0].isalpha()):
                 lookup[i] = f"LOOKUP_{value}"
         return lookup
 
