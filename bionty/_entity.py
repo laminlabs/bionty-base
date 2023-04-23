@@ -1,12 +1,12 @@
 import os
 import re
 from collections import namedtuple
+from functools import cached_property
 from pathlib import Path
 from typing import Dict, Iterable, Literal, Optional
 
 import bioregistry as br
 import pandas as pd
-from cached_property import cached_property
 from lamin_logger import logger
 
 from bionty._md5 import verify_md5
