@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-⚡ Make sure no NAs present in the `entity.df["name"]` | [313](https://github.com/laminlabs/bionty/pull/313) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-23 |
+⚡ Make sure no NAs present in the `entity.df.name` | [313](https://github.com/laminlabs/bionty/pull/313) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-23 | 0.11.5
 ⬆️ Pronto>=2.5.4, removed cached_property dep for py3.7 | [312](https://github.com/laminlabs/bionty/pull/312) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-23 |
 ⚡ Improve the speed loading of ontology df | [305](https://github.com/laminlabs/bionty/pull/305) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-19 | 0.11.4
 👷 Add staging to CI | [293](https://github.com/laminlabs/bionty/pull/293) | [Zethson](https://github.com/Zethson) | 2023-04-04 |
