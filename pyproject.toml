@@ -14,15 +14,14 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
 ]
 dependencies = [
+    "pronto>=2.5.4",
     "anndata",
     "typeguard",
-    "pronto",
     "orjson",
     "pyarrow",
     "nbproject",
     "lndb",
     "rich",
-    "cached_property",
     "bioregistry"
 ]
 
