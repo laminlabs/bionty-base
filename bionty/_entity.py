@@ -187,7 +187,7 @@ class Entity:
     def _ontology_to_df(self, ontology: Ontology):
         """Convert ontology to a DataFrame with ontology_id and name columns."""
         if self.prefix:
-            return pd.DataFrame(
+            df = pd.DataFrame(
                 [
                     (term.id, term.name)
                     for term in ontology.terms()
@@ -196,10 +196,13 @@ class Entity:
                 columns=["ontology_id", "name"],
             ).set_index("ontology_id")
         else:
-            return pd.DataFrame(
+            df = pd.DataFrame(
                 [(term.id, term.name) for term in ontology.terms()],
                 columns=["ontology_id", "name"],
             ).set_index("ontology_id")
+
+        df["name"].fillna("", inplace=True)
+        return df
 
     @check_dynamicdir_exists
     def _url_download(self, url: str):
