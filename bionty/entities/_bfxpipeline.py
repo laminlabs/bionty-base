@@ -30,7 +30,7 @@ class BFXPipeline(Entity):
     @cached_property
     def df(self):
         """DataFrame."""
-        localpath = s3_bionty_assets(filename="bfxpipeline.json")
+        localpath = s3_bionty_assets(filename="bfxpipelines.json")
         with open(localpath, "r") as f:
             data = json.load(f)
 
