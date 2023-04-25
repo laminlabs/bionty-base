@@ -116,7 +116,7 @@ Pathway:
         - a6df86616149dcdfe08fe16c900cba85
     name: Pathway Ontology
     website: https://www.ebi.ac.uk/ols/ontologies/pw
-BFXPiplines:
+BFXPipelines:
   lamin:
     versions:
       1.0.0:

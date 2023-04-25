@@ -1,9 +1,9 @@
 import json
 from collections import namedtuple
 from typing import Iterable
-from urllib.request import urlretrieve
 
 from ._normalize import GENE_COLUMNS, PROTEIN_COLUMNS
+from ._settings import s3_bionty_assets
 
 
 def _lookup(values: Iterable[str]):
@@ -18,9 +18,7 @@ class lookup:
     gene_id = _lookup(values=set(GENE_COLUMNS.values()))
     protein_id = _lookup(values=set(PROTEIN_COLUMNS.values()))
 
-    pipeline_json, _ = urlretrieve(
-        "https://lamindb-test.s3.amazonaws.com/pipelines.json"
-    )
-    with open(pipeline_json) as file:
+    bfxpipeline_json = s3_bionty_assets(filename="bfxpipelines.json")
+    with open(bfxpipeline_json) as file:
         PIPELINES = json.load(file)
     bfxpipeline_id = _lookup(values=PIPELINES)
