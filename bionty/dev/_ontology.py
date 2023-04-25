@@ -5,7 +5,7 @@ def ontology_info(namespace: str) -> dict:
     """Get the latest information of an ontology from OLS.
 
     Args:
-        namespace: ontology namespace (e.g: cl, efo, go)
+        namespace: ontology namespace (e.g.: cl, efo, go)
     """
     headers = {"Accept": "application/json"}
     r = requests.get(
