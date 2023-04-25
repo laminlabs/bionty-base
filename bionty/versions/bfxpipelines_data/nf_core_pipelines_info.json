@@ -1,1697 +1,1715 @@
 {
-  "methylseq_v2.3.0": {
+  "methylseq_v2_3_0": {
     "id": "xtRZ4Laj9",
     "name": "methylseq v2.3.0",
     "versions": "2.3.0",
     "reference": "https://api.github.com/repos/nf-core/methylseq"
   },
-  "methylseq_v2.2.0": {
+  "methylseq_v2_2_0": {
     "id": "z62mUMtHC",
     "name": "methylseq v2.2.0",
     "versions": "2.2.0",
     "reference": "https://api.github.com/repos/nf-core/methylseq"
   },
-  "methylseq_v2.1.0": {
+  "methylseq_v2_1_0": {
     "id": "rQXcCZAbt",
     "name": "methylseq v2.1.0",
     "versions": "2.1.0",
     "reference": "https://api.github.com/repos/nf-core/methylseq"
   },
-  "methylseq_v2.0.0": {
+  "methylseq_v2_0_0": {
     "id": "b7LBZ4ZZU",
     "name": "methylseq v2.0.0",
     "versions": "2.0.0",
     "reference": "https://api.github.com/repos/nf-core/methylseq"
   },
-  "methylseq_v1.6.1": {
+  "methylseq_v1_6_1": {
     "id": "AlUVuumk8",
     "name": "methylseq v1.6.1",
     "versions": "1.6.1",
     "reference": "https://api.github.com/repos/nf-core/methylseq"
   },
-  "methylseq_v1.6": {
+  "methylseq_v1_6": {
     "id": "wfYRiMWlY",
     "name": "methylseq v1.6",
     "versions": "1.6",
     "reference": "https://api.github.com/repos/nf-core/methylseq"
   },
-  "methylseq_v1.5": {
+  "methylseq_v1_5": {
     "id": "Hub6jx6QA",
     "name": "methylseq v1.5",
     "versions": "1.5",
     "reference": "https://api.github.com/repos/nf-core/methylseq"
   },
-  "methylseq_v1.4": {
+  "methylseq_v1_4": {
     "id": "GO8LiOPEM",
     "name": "methylseq v1.4",
     "versions": "1.4",
     "reference": "https://api.github.com/repos/nf-core/methylseq"
   },
-  "methylseq_v1.3": {
+  "methylseq_v1_3": {
     "id": "9FWqaF8Ss",
     "name": "methylseq v1.3",
     "versions": "1.3",
     "reference": "https://api.github.com/repos/nf-core/methylseq"
   },
-  "methylseq_v1.2": {
+  "methylseq_v1_2": {
     "id": "km5tSqve8",
     "name": "methylseq v1.2",
     "versions": "1.2",
     "reference": "https://api.github.com/repos/nf-core/methylseq"
   },
-  "methylseq_v1.1": {
+  "methylseq_v1_1": {
     "id": "W1uEEIi8V",
     "name": "methylseq v1.1",
     "versions": "1.1",
     "reference": "https://api.github.com/repos/nf-core/methylseq"
   },
-  "methylseq_v1.0": {
+  "methylseq_v1_0": {
     "id": "1aj20z5LH",
     "name": "methylseq v1.0",
     "versions": "1.0",
     "reference": "https://api.github.com/repos/nf-core/methylseq"
   },
-  "rnaseq_v3.11.1": {
+  "rnaseq_v3_11_2": {
+    "id": "PAixY2vLK",
+    "name": "rnaseq v3.11.2",
+    "versions": "3.11.2",
+    "reference": "https://api.github.com/repos/nf-core/rnaseq"
+  },
+  "rnaseq_v3_11_1": {
     "id": "zLdL2briM",
     "name": "rnaseq v3.11.1",
     "versions": "3.11.1",
     "reference": "https://api.github.com/repos/nf-core/rnaseq"
   },
-  "rnaseq_v3.11.0": {
+  "rnaseq_v3_11_0": {
     "id": "eDOsAhU4V",
     "name": "rnaseq v3.11.0",
     "versions": "3.11.0",
     "reference": "https://api.github.com/repos/nf-core/rnaseq"
   },
-  "rnaseq_v3.10.1": {
+  "rnaseq_v3_10_1": {
     "id": "7MWv13etP",
     "name": "rnaseq v3.10.1",
     "versions": "3.10.1",
     "reference": "https://api.github.com/repos/nf-core/rnaseq"
   },
-  "rnaseq_v3.10": {
+  "rnaseq_v3_10": {
     "id": "KgEhngBuo",
     "name": "rnaseq v3.10",
     "versions": "3.10",
     "reference": "https://api.github.com/repos/nf-core/rnaseq"
   },
-  "rnaseq_v3.9": {
+  "rnaseq_v3_9": {
     "id": "niWNjUt09",
     "name": "rnaseq v3.9",
     "versions": "3.9",
     "reference": "https://api.github.com/repos/nf-core/rnaseq"
   },
-  "rnaseq_v3.8.1": {
+  "rnaseq_v3_8_1": {
     "id": "tx5agY5xP",
     "name": "rnaseq v3.8.1",
     "versions": "3.8.1",
     "reference": "https://api.github.com/repos/nf-core/rnaseq"
   },
-  "rnaseq_v3.8": {
+  "rnaseq_v3_8": {
     "id": "CMMSS3f00",
     "name": "rnaseq v3.8",
     "versions": "3.8",
     "reference": "https://api.github.com/repos/nf-core/rnaseq"
   },
-  "rnaseq_v3.7": {
+  "rnaseq_v3_7": {
     "id": "mtPLkPaD7",
     "name": "rnaseq v3.7",
     "versions": "3.7",
     "reference": "https://api.github.com/repos/nf-core/rnaseq"
   },
-  "rnaseq_v3.6": {
+  "rnaseq_v3_6": {
     "id": "N0MxlRAG5",
     "name": "rnaseq v3.6",
     "versions": "3.6",
     "reference": "https://api.github.com/repos/nf-core/rnaseq"
   },
-  "rnaseq_v3.5": {
+  "rnaseq_v3_5": {
     "id": "N8J578tjo",
     "name": "rnaseq v3.5",
     "versions": "3.5",
     "reference": "https://api.github.com/repos/nf-core/rnaseq"
   },
-  "rnaseq_v3.4": {
+  "rnaseq_v3_4": {
     "id": "TPqopOI11",
     "name": "rnaseq v3.4",
     "versions": "3.4",
     "reference": "https://api.github.com/repos/nf-core/rnaseq"
   },
-  "rnaseq_v3.3": {
+  "rnaseq_v3_3": {
     "id": "OpEIMZR32",
     "name": "rnaseq v3.3",
     "versions": "3.3",
     "reference": "https://api.github.com/repos/nf-core/rnaseq"
   },
-  "rnaseq_v3.2": {
+  "rnaseq_v3_2": {
     "id": "1MY0TU1P3",
     "name": "rnaseq v3.2",
     "versions": "3.2",
     "reference": "https://api.github.com/repos/nf-core/rnaseq"
   },
-  "rnaseq_v3.1": {
+  "rnaseq_v3_1": {
     "id": "acExuZLaJ",
     "name": "rnaseq v3.1",
     "versions": "3.1",
     "reference": "https://api.github.com/repos/nf-core/rnaseq"
   },
-  "rnaseq_v3.0": {
+  "rnaseq_v3_0": {
     "id": "mNZOIO9EC",
     "name": "rnaseq v3.0",
     "versions": "3.0",
     "reference": "https://api.github.com/repos/nf-core/rnaseq"
   },
-  "rnaseq_v2.0": {
+  "rnaseq_v2_0": {
     "id": "gEXq3oWNx",
     "name": "rnaseq v2.0",
     "versions": "2.0",
     "reference": "https://api.github.com/repos/nf-core/rnaseq"
   },
-  "rnaseq_v1.4.2": {
+  "rnaseq_v1_4_2": {
     "id": "yesykdcv4",
     "name": "rnaseq v1.4.2",
     "versions": "1.4.2",
     "reference": "https://api.github.com/repos/nf-core/rnaseq"
   },
-  "rnaseq_v1.4.1": {
+  "rnaseq_v1_4_1": {
     "id": "8GZYWqrrz",
     "name": "rnaseq v1.4.1",
     "versions": "1.4.1",
     "reference": "https://api.github.com/repos/nf-core/rnaseq"
   },
-  "rnaseq_v1.4": {
+  "rnaseq_v1_4": {
     "id": "fPrgy4TkX",
     "name": "rnaseq v1.4",
     "versions": "1.4",
     "reference": "https://api.github.com/repos/nf-core/rnaseq"
   },
-  "rnaseq_v1.3": {
+  "rnaseq_v1_3": {
     "id": "IQbfAvkni",
     "name": "rnaseq v1.3",
     "versions": "1.3",
     "reference": "https://api.github.com/repos/nf-core/rnaseq"
   },
-  "rnaseq_v1.2": {
+  "rnaseq_v1_2": {
     "id": "eTVw8k6BV",
     "name": "rnaseq v1.2",
     "versions": "1.2",
     "reference": "https://api.github.com/repos/nf-core/rnaseq"
   },
-  "rnaseq_v1.1": {
+  "rnaseq_v1_1": {
     "id": "hTZYIfaps",
     "name": "rnaseq v1.1",
     "versions": "1.1",
     "reference": "https://api.github.com/repos/nf-core/rnaseq"
   },
-  "rnaseq_v1.0": {
+  "rnaseq_v1_0": {
     "id": "eIQgjVBu6",
     "name": "rnaseq v1.0",
     "versions": "1.0",
     "reference": "https://api.github.com/repos/nf-core/rnaseq"
   },
-  "chipseq_v2.0.0": {
+  "chipseq_v2_0_0": {
     "id": "xxDudsquH",
     "name": "chipseq v2.0.0",
     "versions": "2.0.0",
     "reference": "https://api.github.com/repos/nf-core/chipseq"
   },
-  "chipseq_v1.2.2": {
+  "chipseq_v1_2_2": {
     "id": "kNktMvV4r",
     "name": "chipseq v1.2.2",
     "versions": "1.2.2",
     "reference": "https://api.github.com/repos/nf-core/chipseq"
   },
-  "chipseq_v1.2.1": {
+  "chipseq_v1_2_1": {
     "id": "DbO98wNrp",
     "name": "chipseq v1.2.1",
     "versions": "1.2.1",
     "reference": "https://api.github.com/repos/nf-core/chipseq"
   },
-  "chipseq_v1.2.0": {
+  "chipseq_v1_2_0": {
     "id": "DjJjWhsLL",
     "name": "chipseq v1.2.0",
     "versions": "1.2.0",
     "reference": "https://api.github.com/repos/nf-core/chipseq"
   },
-  "chipseq_v1.1.0": {
+  "chipseq_v1_1_0": {
     "id": "xrucubSag",
     "name": "chipseq v1.1.0",
     "versions": "1.1.0",
     "reference": "https://api.github.com/repos/nf-core/chipseq"
   },
-  "chipseq_v1.0.0": {
+  "chipseq_v1_0_0": {
     "id": "Tj1SF35wH",
     "name": "chipseq v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/chipseq"
   },
-  "mag_v2.3.0": {
+  "mag_v2_3_0": {
     "id": "B0IGNNVhJ",
     "name": "mag v2.3.0",
     "versions": "2.3.0",
     "reference": "https://api.github.com/repos/nf-core/mag"
   },
-  "mag_v2.2.1": {
+  "mag_v2_2_1": {
     "id": "MiUq8PllP",
     "name": "mag v2.2.1",
     "versions": "2.2.1",
     "reference": "https://api.github.com/repos/nf-core/mag"
   },
-  "mag_v2.2.0": {
+  "mag_v2_2_0": {
     "id": "Gl5GZLKoc",
     "name": "mag v2.2.0",
     "versions": "2.2.0",
     "reference": "https://api.github.com/repos/nf-core/mag"
   },
-  "mag_v2.1.1": {
+  "mag_v2_1_1": {
     "id": "GyS9saTNo",
     "name": "mag v2.1.1",
     "versions": "2.1.1",
     "reference": "https://api.github.com/repos/nf-core/mag"
   },
-  "mag_v2.1.0": {
+  "mag_v2_1_0": {
     "id": "Z7ySlJlYt",
     "name": "mag v2.1.0",
     "versions": "2.1.0",
     "reference": "https://api.github.com/repos/nf-core/mag"
   },
-  "mag_v2.0.0": {
+  "mag_v2_0_0": {
     "id": "f3Jw8t0bu",
     "name": "mag v2.0.0",
     "versions": "2.0.0",
     "reference": "https://api.github.com/repos/nf-core/mag"
   },
-  "mag_v1.2.0": {
+  "mag_v1_2_0": {
     "id": "RdDcZlq6k",
     "name": "mag v1.2.0",
     "versions": "1.2.0",
     "reference": "https://api.github.com/repos/nf-core/mag"
   },
-  "mag_v1.1.2": {
+  "mag_v1_1_2": {
     "id": "TQfTqfIeY",
     "name": "mag v1.1.2",
     "versions": "1.1.2",
     "reference": "https://api.github.com/repos/nf-core/mag"
   },
-  "mag_v1.1.1": {
+  "mag_v1_1_1": {
     "id": "XZHo3hvdz",
     "name": "mag v1.1.1",
     "versions": "1.1.1",
     "reference": "https://api.github.com/repos/nf-core/mag"
   },
-  "mag_v1.1.0": {
+  "mag_v1_1_0": {
     "id": "CiiDHw0FM",
     "name": "mag v1.1.0",
     "versions": "1.1.0",
     "reference": "https://api.github.com/repos/nf-core/mag"
   },
-  "mag_v1.0.0": {
+  "mag_v1_0_0": {
     "id": "Sk3LGNBLW",
     "name": "mag v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/mag"
   },
-  "eager_v2.4.6": {
+  "eager_v2_4_6": {
     "id": "WZMiTTYUB",
     "name": "eager v2.4.6",
     "versions": "2.4.6",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "eager_v2.4.5": {
+  "eager_v2_4_5": {
     "id": "VQaEV44fp",
     "name": "eager v2.4.5",
     "versions": "2.4.5",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "eager_v2.4.4": {
+  "eager_v2_4_4": {
     "id": "LctM2zf5S",
     "name": "eager v2.4.4",
     "versions": "2.4.4",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "eager_v2.4.3": {
+  "eager_v2_4_3": {
     "id": "MPbJ8H82W",
     "name": "eager v2.4.3",
     "versions": "2.4.3",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "eager_v2.4.2": {
+  "eager_v2_4_2": {
     "id": "SA7Qy0l0O",
     "name": "eager v2.4.2",
     "versions": "2.4.2",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "eager_v2.4.1": {
+  "eager_v2_4_1": {
     "id": "8Yxqt0wdY",
     "name": "eager v2.4.1",
     "versions": "2.4.1",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "eager_v2.4.0": {
+  "eager_v2_4_0": {
     "id": "RfcvnBfb0",
     "name": "eager v2.4.0",
     "versions": "2.4.0",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "eager_v2.3.5": {
+  "eager_v2_3_5": {
     "id": "xt6MSd0k3",
     "name": "eager v2.3.5",
     "versions": "2.3.5",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "eager_v2.3.4": {
+  "eager_v2_3_4": {
     "id": "mvlfunfdb",
     "name": "eager v2.3.4",
     "versions": "2.3.4",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "eager_v2.3.3": {
+  "eager_v2_3_3": {
     "id": "JYEcTAOfu",
     "name": "eager v2.3.3",
     "versions": "2.3.3",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "eager_v2.3.2": {
+  "eager_v2_3_2": {
     "id": "INgJnuWN7",
     "name": "eager v2.3.2",
     "versions": "2.3.2",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "eager_v2.3.1": {
+  "eager_v2_3_1": {
     "id": "KgeurPMym",
     "name": "eager v2.3.1",
     "versions": "2.3.1",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "eager_v2.3.0": {
+  "eager_v2_3_0": {
     "id": "WlK2T7rRM",
     "name": "eager v2.3.0",
     "versions": "2.3.0",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "eager_v2.2.2": {
+  "eager_v2_2_2": {
     "id": "qlut40aPX",
     "name": "eager v2.2.2",
     "versions": "2.2.2",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "eager_v2.2.1": {
+  "eager_v2_2_1": {
     "id": "z6lZGFlgd",
     "name": "eager v2.2.1",
     "versions": "2.2.1",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "eager_v2.2.0": {
+  "eager_v2_2_0": {
     "id": "Z65kZNXwO",
     "name": "eager v2.2.0",
     "versions": "2.2.0",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "eager_v2.1.0": {
+  "eager_v2_1_0": {
     "id": "HiWvviIND",
     "name": "eager v2.1.0",
     "versions": "2.1.0",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "eager_v2.0.7": {
+  "eager_v2_0_7": {
     "id": "IJ6IMiejW",
     "name": "eager v2.0.7",
     "versions": "2.0.7",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "eager_v2.0.6": {
+  "eager_v2_0_6": {
     "id": "wQ0Cz5vY2",
     "name": "eager v2.0.6",
     "versions": "2.0.6",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "eager_v2.0.5": {
+  "eager_v2_0_5": {
     "id": "PkfmHBCKt",
     "name": "eager v2.0.5",
     "versions": "2.0.5",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "eager_v2.0.4": {
+  "eager_v2_0_4": {
     "id": "VldlWB2DF",
     "name": "eager v2.0.4",
     "versions": "2.0.4",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "eager_v2.0.3": {
+  "eager_v2_0_3": {
     "id": "IpJuogUwQ",
     "name": "eager v2.0.3",
     "versions": "2.0.3",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "eager_v2.0.2": {
+  "eager_v2_0_2": {
     "id": "CgFI58fhL",
     "name": "eager v2.0.2",
     "versions": "2.0.2",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "eager_v2.0.1": {
+  "eager_v2_0_1": {
     "id": "5JgaX9hKk",
     "name": "eager v2.0.1",
     "versions": "2.0.1",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "eager_v2.0.0": {
+  "eager_v2_0_0": {
     "id": "xZPqqY60a",
     "name": "eager v2.0.0",
     "versions": "2.0.0",
     "reference": "https://api.github.com/repos/nf-core/eager"
   },
-  "hlatyping_v2.0.0": {
+  "hlatyping_v2_0_0": {
     "id": "3tH9mvJNC",
     "name": "hlatyping v2.0.0",
     "versions": "2.0.0",
     "reference": "https://api.github.com/repos/nf-core/hlatyping"
   },
-  "hlatyping_v1.2.0": {
+  "hlatyping_v1_2_0": {
     "id": "FPSsxAk0c",
     "name": "hlatyping v1.2.0",
     "versions": "1.2.0",
     "reference": "https://api.github.com/repos/nf-core/hlatyping"
   },
-  "hlatyping_v1.1.5": {
+  "hlatyping_v1_1_5": {
     "id": "uxU5xtshb",
     "name": "hlatyping v1.1.5",
     "versions": "1.1.5",
     "reference": "https://api.github.com/repos/nf-core/hlatyping"
   },
-  "hlatyping_v1.1.4": {
+  "hlatyping_v1_1_4": {
     "id": "iihoCVvnv",
     "name": "hlatyping v1.1.4",
     "versions": "1.1.4",
     "reference": "https://api.github.com/repos/nf-core/hlatyping"
   },
-  "hlatyping_v1.1.3": {
+  "hlatyping_v1_1_3": {
     "id": "I0u81tC76",
     "name": "hlatyping v1.1.3",
     "versions": "1.1.3",
     "reference": "https://api.github.com/repos/nf-core/hlatyping"
   },
-  "hlatyping_v1.1.2": {
+  "hlatyping_v1_1_2": {
     "id": "NohoDUdJu",
     "name": "hlatyping v1.1.2",
     "versions": "1.1.2",
     "reference": "https://api.github.com/repos/nf-core/hlatyping"
   },
-  "hlatyping_v1.1.1": {
+  "hlatyping_v1_1_1": {
     "id": "ukTsPhDdV",
     "name": "hlatyping v1.1.1",
     "versions": "1.1.1",
     "reference": "https://api.github.com/repos/nf-core/hlatyping"
   },
-  "hlatyping_v1.1.0": {
+  "hlatyping_v1_1_0": {
     "id": "QVxilSnOJ",
     "name": "hlatyping v1.1.0",
     "versions": "1.1.0",
     "reference": "https://api.github.com/repos/nf-core/hlatyping"
   },
-  "hlatyping_v1.0.0": {
+  "hlatyping_v1_0_0": {
     "id": "i4tByeHgS",
     "name": "hlatyping v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/hlatyping"
   },
-  "hlatyping_v1.0.0-rc1": {
+  "hlatyping_v1_0_0_rc1": {
     "id": "8kvetu2za",
     "name": "hlatyping v1.0.0-rc1",
     "versions": "1.0.0-rc1",
     "reference": "https://api.github.com/repos/nf-core/hlatyping"
   },
-  "smrnaseq_v2.1.0": {
+  "smrnaseq_v2_1_0": {
     "id": "xS5EqoQSO",
     "name": "smrnaseq v2.1.0",
     "versions": "2.1.0",
     "reference": "https://api.github.com/repos/nf-core/smrnaseq"
   },
-  "smrnaseq_v2.0.0": {
+  "smrnaseq_v2_0_0": {
     "id": "1DgyNxi1l",
     "name": "smrnaseq v2.0.0",
     "versions": "2.0.0",
     "reference": "https://api.github.com/repos/nf-core/smrnaseq"
   },
-  "smrnaseq_v1.1.0": {
+  "smrnaseq_v1_1_0": {
     "id": "tKCpBTBzu",
     "name": "smrnaseq v1.1.0",
     "versions": "1.1.0",
     "reference": "https://api.github.com/repos/nf-core/smrnaseq"
   },
-  "smrnaseq_v1.0.0": {
+  "smrnaseq_v1_0_0": {
     "id": "UusrL8MJk",
     "name": "smrnaseq v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/smrnaseq"
   },
-  "ampliseq_v2.5.0": {
+  "ampliseq_v2_5_0": {
     "id": "Sf3Qqnvr7",
     "name": "ampliseq v2.5.0",
     "versions": "2.5.0",
     "reference": "https://api.github.com/repos/nf-core/ampliseq"
   },
-  "ampliseq_v2.4.1": {
+  "ampliseq_v2_4_1": {
     "id": "2GjGkzuUo",
     "name": "ampliseq v2.4.1",
     "versions": "2.4.1",
     "reference": "https://api.github.com/repos/nf-core/ampliseq"
   },
-  "ampliseq_v2.4.0": {
+  "ampliseq_v2_4_0": {
     "id": "1fEsgPxRu",
     "name": "ampliseq v2.4.0",
     "versions": "2.4.0",
     "reference": "https://api.github.com/repos/nf-core/ampliseq"
   },
-  "ampliseq_v2.3.2": {
+  "ampliseq_v2_3_2": {
     "id": "MsrPytgVl",
     "name": "ampliseq v2.3.2",
     "versions": "2.3.2",
     "reference": "https://api.github.com/repos/nf-core/ampliseq"
   },
-  "ampliseq_v2.3.1": {
+  "ampliseq_v2_3_1": {
     "id": "ryYVmSJfe",
     "name": "ampliseq v2.3.1",
     "versions": "2.3.1",
     "reference": "https://api.github.com/repos/nf-core/ampliseq"
   },
-  "ampliseq_v2.3.0": {
+  "ampliseq_v2_3_0": {
     "id": "g6nv8VSPP",
     "name": "ampliseq v2.3.0",
     "versions": "2.3.0",
     "reference": "https://api.github.com/repos/nf-core/ampliseq"
   },
-  "ampliseq_v2.2.0": {
+  "ampliseq_v2_2_0": {
     "id": "T2TWDzXUn",
     "name": "ampliseq v2.2.0",
     "versions": "2.2.0",
     "reference": "https://api.github.com/repos/nf-core/ampliseq"
   },
-  "ampliseq_v2.1.1": {
+  "ampliseq_v2_1_1": {
     "id": "ZFuFRvPYx",
     "name": "ampliseq v2.1.1",
     "versions": "2.1.1",
     "reference": "https://api.github.com/repos/nf-core/ampliseq"
   },
-  "ampliseq_v2.1.0": {
+  "ampliseq_v2_1_0": {
     "id": "fW4T9PccK",
     "name": "ampliseq v2.1.0",
     "versions": "2.1.0",
     "reference": "https://api.github.com/repos/nf-core/ampliseq"
   },
-  "ampliseq_v2.0.0": {
+  "ampliseq_v2_0_0": {
     "id": "ZOoVSTpki",
     "name": "ampliseq v2.0.0",
     "versions": "2.0.0",
     "reference": "https://api.github.com/repos/nf-core/ampliseq"
   },
-  "ampliseq_v1.2.0": {
+  "ampliseq_v1_2_0": {
     "id": "Lt0cSBXps",
     "name": "ampliseq v1.2.0",
     "versions": "1.2.0",
     "reference": "https://api.github.com/repos/nf-core/ampliseq"
   },
-  "ampliseq_v1.1.3": {
+  "ampliseq_v1_1_3": {
     "id": "R5SgARSUB",
     "name": "ampliseq v1.1.3",
     "versions": "1.1.3",
     "reference": "https://api.github.com/repos/nf-core/ampliseq"
   },
-  "ampliseq_v1.1.2": {
+  "ampliseq_v1_1_2": {
     "id": "rhkd5oL48",
     "name": "ampliseq v1.1.2",
     "versions": "1.1.2",
     "reference": "https://api.github.com/repos/nf-core/ampliseq"
   },
-  "ampliseq_v1.1.1": {
+  "ampliseq_v1_1_1": {
     "id": "eoLjHMtVr",
     "name": "ampliseq v1.1.1",
     "versions": "1.1.1",
     "reference": "https://api.github.com/repos/nf-core/ampliseq"
   },
-  "ampliseq_v1.1.0": {
+  "ampliseq_v1_1_0": {
     "id": "MTJHl2QvE",
     "name": "ampliseq v1.1.0",
     "versions": "1.1.0",
     "reference": "https://api.github.com/repos/nf-core/ampliseq"
   },
-  "ampliseq_v1.0.0": {
+  "ampliseq_v1_0_0": {
     "id": "SPsbpv8Vg",
     "name": "ampliseq v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/ampliseq"
   },
-  "neutronstar_v1.0.0": {
+  "neutronstar_v1_0_0": {
     "id": "L6eXA7Que",
     "name": "neutronstar v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/neutronstar"
   },
-  "deepvariant_v1.0": {
+  "deepvariant_v1_0": {
     "id": "CjoD3cbS3",
     "name": "deepvariant v1.0",
     "versions": "1.0",
     "reference": "https://api.github.com/repos/nf-core/deepvariant"
   },
-  "rnafusion_v2.2.0": {
+  "rnafusion_v2_3_0": {
+    "id": "kv4qTB6Vb",
+    "name": "rnafusion v2.3.0",
+    "versions": "2.3.0",
+    "reference": "https://api.github.com/repos/nf-core/rnafusion"
+  },
+  "rnafusion_v2_2_0": {
     "id": "S6peVeW8q",
     "name": "rnafusion v2.2.0",
     "versions": "2.2.0",
     "reference": "https://api.github.com/repos/nf-core/rnafusion"
   },
-  "rnafusion_v2.1.0": {
+  "rnafusion_v2_1_0": {
     "id": "Uy7TQuzGe",
     "name": "rnafusion v2.1.0",
     "versions": "2.1.0",
     "reference": "https://api.github.com/repos/nf-core/rnafusion"
   },
-  "rnafusion_v2.0.0": {
+  "rnafusion_v2_0_0": {
     "id": "lITeppAHE",
     "name": "rnafusion v2.0.0",
     "versions": "2.0.0",
     "reference": "https://api.github.com/repos/nf-core/rnafusion"
   },
-  "rnafusion_v1.2.0": {
+  "rnafusion_v1_2_0": {
     "id": "fyxbGyIbk",
     "name": "rnafusion v1.2.0",
     "versions": "1.2.0",
     "reference": "https://api.github.com/repos/nf-core/rnafusion"
   },
-  "rnafusion_v1.1.0": {
+  "rnafusion_v1_1_0": {
     "id": "MENMYFZSf",
     "name": "rnafusion v1.1.0",
     "versions": "1.1.0",
     "reference": "https://api.github.com/repos/nf-core/rnafusion"
   },
-  "rnafusion_v1.0.2": {
+  "rnafusion_v1_0_2": {
     "id": "PdwTFkryF",
     "name": "rnafusion v1.0.2",
     "versions": "1.0.2",
     "reference": "https://api.github.com/repos/nf-core/rnafusion"
   },
-  "rnafusion_v1.0.1": {
+  "rnafusion_v1_0_1": {
     "id": "RwvQpKUFa",
     "name": "rnafusion v1.0.1",
     "versions": "1.0.1",
     "reference": "https://api.github.com/repos/nf-core/rnafusion"
   },
-  "rnafusion_v1.0": {
+  "rnafusion_v1_0": {
     "id": "Bxw3giDNS",
     "name": "rnafusion v1.0",
     "versions": "1.0",
     "reference": "https://api.github.com/repos/nf-core/rnafusion"
   },
-  "mhcquant_v2.4.1": {
+  "mhcquant_v2_4_1": {
     "id": "Pr1PBTFr7",
     "name": "mhcquant v2.4.1",
     "versions": "2.4.1",
     "reference": "https://api.github.com/repos/nf-core/mhcquant"
   },
-  "mhcquant_v2.4.0": {
+  "mhcquant_v2_4_0": {
     "id": "aGoyi6ajl",
     "name": "mhcquant v2.4.0",
     "versions": "2.4.0",
     "reference": "https://api.github.com/repos/nf-core/mhcquant"
   },
-  "mhcquant_v2.3.1": {
+  "mhcquant_v2_3_1": {
     "id": "LlW6FIT4r",
     "name": "mhcquant v2.3.1",
     "versions": "2.3.1",
     "reference": "https://api.github.com/repos/nf-core/mhcquant"
   },
-  "mhcquant_v2.3.0": {
+  "mhcquant_v2_3_0": {
     "id": "o6aUfItC0",
     "name": "mhcquant v2.3.0",
     "versions": "2.3.0",
     "reference": "https://api.github.com/repos/nf-core/mhcquant"
   },
-  "mhcquant_v2.2.0": {
+  "mhcquant_v2_2_0": {
     "id": "exaXj9ZJB",
     "name": "mhcquant v2.2.0",
     "versions": "2.2.0",
     "reference": "https://api.github.com/repos/nf-core/mhcquant"
   },
-  "mhcquant_v2.1.0": {
+  "mhcquant_v2_1_0": {
     "id": "hgZYdQNEv",
     "name": "mhcquant v2.1.0",
     "versions": "2.1.0",
     "reference": "https://api.github.com/repos/nf-core/mhcquant"
   },
-  "mhcquant_v2.0.0": {
+  "mhcquant_v2_0_0": {
     "id": "byU69KFEZ",
     "name": "mhcquant v2.0.0",
     "versions": "2.0.0",
     "reference": "https://api.github.com/repos/nf-core/mhcquant"
   },
-  "mhcquant_v1.6.0": {
+  "mhcquant_v1_6_0": {
     "id": "kjz1C5t0t",
     "name": "mhcquant v1.6.0",
     "versions": "1.6.0",
     "reference": "https://api.github.com/repos/nf-core/mhcquant"
   },
-  "mhcquant_v1.5.1": {
+  "mhcquant_v1_5_1": {
     "id": "0YDzmIZB2",
     "name": "mhcquant v1.5.1",
     "versions": "1.5.1",
     "reference": "https://api.github.com/repos/nf-core/mhcquant"
   },
-  "mhcquant_v1.5": {
+  "mhcquant_v1_5": {
     "id": "j54ymigtt",
     "name": "mhcquant v1.5",
     "versions": "1.5",
     "reference": "https://api.github.com/repos/nf-core/mhcquant"
   },
-  "mhcquant_v1.4": {
+  "mhcquant_v1_4": {
     "id": "uqnAm8Y4y",
     "name": "mhcquant v1.4",
     "versions": "1.4",
     "reference": "https://api.github.com/repos/nf-core/mhcquant"
   },
-  "mhcquant_v1.3": {
+  "mhcquant_v1_3": {
     "id": "Gj55uTqTY",
     "name": "mhcquant v1.3",
     "versions": "1.3",
     "reference": "https://api.github.com/repos/nf-core/mhcquant"
   },
-  "mhcquant_v1.2.6": {
+  "mhcquant_v1_2_6": {
     "id": "cu2J2wIkh",
     "name": "mhcquant v1.2.6",
     "versions": "1.2.6",
     "reference": "https://api.github.com/repos/nf-core/mhcquant"
   },
-  "mhcquant_v1.2.5": {
+  "mhcquant_v1_2_5": {
     "id": "DDDPbQwEa",
     "name": "mhcquant v1.2.5",
     "versions": "1.2.5",
     "reference": "https://api.github.com/repos/nf-core/mhcquant"
   },
-  "mhcquant_v1.2.4": {
+  "mhcquant_v1_2_4": {
     "id": "R5a8zkLcA",
     "name": "mhcquant v1.2.4",
     "versions": "1.2.4",
     "reference": "https://api.github.com/repos/nf-core/mhcquant"
   },
-  "mhcquant_v1.2.3": {
+  "mhcquant_v1_2_3": {
     "id": "EQ0O1bxo9",
     "name": "mhcquant v1.2.3",
     "versions": "1.2.3",
     "reference": "https://api.github.com/repos/nf-core/mhcquant"
   },
-  "mhcquant_v1.2.2": {
+  "mhcquant_v1_2_2": {
     "id": "6lKFgFyAv",
     "name": "mhcquant v1.2.2",
     "versions": "1.2.2",
     "reference": "https://api.github.com/repos/nf-core/mhcquant"
   },
-  "mhcquant_v1.2.1": {
+  "mhcquant_v1_2_1": {
     "id": "11cUlXV1n",
     "name": "mhcquant v1.2.1",
     "versions": "1.2.1",
     "reference": "https://api.github.com/repos/nf-core/mhcquant"
   },
-  "mhcquant_v1.2.0": {
+  "mhcquant_v1_2_0": {
     "id": "HinBNJvie",
     "name": "mhcquant v1.2.0",
     "versions": "1.2.0",
     "reference": "https://api.github.com/repos/nf-core/mhcquant"
   },
-  "mhcquant_v1.1.0": {
+  "mhcquant_v1_1_0": {
     "id": "zDiQTOPU3",
     "name": "mhcquant v1.1.0",
     "versions": "1.1.0",
     "reference": "https://api.github.com/repos/nf-core/mhcquant"
   },
-  "mhcquant_v1.0.0": {
+  "mhcquant_v1_0_0": {
     "id": "kS6jgwPV7",
     "name": "mhcquant v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/mhcquant"
   },
-  "atacseq_v2.0": {
+  "atacseq_v2_0": {
     "id": "IhEeHfJ0q",
     "name": "atacseq v2.0",
     "versions": "2.0",
     "reference": "https://api.github.com/repos/nf-core/atacseq"
   },
-  "atacseq_v1.2.2": {
+  "atacseq_v1_2_2": {
     "id": "tqwPQ8nKz",
     "name": "atacseq v1.2.2",
     "versions": "1.2.2",
     "reference": "https://api.github.com/repos/nf-core/atacseq"
   },
-  "atacseq_v1.2.1": {
+  "atacseq_v1_2_1": {
     "id": "Bv1Nh7XLT",
     "name": "atacseq v1.2.1",
     "versions": "1.2.1",
     "reference": "https://api.github.com/repos/nf-core/atacseq"
   },
-  "atacseq_v1.2.0": {
+  "atacseq_v1_2_0": {
     "id": "1HDoh3UfS",
     "name": "atacseq v1.2.0",
     "versions": "1.2.0",
     "reference": "https://api.github.com/repos/nf-core/atacseq"
   },
-  "atacseq_v1.1.0": {
+  "atacseq_v1_1_0": {
     "id": "qU2zFD8UX",
     "name": "atacseq v1.1.0",
     "versions": "1.1.0",
     "reference": "https://api.github.com/repos/nf-core/atacseq"
   },
-  "atacseq_v1.0.0": {
+  "atacseq_v1_0_0": {
     "id": "UEOD6W4y4",
     "name": "atacseq v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/atacseq"
   },
-  "nascent_v2.1.1": {
+  "nascent_v2_1_1": {
     "id": "sdIi9navx",
     "name": "nascent v2.1.1",
     "versions": "2.1.1",
     "reference": "https://api.github.com/repos/nf-core/nascent"
   },
-  "nascent_v2.1.0": {
+  "nascent_v2_1_0": {
     "id": "UbdCliLpq",
     "name": "nascent v2.1.0",
     "versions": "2.1.0",
     "reference": "https://api.github.com/repos/nf-core/nascent"
   },
-  "nascent_v2.0.0": {
+  "nascent_v2_0_0": {
     "id": "gHC6CkagP",
     "name": "nascent v2.0.0",
     "versions": "2.0.0",
     "reference": "https://api.github.com/repos/nf-core/nascent"
   },
-  "nascent_v1.0": {
+  "nascent_v1_0": {
     "id": "8cbeFCqFv",
     "name": "nascent v1.0",
     "versions": "1.0",
     "reference": "https://api.github.com/repos/nf-core/nascent"
   },
-  "epitopeprediction_v2.2.1": {
+  "epitopeprediction_v2_2_1": {
     "id": "Ve51qUEXA",
     "name": "epitopeprediction v2.2.1",
     "versions": "2.2.1",
     "reference": "https://api.github.com/repos/nf-core/epitopeprediction"
   },
-  "epitopeprediction_v2.2.0": {
+  "epitopeprediction_v2_2_0": {
     "id": "0ihw9Nxnu",
     "name": "epitopeprediction v2.2.0",
     "versions": "2.2.0",
     "reference": "https://api.github.com/repos/nf-core/epitopeprediction"
   },
-  "epitopeprediction_v2.1.0": {
+  "epitopeprediction_v2_1_0": {
     "id": "35uQ6bGED",
     "name": "epitopeprediction v2.1.0",
     "versions": "2.1.0",
     "reference": "https://api.github.com/repos/nf-core/epitopeprediction"
   },
-  "epitopeprediction_v2.0.0": {
+  "epitopeprediction_v2_0_0": {
     "id": "JJaKMVTH4",
     "name": "epitopeprediction v2.0.0",
     "versions": "2.0.0",
     "reference": "https://api.github.com/repos/nf-core/epitopeprediction"
   },
-  "epitopeprediction_v1.1.0": {
+  "epitopeprediction_v1_1_0": {
     "id": "W6m24MXfh",
     "name": "epitopeprediction v1.1.0",
     "versions": "1.1.0",
     "reference": "https://api.github.com/repos/nf-core/epitopeprediction"
   },
-  "epitopeprediction_v1.0.0": {
+  "epitopeprediction_v1_0_0": {
     "id": "EstofV8Pv",
     "name": "epitopeprediction v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/epitopeprediction"
   },
-  "airrflow_v3.0": {
+  "airrflow_v3_0": {
     "id": "YjZA0fglD",
     "name": "airrflow v3.0",
     "versions": "3.0",
     "reference": "https://api.github.com/repos/nf-core/airrflow"
   },
-  "airrflow_v2.4.0": {
+  "airrflow_v2_4_0": {
     "id": "PPJNobHm0",
     "name": "airrflow v2.4.0",
     "versions": "2.4.0",
     "reference": "https://api.github.com/repos/nf-core/airrflow"
   },
-  "airrflow_v2.3.0": {
+  "airrflow_v2_3_0": {
     "id": "gaCqTqAkc",
     "name": "airrflow v2.3.0",
     "versions": "2.3.0",
     "reference": "https://api.github.com/repos/nf-core/airrflow"
   },
-  "airrflow_v2.2.0": {
+  "airrflow_v2_2_0": {
     "id": "v4gmE7cRY",
     "name": "airrflow v2.2.0",
     "versions": "2.2.0",
     "reference": "https://api.github.com/repos/nf-core/airrflow"
   },
-  "airrflow_v2.1.0": {
+  "airrflow_v2_1_0": {
     "id": "bXyPEGxj6",
     "name": "airrflow v2.1.0",
     "versions": "2.1.0",
     "reference": "https://api.github.com/repos/nf-core/airrflow"
   },
-  "airrflow_v2.0.0": {
+  "airrflow_v2_0_0": {
     "id": "CLHAzlXjo",
     "name": "airrflow v2.0.0",
     "versions": "2.0.0",
     "reference": "https://api.github.com/repos/nf-core/airrflow"
   },
-  "airrflow_v1.2.0": {
+  "airrflow_v1_2_0": {
     "id": "pY05rdduO",
     "name": "airrflow v1.2.0",
     "versions": "1.2.0",
     "reference": "https://api.github.com/repos/nf-core/airrflow"
   },
-  "airrflow_v1.1.0": {
+  "airrflow_v1_1_0": {
     "id": "DwPN5kn9R",
     "name": "airrflow v1.1.0",
     "versions": "1.1.0",
     "reference": "https://api.github.com/repos/nf-core/airrflow"
   },
-  "airrflow_v1.0.0": {
+  "airrflow_v1_0_0": {
     "id": "dCHPHRWY4",
     "name": "airrflow v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/airrflow"
   },
-  "bacass_v2.0.0": {
+  "bacass_v2_0_0": {
     "id": "chtejsFcD",
     "name": "bacass v2.0.0",
     "versions": "2.0.0",
     "reference": "https://api.github.com/repos/nf-core/bacass"
   },
-  "bacass_v1.1.1": {
+  "bacass_v1_1_1": {
     "id": "zAuQwCgGB",
     "name": "bacass v1.1.1",
     "versions": "1.1.1",
     "reference": "https://api.github.com/repos/nf-core/bacass"
   },
-  "bacass_v1.1.0": {
+  "bacass_v1_1_0": {
     "id": "VsdmzXOEm",
     "name": "bacass v1.1.0",
     "versions": "1.1.0",
     "reference": "https://api.github.com/repos/nf-core/bacass"
   },
-  "bacass_v1.0.0": {
+  "bacass_v1_0_0": {
     "id": "9BLtb5ESf",
     "name": "bacass v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/bacass"
   },
-  "scrnaseq_v2.2.0": {
+  "scrnaseq_v2_2_0": {
     "id": "Ip65fB8JA",
     "name": "scrnaseq v2.2.0",
     "versions": "2.2.0",
     "reference": "https://api.github.com/repos/nf-core/scrnaseq"
   },
-  "scrnaseq_v2.1.0": {
+  "scrnaseq_v2_1_0": {
     "id": "ajyrQv2yV",
     "name": "scrnaseq v2.1.0",
     "versions": "2.1.0",
     "reference": "https://api.github.com/repos/nf-core/scrnaseq"
   },
-  "scrnaseq_v2.0.0": {
+  "scrnaseq_v2_0_0": {
     "id": "dmM3t3xLU",
     "name": "scrnaseq v2.0.0",
     "versions": "2.0.0",
     "reference": "https://api.github.com/repos/nf-core/scrnaseq"
   },
-  "scrnaseq_v1.1.0": {
+  "scrnaseq_v1_1_0": {
     "id": "w4sEBQlFW",
     "name": "scrnaseq v1.1.0",
     "versions": "1.1.0",
     "reference": "https://api.github.com/repos/nf-core/scrnaseq"
   },
-  "scrnaseq_v1.0.0": {
+  "scrnaseq_v1_0_0": {
     "id": "7KZGIM7EM",
     "name": "scrnaseq v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/scrnaseq"
   },
-  "hic_v2.0.0": {
+  "hic_v2_0_0": {
     "id": "udKNoiNLy",
     "name": "hic v2.0.0",
     "versions": "2.0.0",
     "reference": "https://api.github.com/repos/nf-core/hic"
   },
-  "hic_v1.3.0": {
+  "hic_v1_3_0": {
     "id": "n1BCrEKO8",
     "name": "hic v1.3.0",
     "versions": "1.3.0",
     "reference": "https://api.github.com/repos/nf-core/hic"
   },
-  "hic_v1.2.2": {
+  "hic_v1_2_2": {
     "id": "1DhoqevIS",
     "name": "hic v1.2.2",
     "versions": "1.2.2",
     "reference": "https://api.github.com/repos/nf-core/hic"
   },
-  "hic_v1.2.1": {
+  "hic_v1_2_1": {
     "id": "ltwOjF5T3",
     "name": "hic v1.2.1",
     "versions": "1.2.1",
     "reference": "https://api.github.com/repos/nf-core/hic"
   },
-  "hic_v1.2.0": {
+  "hic_v1_2_0": {
     "id": "dVlRfv8W8",
     "name": "hic v1.2.0",
     "versions": "1.2.0",
     "reference": "https://api.github.com/repos/nf-core/hic"
   },
-  "hic_v1.1.0": {
+  "hic_v1_1_0": {
     "id": "POEWs0F2z",
     "name": "hic v1.1.0",
     "versions": "1.1.0",
     "reference": "https://api.github.com/repos/nf-core/hic"
   },
-  "hic_v1.0.0": {
+  "hic_v1_0_0": {
     "id": "ZJlaNpwkL",
     "name": "hic v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/hic"
   },
-  "proteomicslfq_v1.0.0": {
+  "proteomicslfq_v1_0_0": {
     "id": "75z8pAwXn",
     "name": "proteomicslfq v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/proteomicslfq"
   },
-  "coproid_v1.1.1": {
+  "coproid_v1_1_1": {
     "id": "yTUcNrsPy",
     "name": "coproid v1.1.1",
     "versions": "1.1.1",
     "reference": "https://api.github.com/repos/nf-core/coproid"
   },
-  "coproid_v1.1": {
+  "coproid_v1_1": {
     "id": "wpFvShYOF",
     "name": "coproid v1.1",
     "versions": "1.1",
     "reference": "https://api.github.com/repos/nf-core/coproid"
   },
-  "coproid_v1.0": {
+  "coproid_v1_0": {
     "id": "iRsXQMPFE",
     "name": "coproid v1.0",
     "versions": "1.0",
     "reference": "https://api.github.com/repos/nf-core/coproid"
   },
-  "sarek_v3.1.2": {
+  "sarek_v3_1_2": {
     "id": "36pOel7mT",
     "name": "sarek v3.1.2",
     "versions": "3.1.2",
     "reference": "https://api.github.com/repos/nf-core/sarek"
   },
-  "sarek_v3.1.1": {
+  "sarek_v3_1_1": {
     "id": "z2sgi9HY9",
     "name": "sarek v3.1.1",
     "versions": "3.1.1",
     "reference": "https://api.github.com/repos/nf-core/sarek"
   },
-  "sarek_v3.1": {
+  "sarek_v3_1": {
     "id": "dlPxcQCPI",
     "name": "sarek v3.1",
     "versions": "3.1",
     "reference": "https://api.github.com/repos/nf-core/sarek"
   },
-  "sarek_v3.0.2": {
+  "sarek_v3_0_2": {
     "id": "6aAW3Nfxc",
     "name": "sarek v3.0.2",
     "versions": "3.0.2",
     "reference": "https://api.github.com/repos/nf-core/sarek"
   },
-  "sarek_v3.0.1": {
+  "sarek_v3_0_1": {
     "id": "hkryix928",
     "name": "sarek v3.0.1",
     "versions": "3.0.1",
     "reference": "https://api.github.com/repos/nf-core/sarek"
   },
-  "sarek_v3.0": {
+  "sarek_v3_0": {
     "id": "6lwAyu9hW",
     "name": "sarek v3.0",
     "versions": "3.0",
     "reference": "https://api.github.com/repos/nf-core/sarek"
   },
-  "sarek_v2.7.2": {
+  "sarek_v2_7_2": {
     "id": "m8QUB3SAZ",
     "name": "sarek v2.7.2",
     "versions": "2.7.2",
     "reference": "https://api.github.com/repos/nf-core/sarek"
   },
-  "sarek_v2.7.1": {
+  "sarek_v2_7_1": {
     "id": "smZeAEs7D",
     "name": "sarek v2.7.1",
     "versions": "2.7.1",
     "reference": "https://api.github.com/repos/nf-core/sarek"
   },
-  "sarek_v2.7": {
+  "sarek_v2_7": {
     "id": "Wqbu2n71P",
     "name": "sarek v2.7",
     "versions": "2.7",
     "reference": "https://api.github.com/repos/nf-core/sarek"
   },
-  "sarek_v2.6.1": {
+  "sarek_v2_6_1": {
     "id": "z0Qzf0Lrz",
     "name": "sarek v2.6.1",
     "versions": "2.6.1",
     "reference": "https://api.github.com/repos/nf-core/sarek"
   },
-  "sarek_v2.6": {
+  "sarek_v2_6": {
     "id": "MDPBgULze",
     "name": "sarek v2.6",
     "versions": "2.6",
     "reference": "https://api.github.com/repos/nf-core/sarek"
   },
-  "sarek_v2.5.2": {
+  "sarek_v2_5_2": {
     "id": "M6st6AvPe",
     "name": "sarek v2.5.2",
     "versions": "2.5.2",
     "reference": "https://api.github.com/repos/nf-core/sarek"
   },
-  "sarek_v2.5.1": {
+  "sarek_v2_5_1": {
     "id": "HDzQgPeyB",
     "name": "sarek v2.5.1",
     "versions": "2.5.1",
     "reference": "https://api.github.com/repos/nf-core/sarek"
   },
-  "sarek_v2.5": {
+  "sarek_v2_5": {
     "id": "5KwbmbIQH",
     "name": "sarek v2.5",
     "versions": "2.5",
     "reference": "https://api.github.com/repos/nf-core/sarek"
   },
-  "cageseq_v1.0.2": {
+  "cageseq_v1_0_2": {
     "id": "XIu9PvmHi",
     "name": "cageseq v1.0.2",
     "versions": "1.0.2",
     "reference": "https://api.github.com/repos/nf-core/cageseq"
   },
-  "cageseq_v1.0.1": {
+  "cageseq_v1_0_1": {
     "id": "sC2MYgS4m",
     "name": "cageseq v1.0.1",
     "versions": "1.0.1",
     "reference": "https://api.github.com/repos/nf-core/cageseq"
   },
-  "cageseq_v1.0.0": {
+  "cageseq_v1_0_0": {
     "id": "QqFHtSVDi",
     "name": "cageseq v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/cageseq"
   },
-  "bactmap_v1.0.0": {
+  "bactmap_v1_0_0": {
     "id": "3AxYlLF4S",
     "name": "bactmap v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/bactmap"
   },
-  "bactmap_v0.9.1": {
+  "bactmap_v0_9_1": {
     "id": "vgkGFCRLr",
     "name": "bactmap v0.9.1",
     "versions": "0.9.1",
     "reference": "https://api.github.com/repos/nf-core/bactmap"
   },
-  "bactmap_vv0.9": {
+  "bactmap_vv0_9": {
     "id": "x67RiDWsT",
     "name": "bactmap vv0.9",
     "versions": "v0.9",
     "reference": "https://api.github.com/repos/nf-core/bactmap"
   },
-  "mnaseseq_v1.0.0": {
+  "mnaseseq_v1_0_0": {
     "id": "5ct6VqmVE",
     "name": "mnaseseq v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/mnaseseq"
   },
-  "kmermaid_v0.1.0-alpha": {
+  "kmermaid_v0_1_0_alpha": {
     "id": "kFGi0c9iM",
     "name": "kmermaid v0.1.0-alpha",
     "versions": "0.1.0-alpha",
     "reference": "https://api.github.com/repos/nf-core/kmermaid"
   },
-  "imcyto_v1.0.0": {
+  "imcyto_v1_0_0": {
     "id": "BtEFAjJwn",
     "name": "imcyto v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/imcyto"
   },
-  "nanoseq_v3.1.0": {
+  "nanoseq_v3_1_0": {
     "id": "lBuXHOkqf",
     "name": "nanoseq v3.1.0",
     "versions": "3.1.0",
     "reference": "https://api.github.com/repos/nf-core/nanoseq"
   },
-  "nanoseq_v3.0.0": {
+  "nanoseq_v3_0_0": {
     "id": "Wr5FziYoG",
     "name": "nanoseq v3.0.0",
     "versions": "3.0.0",
     "reference": "https://api.github.com/repos/nf-core/nanoseq"
   },
-  "nanoseq_v2.0.1": {
+  "nanoseq_v2_0_1": {
     "id": "1gk5jhjOD",
     "name": "nanoseq v2.0.1",
     "versions": "2.0.1",
     "reference": "https://api.github.com/repos/nf-core/nanoseq"
   },
-  "nanoseq_v2.0.0": {
+  "nanoseq_v2_0_0": {
     "id": "MeoNx57VW",
     "name": "nanoseq v2.0.0",
     "versions": "2.0.0",
     "reference": "https://api.github.com/repos/nf-core/nanoseq"
   },
-  "nanoseq_v1.1.0": {
+  "nanoseq_v1_1_0": {
     "id": "crabh1J2r",
     "name": "nanoseq v1.1.0",
     "versions": "1.1.0",
     "reference": "https://api.github.com/repos/nf-core/nanoseq"
   },
-  "nanoseq_v1.0.0": {
+  "nanoseq_v1_0_0": {
     "id": "446VktAwb",
     "name": "nanoseq v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/nanoseq"
   },
-  "diaproteomics_v1.2.4": {
+  "diaproteomics_v1_2_4": {
     "id": "D8zdXQExJ",
     "name": "diaproteomics v1.2.4",
     "versions": "1.2.4",
     "reference": "https://api.github.com/repos/nf-core/diaproteomics"
   },
-  "diaproteomics_v1.2.3": {
+  "diaproteomics_v1_2_3": {
     "id": "fxrYP6EMv",
     "name": "diaproteomics v1.2.3",
     "versions": "1.2.3",
     "reference": "https://api.github.com/repos/nf-core/diaproteomics"
   },
-  "diaproteomics_v1.2.2": {
+  "diaproteomics_v1_2_2": {
     "id": "4fg9uRI1E",
     "name": "diaproteomics v1.2.2",
     "versions": "1.2.2",
     "reference": "https://api.github.com/repos/nf-core/diaproteomics"
   },
-  "diaproteomics_v1.2.1": {
+  "diaproteomics_v1_2_1": {
     "id": "owCcxkYx6",
     "name": "diaproteomics v1.2.1",
     "versions": "1.2.1",
     "reference": "https://api.github.com/repos/nf-core/diaproteomics"
   },
-  "diaproteomics_v1.2.0": {
+  "diaproteomics_v1_2_0": {
     "id": "vJYn3Nb9o",
     "name": "diaproteomics v1.2.0",
     "versions": "1.2.0",
     "reference": "https://api.github.com/repos/nf-core/diaproteomics"
   },
-  "diaproteomics_v1.1.0": {
+  "diaproteomics_v1_1_0": {
     "id": "NnKRs0zW0",
     "name": "diaproteomics v1.1.0",
     "versions": "1.1.0",
     "reference": "https://api.github.com/repos/nf-core/diaproteomics"
   },
-  "diaproteomics_v1.0.0": {
+  "diaproteomics_v1_0_0": {
     "id": "BKIzkdNNK",
     "name": "diaproteomics v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/diaproteomics"
   },
-  "slamseq_v1.0.0": {
+  "slamseq_v1_0_0": {
     "id": "CX1E82b3I",
     "name": "slamseq v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/slamseq"
   },
-  "demultiplex_v1.1.0": {
+  "demultiplex_v1_2_0": {
+    "id": "WVd2v6kOy",
+    "name": "demultiplex v1.2.0",
+    "versions": "1.2.0",
+    "reference": "https://api.github.com/repos/nf-core/demultiplex"
+  },
+  "demultiplex_v1_1_0": {
     "id": "u7ntbifa7",
     "name": "demultiplex v1.1.0",
     "versions": "1.1.0",
     "reference": "https://api.github.com/repos/nf-core/demultiplex"
   },
-  "demultiplex_v1.0.0": {
+  "demultiplex_v1_0_0": {
     "id": "kXWSX7PDv",
     "name": "demultiplex v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/demultiplex"
   },
-  "metaboigniter_v1.0.1": {
+  "metaboigniter_v1_0_1": {
     "id": "PK6AAV9ky",
     "name": "metaboigniter v1.0.1",
     "versions": "1.0.1",
     "reference": "https://api.github.com/repos/nf-core/metaboigniter"
   },
-  "metaboigniter_v1.0.0": {
+  "metaboigniter_v1_0_0": {
     "id": "nBKjqgbcM",
     "name": "metaboigniter v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/metaboigniter"
   },
-  "viralrecon_v2.6.0": {
+  "viralrecon_v2_6_0": {
     "id": "VmBgnlpmm",
     "name": "viralrecon v2.6.0",
     "versions": "2.6.0",
     "reference": "https://api.github.com/repos/nf-core/viralrecon"
   },
-  "viralrecon_v2.5": {
+  "viralrecon_v2_5": {
     "id": "TkxE9Hyo1",
     "name": "viralrecon v2.5",
     "versions": "2.5",
     "reference": "https://api.github.com/repos/nf-core/viralrecon"
   },
-  "viralrecon_v2.4.1": {
+  "viralrecon_v2_4_1": {
     "id": "rF33bolHo",
     "name": "viralrecon v2.4.1",
     "versions": "2.4.1",
     "reference": "https://api.github.com/repos/nf-core/viralrecon"
   },
-  "viralrecon_v2.4": {
+  "viralrecon_v2_4": {
     "id": "0zSTNYRvl",
     "name": "viralrecon v2.4",
     "versions": "2.4",
     "reference": "https://api.github.com/repos/nf-core/viralrecon"
   },
-  "viralrecon_v2.3.1": {
+  "viralrecon_v2_3_1": {
     "id": "I7JpYB6zc",
     "name": "viralrecon v2.3.1",
     "versions": "2.3.1",
     "reference": "https://api.github.com/repos/nf-core/viralrecon"
   },
-  "viralrecon_v2.3": {
+  "viralrecon_v2_3": {
     "id": "PTGUbdVLZ",
     "name": "viralrecon v2.3",
     "versions": "2.3",
     "reference": "https://api.github.com/repos/nf-core/viralrecon"
   },
-  "viralrecon_v2.2": {
+  "viralrecon_v2_2": {
     "id": "M9X3Tzook",
     "name": "viralrecon v2.2",
     "versions": "2.2",
     "reference": "https://api.github.com/repos/nf-core/viralrecon"
   },
-  "viralrecon_v2.1": {
+  "viralrecon_v2_1": {
     "id": "NXLPCYah5",
     "name": "viralrecon v2.1",
     "versions": "2.1",
     "reference": "https://api.github.com/repos/nf-core/viralrecon"
   },
-  "viralrecon_v2.0": {
+  "viralrecon_v2_0": {
     "id": "g6ymi8E8v",
     "name": "viralrecon v2.0",
     "versions": "2.0",
     "reference": "https://api.github.com/repos/nf-core/viralrecon"
   },
-  "viralrecon_v1.1.0": {
+  "viralrecon_v1_1_0": {
     "id": "JbjCtXX5p",
     "name": "viralrecon v1.1.0",
     "versions": "1.1.0",
     "reference": "https://api.github.com/repos/nf-core/viralrecon"
   },
-  "viralrecon_v1.0.0": {
+  "viralrecon_v1_0_0": {
     "id": "wnxGYCNsb",
     "name": "viralrecon v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/viralrecon"
   },
-  "bamtofastq_v1.2.0": {
+  "bamtofastq_v1_2_0": {
     "id": "jcI4BjpHx",
     "name": "bamtofastq v1.2.0",
     "versions": "1.2.0",
     "reference": "https://api.github.com/repos/nf-core/bamtofastq"
   },
-  "bamtofastq_v1.1.0": {
+  "bamtofastq_v1_1_0": {
     "id": "DylGF0rxl",
     "name": "bamtofastq v1.1.0",
     "versions": "1.1.0",
     "reference": "https://api.github.com/repos/nf-core/bamtofastq"
   },
-  "bamtofastq_v1.0.0": {
+  "bamtofastq_v1_0_0": {
     "id": "x8asbiIj1",
     "name": "bamtofastq v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/bamtofastq"
   },
-  "dualrnaseq_v1.0.0": {
+  "dualrnaseq_v1_0_0": {
     "id": "ZPZDW50QU",
     "name": "dualrnaseq v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/dualrnaseq"
   },
-  "clipseq_v1.0.0": {
+  "clipseq_v1_0_0": {
     "id": "tseNS2EbB",
     "name": "clipseq v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/clipseq"
   },
-  "cutandrun_v3.1": {
+  "cutandrun_v3_1": {
     "id": "7MlApCCTi",
     "name": "cutandrun v3.1",
     "versions": "3.1",
     "reference": "https://api.github.com/repos/nf-core/cutandrun"
   },
-  "cutandrun_v3.0": {
+  "cutandrun_v3_0": {
     "id": "GvdFtTYdJ",
     "name": "cutandrun v3.0",
     "versions": "3.0",
     "reference": "https://api.github.com/repos/nf-core/cutandrun"
   },
-  "cutandrun_v2.0": {
+  "cutandrun_v2_0": {
     "id": "Uq0s43T96",
     "name": "cutandrun v2.0",
     "versions": "2.0",
     "reference": "https://api.github.com/repos/nf-core/cutandrun"
   },
-  "cutandrun_v1.1": {
+  "cutandrun_v1_1": {
     "id": "ZIz6uDuLZ",
     "name": "cutandrun v1.1",
     "versions": "1.1",
     "reference": "https://api.github.com/repos/nf-core/cutandrun"
   },
-  "cutandrun_v1.0.0": {
+  "cutandrun_v1_0_0": {
     "id": "1xPFTRl5h",
     "name": "cutandrun v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/cutandrun"
   },
-  "pgdb_v1.0.0": {
+  "pgdb_v1_0_0": {
     "id": "qKXmZMaJ3",
     "name": "pgdb v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/pgdb"
   },
-  "rnavar_v1.0.0": {
+  "rnavar_v1_0_0": {
     "id": "aKDQZ9tLD",
     "name": "rnavar v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/rnavar"
   },
-  "fetchngs_v1.9": {
+  "fetchngs_v1_9": {
     "id": "lREQt0tof",
     "name": "fetchngs v1.9",
     "versions": "1.9",
     "reference": "https://api.github.com/repos/nf-core/fetchngs"
   },
-  "fetchngs_v1.8": {
+  "fetchngs_v1_8": {
     "id": "vgjOjW3W8",
     "name": "fetchngs v1.8",
     "versions": "1.8",
     "reference": "https://api.github.com/repos/nf-core/fetchngs"
   },
-  "fetchngs_v1.7": {
+  "fetchngs_v1_7": {
     "id": "k6Uc7cyKB",
     "name": "fetchngs v1.7",
     "versions": "1.7",
     "reference": "https://api.github.com/repos/nf-core/fetchngs"
   },
-  "fetchngs_v1.6": {
+  "fetchngs_v1_6": {
     "id": "xtw1ir7bM",
     "name": "fetchngs v1.6",
     "versions": "1.6",
     "reference": "https://api.github.com/repos/nf-core/fetchngs"
   },
-  "fetchngs_v1.5": {
+  "fetchngs_v1_5": {
     "id": "jwhSK1Vp6",
     "name": "fetchngs v1.5",
     "versions": "1.5",
     "reference": "https://api.github.com/repos/nf-core/fetchngs"
   },
-  "fetchngs_v1.4": {
+  "fetchngs_v1_4": {
     "id": "Y3mkrRvvh",
     "name": "fetchngs v1.4",
     "versions": "1.4",
     "reference": "https://api.github.com/repos/nf-core/fetchngs"
   },
-  "fetchngs_v1.3": {
+  "fetchngs_v1_3": {
     "id": "gLctE0CQr",
     "name": "fetchngs v1.3",
     "versions": "1.3",
     "reference": "https://api.github.com/repos/nf-core/fetchngs"
   },
-  "fetchngs_v1.2": {
+  "fetchngs_v1_2": {
     "id": "WPmn8Fm4E",
     "name": "fetchngs v1.2",
     "versions": "1.2",
     "reference": "https://api.github.com/repos/nf-core/fetchngs"
   },
-  "fetchngs_v1.1": {
+  "fetchngs_v1_1": {
     "id": "knaplneGZ",
     "name": "fetchngs v1.1",
     "versions": "1.1",
     "reference": "https://api.github.com/repos/nf-core/fetchngs"
   },
-  "fetchngs_v1.0": {
+  "fetchngs_v1_0": {
     "id": "9p49CxXNH",
     "name": "fetchngs v1.0",
     "versions": "1.0",
     "reference": "https://api.github.com/repos/nf-core/fetchngs"
   },
-  "hicar_v1.0.0": {
+  "hicar_v1_0_0": {
     "id": "9P9rKSEEd",
     "name": "hicar v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/hicar"
   },
-  "circdna_v1.0.2": {
+  "circdna_v1_0_2": {
     "id": "t6qKCjbgy",
     "name": "circdna v1.0.2",
     "versions": "1.0.2",
     "reference": "https://api.github.com/repos/nf-core/circdna"
   },
-  "circdna_v1.0.1": {
+  "circdna_v1_0_1": {
     "id": "hy0oyrbV2",
     "name": "circdna v1.0.1",
     "versions": "1.0.1",
     "reference": "https://api.github.com/repos/nf-core/circdna"
   },
-  "circdna_v1.0.0": {
+  "circdna_v1_0_0": {
     "id": "mSprayIuB",
     "name": "circdna v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/circdna"
   },
-  "quantms_v1.1.1": {
+  "quantms_v1_1_1": {
     "id": "Q3MUckF5e",
     "name": "quantms v1.1.1",
     "versions": "1.1.1",
     "reference": "https://api.github.com/repos/nf-core/quantms"
   },
-  "quantms_v1.1.0": {
+  "quantms_v1_1_0": {
     "id": "ngiUxC4BQ",
     "name": "quantms v1.1.0",
     "versions": "1.1.0",
     "reference": "https://api.github.com/repos/nf-core/quantms"
   },
-  "quantms_v1.0": {
+  "quantms_v1_0": {
     "id": "sRtD5GNoR",
     "name": "quantms v1.0",
     "versions": "1.0",
     "reference": "https://api.github.com/repos/nf-core/quantms"
   },
-  "funcscan_v1.0.1": {
+  "funcscan_v1_0_1": {
     "id": "82J6d5muA",
     "name": "funcscan v1.0.1",
     "versions": "1.0.1",
     "reference": "https://api.github.com/repos/nf-core/funcscan"
   },
-  "funcscan_v1.0.0": {
+  "funcscan_v1_0_0": {
     "id": "nh5wh3hsb",
     "name": "funcscan v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/funcscan"
   },
-  "taxprofiler_v1.0.0": {
+  "taxprofiler_v1_0_0": {
     "id": "LOwevW7O9",
     "name": "taxprofiler v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/taxprofiler"
   },
-  "proteinfold_v1.0.0": {
+  "proteinfold_v1_0_0": {
     "id": "GadSak0TV",
     "name": "proteinfold v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/proteinfold"
   },
-  "viralintegration_v0.1.0": {
+  "viralintegration_v0_1_0": {
     "id": "bL1c9hJ4G",
     "name": "viralintegration v0.1.0",
     "versions": "0.1.0",
     "reference": "https://api.github.com/repos/nf-core/viralintegration"
   },
-  "hgtseq_v1.0.0": {
+  "hgtseq_v1_0_0": {
     "id": "e451TcXSV",
     "name": "hgtseq v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/hgtseq"
   },
-  "isoseq_v1.1.4": {
+  "isoseq_v1_1_4": {
     "id": "Lt6cneAbz",
     "name": "isoseq v1.1.4",
     "versions": "1.1.4",
     "reference": "https://api.github.com/repos/nf-core/isoseq"
   },
-  "isoseq_v1.1.3": {
+  "isoseq_v1_1_3": {
     "id": "kRDNQIrTl",
     "name": "isoseq v1.1.3",
     "versions": "1.1.3",
     "reference": "https://api.github.com/repos/nf-core/isoseq"
   },
-  "isoseq_v1.1.2": {
+  "isoseq_v1_1_2": {
     "id": "vXYQaLBYw",
     "name": "isoseq v1.1.2",
     "versions": "1.1.2",
     "reference": "https://api.github.com/repos/nf-core/isoseq"
   },
-  "isoseq_v1.1.1": {
+  "isoseq_v1_1_1": {
     "id": "rW5k0xLpM",
     "name": "isoseq v1.1.1",
     "versions": "1.1.1",
     "reference": "https://api.github.com/repos/nf-core/isoseq"
   },
-  "isoseq_v1.1.0": {
+  "isoseq_v1_1_0": {
     "id": "FWUySCXzO",
     "name": "isoseq v1.1.0",
     "versions": "1.1.0",
     "reference": "https://api.github.com/repos/nf-core/isoseq"
   },
-  "isoseq_v1.0.0": {
+  "isoseq_v1_0_0": {
     "id": "65eIZBZPi",
     "name": "isoseq v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/isoseq"
   },
-  "crisprseq_v1.0": {
+  "crisprseq_v1_0": {
     "id": "lN4T7CevZ",
     "name": "crisprseq v1.0",
     "versions": "1.0",
     "reference": "https://api.github.com/repos/nf-core/crisprseq"
   },
-  "phyloplace_v1.0.0": {
+  "phyloplace_v1_0_0": {
     "id": "8clsrzpkI",
     "name": "phyloplace v1.0.0",
     "versions": "1.0.0",
     "reference": "https://api.github.com/repos/nf-core/phyloplace"
   },
-  "differentialabundance_v1.2.0": {
+  "differentialabundance_v1_2_0": {
     "id": "ZTpsjRphC",
     "name": "differentialabundance v1.2.0",
     "versions": "1.2.0",
     "reference": "https://api.github.com/repos/nf-core/differentialabundance"
   },
-  "differentialabundance_v1.1.1": {
+  "differentialabundance_v1_1_1": {
     "id": "ff2vbJzI6",
     "name": "differentialabundance v1.1.1",
     "versions": "1.1.1",
     "reference": "https://api.github.com/repos/nf-core/differentialabundance"
   },
-  "differentialabundance_v1.1.0": {
+  "differentialabundance_v1_1_0": {
     "id": "vB7CbnF4S",
     "name": "differentialabundance v1.1.0",
     "versions": "1.1.0",
     "reference": "https://api.github.com/repos/nf-core/differentialabundance"
   },
-  "differentialabundance_v1.0.1": {
+  "differentialabundance_v1_0_1": {
     "id": "dWwT7iG5H",
     "name": "differentialabundance v1.0.1",
     "versions": "1.0.1",
     "reference": "https://api.github.com/repos/nf-core/differentialabundance"
   },
-  "differentialabundance_v1.0.0": {
+  "differentialabundance_v1_0_0": {
     "id": "DNPV53Obf",
     "name": "differentialabundance v1.0.0",
     "versions": "1.0.0",

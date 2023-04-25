@@ -120,7 +120,7 @@ BFXPipelines:
   lamin:
     versions:
       1.0.0:
-        - https://lamindb-test.s3.amazonaws.com/pipelines.json
+        - s3://bionty-assets/bfxpipelines.json
         - ""
     name: BFX Pipelines
     website: https://lamin.ai

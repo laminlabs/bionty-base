@@ -36,6 +36,6 @@ class BFXPipelines(Entity):
         with open(localpath, "r") as f:
             data = json.load(f)
 
-        df = pd.DataFrame(data)
+        df = pd.DataFrame(data).transpose()
 
         return df

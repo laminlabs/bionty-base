@@ -48,7 +48,9 @@ def generate_nf_core_pipelines_info() -> None:
                     version.tag_name if len(version.tag_name) >= 1 else "pre-release"
                 )
                 pipeline_name = f"{repo.name} v{actual_version}"
-                underscore_pipeline_name = pipeline_name.replace(" ", "_")
+                underscore_pipeline_name = (
+                    pipeline_name.replace(" ", "_").replace(".", "_").replace("-", "_")
+                )
 
                 nf_core_pipelines[underscore_pipeline_name] = {
                     "id": generate_base62_string(pipeline_name),
@@ -86,5 +88,5 @@ def merge_json_files(pipelines_folder_path: str, output_path: str) -> None:
 generate_nf_core_pipelines_info()
 merge_json_files(
     pipelines_folder_path=BASE_BFX_PIPELINES_PATH,
-    output_path=f"{BASE_BFX_PIPELINES_PATH}/pipelines.json",
+    output_path=f"{BASE_BFX_PIPELINES_PATH}/bfxpipelines.json",
 )
