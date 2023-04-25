@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+Sync staging into main | [316](https://github.com/laminlabs/bionty/pull/316) | [Zethson](https://github.com/Zethson) | 2023-04-25 |
 🚑 Fix lookup for empty strings | [314](https://github.com/laminlabs/bionty/pull/314) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-23 | 0.11.6
 ⚡ Make sure no NAs present in the `entity.df.name` | [313](https://github.com/laminlabs/bionty/pull/313) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-23 | 0.11.5
 ⬆️ Pronto>=2.5.4, removed cached_property dep for py3.7 | [312](https://github.com/laminlabs/bionty/pull/312) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-23 |
