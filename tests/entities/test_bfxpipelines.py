@@ -6,8 +6,8 @@ import bionty as bt
 def test_lamin_bfxpipeline_curation_ontology_id():
     df = pd.DataFrame(
         index=[
-            "xtRZ4Laj9",
-            "X3VHWbArB",
+            "gs1X6jaeEMCg",
+            "V2RbClSNDq4H",
             "This bfx pipeline does not exist",
         ]
     )
