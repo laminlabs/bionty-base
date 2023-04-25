@@ -1,9 +1,11 @@
+import base64
 import glob
+import hashlib
 import json
 import os
-import random
+import secrets
 import string
-from typing import Dict
+from typing import Dict, Optional
 
 from github import Github
 from rich.progress import track
@@ -11,22 +13,29 @@ from rich.progress import track
 BASE_BFX_PIPELINES_PATH = "bionty/versions/bfxpipelines_data"
 
 
-def generate_base62_string(full_pipeline_name: str) -> str:
-    """Generates a 9 char base62 ID for a pipeline name.
+def base62(n_char: int) -> str:
+    """Like nanoid without hyphen and underscore."""
+    alphabet = string.digits + string.ascii_letters.swapcase()
+    id = "".join(secrets.choice(alphabet) for i in range(n_char))
+    return id
 
-    Args:
-        full_pipeline_name: The full pipeline name. Expected to be the actual pipeline name with potential spaces.
 
-    Returns:
-        A 9 char ID.
-    """
-    alphabet = string.ascii_letters + string.digits
-    random.seed(full_pipeline_name)
-    base62_string = ""
-    for _ in range(9):
-        base62_string += random.choice(alphabet)
+def to_b64_str(bstr: bytes) -> str:
+    b64 = base64.urlsafe_b64encode(bstr).decode().strip("=")
+    return b64
 
-    return base62_string
+
+def hash_str(s: str) -> str:
+    bstr = s.encode("utf-8")
+    # as we're truncating at a short length, we choose md5 over sha512
+    return to_b64_str(hashlib.md5(bstr).digest())
+
+
+def hash_id(input_id: Optional[str] = None, *, n_char: int) -> str:
+    if input_id is None:
+        return base62(n_char=n_char)
+    else:
+        return hash_str(input_id)[:n_char].replace("_", "0").replace("-", "0")
 
 
 def generate_nf_core_pipelines_info() -> None:
@@ -35,6 +44,7 @@ def generate_nf_core_pipelines_info() -> None:
     nf_core_org = gh_login.get_organization("nf-core")
     blacklist = ["cookiecutter", "tools"]
     nf_core_pipelines = {}
+
     for repo in track(
         nf_core_org.get_repos(),
         description="Fetching information from nf-core repositories...",
@@ -53,7 +63,7 @@ def generate_nf_core_pipelines_info() -> None:
                 )
 
                 nf_core_pipelines[underscore_pipeline_name] = {
-                    "id": generate_base62_string(pipeline_name),
+                    "id": hash_id(pipeline_name, n_char=12),
                     "name": pipeline_name,
                     "versions": actual_version,
                     "reference": repo.url,
