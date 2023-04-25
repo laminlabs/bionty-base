@@ -18,7 +18,7 @@ class lookup:
     gene_id = _lookup(values=set(GENE_COLUMNS.values()))
     protein_id = _lookup(values=set(PROTEIN_COLUMNS.values()))
 
-    bfxpipeline_json = s3_bionty_assets(filename="bfxpipelines.json")
-    with open(bfxpipeline_json) as file:
+    bfxpipelines_json = s3_bionty_assets(filename="bfxpipelines.json")
+    with open(bfxpipelines_json) as file:
         PIPELINES = json.load(file)
     bfxpipeline_id = _lookup(values=PIPELINES)

@@ -20,7 +20,11 @@ Entities:
    Phenotype
    Pathway
    Readout
+<<<<<<< HEAD
    BFXPipeline
+=======
+   BFXPipelines
+>>>>>>> b525f0dbd6b7a1e683c20f00eea4b220ca016caa
 
 The base model for every entity class is:
 
