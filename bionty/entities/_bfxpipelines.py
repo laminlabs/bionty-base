@@ -24,9 +24,7 @@ class BFXPipelines(Entity):
         version: Optional[str] = None,
     ) -> None:
         super().__init__(
-            database=database,
-            version=version,
-            species=species,
+            database=database, version=version, species=species, reference_id="id"
         )
 
     @cached_property
