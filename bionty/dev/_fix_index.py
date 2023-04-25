@@ -120,6 +120,7 @@ def explode_aggregated_column_to_expand(
 
     # aggregate the target column so that the new index (aggregated column) is unique
     df_concat = pd.concat([exploded_df, add_df])
+    df_concat = df_concat.astype(str)
     df_concat = df_concat.groupby(aggregated_col).agg(sep.join)
 
     return df_concat

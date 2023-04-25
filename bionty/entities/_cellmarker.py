@@ -34,7 +34,7 @@ class CellMarker(Entity):
 
         See ingestion: https://lamin.ai/docs/bionty-assets/ingest/cell-marker-2.0
         """
-        cloudpath = s3_bionty_assets(self._cloud_parquet_path)
-        df = pd.read_parquet(cloudpath.fspath)
+        localpath = s3_bionty_assets(self._cloud_parquet_path)
+        df = pd.read_parquet(localpath)
 
         return df
