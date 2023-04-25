@@ -20,7 +20,7 @@ Entities:
    Phenotype
    Pathway
    Readout
-   BFXPipelines
+   BFXPipeline
 
 The base model for every entity class is:
 
@@ -78,7 +78,7 @@ from . import _sync_versions
 from ._sync_versions import update_defaults
 
 # dynamic classes
-from .entities._bfxpipelines import BFXPipelines
+from .entities._bfxpipeline import BFXPipeline
 from .entities._gene import Gene
 from .entities._species import Species
 from .entities._protein import Protein

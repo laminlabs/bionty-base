@@ -10,7 +10,7 @@ from typing import Dict, Optional
 from github import Github
 from rich.progress import track
 
-BASE_BFX_PIPELINES_PATH = "bionty/versions/bfxpipelines_data"
+BASE_BFX_PIPELINES_PATH = "bionty/versions/bfxpipeline_data"
 
 
 def base62(n_char: int) -> str:
@@ -87,7 +87,7 @@ def merge_json_files(pipelines_folder_path: str, output_path: str) -> None:
 
     for file_path in file_paths:
         with open(file_path, "r") as f:
-            if not file_path.endswith("pipelines.json"):
+            if not file_path.endswith("bfxpipelines.json"):
                 pipelines_info = json.load(f)
                 pipeline_json = {**pipeline_json, **pipelines_info}
 

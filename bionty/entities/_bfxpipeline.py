@@ -10,7 +10,7 @@ from ._shared_docstrings import _doc_params, doc_entites
 
 
 @_doc_params(doc_entities=doc_entites)
-class BFXPipelines(Entity):
+class BFXPipeline(Entity):
     """Bioinformatics pipelines.
 
     Args:
@@ -30,7 +30,7 @@ class BFXPipelines(Entity):
     @cached_property
     def df(self):
         """DataFrame."""
-        localpath = s3_bionty_assets(filename="bfxpipelines.json")
+        localpath = s3_bionty_assets(filename="bfxpipeline.json")
         with open(localpath, "r") as f:
             data = json.load(f)
 
