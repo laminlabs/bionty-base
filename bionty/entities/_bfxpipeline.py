@@ -10,7 +10,7 @@ from ._shared_docstrings import _doc_params, doc_entites
 
 
 @_doc_params(doc_entities=doc_entites)
-class BFXPipelines(Entity):
+class BFXPipeline(Entity):
     """Bioinformatics pipelines.
 
     Args:

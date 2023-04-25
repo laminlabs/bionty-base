@@ -116,11 +116,11 @@ Pathway:
         - a6df86616149dcdfe08fe16c900cba85
     name: Pathway Ontology
     website: https://www.ebi.ac.uk/ols/ontologies/pw
-BFXPipelines:
+BFXPipeline:
   lamin:
     versions:
       1.0.0:
         - s3://bionty-assets/bfxpipelines.json
         - ""
-    name: BFX Pipelines
+    name: Bioinformatics Pipeline
     website: https://lamin.ai

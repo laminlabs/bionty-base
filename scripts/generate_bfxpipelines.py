@@ -87,7 +87,7 @@ def merge_json_files(pipelines_folder_path: str, output_path: str) -> None:
 
     for file_path in file_paths:
         with open(file_path, "r") as f:
-            if not file_path.endswith("pipelines.json"):
+            if not file_path.endswith("bfxpipelines.json"):
                 pipelines_info = json.load(f)
                 pipeline_json = {**pipeline_json, **pipelines_info}
 
