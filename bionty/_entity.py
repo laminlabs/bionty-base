@@ -1,12 +1,12 @@
 import os
 import re
 from collections import namedtuple
+from functools import cached_property
 from pathlib import Path
 from typing import Dict, Iterable, Literal, Optional
 
 import bioregistry as br
 import pandas as pd
-from cached_property import cached_property
 from lamin_logger import logger
 
 from bionty._md5 import verify_md5
@@ -162,7 +162,7 @@ class Entity:
         """Convert a list of strings to tab-completion allowed formats."""
         lookup = [re.sub("[^0-9a-zA-Z]+", "_", str(i)) for i in x]
         for i, value in enumerate(lookup):
-            if not value[0].isalpha():
+            if value == "" or (not value[0].isalpha()):
                 lookup[i] = f"LOOKUP_{value}"
         return lookup
 
@@ -192,7 +192,7 @@ class Entity:
     def _ontology_to_df(self, ontology: Ontology):
         """Convert ontology to a DataFrame with ontology_id and name columns."""
         if self.prefix:
-            return pd.DataFrame(
+            df = pd.DataFrame(
                 [
                     (term.id, term.name)
                     for term in ontology.terms()
@@ -201,10 +201,13 @@ class Entity:
                 columns=["ontology_id", "name"],
             ).set_index("ontology_id")
         else:
-            return pd.DataFrame(
+            df = pd.DataFrame(
                 [(term.id, term.name) for term in ontology.terms()],
                 columns=["ontology_id", "name"],
             ).set_index("ontology_id")
+
+        df["name"].fillna("", inplace=True)
+        return df
 
     @check_dynamicdir_exists
     def _url_download(self, url: str) -> str:

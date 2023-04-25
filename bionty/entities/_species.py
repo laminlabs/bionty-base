@@ -1,7 +1,7 @@
+from functools import cached_property
 from typing import Literal, Optional
 
 import pandas as pd
-from cached_property import cached_property
 
 from bionty.entities._shared_docstrings import _doc_params, species_removed
 
