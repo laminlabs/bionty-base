@@ -54,6 +54,7 @@ class Entity:
         self._species = "all" if species is None else species
         self.prefix = prefix
         self.reference_id = reference_id
+        self._entity = _camel_to_snake(self.__class__.__name__)
 
         if database:
             # We don't allow custom databases inside lamindb instances
@@ -81,11 +82,6 @@ class Entity:
     def database(self) -> str:
         """Name of the database."""
         return self._database
-
-    @cached_property
-    def entity(self) -> str:
-        """Name of the entity."""
-        return _camel_to_snake(self.__class__.__name__)
 
     @property
     def species(self):
@@ -171,7 +167,7 @@ class Entity:
     ) -> tuple:
         """Create a namedtuple from a dict to allow autocompletion."""
         if name is None:
-            name = self.entity
+            name = self._entity
         nt = namedtuple(name, df.index)  # type:ignore
         return nt(
             **{
@@ -220,8 +216,8 @@ class Entity:
 
         if not self._ontology_download_path.exists():
             logger.info(
-                f"Downloading {self.entity} reference for the first time might take"
-                " a while..."
+                f"Downloading {self.__class__.__name__} reference for the first time"
+                " might take a while..."
             )
             url_download(url, self._ontology_download_path)
 
