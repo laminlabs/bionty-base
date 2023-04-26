@@ -1,4 +1,3 @@
-from functools import cached_property
 from typing import Literal, Optional
 
 import pandas as pd
@@ -28,7 +27,6 @@ class CellMarker(Entity):
             database=database, version=version, species=species, reference_id="name"
         )
 
-    @cached_property
     def df(self):
         """DataFrame.
 

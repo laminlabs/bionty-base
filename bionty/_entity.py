@@ -48,9 +48,6 @@ class Entity:
         prefix: Optional[str] = None,
         reference_id: Optional[str] = None,
     ):
-        # By default lookup allows auto-completion for the `name` field.
-        # lookup column can be changed using `.lookup_field = `.
-        self._lookup_field = "name"
         self._species = "all" if species is None else species
         self.prefix = prefix
         self.reference_id = reference_id
@@ -99,60 +96,6 @@ class Entity:
         localpath = self._url_download(self._url)
 
         return Ontology(handle=localpath, **kwargs)
-
-    @cached_property
-    def df(self) -> pd.DataFrame:
-        """Pandas DataFrame."""
-        # download
-        if not self._local_parquet_path.exists():
-            try:
-                self._url_download(self._url)
-            finally:
-                # Only verify md5 if it's actually available
-                if len(self._md5) > 0:
-                    if not verify_md5(self._ontology_download_path, self._md5):
-                        logger.warning(
-                            f"MD5 sum for {self._ontology_download_path} did not match"
-                            f" {self._md5}! Redownloading..."
-                        )
-                        os.remove(self._ontology_download_path)
-                        self._url_download(self._url)
-            # write df to parquet file
-            df = self._ontology_to_df(self.ontology)
-            df.to_parquet(self._local_parquet_path)
-
-        # loads the df and set index
-        df = pd.read_parquet(self._local_parquet_path).reset_index()
-        if self.reference_id is None and "ontology_id" in df.columns:
-            self.reference_id = "ontology_id"
-        try:
-            return df.set_index(self.reference_id)
-        except KeyError:
-            return df
-
-    @property
-    def lookup_field(self) -> str:
-        """The column that allows auto-completion."""
-        return self._lookup_field
-
-    @lookup_field.setter
-    def lookup_field(self, column_name) -> None:
-        """Set the lookup field."""
-        self._lookup_field = column_name
-
-    @cached_property
-    def lookup(self) -> tuple:
-        """Return an auto-complete object for the bionty id."""
-        df = self.df.reset_index()
-        if self._lookup_field not in df:
-            raise AssertionError(f"No {self._lookup_field} column exists!")
-
-        # uniquefy lookup keys
-        df.index = self._uniquefy_duplicates(
-            self._to_lookup_keys(df[self._lookup_field].values)
-        )
-
-        return self._namedtuple_from_dict(df)
 
     def _to_lookup_keys(self, x: list) -> list:
         """Convert a list of strings to tab-completion allowed formats."""
@@ -302,6 +245,46 @@ class Entity:
         )
         self._ontology_download_path = settings.dynamicdir / self._semantic_file_name
 
+    def lookup(self, field: str = "name") -> tuple:
+        """Return an auto-complete object for the bionty id."""
+        df = self.df().reset_index()
+        if field not in df:
+            raise AssertionError(f"No {field} column exists!")
+
+        # uniquefy lookup keys
+        df.index = self._uniquefy_duplicates(self._to_lookup_keys(df[field].values))
+
+        return self._namedtuple_from_dict(df)
+
+    def df(self) -> pd.DataFrame:
+        """Pandas DataFrame."""
+        # download
+        if not self._local_parquet_path.exists():
+            try:
+                self._url_download(self._url)
+            finally:
+                # Only verify md5 if it's actually available
+                if len(self._md5) > 0:
+                    if not verify_md5(self._ontology_download_path, self._md5):
+                        logger.warning(
+                            f"MD5 sum for {self._ontology_download_path} did not match"
+                            f" {self._md5}! Redownloading..."
+                        )
+                        os.remove(self._ontology_download_path)
+                        self._url_download(self._url)
+            # write df to parquet file
+            df = self._ontology_to_df(self.ontology)
+            df.to_parquet(self._local_parquet_path)
+
+        # loads the df and set index
+        df = pd.read_parquet(self._local_parquet_path).reset_index()
+        if self.reference_id is None and "ontology_id" in df.columns:
+            self.reference_id = "ontology_id"
+        try:
+            return df.set_index(self.reference_id)
+        except KeyError:
+            return df
+
     def curate(
         self,
         df: pd.DataFrame,
@@ -334,8 +317,9 @@ class Entity:
             reference_id = self.reference_id
 
         df = df.copy()
+        ref_df = self.df()
         orig_column = column
-        if column is not None and column not in self.df.columns:
+        if column is not None and column not in ref_df.columns:
             column = reference_id
             df.rename(columns={orig_column: column}, inplace=True)
 
@@ -371,13 +355,14 @@ class Entity:
     ) -> pd.DataFrame:
         """Curate index of passed DataFrame to conform with default identifier."""
         df = df.copy()
+        ref_df = self.df()
         # this is needed for features parsing in lamindb
         self._parsing_id = reference_id
 
         if agg_col is not None:
             # if provided a column with aggregated values, performs alias mapping
             alias_map = explode_aggregated_column_to_expand(
-                self.df.reset_index(),
+                ref_df.reset_index(),
                 aggregated_col=agg_col,
                 target_col=reference_id,
             )[reference_id]
@@ -393,7 +378,7 @@ class Entity:
             del df["__mapped_index"]
             df.index.name = index_name
             matches = check_if_index_compliant(
-                df.index, self.df.reset_index()[reference_id]
+                df.index, ref_df.reset_index()[reference_id]
             )
         else:
             orig_series = df[column]
@@ -401,7 +386,7 @@ class Entity:
             df[column] = df[column].fillna(orig_series)
             new_index, matches = get_compliant_index_from_column(
                 df=df,
-                ref_df=self.df,
+                ref_df=ref_df,
                 column=column,
             )
 
