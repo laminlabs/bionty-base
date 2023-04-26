@@ -47,7 +47,7 @@ def _upload_ontology_artifacts(
                 )
             else:
                 ontology_ln_file = ln.File(
-                    nox_ontology_file_path, key=filename, source=run
+                    nox_ontology_file_path, key=filename, run=run
                 )
                 ss.add(ontology_ln_file)
 

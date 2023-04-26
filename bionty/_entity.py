@@ -51,7 +51,7 @@ class Entity:
         # By default lookup allows auto-completion for the `name` field.
         # lookup column can be changed using `.lookup_field = `.
         self._lookup_field = "name"
-        self._species = "human" if species is None else species
+        self._species = "all" if species is None else species
         self.prefix = prefix
         self.reference_id = reference_id
 
