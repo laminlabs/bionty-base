@@ -6,10 +6,10 @@ import bionty as bt
 def test_pw_pathway_curation_ontology_id():
     df = pd.DataFrame(
         index=[
-            "Reactome:R-HSA-73780",
-            "KEGG:00730",
-            "GO:0006385",
-            "OMIM:236130",
+            "PW:0000049",
+            "PW:0000009",
+            "PW:0000001",
+            "PW:0002000",
             "This pathway does not exist",
         ]
     )
