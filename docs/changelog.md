@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🎨 Update lnschema-bionty | [332](https://github.com/laminlabs/bionty/pull/332) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-27 |
 💥 Change `.df()`, .`lookup()` to methods, move `._entity` to private | [326](https://github.com/laminlabs/bionty/pull/326) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-27 |
 Fix pathway ontology | [329](https://github.com/laminlabs/bionty/pull/329) | [Zethson](https://github.com/Zethson) | 2023-04-26 |
 💚 Fix bionty-asset instance for file upload | [325](https://github.com/laminlabs/bionty/pull/325) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-26 |
