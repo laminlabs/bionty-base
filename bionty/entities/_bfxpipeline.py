@@ -1,5 +1,4 @@
 import json
-from functools import cached_property
 from typing import Literal, Optional
 
 import pandas as pd
@@ -27,8 +26,7 @@ class BFXPipeline(Entity):
             database=database, version=version, species=species, reference_id="id"
         )
 
-    @cached_property
-    def df(self):
+    def df(self) -> pd.DataFrame:
         """DataFrame."""
         localpath = s3_bionty_assets(filename="bfxpipelines.json")
         with open(localpath, "r") as f:

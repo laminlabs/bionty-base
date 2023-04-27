@@ -42,17 +42,6 @@ class Readout(Entity):
         }
 
     @cached_property
-    def df(self) -> pd.DataFrame:
-        """DataFrame."""
-        if not self._filepath.exists():
-            self._download_df()
-        df = pd.read_json(self._filepath)
-        df.index.name = "ontology_id"
-        df = df.reset_index()
-
-        return df
-
-    @cached_property
     def ontology(self) -> Ontology:  # type:ignore
         """EFO."""
         localpath = self._url_download(self._url)
@@ -99,6 +88,16 @@ class Readout(Entity):
             EFO_DF_D3,
             self._filepath,
         )
+
+    def df(self) -> pd.DataFrame:
+        """DataFrame."""
+        if not self._filepath.exists():
+            self._download_df()
+        df = pd.read_json(self._filepath)
+        df.index.name = "ontology_id"
+        df = df.reset_index()
+
+        return df
 
     def get(self, term_id: str) -> dict:
         """Parse readout attributes from EFO."""

@@ -1,4 +1,3 @@
-from functools import cached_property
 from typing import Literal, Optional
 
 import pandas as pd
@@ -43,8 +42,7 @@ class Gene(Entity):
         )
         self._lookup_field = "symbol"
 
-    @cached_property
-    def df(self):
+    def df(self) -> pd.DataFrame:
         """DataFrame.
 
         See ingestion: https://lamin.ai/docs/bionty-assets/ingest/ensembl-gene
@@ -53,8 +51,13 @@ class Gene(Entity):
 
         df = pd.read_parquet(self._filepath)
         NormalizeColumns.gene(df, species=self.species)
-        if not df.index.is_numeric():
-            df = df.reset_index().copy()
+        try:
+            # for pandas > 2.0
+            if not pd.api.types.is_any_real_numeric_dtype(df.index):
+                df = df.reset_index().copy()
+        except AttributeError:
+            if not df.index.is_numeric():
+                df = df.reset_index().copy()
         df = df[~df[self.reference_id].isnull()]
 
         return df
@@ -80,11 +83,11 @@ class Gene(Entity):
         agg_col = ALIAS_DICT.get(reference_id)
         df = df.copy()
 
-        # if the query column name does not match any columns in the self.df
+        # if the query column name does not match any columns in the self.df()
         # Bionty assume the query column and the self._id_field uses the same type of
         # identifier
         orig_column = column
-        if column is not None and column not in self.df.columns:
+        if column is not None and column not in self.df().columns:
             # normalize the identifier column
             column_norm = GENE_COLUMNS.get(column)
             if column_norm in df.columns:
@@ -104,3 +107,6 @@ class Gene(Entity):
             )
             .rename(columns={column: orig_column})
         )
+
+    def lookup(self, field: str = "symbol"):
+        return super().lookup(field=field)

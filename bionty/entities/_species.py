@@ -1,4 +1,3 @@
-from functools import cached_property
 from typing import Literal, Optional
 
 import pandas as pd
@@ -27,7 +26,6 @@ class Species(Entity):
     ):
         super().__init__(database=database, version=version, reference_id="name")
 
-    @cached_property
     def df(self) -> pd.DataFrame:
         """DataFrame.
 
