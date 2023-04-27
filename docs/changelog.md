@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+Fix pathway ontology | [329](https://github.com/laminlabs/bionty/pull/329) | [Zethson](https://github.com/Zethson) | 2023-04-26 |
 💚 Fix bionty-asset instance for file upload | [325](https://github.com/laminlabs/bionty/pull/325) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-26 |
 Sync staging into main | [316](https://github.com/laminlabs/bionty/pull/316) | [Zethson](https://github.com/Zethson) | 2023-04-25 |
 🚑 Fix lookup for empty strings | [314](https://github.com/laminlabs/bionty/pull/314) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-23 | 0.11.6

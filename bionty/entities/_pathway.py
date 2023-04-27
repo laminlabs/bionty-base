@@ -10,7 +10,7 @@ class Pathway(Entity):
 
     1. Pathway Ontology
     Edits of terms are coordinated and reviewed on:
-    https://hpo.jax.org/app/
+    https://bioportal.bioontology.org/ontologies/PW/?p=summary
 
     Args:
         {doc_entities}

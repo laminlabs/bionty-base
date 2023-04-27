@@ -135,13 +135,17 @@ class Entity:
                 [
                     (term.id, term.name)
                     for term in ontology.terms()
-                    if term.id.startswith(f"{self.prefix}:")
+                    if term.id and term.name and term.id.startswith(f"{self.prefix}:")
                 ],
                 columns=["ontology_id", "name"],
             ).set_index("ontology_id")
         else:
             df = pd.DataFrame(
-                [(term.id, term.name) for term in ontology.terms()],
+                [
+                    (term.id, term.name)
+                    for term in ontology.terms()
+                    if term.id and term.name
+                ],
                 columns=["ontology_id", "name"],
             ).set_index("ontology_id")
 

@@ -111,6 +111,9 @@ Phenotype:
 Pathway:
   pw:
     versions:
+      7.78:
+        - https://data.bioontology.org/ontologies/PW/submissions/108/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
+        - ""
       7.74:
         - https://data.bioontology.org/ontologies/PW/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb&download_format=rdf
         - a6df86616149dcdfe08fe16c900cba85
