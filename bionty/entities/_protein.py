@@ -45,8 +45,13 @@ class Protein(Entity):
         _get_shortest_name(
             df, "synonyms"
         )  # Take the shortest name in protein names list as name
-        if not pd.api.types.is_any_real_numeric_dtype(df.index):
-            df = df.reset_index().copy()
+        try:
+            # for pandas > 2.0
+            if not pd.api.types.is_any_real_numeric_dtype(df.index):
+                df = df.reset_index().copy()
+        except AttributeError:
+            if not df.index.is_numeric():
+                df = df.reset_index().copy()
         df = df[~df[self.reference_id].isnull()]
 
         return df
