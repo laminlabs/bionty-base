@@ -21,7 +21,6 @@ dependencies = [
     "pyarrow",
     "nbproject",
     "lndb",
-    "lndb_storage>=0.2rc3",
     "rich",
     "bioregistry"
 ]
