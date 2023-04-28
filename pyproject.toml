@@ -22,7 +22,6 @@ dependencies = [
     "nbproject",
     "lndb",
     "fsspec",
-    "upath",
     "rich",
     "bioregistry"
 ]
