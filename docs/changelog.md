@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+Improve print versions | [336](https://github.com/laminlabs/bionty/pull/336) | [Zethson](https://github.com/Zethson) | 2023-05-02 |
 📌 No pinning of lndb-storage version | [333](https://github.com/laminlabs/bionty/pull/333) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-27 | 0.12.1
 🎨 Update lnschema-bionty | [332](https://github.com/laminlabs/bionty/pull/332) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-27 |
 💥 Change `.df()`, .`lookup()` to methods, move `._entity` to private | [326](https://github.com/laminlabs/bionty/pull/326) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-27 | 0.12.0
