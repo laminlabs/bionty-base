@@ -43,7 +43,12 @@ def display_available_versions(
             _ontology_url = _to_versions_url["website"]
             for version_str, url_md5 in _to_versions_url["versions"].items():
                 versions += str(version_str) + "\n"
-                url = url_md5[0]
+
+                # Compatibility code for old local.yml files that may not yet have md5s
+                if len(url_md5) > 1:
+                    url = url_md5[0]
+                else:
+                    url = url_md5
 
                 df_rows.append(
                     {
