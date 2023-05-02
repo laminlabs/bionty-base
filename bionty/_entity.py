@@ -3,7 +3,7 @@ import re
 from collections import namedtuple
 from functools import cached_property
 from pathlib import Path
-from typing import Dict, Iterable, Literal, Optional
+from typing import Dict, Iterable, List, Literal, Optional, Tuple
 
 import bioregistry as br
 import pandas as pd
@@ -45,11 +45,13 @@ class Entity:
         version: Optional[str] = None,
         species: Optional[str] = None,
         *,
-        prefix: Optional[str] = None,
+        id_prefix: List[Tuple[str, str]] = None,
+        name_prefix: List[Tuple[str, str]] = None,
         reference_id: Optional[str] = None,
     ):
         self._species = "all" if species is None else species
-        self.prefix = prefix
+        self.id_prefixes = id_prefix
+        self.name_prefixes = name_prefix
         self.reference_id = reference_id
         self._entity = _camel_to_snake(self.__class__.__name__)
 
@@ -130,26 +132,40 @@ class Entity:
 
     def _ontology_to_df(self, ontology: Ontology):
         """Convert ontology to a DataFrame with ontology_id and name columns."""
-        if self.prefix:
-            df = pd.DataFrame(
-                [
-                    (term.id, term.name)
-                    for term in ontology.terms()
-                    if term.id and term.name and term.id.startswith(f"{self.prefix}:")
-                ],
-                columns=["ontology_id", "name"],
-            ).set_index("ontology_id")
-        else:
-            df = pd.DataFrame(
-                [
-                    (term.id, term.name)
-                    for term in ontology.terms()
-                    if term.id and term.name
-                ],
-                columns=["ontology_id", "name"],
-            ).set_index("ontology_id")
+        df_values = [
+            (term.id, term.name) for term in ontology.terms() if term.id and term.name
+        ]
+        id_prefix_filter = None
+        if self.id_prefixes:
+            for db, id_filter in self.id_prefixes:
+                if self.database == db:
+                    id_prefix_filter = id_filter
 
+        name_prefix_filter = None
+        if self.name_prefixes:
+            for db, name_filter in self.name_prefixes:
+                if self.database == db:
+                    name_prefix_filter = name_filter
+
+        df_values = list(
+            filter(
+                lambda tpl: (
+                    id_prefix_filter is None or tpl[0].startswith(id_prefix_filter)
+                )
+                and (
+                    name_prefix_filter is None or tpl[1].startswith(name_prefix_filter)
+                ),
+                df_values,
+            )
+        )
+
+        df = pd.DataFrame(df_values, columns=["ontology_id", "name"]).set_index(
+            "ontology_id"
+        )
+
+        df["ontology_id"].fillna("", inplace=True)
         df["name"].fillna("", inplace=True)
+
         return df
 
     @check_dynamicdir_exists

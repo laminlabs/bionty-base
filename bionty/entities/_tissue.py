@@ -23,5 +23,8 @@ class Tissue(Entity):
         version: Optional[str] = None,
     ) -> None:
         super().__init__(
-            database=database, version=version, species=species, prefix="UBERON"
+            database=database,
+            version=version,
+            species=species,
+            id_prefix=[("uberon", "UBERON")],
         )
