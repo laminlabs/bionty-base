@@ -3,7 +3,7 @@ import re
 from collections import namedtuple
 from functools import cached_property
 from pathlib import Path
-from typing import Dict, Iterable, List, Literal, Optional, Tuple
+from typing import Dict, Iterable, List, Literal, Optional
 
 import bioregistry as br
 import pandas as pd
@@ -45,15 +45,19 @@ class Entity:
         version: Optional[str] = None,
         species: Optional[str] = None,
         *,
-        id_prefix: List[Tuple[str, str]] = None,
-        name_prefix: List[Tuple[str, str]] = None,
         reference_id: Optional[str] = None,
+        include_id_prefixes: Optional[Dict[str, List[str]]] = None,
+        include_name_prefixes: Optional[Dict[str, List[str]]] = None,
+        exclude_id_prefixes: Optional[Dict[str, List[str]]] = None,
+        exclude_name_prefixes: Optional[Dict[str, List[str]]] = None,
     ):
         self._species = "all" if species is None else species
-        self.id_prefixes = id_prefix
-        self.name_prefixes = name_prefix
-        self.reference_id = reference_id
         self._entity = _camel_to_snake(self.__class__.__name__)
+        self.reference_id = reference_id
+        self.include_id_prefixes = include_id_prefixes
+        self.include_name_prefixes = include_name_prefixes
+        self.exclude_id_prefixes = exclude_id_prefixes
+        self.exclude_name_prefixes = exclude_name_prefixes
 
         if database:
             # We don't allow custom databases inside lamindb instances
@@ -135,38 +139,78 @@ class Entity:
         df_values = [
             (term.id, term.name) for term in ontology.terms() if term.id and term.name
         ]
-        id_prefix_filter = None
-        if self.id_prefixes:
-            for db, id_filter in self.id_prefixes:
-                if self.database == db:
-                    id_prefix_filter = id_filter
 
-        name_prefix_filter = None
-        if self.name_prefixes:
-            for db, name_filter in self.name_prefixes:
-                if self.database == db:
-                    name_prefix_filter = name_filter
-
-        df_values = list(
-            filter(
-                lambda tpl: (
-                    id_prefix_filter is None or tpl[0].startswith(id_prefix_filter)
+        if self.include_id_prefixes and self.database in list(
+            self.include_id_prefixes.keys()
+        ):
+            flat_include_id_prefixes = self.flatten_prefixes(self.include_id_prefixes)
+            df_values = list(
+                filter(
+                    lambda val: any(
+                        val[0].startswith(prefix) for prefix in flat_include_id_prefixes
+                    ),
+                    df_values,
                 )
-                and (
-                    name_prefix_filter is None or tpl[1].startswith(name_prefix_filter)
-                ),
-                df_values,
             )
-        )
+        if self.include_name_prefixes and self.database in list(
+            self.include_name_prefixes.keys()
+        ):
+            flat_include_name_prefixes = self.flatten_prefixes(
+                self.include_name_prefixes
+            )
+            df_values = list(
+                filter(
+                    lambda val: any(
+                        val[1].startswith(prefix)
+                        for prefix in flat_include_name_prefixes
+                    ),
+                    df_values,
+                )
+            )
+        if self.exclude_id_prefixes and self.database in list(
+            self.exclude_id_prefixes.keys()
+        ):
+            flat_exclude_id_prefixes = self.flatten_prefixes(self.exclude_id_prefixes)
+
+            df_values = list(
+                filter(
+                    lambda val: not any(
+                        val[0].startswith(prefix) for prefix in flat_exclude_id_prefixes
+                    ),
+                    df_values,
+                )
+            )
+        if self.exclude_name_prefixes and self.database in list(
+            self.exclude_name_prefixes.keys()
+        ):
+            flat_exclude_name_prefixes = self.flatten_prefixes(
+                self.exclude_name_prefixes
+            )
+
+            df_values = list(
+                filter(
+                    lambda val: not any(
+                        val[1].startswith(prefix)
+                        for prefix in flat_exclude_name_prefixes
+                    ),
+                    df_values,
+                )
+            )
 
         df = pd.DataFrame(df_values, columns=["ontology_id", "name"]).set_index(
             "ontology_id"
         )
 
-        df["ontology_id"].fillna("", inplace=True)
         df["name"].fillna("", inplace=True)
 
         return df
+
+    def flatten_prefixes(self, db_to_prefixes: dict[str, list[str]]) -> set:
+        flat_prefixes = {
+            prefix for values in db_to_prefixes.values() for prefix in values
+        }
+
+        return flat_prefixes
 
     @check_dynamicdir_exists
     def _url_download(self, url: str) -> str:

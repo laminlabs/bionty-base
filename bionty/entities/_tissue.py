@@ -26,5 +26,5 @@ class Tissue(Entity):
             database=database,
             version=version,
             species=species,
-            id_prefix=[("uberon", "UBERON")],
+            include_id_prefixes={"uberon": ["UBERON"]},
         )

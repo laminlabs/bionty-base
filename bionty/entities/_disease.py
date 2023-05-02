@@ -30,4 +30,5 @@ class Disease(Entity):
             database=database,
             version=version,
             species=species,
+            exclude_id_prefixes={"mondo": ["http"]},
         )
