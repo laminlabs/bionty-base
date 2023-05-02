@@ -67,7 +67,11 @@ def display_available_versions(
 def display_active_versions(
     return_df: bool = False,
 ) -> Optional[pd.DataFrame]:  # pragma: no cover
-    """Displays all currently set as default entities and versions in a Rich table."""
+    """Displays all currently set as default entities and versions in a Rich table.
+
+    Args:
+        return_df: Whether to return a Pandas DataFrame containing the available versions. Defaults to False.
+    """
     version_table = (
         "._lndb.yaml" if os.getenv("LAMINDB_INSTANCE_LOADED") == 1 else "._current.yaml"
     )
