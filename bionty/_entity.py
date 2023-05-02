@@ -140,10 +140,17 @@ class Entity:
             (term.id, term.name) for term in ontology.terms() if term.id and term.name
         ]
 
+        def flatten_prefixes(db_to_prefixes: dict[str, list[str]]) -> set:
+            flat_prefixes = {
+                prefix for values in db_to_prefixes.values() for prefix in values
+            }
+
+            return flat_prefixes
+
         if self.include_id_prefixes and self.database in list(
             self.include_id_prefixes.keys()
         ):
-            flat_include_id_prefixes = self.flatten_prefixes(self.include_id_prefixes)
+            flat_include_id_prefixes = flatten_prefixes(self.include_id_prefixes)
             df_values = list(
                 filter(
                     lambda val: any(
@@ -155,9 +162,7 @@ class Entity:
         if self.include_name_prefixes and self.database in list(
             self.include_name_prefixes.keys()
         ):
-            flat_include_name_prefixes = self.flatten_prefixes(
-                self.include_name_prefixes
-            )
+            flat_include_name_prefixes = flatten_prefixes(self.include_name_prefixes)
             df_values = list(
                 filter(
                     lambda val: any(
@@ -170,7 +175,7 @@ class Entity:
         if self.exclude_id_prefixes and self.database in list(
             self.exclude_id_prefixes.keys()
         ):
-            flat_exclude_id_prefixes = self.flatten_prefixes(self.exclude_id_prefixes)
+            flat_exclude_id_prefixes = flatten_prefixes(self.exclude_id_prefixes)
 
             df_values = list(
                 filter(
@@ -183,9 +188,7 @@ class Entity:
         if self.exclude_name_prefixes and self.database in list(
             self.exclude_name_prefixes.keys()
         ):
-            flat_exclude_name_prefixes = self.flatten_prefixes(
-                self.exclude_name_prefixes
-            )
+            flat_exclude_name_prefixes = flatten_prefixes(self.exclude_name_prefixes)
 
             df_values = list(
                 filter(
@@ -204,13 +207,6 @@ class Entity:
         df["name"].fillna("", inplace=True)
 
         return df
-
-    def flatten_prefixes(self, db_to_prefixes: dict[str, list[str]]) -> set:
-        flat_prefixes = {
-            prefix for values in db_to_prefixes.values() for prefix in values
-        }
-
-        return flat_prefixes
 
     @check_dynamicdir_exists
     def _url_download(self, url: str) -> str:
