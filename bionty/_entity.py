@@ -3,7 +3,7 @@ import re
 from collections import namedtuple
 from functools import cached_property
 from pathlib import Path
-from typing import Dict, Iterable, Literal, Optional
+from typing import Dict, Iterable, List, Literal, Optional
 
 import bioregistry as br
 import pandas as pd
@@ -45,13 +45,19 @@ class Entity:
         version: Optional[str] = None,
         species: Optional[str] = None,
         *,
-        prefix: Optional[str] = None,
         reference_id: Optional[str] = None,
+        include_id_prefixes: Optional[Dict[str, List[str]]] = None,
+        include_name_prefixes: Optional[Dict[str, List[str]]] = None,
+        exclude_id_prefixes: Optional[Dict[str, List[str]]] = None,
+        exclude_name_prefixes: Optional[Dict[str, List[str]]] = None,
     ):
         self._species = "all" if species is None else species
-        self.prefix = prefix
-        self.reference_id = reference_id
         self._entity = _camel_to_snake(self.__class__.__name__)
+        self.reference_id = reference_id
+        self.include_id_prefixes = include_id_prefixes
+        self.include_name_prefixes = include_name_prefixes
+        self.exclude_id_prefixes = exclude_id_prefixes
+        self.exclude_name_prefixes = exclude_name_prefixes
 
         if database:
             # We don't allow custom databases inside lamindb instances
@@ -130,26 +136,76 @@ class Entity:
 
     def _ontology_to_df(self, ontology: Ontology):
         """Convert ontology to a DataFrame with ontology_id and name columns."""
-        if self.prefix:
-            df = pd.DataFrame(
-                [
-                    (term.id, term.name)
-                    for term in ontology.terms()
-                    if term.id and term.name and term.id.startswith(f"{self.prefix}:")
-                ],
-                columns=["ontology_id", "name"],
-            ).set_index("ontology_id")
-        else:
-            df = pd.DataFrame(
-                [
-                    (term.id, term.name)
-                    for term in ontology.terms()
-                    if term.id and term.name
-                ],
-                columns=["ontology_id", "name"],
-            ).set_index("ontology_id")
+        df_values = [
+            (term.id, term.name) for term in ontology.terms() if term.id and term.name
+        ]
+
+        def flatten_prefixes(db_to_prefixes: dict[str, list[str]]) -> set:
+            flat_prefixes = {
+                prefix for values in db_to_prefixes.values() for prefix in values
+            }
+
+            return flat_prefixes
+
+        if self.include_id_prefixes and self.database in list(
+            self.include_id_prefixes.keys()
+        ):
+            flat_include_id_prefixes = flatten_prefixes(self.include_id_prefixes)
+            df_values = list(
+                filter(
+                    lambda val: any(
+                        val[0].startswith(prefix) for prefix in flat_include_id_prefixes
+                    ),
+                    df_values,
+                )
+            )
+        if self.include_name_prefixes and self.database in list(
+            self.include_name_prefixes.keys()
+        ):
+            flat_include_name_prefixes = flatten_prefixes(self.include_name_prefixes)
+            df_values = list(
+                filter(
+                    lambda val: any(
+                        val[1].startswith(prefix)
+                        for prefix in flat_include_name_prefixes
+                    ),
+                    df_values,
+                )
+            )
+        if self.exclude_id_prefixes and self.database in list(
+            self.exclude_id_prefixes.keys()
+        ):
+            flat_exclude_id_prefixes = flatten_prefixes(self.exclude_id_prefixes)
+
+            df_values = list(
+                filter(
+                    lambda val: not any(
+                        val[0].startswith(prefix) for prefix in flat_exclude_id_prefixes
+                    ),
+                    df_values,
+                )
+            )
+        if self.exclude_name_prefixes and self.database in list(
+            self.exclude_name_prefixes.keys()
+        ):
+            flat_exclude_name_prefixes = flatten_prefixes(self.exclude_name_prefixes)
+
+            df_values = list(
+                filter(
+                    lambda val: not any(
+                        val[1].startswith(prefix)
+                        for prefix in flat_exclude_name_prefixes
+                    ),
+                    df_values,
+                )
+            )
+
+        df = pd.DataFrame(df_values, columns=["ontology_id", "name"]).set_index(
+            "ontology_id"
+        )
 
         df["name"].fillna("", inplace=True)
+
         return df
 
     @check_dynamicdir_exists
