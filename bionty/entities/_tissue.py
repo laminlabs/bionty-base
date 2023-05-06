@@ -18,7 +18,7 @@ class Tissue(Entity):
 
     def __init__(
         self,
-        species: str = "all",
+        species: str = None,
         database: Optional[Literal["uberon"]] = None,
         version: Optional[str] = None,
     ) -> None:
