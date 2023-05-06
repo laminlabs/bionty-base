@@ -117,6 +117,7 @@ class Entity:
         """Create a namedtuple from a dict to allow autocompletion."""
         if name is None:
             name = self._entity
+
         nt = namedtuple(name, df.index)  # type:ignore
         return nt(
             **{
@@ -306,7 +307,15 @@ class Entity:
         self._ontology_download_path = settings.dynamicdir / self._semantic_file_name
 
     def lookup(self, field: str = "name") -> tuple:
-        """Return an auto-complete object for the bionty id."""
+        """Return an auto-complete object for the bionty id.
+
+        Args:
+            field: The field to lookup the values for. Adapt this paramter to for example 'ontology_id' to lookup by ID.
+                   Defaults to 'name'.
+
+        Returns:
+            A NamedTuple of lookup information of the entitys values.
+        """
         df = self.df().reset_index()
         if field not in df:
             raise AssertionError(f"No {field} column exists!")
