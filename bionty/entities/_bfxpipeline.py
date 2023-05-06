@@ -18,7 +18,7 @@ class BFXPipeline(Entity):
 
     def __init__(
         self,
-        species: str = None,
+        species: str = "all",
         database: Optional[Literal["lamin"]] = None,
         version: Optional[str] = None,
     ) -> None:

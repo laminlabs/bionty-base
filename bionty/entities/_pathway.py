@@ -18,7 +18,7 @@ class Pathway(Entity):
 
     def __init__(
         self,
-        species: str = None,
+        species: str = "human",
         database: Optional[Literal["pw"]] = None,
         version: Optional[str] = None,
     ) -> None:
