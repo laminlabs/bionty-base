@@ -36,7 +36,7 @@ class Entity:
 
     def __init__(
         self,
-        database: Optional[str],
+        source: Optional[str],
         version: Optional[str] = None,
         species: Optional[str] = None,
         *,
@@ -45,7 +45,18 @@ class Entity:
         include_name_prefixes: Optional[Dict[str, List[str]]] = None,
         exclude_id_prefixes: Optional[Dict[str, List[str]]] = None,
         exclude_name_prefixes: Optional[Dict[str, List[str]]] = None,
+        **kwargs,
     ):
+        if kwargs:
+            deprecated_db_parameter = kwargs.pop("database", None)
+            if deprecated_db_parameter is not None:
+                logger.warning(
+                    "Parameter 'database' is deprecated and will be removed in a future"
+                    " version. Use 'source' instead.",
+                    DeprecationWarning,
+                )
+                source = deprecated_db_parameter
+
         self._species = "all" if species is None else species
         self._entity = _camel_to_snake(self.__class__.__name__)
         self.reference_id = reference_id
@@ -54,7 +65,7 @@ class Entity:
         self.exclude_id_prefixes = exclude_id_prefixes
         self.exclude_name_prefixes = exclude_name_prefixes
 
-        if database:
+        if source:
             # We don't allow custom databases inside lamindb instances
             # because the lamindb standard should be used
             if os.getenv("LAMINDB_INSTANCE_LOADED") == 1:
@@ -63,9 +74,9 @@ class Entity:
                     "Check active databases using `bionty.display_active_versions`."
                 )
 
-            if br.normalize_prefix(database):
-                database = br.normalize_prefix(database)
-        self._set_attributes(database=database, version=version)
+            if br.normalize_prefix(source):
+                source = br.normalize_prefix(source)
+        self._set_attributes(source=source, version=version)
 
     def __repr__(self) -> str:
         representation = (
@@ -78,7 +89,7 @@ class Entity:
 
     @property
     def database(self) -> str:
-        """Name of the database."""
+        """Name of the source."""
         return self._database
 
     @property
@@ -251,12 +262,12 @@ class Entity:
 
     @check_datasetdir_exists
     def _set_attributes(
-        self, database: Optional[str], version: Optional[str] = None
+        self, source: Optional[str], version: Optional[str] = None
     ) -> None:
         """Sets version, database and URL attributes for passed database and requested version.
 
         Args:
-            database: The database to find the URL and version for.
+            source: The database to find the URL and version for.
             version: The requested version of the database.
         """
         current_defaults = (
@@ -274,9 +285,9 @@ class Entity:
         available_db_versions = self._load_versions(source="local")
 
         # Use the latest version if version is None.
-        self._database = current_database if database is None else str(database)
-        # Only the database was passed -> get the latest version from the available db versions  # noqa: E501
-        if database and not version:
+        self._database = current_database if source is None else str(source)
+        # Only the source was passed -> get the latest version from the available db versions  # noqa: E501
+        if source and not version:
             self._version = next(
                 iter(available_db_versions[self._database]["versions"])
             )
@@ -284,7 +295,9 @@ class Entity:
             self._version = current_version if version is None else str(version)
 
         self._url, self._md5 = (
-            available_db_versions.get(self._database).get("versions").get(str(self._version))  # type: ignore  # noqa: E501
+            available_db_versions.get(self._database)  # type: ignore  # noqa: E501
+            .get("versions")
+            .get(str(self._version))
         )
         if self._url is None:
             raise ValueError(

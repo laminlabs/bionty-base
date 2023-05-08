@@ -16,13 +16,13 @@ LOCAL_PATH = settings.versionsdir / "local.yaml"
 
 
 def latest_db_version(db: str) -> str:
-    """Lookup the latest version of a database.
+    """Lookup the latest version of a source.
 
     Args:
-        db: The database to look up the version for.
+        db: The source to look up the version for.
 
     Returns:
-        The version of the database. Usually a date.
+        The version of the source. Usually a date.
     """
     db = db.lower()
 
@@ -48,7 +48,7 @@ def create_current(
 ) -> None:
     """Writes the most recent version to the _current.yaml .
 
-    Takes the 1st database defined in the source.
+    Takes the 1st source defined in the source.
 
     Args:
         overwrite: Whether to overwrite the _current.yaml even if it exists already.
@@ -149,7 +149,7 @@ def _get_missing_defaults(
                   Defaults to "current".
 
     Returns:
-        A list of tuples in the form of [(Entity, database, version)] that
+        A list of tuples in the form of [(Entity, source, version)] that
         can serve as input for `update_defaults`.
     """
     versions_yaml = (

@@ -19,11 +19,12 @@ class BFXPipeline(Entity):
     def __init__(
         self,
         species: str = "all",
-        database: Optional[Literal["lamin"]] = None,
+        source: Optional[Literal["lamin"]] = None,
         version: Optional[str] = None,
+        **kwargs
     ) -> None:
         super().__init__(
-            database=database, version=version, species=species, reference_id="id"
+            source=source, version=version, species=species, reference_id="id", **kwargs
         )
 
     def df(self) -> pd.DataFrame:
