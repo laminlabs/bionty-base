@@ -3,7 +3,7 @@ from typing import Literal, Optional
 import pandas as pd
 
 from .._entity import Entity
-from .._settings import s3_bionty_assets
+from ..dev._io import s3_bionty_assets
 
 
 class CellMarker(Entity):
