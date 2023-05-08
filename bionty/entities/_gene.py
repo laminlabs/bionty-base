@@ -5,7 +5,7 @@ import pandas as pd
 from .._entity import Entity
 from .._normalize import GENE_COLUMNS, NormalizeColumns
 from .._settings import s3_bionty_assets
-from ._shared_docstrings import _doc_params, doc_entites
+from ._shared_docstrings import _doc_params, doc_curate, doc_entites
 
 ALIAS_DICT = {"symbol": "synonyms"}
 
@@ -62,6 +62,7 @@ class Gene(Entity):
 
         return df
 
+    @_doc_params(doc_entities=doc_curate)
     def curate(  # type: ignore
         self,
         df: pd.DataFrame,
@@ -70,15 +71,7 @@ class Gene(Entity):
     ) -> pd.DataFrame:
         """Curate index of passed DataFrame to conform with default identifier.
 
-        - If `column` is `None`, checks the existing index for compliance with
-          the default identifier.
-        - If `column` denotes an entity identifier, tries to map that identifier
-          to the default identifier.
-
-        Returns the DataFrame with the curated index and a boolean `__curated__`
-        column that indicates compliance with the default identifier.
-
-        In addition to the .curate() in base class, this also performs alias mapping.
+        {doc_curate}
         """
         agg_col = ALIAS_DICT.get(reference_id)
         df = df.copy()
