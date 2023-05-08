@@ -30,7 +30,7 @@ def update_defaults(
     This function overwrites the current defaults in the ._current.yaml file.
 
     Args:
-        new_defaults: Triplets of (entity, database, version) tuples.
+        new_defaults: Triplets of (entity, source, version) tuples.
         target: The yaml file to update. Defaults to current
     """
     defaults = (
