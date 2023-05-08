@@ -74,8 +74,8 @@ class Entity:
                     "Check active databases using `bionty.display_active_versions`."
                 )
 
-        if br.normalize_prefix(source):
-            source = br.normalize_prefix(source)
+            if br.normalize_prefix(source):
+                source = br.normalize_prefix(source)
         self._set_attributes(source=source, version=version)
 
     def __repr__(self) -> str:
