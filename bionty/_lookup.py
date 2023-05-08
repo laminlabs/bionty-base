@@ -3,7 +3,7 @@ from collections import namedtuple
 from typing import Iterable
 
 from ._normalize import GENE_COLUMNS, PROTEIN_COLUMNS
-from ._settings import s3_bionty_assets
+from .dev._io import s3_bionty_assets
 
 
 def _lookup(values: Iterable[str]):
