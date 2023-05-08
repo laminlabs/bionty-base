@@ -2,22 +2,8 @@ from functools import wraps
 from pathlib import Path
 from typing import Union
 
-from lndb.dev.upath import UPath
-
 HOME_DIR = Path(f"{Path.home()}/.lamin/bionty").resolve()
 ROOT_DIR = Path(__file__).parent.resolve()
-
-
-def s3_bionty_assets(
-    filename: str, localpath: Path = None, assets_base_url: str = "s3://bionty-assets"
-):
-    cloudpath = UPath(f"{assets_base_url}/{filename}", anon=True, cache_regions=True)
-    if not localpath:
-        localpath = settings.datasetdir / filename
-
-    cloudpath.synchronize(localpath)
-
-    return localpath
 
 
 def check_datasetdir_exists(f):

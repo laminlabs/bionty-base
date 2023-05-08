@@ -5,6 +5,9 @@ import requests  # type:ignore
 import yaml  # type:ignore
 from rich import print
 from rich.progress import Progress
+from upath import UPath
+
+from bionty._settings import settings
 
 
 def load_yaml(
@@ -61,3 +64,28 @@ def url_download(  # pragma: no cover
 
     except requests.exceptions.HTTPError as err:
         print(err)
+
+
+def s3_bionty_assets(
+    filename: str, localpath: Path = None, assets_base_url: str = "s3://bionty-assets"
+):
+    """Synchronizes a S3 file path with local file storage.
+
+    If the file does not exist locally it gets downloaded.
+    If the file does not exist on S3, the file does not get synchronized.
+
+    Args:
+        filename: The suffix of the assets_base_url.
+        localpath: The Path to the local file.
+        assets_base_url: The S3 base URL. Prefix of the filename.
+
+    Returns:
+        A Path object of the synchronized path.
+    """
+    cloudpath = UPath(f"{assets_base_url}/{filename}", anon=True, cache_regions=True)
+    if not localpath:
+        localpath = settings.datasetdir / filename
+
+    cloudpath.synchronize(localpath)
+
+    return localpath

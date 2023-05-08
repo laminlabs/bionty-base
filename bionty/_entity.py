@@ -12,18 +12,13 @@ from lamin_logger import logger
 from bionty._md5 import verify_md5
 
 from ._ontology import Ontology
-from ._settings import (
-    check_datasetdir_exists,
-    check_dynamicdir_exists,
-    s3_bionty_assets,
-    settings,
-)
+from ._settings import check_datasetdir_exists, check_dynamicdir_exists, settings
 from .dev._fix_index import (
     check_if_index_compliant,
     explode_aggregated_column_to_expand,
     get_compliant_index_from_column,
 )
-from .dev._io import load_yaml, url_download
+from .dev._io import load_yaml, s3_bionty_assets, url_download
 
 VERSIONS_PATH = Path(__file__).parent / "versions"
 
@@ -117,6 +112,7 @@ class Entity:
         """Create a namedtuple from a dict to allow autocompletion."""
         if name is None:
             name = self._entity
+
         nt = namedtuple(name, df.index)  # type:ignore
         return nt(
             **{
@@ -309,7 +305,7 @@ class Entity:
         """Return an auto-complete object for the bionty id.
 
         Args:
-            field: The field to lookup the values for. Adapt this paramter to for example 'ontology_id' to lookup by ID.
+            field: The field to lookup the values for. Adapt this parameter to, for example, 'ontology_id' to lookup by ID.
                    Defaults to 'name'.
 
         Returns:
