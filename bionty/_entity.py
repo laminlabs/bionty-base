@@ -364,30 +364,6 @@ class Entity:
         except KeyError:
             return df
 
-    @deprecated(
-        deprecated_in="0.13.0",
-        current_version=__version__,
-        removed_in="0.16.0",
-        details=(
-            "This function will be removed in a future release. Please use 'map'"
-            " instead."
-        ),
-    )
-    def curate(
-        self,
-        df: pd.DataFrame,
-        column: str = None,
-        reference_id: str = "ontology_id",
-        case_sensitive: bool = True,
-    ) -> pd.DataFrame:
-        return self.map(  # type: ignore
-            data_collection=df,
-            column=column,
-            reference_id=reference_id,
-            case_sensitive=case_sensitive,
-            inplace=False,
-        )
-
     def _curate(
         self,
         df: pd.DataFrame,
@@ -460,7 +436,7 @@ class Entity:
 
     def map(  # type: ignore
         self,
-        data_collection: Iterable,
+        identifiers: Iterable,
         reference_id: str = "ontology_id",
         *,
         column: str = None,
@@ -474,7 +450,7 @@ class Entity:
         If data_collection is a Pandas DataFrame curate index of passed DataFrame to conform with default identifier.
 
         Args:
-            data_collection: The ids to map against the ontology IDs.
+            identifiers: The ids to map against the ontology IDs.
             reference_id: The reference column in the ontology Pandas DataFrame. Defaults to ontology_id'.
             column: The column in the passed Pandas DataFrame to curate.
             case_sensitive: Whether the curation should be case sensitive or not. Defaults to True.
@@ -485,7 +461,7 @@ class Entity:
             If specified returns A Pandas DataFrame with the curated index and a boolean `__curated__`
             column that indicates compliance with the default identifier.
         """
-        if isinstance(data_collection, pd.DataFrame):
+        if isinstance(identifiers, pd.DataFrame):
             if return_df:
                 logger.warning(
                     "The 'return_df' parameter is not supported for Pandas DataFrames."
@@ -497,9 +473,9 @@ class Entity:
             elif self.reference_id:
                 reference_id = self.reference_id
 
-            df = data_collection  # for code readability
+            df = identifiers  # for code readability
             if not inplace:
-                df = data_collection.copy()
+                df = identifiers.copy()
             ref_df = self.df()
 
             orig_column = column
@@ -531,17 +507,17 @@ class Entity:
             if not inplace:
                 return curated_df
 
-        elif isinstance(data_collection, Iterable) and not isinstance(
-            data_collection, pd.DataFrame
+        elif isinstance(identifiers, Iterable) and not isinstance(
+            identifiers, pd.DataFrame
         ):
             if inplace:
                 logger.warning(
                     "The 'inplace' parameter is not supported for"
-                    f" {type(data_collection)}. Use 'return_df' to return Pandas"
+                    f" {type(identifiers)}. Use 'return_df' to return Pandas"
                     " DataFrames instead. Ignoring..."
                 )
 
-            df = pd.DataFrame(index=data_collection)
+            df = pd.DataFrame(index=identifiers)
 
             curated_df = self._curate(
                 df=df, column=None, reference_id=reference_id, inplace=False
@@ -556,5 +532,29 @@ class Entity:
 
         else:
             raise ValueError(
-                "Input data_collection must be an Iterable or a Pandas DataFrame."
+                "Input identifiers must be an Iterable or a Pandas DataFrame."
             )
+
+    @deprecated(
+        deprecated_in="0.13.0",
+        current_version=__version__,
+        removed_in="0.16.0",
+        details=(
+            "This function will be removed in a future release. Please use 'map'"
+            " instead."
+        ),
+    )
+    def curate(
+        self,
+        df: pd.DataFrame,
+        column: str = None,
+        reference_id: str = "ontology_id",
+        case_sensitive: bool = True,
+    ) -> pd.DataFrame:
+        return self.map(  # type: ignore
+            identifiers=df,
+            column=column,
+            reference_id=reference_id,
+            case_sensitive=case_sensitive,
+            inplace=False,
+        )

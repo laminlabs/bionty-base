@@ -16,11 +16,11 @@ def test_ensemble_gene_curation_hgnc_id():
     }
     df = pd.DataFrame(data).set_index("ensembl_gene_id")
 
-    curated_df = bt.Gene(database="ensembl", version="release-108").curate(
+    mapped_df = bt.Gene(database="ensembl", version="release-108").map(
         df, reference_id=bt.lookup.gene_id.hgnc_id, column="hgnc id"
     )
 
-    curation = curated_df["__curated__"].reset_index(drop=True)
+    curation = mapped_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, False])
 
     assert curation.equals(expected_series)

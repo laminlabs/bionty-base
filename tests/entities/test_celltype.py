@@ -14,9 +14,9 @@ def test_cl_celltype_curation_ontology_id():
         ]
     )
 
-    curated_df = bt.CellType(database="cl", version="2022-08-16").curate(df)
+    mapped_df = bt.CellType(database="cl", version="2022-08-16").map(df)
 
-    curation = curated_df["__curated__"].reset_index(drop=True)
+    curation = mapped_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
 
     assert curation.equals(expected_series)
@@ -32,11 +32,11 @@ def test_cl_celltype_curation_name():
             "This cell type does not exist",
         ]
     )
-    curated_df = bt.CellType(database="cl", version="2022-08-16").curate(
+    mapped_df = bt.CellType(database="cl", version="2022-08-16").map(
         df, reference_id="name"
     )
 
-    curation = curated_df["__curated__"].reset_index(drop=True)
+    curation = mapped_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
 
     assert curation.equals(expected_series)
@@ -53,9 +53,9 @@ def test_ca_celltype_curation_ontology_id():
         ]
     )
 
-    curated_df = bt.CellType(database="ca", version="2022-12-16").curate(df)
+    mapped_df = bt.CellType(database="ca", version="2022-12-16").map(df)
 
-    curation = curated_df["__curated__"].reset_index(drop=True)
+    curation = mapped_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
 
     assert curation.equals(expected_series)
@@ -71,11 +71,11 @@ def test_ca_celltype_curation_name():
             "This cell type does not exist",
         ]
     )
-    curated_df = bt.CellType(database="ca", version="2022-12-16").curate(
+    mapped_df = bt.CellType(database="ca", version="2022-12-16").map(
         df, reference_id="name"
     )
 
-    curation = curated_df["__curated__"].reset_index(drop=True)
+    curation = mapped_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
 
     assert curation.equals(expected_series)

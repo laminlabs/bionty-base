@@ -13,9 +13,9 @@ def test_efo_readout_curation_ontology_id():
             "This readout does not exist",
         ]
     )
-    curated_df = bt.Readout(database="efo", version="3.48.0").curate(df)
+    mapped_df = bt.Readout(database="efo", version="3.48.0").map(df)
 
-    curation = curated_df["__curated__"].reset_index(drop=True)
+    curation = mapped_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
 
     assert curation.equals(expected_series)
@@ -31,11 +31,11 @@ def test_efo_readout_curation_name():
             "This readout does not exist",
         ]
     )
-    curated_df = bt.Readout(database="efo", version="3.48.0").curate(
+    mapped_df = bt.Readout(database="efo", version="3.48.0").map(
         df, reference_id="name"
     )
 
-    curation = curated_df["__curated__"].reset_index(drop=True)
+    curation = mapped_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
 
     assert curation.equals(expected_series)

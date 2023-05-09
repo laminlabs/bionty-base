@@ -13,9 +13,9 @@ def test_mondo_disease_curation_ontology_id():
             "This disease does not exist",
         ]
     )
-    curated_df = bt.Disease(database="mondo", version="2023-02-06").curate(df)
+    mapped_df = bt.Disease(database="mondo", version="2023-02-06").map(df)
 
-    curation = curated_df["__curated__"].reset_index(drop=True)
+    curation = mapped_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
 
     assert curation.equals(expected_series)
@@ -31,11 +31,11 @@ def test_mondo_disease_curation_name():
             "This disease does not exist",
         ]
     )
-    curated_df = bt.Disease(database="mondo", version="2023-02-06").curate(
+    mapped_df = bt.Disease(database="mondo", version="2023-02-06").map(
         df, reference_id="name"
     )
 
-    curation = curated_df["__curated__"].reset_index(drop=True)
+    curation = mapped_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
 
     assert curation.equals(expected_series)
@@ -51,9 +51,9 @@ def test_doid_disease_curation_ontology_id():
             "This disease does not exist",
         ]
     )
-    curated_df = bt.Disease(database="doid", version="2023-01-30").curate(df)
+    mapped_df = bt.Disease(database="doid", version="2023-01-30").map(df)
 
-    curation = curated_df["__curated__"].reset_index(drop=True)
+    curation = mapped_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
 
     assert curation.equals(expected_series)
@@ -69,11 +69,11 @@ def test_doid_disease_curation_name():
             "This disease does not exist",
         ]
     )
-    curated_df = bt.Disease(database="doid", version="2023-01-30").curate(
+    mapped_df = bt.Disease(database="doid", version="2023-01-30").map(
         df, reference_id="name"
     )
 
-    curation = curated_df["__curated__"].reset_index(drop=True)
+    curation = mapped_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
 
     assert curation.equals(expected_series)
