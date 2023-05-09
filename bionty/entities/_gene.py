@@ -64,7 +64,7 @@ class Gene(Entity):
 
         return df
 
-    @_doc_params(doc_entities=doc_curate)
+    @_doc_params(doc_curate=doc_curate)
     def curate(  # type: ignore
         self,
         df: pd.DataFrame,
