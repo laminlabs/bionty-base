@@ -394,10 +394,13 @@ class Entity:
         reference_id: str = "ontology_id",
         column: str = None,
         agg_col: str = None,
+        inplace: bool = False,
     ) -> pd.DataFrame:
         """Curate index of passed DataFrame to conform with default identifier."""
-        df = df.copy()
+        if not inplace:
+            df = df.copy()
         ref_df = self.df()
+
         # this is needed for features parsing in lamindb
         self._parsing_id = reference_id
 
@@ -505,7 +508,7 @@ class Entity:
 
             return mapping
 
-    def map_df(
+    def map_df(  # type: ignore
         self,
         df: pd.DataFrame,
         column: str = None,
@@ -537,7 +540,8 @@ class Entity:
         elif self.reference_id:
             reference_id = self.reference_id
 
-        df = df.copy()
+        if not inplace:
+            df = df.copy()
         ref_df = self.df()
         orig_column = column
         if column is not None and column not in ref_df.columns:
@@ -555,7 +559,7 @@ class Entity:
                 df.index = df.index.str.upper()
 
         curated_df = self._curate(
-            df=df, column=column, reference_id=reference_id
+            df=df, column=column, reference_id=reference_id, inplace=inplace
         ).rename(columns={column: orig_column})
 
         # change the original column values back
@@ -565,4 +569,5 @@ class Entity:
             else:
                 curated_df[orig_column] = orig_column_values
 
-        return curated_df
+        if not inplace:
+            return curated_df
