@@ -365,9 +365,9 @@ class Entity:
             return df
 
     @deprecated(
-        deprecated_in="0.12.1",
+        deprecated_in="0.13.0",
         current_version=__version__,
-        removed_in="0.14.0",
+        removed_in="0.16.0",
         details=(
             "This function will be removed in a future release. Please use 'map'"
             " instead."
@@ -380,12 +380,12 @@ class Entity:
         reference_id: str = "ontology_id",
         case_sensitive: bool = True,
     ) -> pd.DataFrame:
-        return self.map_df(  # type: ignore
-            df=df,
+        return self.map(  # type: ignore
+            data_collection=df,
             column=column,
             reference_id=reference_id,
             case_sensitive=case_sensitive,
-            inplace=True,
+            inplace=False,
         )
 
     def _curate(
@@ -404,6 +404,7 @@ class Entity:
         # this is needed for features parsing in lamindb
         self._parsing_id = reference_id
 
+        alias_map = None
         if agg_col is not None:
             # if provided a column with aggregated values, performs alias mapping
             alias_map = explode_aggregated_column_to_expand(
@@ -412,8 +413,8 @@ class Entity:
                 target_col=reference_id,
             )[reference_id]
 
+        # when column is None, use index as the input column
         if column is None:
-            # when column is None, use index as the input column
             index_name = df.index.name
             df["__mapped_index"] = (
                 df.index if agg_col is None else df.index.map(alias_map)
@@ -422,9 +423,10 @@ class Entity:
             df.index = df["__mapped_index"].fillna(df["orig_index"])
             del df["__mapped_index"]
             df.index.name = index_name
-            matches = check_if_index_compliant(
+            matches1 = check_if_index_compliant(
                 df.index, ref_df.reset_index()[reference_id]
             )
+            matches = matches1
         else:
             orig_series = df[column]
             df[column] = df[column] if agg_col is None else df[column].map(alias_map)
@@ -447,127 +449,114 @@ class Entity:
         # annotated what complies with the default ID
         df["__curated__"] = matches
         # some stats for logging
-        n_misses = len(matches) - matches.sum()
-        frac_misses = round(n_misses / len(matches) * 100, 1)
-        n_mapped = matches.sum()
-        frac_mapped = 100 - frac_misses
+        misses = len(matches) - matches.sum()
+        misses1 = round(misses / len(matches) * 100, 1)
+        mapped1 = matches.sum()
+        mapped = 100 - misses1
+        result = mapped, misses1, mapped1, misses
+        frac_mapped, frac_misses, n_mapped, n_misses = result
         logger.success(f"{n_mapped} terms ({frac_mapped}%) are mapped.")
         logger.warning(f"{n_misses} terms ({frac_misses}%) are not mapped.")
 
         return df
 
-    def map(
+    def map(  # type: ignore
         self,
-        ids: Iterable,
+        data_collection: Iterable,
         reference_id: str = "ontology_id",
-        agg_col: str = None,
-        as_df: bool = False,
+        *,
+        column: str = None,
+        case_sensitive: bool = True,
+        return_df: bool = False,
+        inplace: bool = False,
     ) -> Union[DataFrame, dict[str, str]]:
-        """Maps ids against the ontology IDs.
+        """Maps the data collection against the ontology IDs.
+
+        If data_collection is any Iterable but not a Pandas DataFrame map the values directly against the ontology.
+        If data_collection is a Pandas DataFrame curate index of passed DataFrame to conform with default identifier.
 
         Args:
-            ids: The ids to map against the ontology IDs.
-            as_df: Whether to return the result as a Pandas DataFrame.
+            data_collection: The ids to map against the ontology IDs.
+            reference_id: The reference column in the ontology Pandas DataFrame. Defaults to ontology_id'.
+            column: The column in the passed Pandas DataFrame to curate.
+            case_sensitive: Whether the curation should be case sensitive or not. Defaults to True.
+            return_df: Whether to return the result as a Pandas DataFrame.
+            inplace: Whether to operate inplace on the Pandas DataFrame.
 
         Returns:
             If specified returns A Pandas DataFrame with the curated index and a boolean `__curated__`
             column that indicates compliance with the default identifier.
         """
-        ref_df = self.df()
-        df = pd.DataFrame(index=ids)
+        if isinstance(data_collection, pd.DataFrame):
+            if return_df:
+                logger.warning(
+                    "The 'return_df' parameter is not supported for Pandas DataFrames."
+                    " Use 'inplace' to control return types."
+                )
 
-        if agg_col is not None:
-            # if provided a column with aggregated values, performs alias mapping
-            alias_map = explode_aggregated_column_to_expand(
-                ref_df.reset_index(),
-                aggregated_col=agg_col,
-                target_col=reference_id,
-            )[reference_id]
+            if self.reference_id and reference_id != "ontology_id":
+                reference_id = reference_id
+            elif self.reference_id:
+                reference_id = self.reference_id
 
-        # when column is None, use index as the input column
-        index_name = df.index.name
-        df["__mapped_index"] = df.index if agg_col is None else df.index.map(alias_map)
-        df["orig_index"] = df.index
-        df.index = df["__mapped_index"].fillna(df["orig_index"])
-        del df["__mapped_index"]
-        df.index.name = index_name
-        matches = check_if_index_compliant(df.index, ref_df.reset_index()[reference_id])
-        df["__curated__"] = matches
-        # some stats for logging
-        n_misses = len(matches) - matches.sum()
-        frac_misses = round(n_misses / len(matches) * 100, 1)
-        n_mapped = matches.sum()
-        frac_mapped = 100 - frac_misses
-        logger.success(f"{n_mapped} terms ({frac_mapped}%) are mapped.")
-        logger.warning(f"{n_misses} terms ({frac_misses}%) are not mapped.")
+            df = data_collection  # for code readability
+            if not inplace:
+                df = data_collection.copy()
+            ref_df = self.df()
 
-        if as_df:
-            return df
+            orig_column = column
+            if column is not None and column not in ref_df.columns:
+                column = reference_id
+                df.rename(columns={orig_column: column}, inplace=True)
+
+            # uppercasing the target column before curating
+            orig_column_values = None
+            if not case_sensitive:
+                if column in df.columns:
+                    orig_column_values = df[column].values
+                    df[column] = df[column].str.upper()
+                else:
+                    orig_column_values = df.index.values
+                    df.index = df.index.str.upper()
+
+            curated_df = self._curate(
+                df=df, column=column, reference_id=reference_id, inplace=inplace
+            ).rename(columns={column: orig_column})
+
+            # change the original column values back
+            if orig_column_values is not None:
+                if "orig_index" in curated_df:
+                    curated_df["orig_index"] = orig_column_values
+                else:
+                    curated_df[orig_column] = orig_column_values
+
+            if not inplace:
+                return curated_df
+
+        elif isinstance(data_collection, Iterable) and not isinstance(
+            data_collection, pd.DataFrame
+        ):
+            if inplace:
+                logger.warning(
+                    "The 'inplace' parameter is not supported for"
+                    f" {type(data_collection)}. Use 'return_df' to return Pandas"
+                    " DataFrames instead. Ignoring..."
+                )
+
+            df = pd.DataFrame(index=data_collection)
+
+            curated_df = self._curate(
+                df=df, column=None, reference_id=reference_id, inplace=False
+            )
+
+            if return_df:
+                return curated_df
+            else:
+                mapping = curated_df["orig_index"].to_dict()
+
+                return mapping
+
         else:
-            mapping = df["orig_index"].to_dict()
-
-            return mapping
-
-    def map_df(  # type: ignore
-        self,
-        df: pd.DataFrame,
-        column: str = None,
-        reference_id: str = "ontology_id",
-        case_sensitive: bool = True,
-        inplace: bool = False,
-    ) -> Optional[pd.DataFrame]:
-        """Curate index of passed DataFrame to conform with default identifier.
-
-        - If `target_column` is `None`, checks the existing index for compliance
-          with the default identifier.
-        - If `target_column` denotes an entity identifier,
-          tries to map that identifier to the default identifier.
-
-        Args:
-            df: The input Pandas DataFrame to curate.
-            column: The column in the passed Pandas DataFrame to curate.
-            reference_id: The reference column in the ontology Pandas DataFrame.
-                             'Defaults to ontology_id'.
-            case_sensitive: Whether the curation should be case sensitive or not.
-                            Defaults to True.
-
-        Returns:
-            Returns the DataFrame with the curated index and a boolean `__curated__`
-            column that indicates compliance with the default identifier.
-        """
-        if self.reference_id and reference_id != "ontology_id":
-            reference_id = reference_id
-        elif self.reference_id:
-            reference_id = self.reference_id
-
-        if not inplace:
-            df = df.copy()
-        ref_df = self.df()
-        orig_column = column
-        if column is not None and column not in ref_df.columns:
-            column = reference_id
-            df.rename(columns={orig_column: column}, inplace=True)
-
-        # uppercasing the target column before curating
-        orig_column_values = None
-        if not case_sensitive:
-            if column in df.columns:
-                orig_column_values = df[column].values
-                df[column] = df[column].str.upper()
-            else:
-                orig_column_values = df.index.values
-                df.index = df.index.str.upper()
-
-        curated_df = self._curate(
-            df=df, column=column, reference_id=reference_id, inplace=inplace
-        ).rename(columns={column: orig_column})
-
-        # change the original column values back
-        if orig_column_values is not None:
-            if "orig_index" in curated_df:
-                curated_df["orig_index"] = orig_column_values
-            else:
-                curated_df[orig_column] = orig_column_values
-
-        if not inplace:
-            return curated_df
+            raise ValueError(
+                "Input data_collection must be an Iterable or a Pandas DataFrame."
+            )
