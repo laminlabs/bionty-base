@@ -35,13 +35,10 @@ species_removed = "\n".join(species_removed_tmp)
 
 
 doc_curate = """\
-- If `column` is `None`, checks the existing index for compliance with
-        the default identifier.
-        - If `column` denotes an entity identifier, tries to map that identifier
-          to the default identifier.
-
-        Returns the DataFrame with the curated index and a boolean `__curated__`
-        column that indicates compliance with the default identifier.
-
-        In addition to the .curate() in base class, this also performs alias mapping.
+df: DataFrame with a column of identifiers
+        column: If `column` is `None`, checks the existing index for compliance with
+                  the default identifier.
+                If `column` denotes an entity identifier, tries to map that identifier
+                  to the default identifier.
+        reference_id: The type of identifier for mapping.
 """

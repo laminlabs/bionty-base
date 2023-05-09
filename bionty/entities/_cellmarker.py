@@ -55,7 +55,14 @@ class CellMarker(Entity):
     ) -> pd.DataFrame:
         """Curate index of passed DataFrame to conform with default identifier.
 
-        {doc_curate}
+        Args:
+            {doc_curate}
+
+        Returns:
+            The input DataFrame with the curated index and a boolean `__curated__`
+        column that indicates compliance with the default identifier.
+
+        In addition to the .curate() in base class, this also performs alias mapping.
         """
         agg_col = ALIAS_DICT.get(reference_id)
         df = df.copy()
