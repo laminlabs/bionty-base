@@ -3,17 +3,18 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-:sparkles: Deprecate 'database' parameter and replace it with 'source' | [341](https://github.com/laminlabs/bionty/pull/341) | [Zethson](https://github.com/Zethson) | 2023-05-08 |
-:sparkles: Move s3_bionty_assets | [339](https://github.com/laminlabs/bionty/pull/339) | [Zethson](https://github.com/Zethson) | 2023-05-08 |
-:sparkles: Improve lookup docs | [338](https://github.com/laminlabs/bionty/pull/338) | [Zethson](https://github.com/Zethson) | 2023-05-06 |
-:sparkles: Add more flexible prefixes | [337](https://github.com/laminlabs/bionty/pull/337) | [Zethson](https://github.com/Zethson) | 2023-05-02 |
-Improve print versions | [336](https://github.com/laminlabs/bionty/pull/336) | [Zethson](https://github.com/Zethson) | 2023-05-02 |
+✨ Added synonyms for CellMarker <span class="badge badge-warning">Breaking</span> | [340](https://github.com/laminlabs/bionty/pull/340) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-09 | 0.13.0
+🚚 Deprecate 'database' parameter and replace it with 'source' <span class="badge badge-warning">Breaking</span> | [341](https://github.com/laminlabs/bionty/pull/341) | [Zethson](https://github.com/Zethson) | 2023-05-08 |
+🚚 Move s3_bionty_assets | [339](https://github.com/laminlabs/bionty/pull/339) | [Zethson](https://github.com/Zethson) | 2023-05-08 |
+📝 Improve lookup docs | [338](https://github.com/laminlabs/bionty/pull/338) | [Zethson](https://github.com/Zethson) | 2023-05-06 |
+🎨 Add more flexible prefixes | [337](https://github.com/laminlabs/bionty/pull/337) | [Zethson](https://github.com/Zethson) | 2023-05-02 |
+🎨 Improve print versions | [336](https://github.com/laminlabs/bionty/pull/336) | [Zethson](https://github.com/Zethson) | 2023-05-02 |
 📌 No pinning of lndb-storage version | [333](https://github.com/laminlabs/bionty/pull/333) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-27 | 0.12.1
 🎨 Update lnschema-bionty | [332](https://github.com/laminlabs/bionty/pull/332) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-27 |
-💥 Change `.df()`, .`lookup()` to methods, move `._entity` to private | [326](https://github.com/laminlabs/bionty/pull/326) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-27 | 0.12.0
-Fix pathway ontology | [329](https://github.com/laminlabs/bionty/pull/329) | [Zethson](https://github.com/Zethson) | 2023-04-26 |
+🎨 Change `.df()`, .`lookup()` to methods, move `._entity` to private <span class="badge badge-warning">Breaking</span> | [326](https://github.com/laminlabs/bionty/pull/326) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-27 | 0.12.0
+🐛 Fix pathway ontology | [329](https://github.com/laminlabs/bionty/pull/329) | [Zethson](https://github.com/Zethson) | 2023-04-26 |
 💚 Fix bionty-asset instance for file upload | [325](https://github.com/laminlabs/bionty/pull/325) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-26 |
-Sync staging into main | [316](https://github.com/laminlabs/bionty/pull/316) | [Zethson](https://github.com/Zethson) | 2023-04-25 |
+👷 Sync staging into main | [316](https://github.com/laminlabs/bionty/pull/316) | [Zethson](https://github.com/Zethson) | 2023-04-25 |
 🚑 Fix lookup for empty strings | [314](https://github.com/laminlabs/bionty/pull/314) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-23 | 0.11.6
 ⚡ Make sure no NAs present in the `entity.df.name` | [313](https://github.com/laminlabs/bionty/pull/313) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-23 | 0.11.5
 ⬆️ Pronto>=2.5.4, removed cached_property dep for py3.7 | [312](https://github.com/laminlabs/bionty/pull/312) | [sunnyosun](https://github.com/sunnyosun) | 2023-04-23 |
