@@ -32,3 +32,13 @@ species: `name` of `Species` entity.
 species_removed_tmp = "\n".join(doc_entites.split("\n")[1:]).split("\n")
 species_removed_tmp[0] = remove_prefix(species_removed_tmp[0], "        ")
 species_removed = "\n".join(species_removed_tmp)
+
+
+doc_curate = """\
+df: DataFrame with a column of identifiers
+        column: If `column` is `None`, checks the existing index for compliance with
+                  the default identifier.
+                If `column` denotes an entity identifier, tries to map that identifier
+                  to the default identifier.
+        reference_id: The type of identifier for mapping.
+"""
