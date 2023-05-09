@@ -3,7 +3,7 @@ from typing import Literal, Optional
 import pandas as pd
 
 from .._entity import Entity
-from .._settings import s3_bionty_assets
+from ..dev._io import s3_bionty_assets
 from ._shared_docstrings import _doc_params, doc_curate, doc_entites
 
 ALIAS_DICT = {"name": "synonyms"}
