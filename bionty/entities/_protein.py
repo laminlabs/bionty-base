@@ -23,14 +23,16 @@ class Protein(Entity):
     def __init__(
         self,
         species: str = "human",
-        database: Optional[Literal["uniprot"]] = None,
+        source: Optional[Literal["uniprot"]] = None,
         version: Optional[str] = None,
+        **kwargs
     ) -> None:
         super().__init__(
-            database=database,
+            source=source,
             version=version,
             species=species,
             reference_id="uniprotkb_id",
+            **kwargs
         )
 
     def df(self) -> pd.DataFrame:

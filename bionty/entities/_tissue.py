@@ -19,12 +19,14 @@ class Tissue(Entity):
     def __init__(
         self,
         species: str = "all",
-        database: Optional[Literal["uberon"]] = None,
+        source: Optional[Literal["uberon"]] = None,
         version: Optional[str] = None,
+        **kwargs
     ) -> None:
         super().__init__(
-            database=database,
+            source=source,
             version=version,
             species=species,
             include_id_prefixes={"uberon": ["UBERON"]},
+            **kwargs
         )

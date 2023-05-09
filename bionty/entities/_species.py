@@ -21,10 +21,11 @@ class Species(Entity):
 
     def __init__(
         self,
-        database: Optional[Literal["ensembl"]] = None,
+        source: Optional[Literal["ensembl"]] = None,
         version: Optional[str] = None,
+        **kwargs,
     ):
-        super().__init__(database=database, version=version, reference_id="name")
+        super().__init__(source=source, version=version, reference_id="name", **kwargs)
 
     def df(self) -> pd.DataFrame:
         """DataFrame.

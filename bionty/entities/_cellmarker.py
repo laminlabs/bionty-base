@@ -24,11 +24,16 @@ class CellMarker(Entity):
     def __init__(
         self,
         species: str = "human",
-        database: Optional[Literal["cellmarker"]] = None,
+        source: Optional[Literal["cellmarker"]] = None,
         version: Optional[str] = None,
+        **kwargs
     ) -> None:
         super().__init__(
-            database=database, version=version, species=species, reference_id="name"
+            source=source,
+            version=version,
+            species=species,
+            reference_id="name",
+            **kwargs
         )
 
     def df(self) -> pd.DataFrame:

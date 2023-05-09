@@ -28,10 +28,13 @@ class Readout(Entity):
 
     def __init__(
         self,
-        database: Optional[Literal["efo"]] = None,
+        source: Optional[Literal["efo"]] = None,
         version: Optional[str] = None,
+        **kwargs
     ) -> None:
-        super().__init__(database=database, version=version, reference_id="ontology_id")
+        super().__init__(
+            source=source, version=version, reference_id="ontology_id", **kwargs
+        )
         self._filepath = settings.datasetdir / "efo_df.json"
         self._readout_terms = {
             "assay": "OBI:0000070",

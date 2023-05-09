@@ -24,7 +24,7 @@ def remove_prefix(
 
 doc_entites = """\
 species: `name` of `Species` entity.
-        database: The key of the database in the local.yml versions file.
+        source: The key of the source in the local.yml versions file.
                   Get all available databases with `bionty.display_available_versions`.
         version: The version of the ontology. Typically a date or an actual version.
                   Get available versions with `bionty.display_available_versions`.

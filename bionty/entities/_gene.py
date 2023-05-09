@@ -31,14 +31,16 @@ class Gene(Entity):
     def __init__(
         self,
         species: str = "human",
-        database: Optional[Literal["ensembl"]] = None,
+        source: Optional[Literal["ensembl"]] = None,
         version: Optional[str] = None,
+        **kwargs
     ):
         super().__init__(
-            database=database,
+            source=source,
             version=version,
             species=species,
             reference_id="ensembl_gene_id",
+            **kwargs
         )
         self._lookup_field = "symbol"
 

@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+:sparkles: Deprecate 'database' parameter and replace it with 'source' | [341](https://github.com/laminlabs/bionty/pull/341) | [Zethson](https://github.com/Zethson) | 2023-05-08 |
 :sparkles: Move s3_bionty_assets | [339](https://github.com/laminlabs/bionty/pull/339) | [Zethson](https://github.com/Zethson) | 2023-05-08 |
 :sparkles: Improve lookup docs | [338](https://github.com/laminlabs/bionty/pull/338) | [Zethson](https://github.com/Zethson) | 2023-05-06 |
 :sparkles: Add more flexible prefixes | [337](https://github.com/laminlabs/bionty/pull/337) | [Zethson](https://github.com/Zethson) | 2023-05-02 |
