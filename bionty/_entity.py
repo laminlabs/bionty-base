@@ -423,10 +423,9 @@ class Entity:
             df.index = df["__mapped_index"].fillna(df["orig_index"])
             del df["__mapped_index"]
             df.index.name = index_name
-            matches1 = check_if_index_compliant(
+            matches = check_if_index_compliant(
                 df.index, ref_df.reset_index()[reference_id]
             )
-            matches = matches1
         else:
             orig_series = df[column]
             df[column] = df[column] if agg_col is None else df[column].map(alias_map)
@@ -448,13 +447,12 @@ class Entity:
             df[column] = orig_series.values  # keep the original column untouched
         # annotated what complies with the default ID
         df["__curated__"] = matches
+
         # some stats for logging
-        misses = len(matches) - matches.sum()
-        misses1 = round(misses / len(matches) * 100, 1)
-        mapped1 = matches.sum()
-        mapped = 100 - misses1
-        result = mapped, misses1, mapped1, misses
-        frac_mapped, frac_misses, n_mapped, n_misses = result
+        n_misses = len(matches) - matches.sum()
+        frac_misses = round(n_misses / len(matches) * 100, 1)
+        n_mapped = matches.sum()
+        frac_mapped = 100 - frac_misses
         logger.success(f"{n_mapped} terms ({frac_mapped}%) are mapped.")
         logger.warning(f"{n_misses} terms ({frac_misses}%) are not mapped.")
 
