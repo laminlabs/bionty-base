@@ -501,9 +501,7 @@ class Entity:
         if as_df:
             return df
         else:
-            minimal_df = df[["__curated__", "orig_index"]]
-            mapping = minimal_df.to_dict(orient="index")
-            mapping = {v["A"]: k for k, v in mapping.items()}
+            mapping = df["orig_index"].to_dict()
 
             return mapping
 
