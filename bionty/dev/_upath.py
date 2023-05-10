@@ -41,16 +41,16 @@ def _synchronize(self, filepath: Path):
 
     if not filepath.exists():
         filepath.parent.mkdir(parents=True, exist_ok=True)
-        mts = self.modified.timestamp()
-        self.download_to(filepath)
+        mts = self.bt_modified.timestamp()
+        self.bt_download_to(filepath)
         os.utime(filepath, times=(mts, mts))
         return None
 
-    cloud_mts = self.modified.timestamp()
+    cloud_mts = self.bt_modified.timestamp()
     local_mts = filepath.stat().st_mtime
     if cloud_mts > local_mts:
-        mts = self.modified.timestamp()
-        self.download_to(filepath)
+        mts = self.bt_modified.timestamp()
+        self.bt_download_to(filepath)
         os.utime(filepath, times=(mts, mts))
     elif cloud_mts < local_mts:
         logger.warning(
@@ -79,7 +79,7 @@ def _modified(self):
     return mtime.astimezone().replace(tzinfo=None)
 
 
-UPath.download_to = _download_to
-UPath.upload_from = _upload_from
-UPath.synchronize = _synchronize
-UPath.modified = property(_modified)
+UPath.bt_download_to = _download_to
+UPath.bt_upload_from = _upload_from
+UPath.bt_synchronize = _synchronize
+UPath.bt_modified = property(_modified)
