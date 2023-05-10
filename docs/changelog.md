@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-:sparkles: Add Upath, remove lndb_storage | [344](https://github.com/laminlabs/bionty/pull/344) | [Zethson](https://github.com/Zethson) | 2023-05-10 |
+🎨 Add Upath, remove lndb_storage | [344](https://github.com/laminlabs/bionty/pull/344) | [Zethson](https://github.com/Zethson) | 2023-05-10 | 0.13.1
 ✨ Added synonyms for CellMarker <span class="badge badge-warning">Breaking</span> | [340](https://github.com/laminlabs/bionty/pull/340) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-09 | 0.13.0
 🚚 Deprecate 'database' parameter and replace it with 'source' <span class="badge badge-warning">Breaking</span> | [341](https://github.com/laminlabs/bionty/pull/341) | [Zethson](https://github.com/Zethson) | 2023-05-08 |
 🚚 Move s3_bionty_assets | [339](https://github.com/laminlabs/bionty/pull/339) | [Zethson](https://github.com/Zethson) | 2023-05-08 |
