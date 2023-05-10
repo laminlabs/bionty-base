@@ -86,6 +86,6 @@ def s3_bionty_assets(
     if not localpath:
         localpath = settings.datasetdir / filename
 
-    cloudpath.synchronize(localpath)
+    cloudpath.bt_synchronize(localpath)
 
     return localpath

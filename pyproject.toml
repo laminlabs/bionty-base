@@ -21,7 +21,7 @@ dependencies = [
     "pyarrow",
     "nbproject",
     "lndb",
-    "fsspec",
+    "fsspec[s3]",
     "universal_pathlib",
     "rich",
     "bioregistry"
