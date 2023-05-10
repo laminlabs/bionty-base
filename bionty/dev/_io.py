@@ -3,11 +3,11 @@ from typing import Union
 
 import requests  # type:ignore
 import yaml  # type:ignore
-from lndb.dev.upath import UPath
 from rich import print
 from rich.progress import Progress
 
 from bionty._settings import settings
+from bionty.dev._upath import UPath
 
 
 def load_yaml(
