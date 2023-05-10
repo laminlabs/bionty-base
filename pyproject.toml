@@ -20,7 +20,6 @@ dependencies = [
     "orjson",
     "pyarrow",
     "nbproject",
-    "lndb",
     "fsspec[s3]",
     "universal_pathlib",
     "rich",
