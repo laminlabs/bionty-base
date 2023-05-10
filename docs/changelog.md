@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+:arrow_up: Remove lndb | [347](https://github.com/laminlabs/bionty/pull/347) | [Zethson](https://github.com/Zethson) | 2023-05-10 |
 :art: Rename to internal UPath implementation and add s3 to ffspec | [346](https://github.com/laminlabs/bionty/pull/346) | [Zethson](https://github.com/Zethson) | 2023-05-10 | 0.13.2
 🎨 Add Upath, remove lndb_storage | [344](https://github.com/laminlabs/bionty/pull/344) | [Zethson](https://github.com/Zethson) | 2023-05-10 | 0.13.1
 ✨ Added synonyms for CellMarker <span class="badge badge-warning">Breaking</span> | [340](https://github.com/laminlabs/bionty/pull/340) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-09 | 0.13.0
