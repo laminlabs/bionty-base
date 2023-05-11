@@ -32,7 +32,7 @@ Bionty is a Python package available for ![pyversions](https://img.shields.io/py
 pip install bionty
 ```
 
-## Look up ontology terms with autocompletion
+## Look up ontology records with auto-complete
 
 ```{figure} ./img/gene_lookup.png
 ---
@@ -46,7 +46,7 @@ class: with-shadow
 import bionty as bt
 
 gene = bt.Gene()
-gene.lookup.LNMA
+gene.lookup().LNMA
 ```
 
 <br>
