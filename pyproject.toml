@@ -23,7 +23,8 @@ dependencies = [
     "fsspec[s3]",
     "universal_pathlib",
     "rich",
-    "bioregistry"
+    "bioregistry",
+    "filelock"
 ]
 
 [project.urls]
