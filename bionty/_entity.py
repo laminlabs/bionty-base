@@ -51,10 +51,8 @@ class Entity:
             deprecated_db_parameter = kwargs.pop("database", None)
             if deprecated_db_parameter is not None:
                 logger.warning(
-                    (
-                        "Parameter 'database' is deprecated and will be removed in a"
-                        " future version. Use 'source' instead."
-                    ),
+                    "Parameter 'database' is deprecated and will be removed in a"
+                    " future version. Use 'source' instead.",
                     DeprecationWarning,
                 )
                 source = deprecated_db_parameter
