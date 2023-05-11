@@ -51,8 +51,10 @@ class Entity:
             deprecated_db_parameter = kwargs.pop("database", None)
             if deprecated_db_parameter is not None:
                 logger.warning(
-                    "Parameter 'database' is deprecated and will be removed in a future"
-                    " version. Use 'source' instead.",
+                    (
+                        "Parameter 'database' is deprecated and will be removed in a"
+                        " future version. Use 'source' instead."
+                    ),
                     DeprecationWarning,
                 )
                 source = deprecated_db_parameter
@@ -147,7 +149,7 @@ class Entity:
             (term.id, term.name) for term in ontology.terms() if term.id and term.name
         ]
 
-        def flatten_prefixes(db_to_prefixes: dict[str, list[str]]) -> set:
+        def flatten_prefixes(db_to_prefixes: Dict[str, List[str]]) -> set:
             flat_prefixes = {
                 prefix for values in db_to_prefixes.values() for prefix in values
             }
