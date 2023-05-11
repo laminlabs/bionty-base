@@ -1,6 +1,8 @@
 from pathlib import Path
 from typing import List, Literal, Tuple, Union
 
+from filelock import FileLock
+
 from ._compat.update_yaml_format import sync_yaml_format
 from ._settings import settings
 from .dev._handle_versions import (
@@ -51,11 +53,13 @@ def update_defaults(
     write_yaml(defaults, _CURRENT_PATH)
 
 
-create_local(overwrite=False)
-sync_yaml_format()
-update_local()
-create_current(overwrite=False)
-create_lndb()
-for default in ["current", "lndb"]:
-    missing_defaults = _get_missing_defaults(source="local", defaults=default)  # type: ignore  # noqa: E501
-    update_defaults(missing_defaults, target=default)  # type: ignore
+# Make this code safe when running bionty from multiple processes
+with FileLock(ROOT / "bionty.lock"):
+    create_local(overwrite=False)
+    sync_yaml_format()
+    update_local()
+    create_current(overwrite=False)
+    create_lndb()
+    for default in ["current", "lndb"]:
+        missing_defaults = _get_missing_defaults(source="local", defaults=default)  # type: ignore  # noqa: E501
+        update_defaults(missing_defaults, target=default)  # type: ignore
