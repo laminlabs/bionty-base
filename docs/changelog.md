@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-Fix lowercase types | [348](https://github.com/laminlabs/bionty/pull/348) | [jlricon](https://github.com/jlricon) | 2023-05-11 |
+✏️ Fix lowercase types | [348](https://github.com/laminlabs/bionty/pull/348) | [jlricon](https://github.com/jlricon) | 2023-05-11 | 0.13.4
 ⬆️ Remove lndb | [347](https://github.com/laminlabs/bionty/pull/347) | [Zethson](https://github.com/Zethson) | 2023-05-10 | 0.13.3
 🎨 Rename to internal UPath implementation and add s3 to ffspec | [346](https://github.com/laminlabs/bionty/pull/346) | [Zethson](https://github.com/Zethson) | 2023-05-10 | 0.13.2
 🎨 Add Upath, remove lndb_storage | [344](https://github.com/laminlabs/bionty/pull/344) | [Zethson](https://github.com/Zethson) | 2023-05-10 | 0.13.1
