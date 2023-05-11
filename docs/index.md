@@ -3,11 +3,9 @@
 :end-line: 5
 ```
 
-- Look up records with auto-completion.
-- Map & curate metadata.
-- Manage public & custom ontologies and their versions.
+_Access pre-defined public & custom ontologies with auto-complete. Map synonyms with ease._
 
-To query, collaborate on, and persistently store knowledge & data, consider [Bionty's SQL interface](https://lamin.ai/docs/lnschema-bionty/) with [LaminDB](https://lamin.ai/docs/) - open-source data lake for biology.
+If you'd like to maintain in-house along with public ontologies, you can manage them with Bionty's SQL interface: [lnschema-bionty](https://lamin.ai/docs/lnschema-bionty/).
 
 ## Out-of-the-box ontologies
 
@@ -22,23 +20,16 @@ To query, collaborate on, and persistently store knowledge & data, consider [Bio
 - Phenotype: [Human Phenotype](https://hpo.jax.org/app/)
 - Pathway: [Pathway Ontology](https://bioportal.bioontology.org/ontologies/PW)
 - Readout: [Experimental Factor Ontology](https://www.ebi.ac.uk/ols/ontologies/efo)
+- BFXPipeline: largely based on [nf-core](https://nf-co.re/)
 
 Check out [versions.yaml](https://github.com/laminlabs/bionty/blob/main/bionty/versions/versions.yaml) for details.
 
-## Installation
+## Install
 
 Bionty is a Python package available for ![pyversions](https://img.shields.io/pypi/pyversions/bionty)
 
 ```shell
 pip install bionty
-```
-
-## Import
-
-In your python script, import Bionty as:
-
-```python
-import bionty as bt
 ```
 
 ## Look up ontology terms with autocompletion
@@ -52,6 +43,8 @@ class: with-shadow
 ```
 
 ```python
+import bionty as bt
+
 gene = bt.Gene()
 gene.lookup.LNMA
 ```
@@ -86,7 +79,7 @@ curated_df = bt.CellType(id="name").curate(df)
 
 See {doc}`./guide/curate` for more.
 
-## Access ontology databases and versions
+## Track ontology sources
 
 ```python
 # Display all managed versions
@@ -101,7 +94,7 @@ disease = bt.Disease(database="doid", version="2023-01-30")
 
 <br>
 
-Didn't see your favorite database or version? See how to {doc}`./guide/extend`.
+Didn't see your favorite source or version? See how to {doc}`./guide/extend`.
 
 ```{toctree}
 :maxdepth: 1
