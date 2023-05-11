@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import List, Literal, Tuple, Union
 
-from filelock import FileLock
+from filelock import FileLock  # type: ignore
 
 from ._compat.update_yaml_format import sync_yaml_format
 from ._settings import settings
