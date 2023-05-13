@@ -6,7 +6,7 @@ from bionty._entity import Entity, _camel_to_snake
 
 def test_entity_table():
     with pytest.raises(AttributeError):
-        entity_table = Entity(database="mondo")
+        entity_table = Entity(source="mondo")
         assert entity_table.df is not None
         assert entity_table.entity == "entity_table"
         assert _camel_to_snake("EntityTable") == "entity_table"

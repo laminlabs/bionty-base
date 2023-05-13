@@ -5,12 +5,12 @@ from ._shared_docstrings import _doc_params, doc_entites
 
 
 @_doc_params(doc_entities=doc_entites)
-class Tissue(Entity):
-    """Tissue.
+class Drug(Entity):
+    """Drug ontologies.
 
-    1. Uberon
+    1. DRON
     Edits of terms are coordinated and reviewed on:
-    https://github.com/obophenotype/uberon
+    https://bioportal.bioontology.org/ontologies/DRON/
 
     Args:
         {doc_entities}
@@ -19,7 +19,7 @@ class Tissue(Entity):
     def __init__(
         self,
         species: str = "all",
-        source: Optional[Literal["uberon"]] = None,
+        source: Optional[Literal["dron"]] = None,
         version: Optional[str] = None,
         **kwargs
     ) -> None:
@@ -27,6 +27,6 @@ class Tissue(Entity):
             source=source,
             version=version,
             species=species,
-            include_id_prefixes={"uberon": ["UBERON"]},
+            exclude_id_prefixes={"dron": ["SO:", "PR:", "BFO:"]},
             **kwargs
         )

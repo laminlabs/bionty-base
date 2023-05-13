@@ -1,11 +1,10 @@
-from functools import cached_property
 from typing import Literal, Optional
 
 import pandas as pd
 
 from .._entity import Entity
 from .._normalize import NormalizeColumns
-from .._settings import s3_bionty_assets
+from ..dev._io import s3_bionty_assets
 from ._shared_docstrings import _doc_params, doc_entites
 
 
@@ -24,17 +23,18 @@ class Protein(Entity):
     def __init__(
         self,
         species: str = "human",
-        database: Optional[Literal["uniprot"]] = None,
+        source: Optional[Literal["uniprot"]] = None,
         version: Optional[str] = None,
+        **kwargs
     ) -> None:
         super().__init__(
-            database=database,
+            source=source,
             version=version,
             species=species,
             reference_id="uniprotkb_id",
+            **kwargs
         )
 
-    @cached_property
     def df(self) -> pd.DataFrame:
         """DataFrame.
 
@@ -47,8 +47,13 @@ class Protein(Entity):
         _get_shortest_name(
             df, "synonyms"
         )  # Take the shortest name in protein names list as name
-        if not df.index.is_numeric():
-            df = df.reset_index().copy()
+        try:
+            # for pandas > 2.0
+            if not pd.api.types.is_any_real_numeric_dtype(df.index):
+                df = df.reset_index().copy()
+        except AttributeError:
+            if not df.index.is_numeric():
+                df = df.reset_index().copy()
         df = df[~df[self.reference_id].isnull()]
 
         return df

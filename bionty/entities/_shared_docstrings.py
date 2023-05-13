@@ -24,7 +24,7 @@ def remove_prefix(
 
 doc_entites = """\
 species: `name` of `Species` entity.
-        database: The key of the database in the local.yml versions file.
+        source: The key of the source in the local.yml versions file.
                   Get all available databases with `bionty.display_available_versions`.
         version: The version of the ontology. Typically a date or an actual version.
                   Get available versions with `bionty.display_available_versions`.
@@ -32,3 +32,13 @@ species: `name` of `Species` entity.
 species_removed_tmp = "\n".join(doc_entites.split("\n")[1:]).split("\n")
 species_removed_tmp[0] = remove_prefix(species_removed_tmp[0], "        ")
 species_removed = "\n".join(species_removed_tmp)
+
+
+doc_curate = """\
+df: DataFrame with a column of identifiers
+        column: If `column` is `None`, checks the existing index for compliance with
+                  the default identifier.
+                If `column` denotes an entity identifier, tries to map that identifier
+                  to the default identifier.
+        reference_id: The type of identifier for mapping.
+"""

@@ -19,11 +19,8 @@ class Phenotype(Entity):
     def __init__(
         self,
         species: str = "human",
-        database: Optional[Literal["hp"]] = None,
+        source: Optional[Literal["hp"]] = None,
         version: Optional[str] = None,
+        **kwargs
     ) -> None:
-        super().__init__(
-            database=database,
-            version=version,
-            species=species,
-        )
+        super().__init__(source=source, version=version, species=species, **kwargs)

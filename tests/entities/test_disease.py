@@ -9,7 +9,7 @@ def test_mondo_disease_curation_ontology_id():
             "UBERON:8440004",
             "UPHENO:0001001",
             "UBERON:8420000",
-            "http://identifiers.org/hgnc/10001",
+            "UBERON:8410057",
             "This disease does not exist",
         ]
     )
@@ -26,8 +26,8 @@ def test_mondo_disease_curation_name():
         index=[
             "laminar subdivision of the cortex",
             "hair of scalp",
-            "RHAG",
-            "GRK1",
+            "laminar subdivision of the cortex",
+            "capillary of anorectum",
             "This disease does not exist",
         ]
     )

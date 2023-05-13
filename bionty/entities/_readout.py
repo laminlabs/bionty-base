@@ -28,10 +28,13 @@ class Readout(Entity):
 
     def __init__(
         self,
-        database: Optional[Literal["efo"]] = None,
+        source: Optional[Literal["efo"]] = None,
         version: Optional[str] = None,
+        **kwargs
     ) -> None:
-        super().__init__(database=database, version=version, reference_id="ontology_id")
+        super().__init__(
+            source=source, version=version, reference_id="ontology_id", **kwargs
+        )
         self._filepath = settings.datasetdir / "efo_df.json"
         self._readout_terms = {
             "assay": "OBI:0000070",
@@ -40,17 +43,6 @@ class Readout(Entity):
             "assay_by_sequencer": "EFO:0003740",
             "measurement": "EFO:0001444",
         }
-
-    @cached_property
-    def df(self) -> pd.DataFrame:
-        """DataFrame."""
-        if not self._filepath.exists():
-            self._download_df()
-        df = pd.read_json(self._filepath)
-        df.index.name = "ontology_id"
-        df = df.reset_index()
-
-        return df
 
     @cached_property
     def ontology(self) -> Ontology:  # type:ignore
@@ -99,6 +91,16 @@ class Readout(Entity):
             EFO_DF_D3,
             self._filepath,
         )
+
+    def df(self) -> pd.DataFrame:
+        """DataFrame."""
+        if not self._filepath.exists():
+            self._download_df()
+        df = pd.read_json(self._filepath)
+        df.index.name = "ontology_id"
+        df = df.reset_index()
+
+        return df
 
     def get(self, term_id: str) -> dict:
         """Parse readout attributes from EFO."""

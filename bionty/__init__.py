@@ -9,14 +9,16 @@ Entities:
 .. autosummary::
    :toctree: .
 
+   BFXPipeline
+   Species
    Gene
    Protein
-   Species
    CellLine
    CellType
    CellMarker
    Tissue
    Disease
+   Drug
    Phenotype
    Pathway
    Readout
@@ -66,7 +68,7 @@ Dev API:
 
 """
 
-__version__ = "0.11.6"  # denote release candidate for 0.1.0 with 0.1rc1
+__version__ = "0.13.5"  # denote release candidate for 0.1.0 with 0.1rc1
 
 # prints warning of python versions
 from lamin_logger import py_version_warning
@@ -77,6 +79,8 @@ from . import _sync_versions
 from ._sync_versions import update_defaults
 
 # dynamic classes
+from .entities._bfxpipeline import BFXPipeline
+from .entities._drug import Drug
 from .entities._gene import Gene
 from .entities._species import Species
 from .entities._protein import Protein

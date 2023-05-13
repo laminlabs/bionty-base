@@ -20,10 +20,11 @@ dependencies = [
     "orjson",
     "pyarrow",
     "nbproject",
-    "lndb",
-    "lndb_storage==0.2rc3",
+    "fsspec[s3]",
+    "universal_pathlib",
     "rich",
-    "bioregistry"
+    "bioregistry",
+    "filelock"
 ]
 
 [project.urls]

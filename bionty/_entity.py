@@ -3,7 +3,7 @@ import re
 from collections import namedtuple
 from functools import cached_property
 from pathlib import Path
-from typing import Dict, Iterable, Literal, Optional
+from typing import Dict, Iterable, List, Literal, Optional
 
 import bioregistry as br
 import pandas as pd
@@ -12,18 +12,13 @@ from lamin_logger import logger
 from bionty._md5 import verify_md5
 
 from ._ontology import Ontology
-from ._settings import (
-    check_datasetdir_exists,
-    check_dynamicdir_exists,
-    s3_bionty_assets,
-    settings,
-)
+from ._settings import check_datasetdir_exists, check_dynamicdir_exists, settings
 from .dev._fix_index import (
     check_if_index_compliant,
     explode_aggregated_column_to_expand,
     get_compliant_index_from_column,
 )
-from .dev._io import load_yaml, url_download
+from .dev._io import load_yaml, s3_bionty_assets, url_download
 
 VERSIONS_PATH = Path(__file__).parent / "versions"
 
@@ -41,21 +36,36 @@ class Entity:
 
     def __init__(
         self,
-        database: Optional[str],
+        source: Optional[str],
         version: Optional[str] = None,
         species: Optional[str] = None,
         *,
-        prefix: Optional[str] = None,
         reference_id: Optional[str] = None,
+        include_id_prefixes: Optional[Dict[str, List[str]]] = None,
+        include_name_prefixes: Optional[Dict[str, List[str]]] = None,
+        exclude_id_prefixes: Optional[Dict[str, List[str]]] = None,
+        exclude_name_prefixes: Optional[Dict[str, List[str]]] = None,
+        **kwargs,
     ):
-        # By default lookup allows auto-completion for the `name` field.
-        # lookup column can be changed using `.lookup_field = `.
-        self._lookup_field = "name"
-        self._species = "human" if species is None else species
-        self.prefix = prefix
-        self.reference_id = reference_id
+        if kwargs:
+            deprecated_db_parameter = kwargs.pop("database", None)
+            if deprecated_db_parameter is not None:
+                logger.warning(
+                    "Parameter 'database' is deprecated and will be removed in a"
+                    " future version. Use 'source' instead.",
+                    DeprecationWarning,
+                )
+                source = deprecated_db_parameter
 
-        if database:
+        self._species = "all" if species is None else species
+        self._entity = _camel_to_snake(self.__class__.__name__)
+        self.reference_id = reference_id
+        self.include_id_prefixes = include_id_prefixes
+        self.include_name_prefixes = include_name_prefixes
+        self.exclude_id_prefixes = exclude_id_prefixes
+        self.exclude_name_prefixes = exclude_name_prefixes
+
+        if source:
             # We don't allow custom databases inside lamindb instances
             # because the lamindb standard should be used
             if os.getenv("LAMINDB_INSTANCE_LOADED") == 1:
@@ -64,9 +74,9 @@ class Entity:
                     "Check active databases using `bionty.display_active_versions`."
                 )
 
-            if br.normalize_prefix(database):
-                database = br.normalize_prefix(database)
-        self._set_attributes(database=database, version=version)
+            if br.normalize_prefix(source):
+                source = br.normalize_prefix(source)
+        self._set_attributes(source=source, version=version)
 
     def __repr__(self) -> str:
         representation = (
@@ -79,13 +89,8 @@ class Entity:
 
     @property
     def database(self) -> str:
-        """Name of the database."""
+        """Name of the source."""
         return self._database
-
-    @cached_property
-    def entity(self) -> str:
-        """Name of the entity."""
-        return _camel_to_snake(self.__class__.__name__)
 
     @property
     def species(self):
@@ -104,60 +109,6 @@ class Entity:
 
         return Ontology(handle=localpath, **kwargs)
 
-    @cached_property
-    def df(self) -> pd.DataFrame:
-        """Pandas DataFrame."""
-        # download
-        if not self._local_parquet_path.exists():
-            try:
-                self._url_download(self._url)
-            finally:
-                # Only verify md5 if it's actually available
-                if len(self._md5) > 0:
-                    if not verify_md5(self._ontology_download_path, self._md5):
-                        logger.warning(
-                            f"MD5 sum for {self._ontology_download_path} did not match"
-                            f" {self._md5}! Redownloading..."
-                        )
-                        os.remove(self._ontology_download_path)
-                        self._url_download(self._url)
-            # write df to parquet file
-            df = self._ontology_to_df(self.ontology)
-            df.to_parquet(self._local_parquet_path)
-
-        # loads the df and set index
-        df = pd.read_parquet(self._local_parquet_path).reset_index()
-        if self.reference_id is None and "ontology_id" in df.columns:
-            self.reference_id = "ontology_id"
-        try:
-            return df.set_index(self.reference_id)
-        except KeyError:
-            return df
-
-    @property
-    def lookup_field(self) -> str:
-        """The column that allows auto-completion."""
-        return self._lookup_field
-
-    @lookup_field.setter
-    def lookup_field(self, column_name) -> None:
-        """Set the lookup field."""
-        self._lookup_field = column_name
-
-    @cached_property
-    def lookup(self) -> tuple:
-        """Return an auto-complete object for the bionty id."""
-        df = self.df.reset_index()
-        if self._lookup_field not in df:
-            raise AssertionError(f"No {self._lookup_field} column exists!")
-
-        # uniquefy lookup keys
-        df.index = self._uniquefy_duplicates(
-            self._to_lookup_keys(df[self._lookup_field].values)
-        )
-
-        return self._namedtuple_from_dict(df)
-
     def _to_lookup_keys(self, x: list) -> list:
         """Convert a list of strings to tab-completion allowed formats."""
         lookup = [re.sub("[^0-9a-zA-Z]+", "_", str(i)) for i in x]
@@ -171,7 +122,8 @@ class Entity:
     ) -> tuple:
         """Create a namedtuple from a dict to allow autocompletion."""
         if name is None:
-            name = self.entity
+            name = self._entity
+
         nt = namedtuple(name, df.index)  # type:ignore
         return nt(
             **{
@@ -191,22 +143,76 @@ class Entity:
 
     def _ontology_to_df(self, ontology: Ontology):
         """Convert ontology to a DataFrame with ontology_id and name columns."""
-        if self.prefix:
-            df = pd.DataFrame(
-                [
-                    (term.id, term.name)
-                    for term in ontology.terms()
-                    if term.id.startswith(f"{self.prefix}:")
-                ],
-                columns=["ontology_id", "name"],
-            ).set_index("ontology_id")
-        else:
-            df = pd.DataFrame(
-                [(term.id, term.name) for term in ontology.terms()],
-                columns=["ontology_id", "name"],
-            ).set_index("ontology_id")
+        df_values = [
+            (term.id, term.name) for term in ontology.terms() if term.id and term.name
+        ]
+
+        def flatten_prefixes(db_to_prefixes: Dict[str, List[str]]) -> set:
+            flat_prefixes = {
+                prefix for values in db_to_prefixes.values() for prefix in values
+            }
+
+            return flat_prefixes
+
+        if self.include_id_prefixes and self.database in list(
+            self.include_id_prefixes.keys()
+        ):
+            flat_include_id_prefixes = flatten_prefixes(self.include_id_prefixes)
+            df_values = list(
+                filter(
+                    lambda val: any(
+                        val[0].startswith(prefix) for prefix in flat_include_id_prefixes
+                    ),
+                    df_values,
+                )
+            )
+        if self.include_name_prefixes and self.database in list(
+            self.include_name_prefixes.keys()
+        ):
+            flat_include_name_prefixes = flatten_prefixes(self.include_name_prefixes)
+            df_values = list(
+                filter(
+                    lambda val: any(
+                        val[1].startswith(prefix)
+                        for prefix in flat_include_name_prefixes
+                    ),
+                    df_values,
+                )
+            )
+        if self.exclude_id_prefixes and self.database in list(
+            self.exclude_id_prefixes.keys()
+        ):
+            flat_exclude_id_prefixes = flatten_prefixes(self.exclude_id_prefixes)
+
+            df_values = list(
+                filter(
+                    lambda val: not any(
+                        val[0].startswith(prefix) for prefix in flat_exclude_id_prefixes
+                    ),
+                    df_values,
+                )
+            )
+        if self.exclude_name_prefixes and self.database in list(
+            self.exclude_name_prefixes.keys()
+        ):
+            flat_exclude_name_prefixes = flatten_prefixes(self.exclude_name_prefixes)
+
+            df_values = list(
+                filter(
+                    lambda val: not any(
+                        val[1].startswith(prefix)
+                        for prefix in flat_exclude_name_prefixes
+                    ),
+                    df_values,
+                )
+            )
+
+        df = pd.DataFrame(df_values, columns=["ontology_id", "name"]).set_index(
+            "ontology_id"
+        )
 
         df["name"].fillna("", inplace=True)
+
         return df
 
     @check_dynamicdir_exists
@@ -220,8 +226,8 @@ class Entity:
 
         if not self._ontology_download_path.exists():
             logger.info(
-                f"Downloading {self.entity} reference for the first time might take"
-                " a while..."
+                f"Downloading {self.__class__.__name__} reference for the first time"
+                " might take a while..."
             )
             url_download(url, self._ontology_download_path)
 
@@ -256,12 +262,12 @@ class Entity:
 
     @check_datasetdir_exists
     def _set_attributes(
-        self, database: Optional[str], version: Optional[str] = None
+        self, source: Optional[str], version: Optional[str] = None
     ) -> None:
         """Sets version, database and URL attributes for passed database and requested version.
 
         Args:
-            database: The database to find the URL and version for.
+            source: The database to find the URL and version for.
             version: The requested version of the database.
         """
         current_defaults = (
@@ -279,9 +285,9 @@ class Entity:
         available_db_versions = self._load_versions(source="local")
 
         # Use the latest version if version is None.
-        self._database = current_database if database is None else str(database)
-        # Only the database was passed -> get the latest version from the available db versions  # noqa: E501
-        if database and not version:
+        self._database = current_database if source is None else str(source)
+        # Only the source was passed -> get the latest version from the available db versions  # noqa: E501
+        if source and not version:
             self._version = next(
                 iter(available_db_versions[self._database]["versions"])
             )
@@ -289,7 +295,9 @@ class Entity:
             self._version = current_version if version is None else str(version)
 
         self._url, self._md5 = (
-            available_db_versions.get(self._database).get("versions").get(str(self._version))  # type: ignore  # noqa: E501
+            available_db_versions.get(self._database)  # type: ignore  # noqa: E501
+            .get("versions")
+            .get(str(self._version))
         )
         if self._url is None:
             raise ValueError(
@@ -305,6 +313,54 @@ class Entity:
             " ", "_"
         )
         self._ontology_download_path = settings.dynamicdir / self._semantic_file_name
+
+    def lookup(self, field: str = "name") -> tuple:
+        """Return an auto-complete object for the bionty id.
+
+        Args:
+            field: The field to lookup the values for. Adapt this parameter to, for example, 'ontology_id' to lookup by ID.
+                   Defaults to 'name'.
+
+        Returns:
+            A NamedTuple of lookup information of the entitys values.
+        """
+        df = self.df().reset_index()
+        if field not in df:
+            raise AssertionError(f"No {field} column exists!")
+
+        # uniquefy lookup keys
+        df.index = self._uniquefy_duplicates(self._to_lookup_keys(df[field].values))
+
+        return self._namedtuple_from_dict(df)
+
+    def df(self) -> pd.DataFrame:
+        """Pandas DataFrame."""
+        # download
+        if not self._local_parquet_path.exists():
+            try:
+                self._url_download(self._url)
+            finally:
+                # Only verify md5 if it's actually available
+                if len(self._md5) > 0:
+                    if not verify_md5(self._ontology_download_path, self._md5):
+                        logger.warning(
+                            f"MD5 sum for {self._ontology_download_path} did not match"
+                            f" {self._md5}! Redownloading..."
+                        )
+                        os.remove(self._ontology_download_path)
+                        self._url_download(self._url)
+            # write df to parquet file
+            df = self._ontology_to_df(self.ontology)
+            df.to_parquet(self._local_parquet_path)
+
+        # loads the df and set index
+        df = pd.read_parquet(self._local_parquet_path).reset_index()
+        if self.reference_id is None and "ontology_id" in df.columns:
+            self.reference_id = "ontology_id"
+        try:
+            return df.set_index(self.reference_id)
+        except KeyError:
+            return df
 
     def curate(
         self,
@@ -338,8 +394,9 @@ class Entity:
             reference_id = self.reference_id
 
         df = df.copy()
+        ref_df = self.df()
         orig_column = column
-        if column is not None and column not in self.df.columns:
+        if column is not None and column not in ref_df.columns:
             column = reference_id
             df.rename(columns={orig_column: column}, inplace=True)
 
@@ -375,13 +432,14 @@ class Entity:
     ) -> pd.DataFrame:
         """Curate index of passed DataFrame to conform with default identifier."""
         df = df.copy()
+        ref_df = self.df()
         # this is needed for features parsing in lamindb
         self._parsing_id = reference_id
 
         if agg_col is not None:
             # if provided a column with aggregated values, performs alias mapping
             alias_map = explode_aggregated_column_to_expand(
-                self.df.reset_index(),
+                ref_df.reset_index(),
                 aggregated_col=agg_col,
                 target_col=reference_id,
             )[reference_id]
@@ -397,7 +455,7 @@ class Entity:
             del df["__mapped_index"]
             df.index.name = index_name
             matches = check_if_index_compliant(
-                df.index, self.df.reset_index()[reference_id]
+                df.index, ref_df.reset_index()[reference_id]
             )
         else:
             orig_series = df[column]
@@ -405,7 +463,7 @@ class Entity:
             df[column] = df[column].fillna(orig_series)
             new_index, matches = get_compliant_index_from_column(
                 df=df,
-                ref_df=self.df,
+                ref_df=ref_df,
                 column=column,
             )
 

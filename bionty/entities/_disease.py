@@ -23,11 +23,14 @@ class Disease(Entity):
     def __init__(
         self,
         species: str = "human",
-        database: Optional[Literal["mondo", "doid"]] = None,
+        source: Optional[Literal["mondo", "doid"]] = None,
         version: Optional[str] = None,
+        **kwargs
     ) -> None:
         super().__init__(
-            database=database,
+            source=source,
             version=version,
             species=species,
+            exclude_id_prefixes={"mondo": ["http"]},
+            **kwargs
         )
