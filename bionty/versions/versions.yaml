@@ -133,3 +133,5 @@ Drug:
       2023-03-10:
         - https://data.bioontology.org/ontologies/DRON/submissions/17/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
         - ""
+    name: Drug Ontology
+    website: https://bioportal.bioontology.org/ontologies/DRON/?p=summary
