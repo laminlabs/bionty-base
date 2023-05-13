@@ -79,6 +79,7 @@ from ._sync_versions import update_defaults
 
 # dynamic classes
 from .entities._bfxpipeline import BFXPipeline
+from .entities._drug import Drug
 from .entities._gene import Gene
 from .entities._species import Species
 from .entities._protein import Protein
