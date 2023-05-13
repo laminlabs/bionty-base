@@ -115,6 +115,7 @@ docs/bionty.*
 _dynamic/
 *.ipynb_checkpoints/
 _docs_tmp*
+*.lock
 
 # local versions
 **/versions/_current.yaml
