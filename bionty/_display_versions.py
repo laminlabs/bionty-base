@@ -29,7 +29,7 @@ def display_available_versions(
 
     table.add_column("Ontology", justify="right", style="cyan", no_wrap=True)
     table.add_column("URL", justify="right", style="cyan", no_wrap=True)
-    table.add_column("Bionty Entity", justify="right", style="cyan", no_wrap=True)
+    table.add_column("Bionty Bionty", justify="right", style="cyan", no_wrap=True)
     table.add_column("Database key", justify="right", style="cyan", no_wrap=True)
     table.add_column("All versions", justify="right", style="cyan", no_wrap=True)
 
@@ -54,7 +54,7 @@ def display_available_versions(
                     {
                         "Ontology": _ontology_name,
                         "URL": url,
-                        "Bionty Entity": entity,
+                        "Bionty Bionty": entity,
                         "Database key": db,
                         "All versions": str(version_str),
                     }
@@ -86,14 +86,14 @@ def display_active_versions(
 
     table = Table(title=f"Currently used versions in {version_table}")
 
-    table.add_column("Entity", justify="right", style="cyan", no_wrap=True)
+    table.add_column("Bionty", justify="right", style="cyan", no_wrap=True)
     table.add_column("Database", justify="right", style="cyan", no_wrap=True)
     table.add_column("Version", justify="right", style="cyan", no_wrap=True)
 
     df_rows = []
     for entity, db_to_version in versions.items():
         for db, version in db_to_version.items():
-            df_rows.append({"Entity": entity, "Database": db, "Version": str(version)})
+            df_rows.append({"Bionty": entity, "Database": db, "Version": str(version)})
             table.add_row(entity, db, str(version))
 
     if return_df:

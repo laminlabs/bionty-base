@@ -4,11 +4,11 @@ import pandas as pd
 
 from bionty.entities._shared_docstrings import _doc_params, species_removed
 
-from .._entity import Entity
+from .._entity import Bionty
 
 
 @_doc_params(doc_entities=species_removed)
-class Species(Entity):
+class Species(Bionty):
     """Species.
 
     1. Species ontology

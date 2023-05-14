@@ -3,13 +3,13 @@ from typing import Literal, Optional
 
 import pandas as pd
 
-from .._entity import Entity
+from .._entity import Bionty
 from ..dev._io import s3_bionty_assets
 from ._shared_docstrings import _doc_params, doc_entites
 
 
 @_doc_params(doc_entities=doc_entites)
-class BFXPipeline(Entity):
+class BFXPipeline(Bionty):
     """Bioinformatics pipelines.
 
     Args:

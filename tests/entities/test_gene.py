@@ -16,7 +16,7 @@ def test_ensemble_gene_curation_hgnc_id():
     }
     df = pd.DataFrame(data).set_index("ensembl_gene_id")
 
-    curated_df = bt.Gene(database="ensembl", version="release-108").curate(
+    curated_df = bt.Gene(source="ensembl", version="release-108").curate(
         df, reference_id=bt.lookup.gene_id.hgnc_id, column="hgnc id"
     )
 

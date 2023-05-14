@@ -32,10 +32,10 @@ class NormalizeColumns:
 
     @staticmethod
     def gene(df: pd.DataFrame, species=None):
-        """Column names of gene Entity."""
+        """Column names of gene Bionty."""
         df.rename(columns=GENE_COLUMNS, inplace=True)
 
     @staticmethod
     def protein(df: pd.DataFrame, species=None):
-        """Column names of protein Entity."""
+        """Column names of protein Bionty."""
         df.rename(columns=PROTEIN_COLUMNS, inplace=True)

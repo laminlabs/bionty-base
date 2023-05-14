@@ -1,8 +1,8 @@
-from typing import Literal, Optional
+from typing import Literal, Optional, Union
 
 import pandas as pd
 
-from .._entity import Entity
+from .._entity import Bionty, BiontyField
 from ..dev._io import s3_bionty_assets
 from ._shared_docstrings import _doc_params, doc_curate, doc_entites
 
@@ -10,7 +10,7 @@ ALIAS_DICT = {"name": "synonyms"}
 
 
 @_doc_params(doc_entities=doc_entites)
-class CellMarker(Entity):
+class CellMarker(Bionty):
     """Cell markers.
 
     1. Cell Marker Ontology
@@ -51,7 +51,7 @@ class CellMarker(Entity):
         self,
         df: pd.DataFrame,
         column: str = None,
-        reference_id: str = "name",
+        reference_id: Union[BiontyField, str] = "name",
     ) -> pd.DataFrame:
         """Curate index of passed DataFrame to conform with default identifier.
 
@@ -64,6 +64,8 @@ class CellMarker(Entity):
 
         In addition to the .curate() in base class, this also performs alias mapping.
         """
+        if isinstance(reference_id, BiontyField):
+            reference_id = reference_id.name
         agg_col = ALIAS_DICT.get(reference_id)
         df = df.copy()
 

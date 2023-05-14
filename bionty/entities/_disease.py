@@ -1,11 +1,11 @@
 from typing import Literal, Optional
 
-from .._entity import Entity
+from .._entity import Bionty
 from ._shared_docstrings import _doc_params, doc_entites
 
 
 @_doc_params(doc_entities=doc_entites)
-class Disease(Entity):
+class Disease(Bionty):
     """Disease ontologies.
 
     1. Mondo

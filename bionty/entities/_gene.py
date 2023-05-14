@@ -1,8 +1,8 @@
-from typing import Literal, Optional
+from typing import Literal, Optional, Union
 
 import pandas as pd
 
-from .._entity import Entity
+from .._entity import Bionty, BiontyField
 from .._normalize import GENE_COLUMNS, NormalizeColumns
 from ..dev._io import s3_bionty_assets
 from ._shared_docstrings import _doc_params, doc_curate, doc_entites
@@ -11,7 +11,7 @@ ALIAS_DICT = {"symbol": "synonyms"}
 
 
 @_doc_params(doc_entities=doc_entites)
-class Gene(Entity):
+class Gene(Bionty):
     """Gene.
 
     1. Ensembl
@@ -69,7 +69,7 @@ class Gene(Entity):
         self,
         df: pd.DataFrame,
         column: str = None,
-        reference_id: str = "ensembl_gene_id",
+        reference_id: Union[BiontyField, str] = "ensembl_gene_id",
     ) -> pd.DataFrame:
         """Curate index of passed DataFrame to conform with default identifier.
 
@@ -82,6 +82,9 @@ class Gene(Entity):
 
         In addition to the .curate() in base class, this also performs alias mapping.
         """
+        if isinstance(reference_id, BiontyField):
+            reference_id = reference_id.name
+
         agg_col = ALIAS_DICT.get(reference_id)
         df = df.copy()
 
