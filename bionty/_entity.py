@@ -510,7 +510,7 @@ class Bionty:
 
     def inspect(
         self, identifiers: Iterable, reference_id: BiontyField, return_df: bool = False
-    ) -> Union[DataFrame, Dict[str, str]]:
+    ) -> Union[DataFrame, dict[str, list[str]]]:
         """Inspect if a list of identifiers are mappable to the entity reference.
 
         Args:
@@ -531,9 +531,14 @@ class Bionty:
         )
 
         if return_df:
-            return curated_df
+            mapping_df = curated_df.rename(columns={"orig_index": str(reference_id)})
+            return mapping_df.reset_index(drop=True)
         else:
-            mapping = curated_df["orig_index"].to_dict()
+            mapping: Dict[str, List[str]] = {}
+            mapping["mapped"] = curated_df.index[curated_df["__curated__"]].tolist()
+            mapping["not_mapped"] = curated_df.index[
+                ~curated_df["__curated__"]
+            ].tolist()
 
             return mapping
 

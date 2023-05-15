@@ -1,36 +1,51 @@
+import pandas as pd
 import pytest
 
 import bionty as bt
+from bionty import Gene
 
 
 @pytest.fixture(scope="session")
-def cell_marker():
-    cm_ids = [
-        "KI67",
-        "CCR7x",
-        "CD14",
-        "CD8",
-        "CD45RA",
-        "CD127",
-        "PD1",
-        "Invalid-1",
-        "Invalid-2",
-        "CD66b",
-        "Siglec8",
-        "Time",
+def genes():
+    gene_ids = [
+        "ENSG00000148584",
+        "ENSG00000121410",
+        "ENSG00000188389",
+        "ENSG0000corrupted",
     ]
-    cm_entity = bt.CellMarker()
+    gn = bt.Gene(source="ensembl", version="release-108")
 
-    return cm_ids, cm_entity
-
-
-def test_inspect_iterable(cell_marker):
-    cm_ids, cm_entity = cell_marker
-
-    mapping = cm_entity.inspect(cm_ids, reference_id="name")
-
-    print(mapping)
+    return gene_ids, gn
 
 
-def test_inspect_return_df():
-    pass
+def test_inspect_iterable(genes: tuple[str, Gene]):
+    gene_ids, gn = genes
+
+    mapping = gn.inspect(gene_ids, reference_id=gn.ensembl_gene_id)  # type: ignore
+
+    expected_mapping = {
+        "mapped": ["ENSG00000148584", "ENSG00000121410", "ENSG00000188389"],
+        "not_mapped": ["ENSG0000corrupted"],
+    }
+
+    assert mapping == expected_mapping
+
+
+def test_inspect_return_df(genes: tuple[str, Gene]):
+    gene_ids, gn = genes
+
+    mapping = gn.inspect(gene_ids, reference_id=gn.ensembl_gene_id, return_df=True)  # type: ignore
+
+    expected_df = pd.DataFrame(
+        data={
+            "ensembl_gene_id": [
+                "ENSG00000148584",
+                "ENSG00000121410",
+                "ENSG00000188389",
+                "ENSG0000corrupted",
+            ],
+            "__curated__": [True, True, True, False],
+        }
+    )
+
+    assert mapping.equals(expected_df)  # type: ignore
