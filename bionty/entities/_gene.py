@@ -82,7 +82,8 @@ class Gene(Bionty):
             The input DataFrame with the curated index and a boolean `__curated__`
             column that indicates compliance with the default identifier.
         """
-        agg_col = ALIAS_DICT.get(str(reference_id))
+        reference_id = str(reference_id)
+        agg_col = ALIAS_DICT.get(reference_id)
         df = df.copy()
 
         # if the query column name does not match any columns in the self.df()
@@ -95,7 +96,7 @@ class Gene(Bionty):
             if column_norm in df.columns:
                 raise ValueError("{column_norm} column already exist!")
             else:
-                column = str(reference_id) if column_norm is None else column_norm
+                column = reference_id if column_norm is None else column_norm
                 df.rename(columns={orig_column: column}, inplace=True)
             agg_col = ALIAS_DICT.get(column)
 

@@ -64,6 +64,7 @@ class CellMarker(Bionty):
             The input DataFrame with the curated index and a boolean `__curated__`
             column that indicates compliance with the default identifier.
         """
+        reference_id = str(reference_id)
         agg_col = ALIAS_DICT.get(reference_id)  # type: ignore
         df = df.copy()
 
