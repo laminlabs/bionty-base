@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+Add inspect | [356](https://github.com/laminlabs/bionty/pull/356) | [Zethson](https://github.com/Zethson) | 2023-05-15 |
 Fix DO metadata | [355](https://github.com/laminlabs/bionty/pull/355) | [Zethson](https://github.com/Zethson) | 2023-05-13 |
 :sparkles: Add Drug entity | [352](https://github.com/laminlabs/bionty/pull/352) | [Zethson](https://github.com/Zethson) | 2023-05-13 |
 👷 Fix non-process safe code | [350](https://github.com/laminlabs/bionty/pull/350) | [jlricon](https://github.com/jlricon) | 2023-05-11 | 0.13.5
