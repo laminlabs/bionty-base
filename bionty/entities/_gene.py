@@ -33,14 +33,14 @@ class Gene(Bionty):
         species: str = "human",
         source: Optional[Literal["ensembl"]] = None,
         version: Optional[str] = None,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(
             source=source,
             version=version,
             species=species,
             reference_id="ensembl_gene_id",
-            **kwargs
+            **kwargs,
         )
         self._lookup_field = "symbol"
 
@@ -87,14 +87,14 @@ class Gene(Bionty):
         df = df.copy()
 
         # if the query column name does not match any columns in the self.df()
-        # Bionty assume the query column and the self._id_field uses the same type of
-        # identifier
+        # Bionty assume the query column and the self.reference_id field use
+        # the same type of identifier
         orig_column = column
         if column is not None and column not in self.df().columns:
-            # normalize the identifier column
+            # normalize the target column
             column_norm = GENE_COLUMNS.get(column)
             if column_norm in df.columns:
-                raise ValueError("{column_norm} column already exist!")
+                raise ValueError(f"{column_norm} column already exist!")
             else:
                 column = reference_id if column_norm is None else column_norm
                 df.rename(columns={orig_column: column}, inplace=True)

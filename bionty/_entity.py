@@ -150,7 +150,7 @@ class Bionty:
             (term.id, term.name) for term in ontology.terms() if term.id and term.name
         ]
 
-        def flatten_prefixes(db_to_prefixes: Dict[str, List[str]]) -> set:
+        def __flatten_prefixes(db_to_prefixes: Dict[str, List[str]]) -> set:
             flat_prefixes = {
                 prefix for values in db_to_prefixes.values() for prefix in values
             }
@@ -160,7 +160,7 @@ class Bionty:
         if self.include_id_prefixes and self.database in list(
             self.include_id_prefixes.keys()
         ):
-            flat_include_id_prefixes = flatten_prefixes(self.include_id_prefixes)
+            flat_include_id_prefixes = __flatten_prefixes(self.include_id_prefixes)
             df_values = list(
                 filter(
                     lambda val: any(
@@ -172,7 +172,7 @@ class Bionty:
         if self.include_name_prefixes and self.database in list(
             self.include_name_prefixes.keys()
         ):
-            flat_include_name_prefixes = flatten_prefixes(self.include_name_prefixes)
+            flat_include_name_prefixes = __flatten_prefixes(self.include_name_prefixes)
             df_values = list(
                 filter(
                     lambda val: any(
@@ -185,7 +185,7 @@ class Bionty:
         if self.exclude_id_prefixes and self.database in list(
             self.exclude_id_prefixes.keys()
         ):
-            flat_exclude_id_prefixes = flatten_prefixes(self.exclude_id_prefixes)
+            flat_exclude_id_prefixes = __flatten_prefixes(self.exclude_id_prefixes)
 
             df_values = list(
                 filter(
@@ -198,7 +198,7 @@ class Bionty:
         if self.exclude_name_prefixes and self.database in list(
             self.exclude_name_prefixes.keys()
         ):
-            flat_exclude_name_prefixes = flatten_prefixes(self.exclude_name_prefixes)
+            flat_exclude_name_prefixes = __flatten_prefixes(self.exclude_name_prefixes)
 
             df_values = list(
                 filter(
@@ -514,9 +514,10 @@ class Bionty:
         """Inspect if a list of identifiers are mappable to the entity reference.
 
         Args:
-            identifiers: These identifiers will be checked against the Ontology.
+            identifiers: Identifiers that will be checked against the Ontology.
             reference_id: The BiontyField of the ontology to compare against.
-                          Examples are 'ontology_id' to map against the ontology ID or 'name' to map against the ontologies field names.
+                          Examples are 'ontology_id' to map against the ontology ID
+                          or 'name' to map against the ontologies field names.
             return_df: Whether to return a Pandas DataFrame.
 
         Returns:
@@ -524,6 +525,8 @@ class Bionty:
             - If specified A Pandas DataFrame with the curated index and a boolean `__curated__`
               column that indicates compliance with the default identifier.
         """
+        # TODO: Implement detection of synonyms
+
         df = pd.DataFrame(index=identifiers)
 
         curated_df = self._curate(
@@ -541,6 +544,28 @@ class Bionty:
             ].tolist()
 
             return mapping
+
+    def map_synonyms(
+        self,
+        identifiers: Iterable,
+        reference_id: BiontyField,
+        return_mapper: bool = False,
+    ) -> Union[Dict[str, str], List[str]]:
+        """Maps input identifiers against Ontology synonyms.
+
+        Args:
+            identifiers: Identifiers that will be mapped against the Ontology.
+            reference_id: The BiontyField of the ontology to compare against.
+                          Examples are 'ontology_id' to map against the ontology ID
+                          or 'name' to map against the ontologies field names.
+            return_mapper: Whether to return a dictionary with keys mappable identifiers to values mapped reference_id values.
+
+        Returns:
+            - A list of mapped reference_id values if return_mapper is False.
+            - A dictionary of mapped values with mappable identifiers as keys
+              and values mapped to reference_id as values if return_mapper is True.
+        """
+        pass
 
 
 class BiontyField:
