@@ -1,4 +1,4 @@
-from typing import Literal, Optional, Union
+from typing import Literal, Optional
 
 import pandas as pd
 
@@ -51,22 +51,25 @@ class CellMarker(Bionty):
         self,
         df: pd.DataFrame,
         column: str = None,
-        reference_id: Union[BiontyField, str] = "name",
+        reference_id: BiontyField = None,
     ) -> pd.DataFrame:
         """Curate index of passed DataFrame to conform with default identifier.
+
+        In addition to the .curate() in base class, this also performs alias mapping.
 
         Args:
             {doc_curate}
 
         Returns:
             The input DataFrame with the curated index and a boolean `__curated__`
-        column that indicates compliance with the default identifier.
-
-        In addition to the .curate() in base class, this also performs alias mapping.
+            column that indicates compliance with the default identifier.
         """
-        if isinstance(reference_id, BiontyField):
-            reference_id = reference_id.name
-        agg_col = ALIAS_DICT.get(reference_id)
+        if reference_id is None:
+            _reference_id = "name"
+        else:
+            _reference_id = str(reference_id)
+
+        agg_col = ALIAS_DICT.get(_reference_id)
         df = df.copy()
 
         # if the query column name does not match any columns in the self.df()
@@ -78,7 +81,7 @@ class CellMarker(Bionty):
             if column in df.columns:
                 raise ValueError("{column_norm} column already exist!")
             else:
-                column = reference_id if column is None else column
+                column = _reference_id if column is None else column
                 df.rename(columns={orig_column: column}, inplace=True)
             agg_col = ALIAS_DICT.get(column)
 
@@ -88,7 +91,7 @@ class CellMarker(Bionty):
                 df=df,
                 column=column,
                 agg_col=agg_col,
-                reference_id=reference_id,
+                reference_id=_reference_id,
             )
             .rename(columns={column: orig_column})
         )

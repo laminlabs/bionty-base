@@ -38,7 +38,7 @@ class Bionty:
         version: Optional[str] = None,
         species: Optional[str] = None,
         *,
-        reference_id: Optional[str] = None,
+        reference_id: Optional[Union[BiontyField, str]] = None,
         include_id_prefixes: Optional[Dict[str, List[str]]] = None,
         include_name_prefixes: Optional[Dict[str, List[str]]] = None,
         exclude_id_prefixes: Optional[Dict[str, List[str]]] = None,
@@ -365,10 +365,11 @@ class Bionty:
 
         # loads the df and set index
         df = pd.read_parquet(self._local_parquet_path).reset_index()
+        reference_index_name = self.reference_id
         if self.reference_id is None and "ontology_id" in df.columns:
-            self.reference_id = "ontology_id"
+            reference_index_name = "ontology_id"
         try:
-            return df.set_index(self.reference_id)
+            return df.set_index(reference_index_name)
         except KeyError:
             return df
 
@@ -376,7 +377,7 @@ class Bionty:
         self,
         df: pd.DataFrame,
         column: str = None,
-        reference_id: Union[BiontyField, str] = "ontology_id",
+        reference_id: BiontyField = None,
         case_sensitive: bool = True,
     ) -> pd.DataFrame:
         """Curate index of passed DataFrame to conform with default identifier.
@@ -398,10 +399,12 @@ class Bionty:
             Returns the DataFrame with the curated index and a boolean `__curated__`
             column that indicates compliance with the default identifier.
         """
+        if reference_id is None:
+            reference_id = self.df().index.name  # type: ignore
         if self.reference_id and reference_id != "ontology_id":
             reference_id = reference_id
         elif self.reference_id:
-            reference_id = self.reference_id
+            reference_id = self.reference_id  # type: ignore
 
         df = df.copy()
         ref_df = self.df()
@@ -436,12 +439,15 @@ class Bionty:
     def _curate(
         self,
         df: pd.DataFrame,
-        reference_id: Union[BiontyField, str] = "ontology_id",
+        reference_id: Union[BiontyField, str],
         column: str = None,
         agg_col: str = None,
         inplace: bool = False,
     ) -> pd.DataFrame:
         """Curate index of passed DataFrame to conform with default identifier."""
+        if reference_id is None:
+            reference_id = self.reference_id  # type: ignore
+
         if not inplace:
             df = df.copy()
         ref_df = self.df()
@@ -467,8 +473,9 @@ class Bionty:
             df.index = df["__mapped_index"].fillna(df["orig_index"])
             del df["__mapped_index"]
             df.index.name = index_name
+
             matches = check_if_index_compliant(
-                df.index, ref_df.reset_index()[reference_id]
+                df.index, ref_df.reset_index()[str(reference_id)]
             )
         else:
             orig_series = df[column]
@@ -537,4 +544,7 @@ class BiontyField:
         self.name = name
 
     def __repr__(self):
+        return self.name
+
+    def __str__(self):
         return self.name
