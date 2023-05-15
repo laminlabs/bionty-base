@@ -16,9 +16,8 @@ def test_ensemble_gene_curation_hgnc_id():
     }
     df = pd.DataFrame(data).set_index("ensembl_gene_id")
 
-    curated_df = bt.Gene(source="ensembl", version="release-108").curate(
-        df, reference_id=bt.lookup.gene_id.hgnc_id, column="hgnc id"
-    )
+    gn = bt.Gene(source="ensembl", version="release-108")
+    curated_df = gn.curate(df, reference_id=gn.hgnc_id, column="hgnc id")
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, False])

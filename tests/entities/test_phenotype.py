@@ -13,7 +13,9 @@ def test_hp_phenotype_curation_ontology_id():
             "This phenotype does not exist",
         ]
     )
-    curated_df = bt.Phenotype(database="hp", version="2023-01-27").curate(df)
+
+    pt = bt.Phenotype(source="hp", version="2023-01-27")
+    curated_df = pt.curate(df)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
@@ -31,9 +33,9 @@ def test_hp_phenotype_curation_name():
             "This phenotype does not exist",
         ]
     )
-    curated_df = bt.Phenotype(database="hp", version="2023-01-27").curate(
-        df, reference_id="name"
-    )
+
+    pt = bt.Phenotype(source="hp", version="2023-01-27")
+    curated_df = pt.curate(df, reference_id=pt.name)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])

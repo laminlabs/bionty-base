@@ -12,7 +12,8 @@ def test_lamin_bfxpipeline_curation_ontology_id():
         ]
     )
 
-    curated_df = bt.BFXPipeline(database="lamin", version="1.0.0").curate(df)
+    bfxp = bt.BFXPipeline(source="lamin", version="1.0.0")
+    curated_df = bfxp.curate(df)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, False])
@@ -29,9 +30,8 @@ def test_lamin_bfxpipeline_curation_name():
         ]
     )
 
-    curated_df = bt.BFXPipeline(database="lamin", version="1.0.0").curate(
-        df, reference_id="name"
-    )
+    bfxp = bt.BFXPipeline(database="lamin", version="1.0.0")
+    curated_df = bfxp.curate(df, reference_id=bfxp.name)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, False])

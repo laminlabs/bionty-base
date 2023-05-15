@@ -13,7 +13,9 @@ def test_uniprot_protein_curation_uniprotkb_id():
             "This cell line does not exist",
         ]
     )
-    curated_df = bt.Protein(database="uniprot", version="2022-04").curate(df)
+
+    pr = bt.Protein(source="uniprot", version="2022-04")
+    curated_df = pr.curate(df)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
@@ -31,9 +33,9 @@ def test_uniprot_protein_curation_name():
             "This cell line does not exist",
         ]
     )
-    curated_df = bt.Protein(database="uniprot", version="2022-04").curate(
-        df, reference_id="name"
-    )
+
+    pr = bt.Protein(source="uniprot", version="2022-04")
+    curated_df = pr.curate(df, reference_id=pr.name)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
