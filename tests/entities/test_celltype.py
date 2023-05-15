@@ -54,7 +54,7 @@ def test_ca_celltype_curation_ontology_id():
         ]
     )
 
-    curated_df = bt.CellType(database="ca", version="2022-12-16").curate(df)
+    curated_df = bt.CellType(source="ca", version="2022-12-16").curate(df)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
@@ -72,7 +72,7 @@ def test_ca_celltype_curation_name():
             "This cell type does not exist",
         ]
     )
-    curated_df = bt.CellType(database="ca", version="2022-12-16").curate(
+    curated_df = bt.CellType(source="ca", version="2022-12-16").curate(
         df, reference_id="name"
     )
 

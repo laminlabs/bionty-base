@@ -30,7 +30,7 @@ def test_lamin_bfxpipeline_curation_name():
         ]
     )
 
-    bfxp = bt.BFXPipeline(database="lamin", version="1.0.0")
+    bfxp = bt.BFXPipeline(source="lamin", version="1.0.0")
     curated_df = bfxp.curate(df, reference_id=bfxp.name)
 
     curation = curated_df["__curated__"].reset_index(drop=True)

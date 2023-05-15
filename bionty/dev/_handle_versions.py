@@ -149,7 +149,7 @@ def _get_missing_defaults(
                   Defaults to "current".
 
     Returns:
-        A list of tuples in the form of [(Bionty, source, version)] that
+        A list of tuples in the form of [(Bionty class, source, version)] that
         can serve as input for `update_defaults`.
     """
     versions_yaml = (

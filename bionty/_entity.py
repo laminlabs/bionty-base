@@ -377,7 +377,7 @@ class Bionty:
         self,
         df: pd.DataFrame,
         column: str = None,
-        reference_id: BiontyField = None,
+        reference_id: Union[BiontyField, str] = None,
         case_sensitive: bool = True,
     ) -> pd.DataFrame:
         """Curate index of passed DataFrame to conform with default identifier.

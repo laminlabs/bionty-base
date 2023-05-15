@@ -39,7 +39,7 @@ def get_compliant_index_from_column(
     Args:
         df: DataFrame with an index different from reference ID, but with a
             column that has mappable information, like an ensemble_id.
-        ref_df: Reference Bionty in Bionty.
+        ref_df: Reference table in Bionty.
         column: Column to be mapped to reference ID.
         keep_data: Keep terms that are not mappable to the reference ID.
     """

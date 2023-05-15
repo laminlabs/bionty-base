@@ -29,7 +29,7 @@ def display_available_versions(
 
     table.add_column("Ontology", justify="right", style="cyan", no_wrap=True)
     table.add_column("URL", justify="right", style="cyan", no_wrap=True)
-    table.add_column("Bionty Bionty", justify="right", style="cyan", no_wrap=True)
+    table.add_column("Bionty class", justify="right", style="cyan", no_wrap=True)
     table.add_column("Database key", justify="right", style="cyan", no_wrap=True)
     table.add_column("All versions", justify="right", style="cyan", no_wrap=True)
 
@@ -86,7 +86,7 @@ def display_active_versions(
 
     table = Table(title=f"Currently used versions in {version_table}")
 
-    table.add_column("Bionty", justify="right", style="cyan", no_wrap=True)
+    table.add_column("Bionty class", justify="right", style="cyan", no_wrap=True)
     table.add_column("Database", justify="right", style="cyan", no_wrap=True)
     table.add_column("Version", justify="right", style="cyan", no_wrap=True)
 
