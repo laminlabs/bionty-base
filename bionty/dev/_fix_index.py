@@ -1,9 +1,5 @@
-from typing import Optional, Union
-
 import numpy as np
 import pandas as pd
-
-from bionty._entity import BiontyField
 
 
 def check_if_index_compliant(index: pd.Index, ref_index: pd.Index) -> np.ndarray:
@@ -81,7 +77,7 @@ def get_compliant_index_from_column(
 def explode_aggregated_column_to_expand(
     df: pd.DataFrame,
     aggregated_col: str,
-    target_col: Optional[Union[BiontyField, str]] = None,
+    target_col=None,
     sep: str = "|",
 ) -> pd.DataFrame:
     """Explode values from an aggregated DataFrame column to expand a target column.
