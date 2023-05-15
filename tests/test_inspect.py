@@ -2,7 +2,6 @@ import pandas as pd
 import pytest
 
 import bionty as bt
-from bionty import Gene
 
 
 @pytest.fixture(scope="session")
@@ -18,10 +17,10 @@ def genes():
     return gene_ids, gn
 
 
-def test_inspect_iterable(genes: tuple[str, Gene]):
+def test_inspect_iterable(genes):
     gene_ids, gn = genes
 
-    mapping = gn.inspect(gene_ids, reference_id=gn.ensembl_gene_id)  # type: ignore
+    mapping = gn.inspect(gene_ids, reference_id=gn.ensembl_gene_id)
 
     expected_mapping = {
         "mapped": ["ENSG00000148584", "ENSG00000121410", "ENSG00000188389"],
@@ -31,10 +30,10 @@ def test_inspect_iterable(genes: tuple[str, Gene]):
     assert mapping == expected_mapping
 
 
-def test_inspect_return_df(genes: tuple[str, Gene]):
+def test_inspect_return_df(genes):
     gene_ids, gn = genes
 
-    mapping = gn.inspect(gene_ids, reference_id=gn.ensembl_gene_id, return_df=True)  # type: ignore
+    mapping = gn.inspect(gene_ids, reference_id=gn.ensembl_gene_id, return_df=True)
 
     expected_df = pd.DataFrame(
         data={
