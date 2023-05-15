@@ -8,9 +8,8 @@ def test_cellmarker_cellmarker_curation_name_human():
         index=["CCR7", "CD69", "CD8A", "CD45RA", "This protein does not exist"]
     )
 
-    curated_df = bt.CellMarker(database="cellmarker", version="2.0").curate(
-        df, reference_id="name"
-    )
+    cm = bt.CellMarker(source="cellmarker", version="2.0")
+    curated_df = cm.curate(df, reference_id=cm.name)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
@@ -23,9 +22,8 @@ def test_cellmarker_cellmarker_curation_name_mouse():
         index=["Tcf4", "Cd36", "Cd34", "Cd45", "This protein does not exist"]
     )
 
-    curated_df = bt.CellMarker(
-        species="mouse", database="cellmarker", version="2.0"
-    ).curate(df, reference_id="name")
+    cm = bt.CellMarker(source="cellmarker", version="2.0", species="mouse")
+    curated_df = cm.curate(df, reference_id=cm.name)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])

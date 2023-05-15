@@ -5,7 +5,7 @@ import pandas as pd
 
 from bionty.entities._shared_docstrings import _doc_params, species_removed
 
-from .._entity import Entity
+from .._entity import Bionty
 from .._ontology import Ontology
 from .._settings import check_datasetdir_exists, settings
 
@@ -13,7 +13,7 @@ EFO_DF_D3 = "https://bionty-assets.s3.amazonaws.com/efo_df.json"
 
 
 @_doc_params(doc_entities=species_removed)
-class Readout(Entity):
+class Readout(Bionty):
     """Experimental Factor.
 
     1. Experimental Factor Ontology
@@ -23,7 +23,7 @@ class Readout(Entity):
     Args:
         {doc_entities}
 
-    Also see: `bionty.Entity <https://lamin.ai/docs/bionty/bionty.entity>`__
+    Also see: `bionty.Bionty <https://lamin.ai/docs/bionty/bionty.entity>`__
     """
 
     def __init__(
@@ -32,10 +32,10 @@ class Readout(Entity):
         version: Optional[str] = None,
         **kwargs
     ) -> None:
+        self._filepath = settings.datasetdir / "efo_df.json"
         super().__init__(
             source=source, version=version, reference_id="ontology_id", **kwargs
         )
-        self._filepath = settings.datasetdir / "efo_df.json"
         self._readout_terms = {
             "assay": "OBI:0000070",
             "assay_by_molecule": "EFO:0002772",

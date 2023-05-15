@@ -13,7 +13,9 @@ def test_mondo_disease_curation_ontology_id():
             "This disease does not exist",
         ]
     )
-    curated_df = bt.Disease(database="mondo", version="2023-02-06").curate(df)
+
+    ds = bt.Disease(source="mondo", version="2023-02-06")
+    curated_df = ds.curate(df)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
@@ -31,9 +33,9 @@ def test_mondo_disease_curation_name():
             "This disease does not exist",
         ]
     )
-    curated_df = bt.Disease(database="mondo", version="2023-02-06").curate(
-        df, reference_id="name"
-    )
+
+    ds = bt.Disease(source="mondo", version="2023-02-06")
+    curated_df = ds.curate(df, reference_id=ds.name)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
@@ -51,7 +53,9 @@ def test_doid_disease_curation_ontology_id():
             "This disease does not exist",
         ]
     )
-    curated_df = bt.Disease(database="doid", version="2023-01-30").curate(df)
+
+    ds = bt.Disease(source="doid", version="2023-01-30")
+    curated_df = ds.curate(df)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
@@ -69,9 +73,9 @@ def test_doid_disease_curation_name():
             "This disease does not exist",
         ]
     )
-    curated_df = bt.Disease(database="doid", version="2023-01-30").curate(
-        df, reference_id="name"
-    )
+
+    ds = bt.Disease(source="doid", version="2023-01-30")
+    curated_df = ds.curate(df, reference_id=ds.name)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])

@@ -13,7 +13,8 @@ def test_dron_drug_curation_ontology_id():
             "This drug does not exist",
         ]
     )
-    curated_df = bt.Drug(database="dron", version="2023-03-10").curate(df)
+    dt = bt.Drug(source="dron", version="2023-03-10")
+    curated_df = dt.curate(df)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
@@ -31,9 +32,9 @@ def test_dron_drug_curation_name():
             "This disease does not exist",
         ]
     )
-    curated_df = bt.Drug(database="dron", version="2023-03-10").curate(
-        df, reference_id="name"
-    )
+
+    dt = bt.Drug(source="dron", version="2023-03-10")
+    curated_df = dt.curate(df, reference_id=dt.name)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])

@@ -90,16 +90,17 @@ These are automatically populated by either the `._current.yaml` (see {doc}`./co
 Hence, a new Entity `MyEntity` would be defined as:
 
 ```python
-from bionty import Entity
+from bionty import Bionty
 
-class MyEntity(Entity):
+
+class MyEntity(Bionty):
     """MyEntity."""
 
     def __init__(
-        self,
-        species: str = "human",
-        database: str | None = None,
-        version: str | None = None,
+            self,
+            species: str = "human",
+            database: str | None = None,
+            version: str | None = None,
     ) -> None:
         super().__init__(
             database=database,

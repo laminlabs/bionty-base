@@ -13,9 +13,9 @@ def test_ensemble_species_curation_ontology_id():
             "This species does not exist",
         ]
     )
-    curated_df = bt.Species(database="ensembl", version="release-108").curate(
-        df, reference_id="id"
-    )
+
+    sp = bt.Species(source="ensembl", version="release-108")
+    curated_df = sp.curate(df, reference_id=sp.id)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
@@ -33,9 +33,9 @@ def test_ensemble_species_curation_name():
             "This species does not exist",
         ]
     )
-    curated_df = bt.Species(database="ensembl", version="release-108").curate(
-        df, reference_id="name"
-    )
+
+    sp = bt.Species(source="ensembl", version="release-108")
+    curated_df = sp.curate(df, reference_id=sp.name)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])

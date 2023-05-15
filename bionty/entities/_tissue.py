@@ -1,11 +1,11 @@
 from typing import Literal, Optional
 
-from .._entity import Entity
+from .._entity import Bionty
 from ._shared_docstrings import _doc_params, doc_entites
 
 
 @_doc_params(doc_entities=doc_entites)
-class Tissue(Entity):
+class Tissue(Bionty):
     """Tissue.
 
     1. Uberon

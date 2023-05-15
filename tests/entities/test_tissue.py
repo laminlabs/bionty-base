@@ -13,7 +13,9 @@ def test_uberon_tissue_curation_ontology_id():
             "This tissue does not exist",
         ]
     )
-    curated_df = bt.Tissue(database="uberon", version="2023-02-14").curate(df)
+
+    ts = bt.Tissue(source="uberon", version="2023-02-14")
+    curated_df = ts.curate(df)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
@@ -31,9 +33,9 @@ def test_uberon_tissue_curation_name():
             "This tissue does not exist",
         ]
     )
-    curated_df = bt.Tissue(database="uberon", version="2023-02-14").curate(
-        df, reference_id="name"
-    )
+
+    ts = bt.Tissue(source="uberon", version="2023-02-14")
+    curated_df = ts.curate(df, reference_id=ts.name)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])

@@ -1,13 +1,16 @@
+from __future__ import annotations
+
 import os
 import re
 from collections import namedtuple
 from functools import cached_property
 from pathlib import Path
-from typing import Dict, Iterable, List, Literal, Optional
+from typing import Dict, Iterable, List, Literal, Optional, Union
 
 import bioregistry as br
 import pandas as pd
 from lamin_logger import logger
+from pandas import DataFrame
 
 from bionty._md5 import verify_md5
 
@@ -23,13 +26,8 @@ from .dev._io import load_yaml, s3_bionty_assets, url_download
 VERSIONS_PATH = Path(__file__).parent / "versions"
 
 
-def _camel_to_snake(string: str) -> str:
-    """Convert CamelCase to snake_case."""
-    return re.sub(r"(?<!^)(?=[A-Z])", "_", string).lower()
-
-
-class Entity:
-    """Biological entity as an Entity.
+class Bionty:
+    """Biological entity as an Bionty.
 
     See :doc:`guide/index` for background.
     """
@@ -40,7 +38,7 @@ class Entity:
         version: Optional[str] = None,
         species: Optional[str] = None,
         *,
-        reference_id: Optional[str] = None,
+        reference_id: Optional[Union[BiontyField, str]] = None,
         include_id_prefixes: Optional[Dict[str, List[str]]] = None,
         include_name_prefixes: Optional[Dict[str, List[str]]] = None,
         exclude_id_prefixes: Optional[Dict[str, List[str]]] = None,
@@ -56,6 +54,10 @@ class Entity:
                     DeprecationWarning,
                 )
                 source = deprecated_db_parameter
+
+        def _camel_to_snake(string: str) -> str:
+            """Convert CamelCase to snake_case."""
+            return re.sub(r"(?<!^)(?=[A-Z])", "_", string).lower()
 
         self._species = "all" if species is None else species
         self._entity = _camel_to_snake(self.__class__.__name__)
@@ -76,11 +78,12 @@ class Entity:
 
             if br.normalize_prefix(source):
                 source = br.normalize_prefix(source)
+
         self._set_attributes(source=source, version=version)
 
     def __repr__(self) -> str:
         representation = (
-            f"Entity of {self.__class__.__name__}\n"
+            f"Bionty of {self.__class__.__name__}\n"
             f"Species: {self.species}\n"
             f"Database: {self.database}\n\n"
             f"Access ontology terms with '{self.__class__.__name__}.df'"
@@ -94,12 +97,12 @@ class Entity:
 
     @property
     def species(self):
-        """The `name` of `Species` Entity."""
+        """The `name` of `Species` Bionty."""
         return self._species
 
     @property
     def version(self):
-        """The `name` of `version` entity Entity."""
+        """The `name` of `version` entity Bionty."""
         return self._version
 
     @cached_property
@@ -314,6 +317,13 @@ class Entity:
         )
         self._ontology_download_path = settings.dynamicdir / self._semantic_file_name
 
+        for col_name in self.df().columns:
+            try:
+                setattr(self, col_name, BiontyField(self, col_name))
+            # Some fields of an ontology (e.g. Gene) are not Bionty class attributes and must be skipped.
+            except AttributeError:
+                pass
+
     def lookup(self, field: str = "name") -> tuple:
         """Return an auto-complete object for the bionty id.
 
@@ -355,10 +365,11 @@ class Entity:
 
         # loads the df and set index
         df = pd.read_parquet(self._local_parquet_path).reset_index()
+        reference_index_name = self.reference_id
         if self.reference_id is None and "ontology_id" in df.columns:
-            self.reference_id = "ontology_id"
+            reference_index_name = "ontology_id"
         try:
-            return df.set_index(self.reference_id)
+            return df.set_index(reference_index_name)
         except KeyError:
             return df
 
@@ -366,7 +377,7 @@ class Entity:
         self,
         df: pd.DataFrame,
         column: str = None,
-        reference_id: str = "ontology_id",
+        reference_id: Union[BiontyField, str] = None,
         case_sensitive: bool = True,
     ) -> pd.DataFrame:
         """Curate index of passed DataFrame to conform with default identifier.
@@ -388,16 +399,18 @@ class Entity:
             Returns the DataFrame with the curated index and a boolean `__curated__`
             column that indicates compliance with the default identifier.
         """
+        if reference_id is None:
+            reference_id = self.df().index.name  # type: ignore
         if self.reference_id and reference_id != "ontology_id":
             reference_id = reference_id
         elif self.reference_id:
-            reference_id = self.reference_id
+            reference_id = self.reference_id  # type: ignore
 
         df = df.copy()
         ref_df = self.df()
         orig_column = column
         if column is not None and column not in ref_df.columns:
-            column = reference_id
+            column = reference_id  # type: ignore
             df.rename(columns={orig_column: column}, inplace=True)
 
         # uppercasing the target column before curating
@@ -426,13 +439,19 @@ class Entity:
     def _curate(
         self,
         df: pd.DataFrame,
-        reference_id: str = "ontology_id",
+        reference_id: Union[BiontyField, str],
         column: str = None,
         agg_col: str = None,
+        inplace: bool = False,
     ) -> pd.DataFrame:
         """Curate index of passed DataFrame to conform with default identifier."""
-        df = df.copy()
+        if reference_id is None:
+            reference_id = self.reference_id  # type: ignore
+
+        if not inplace:
+            df = df.copy()
         ref_df = self.df()
+
         # this is needed for features parsing in lamindb
         self._parsing_id = reference_id
 
@@ -444,8 +463,8 @@ class Entity:
                 target_col=reference_id,
             )[reference_id]
 
+        # when column is None, use index as the input column
         if column is None:
-            # when column is None, use index as the input column
             index_name = df.index.name
             df["__mapped_index"] = (
                 df.index if agg_col is None else df.index.map(alias_map)
@@ -454,8 +473,9 @@ class Entity:
             df.index = df["__mapped_index"].fillna(df["orig_index"])
             del df["__mapped_index"]
             df.index.name = index_name
+
             matches = check_if_index_compliant(
-                df.index, ref_df.reset_index()[reference_id]
+                df.index, ref_df.reset_index()[str(reference_id)]
             )
         else:
             orig_series = df[column]
@@ -487,3 +507,49 @@ class Entity:
         logger.warning(f"{n_misses} terms ({frac_misses}%) are not mapped.")
 
         return df
+
+    def inspect(
+        self, identifiers: Iterable, reference_id: BiontyField, return_df: bool = False
+    ) -> Union[DataFrame, dict[str, list[str]]]:
+        """Inspect if a list of identifiers are mappable to the entity reference.
+
+        Args:
+            identifiers: These identifiers will be checked against the Ontology.
+            reference_id: The BiontyField of the ontology to compare against.
+                          Examples are 'ontology_id' to map against the ontology ID or 'name' to map against the ontologies field names.
+            return_df: Whether to return a Pandas DataFrame.
+
+        Returns:
+            - A Dictionary that maps the input ontology (keys) to the ontology field (values)
+            - If specified A Pandas DataFrame with the curated index and a boolean `__curated__`
+              column that indicates compliance with the default identifier.
+        """
+        df = pd.DataFrame(index=identifiers)
+
+        curated_df = self._curate(
+            df=df, column=None, reference_id=reference_id, inplace=False
+        )
+
+        if return_df:
+            mapping_df = curated_df.rename(columns={"orig_index": str(reference_id)})
+            return mapping_df.reset_index(drop=True)
+        else:
+            mapping: Dict[str, List[str]] = {}
+            mapping["mapped"] = curated_df.index[curated_df["__curated__"]].tolist()
+            mapping["not_mapped"] = curated_df.index[
+                ~curated_df["__curated__"]
+            ].tolist()
+
+            return mapping
+
+
+class BiontyField:
+    def __init__(self, parent: Bionty, name: str):
+        self.parent = parent
+        self.name = name
+
+    def __repr__(self):
+        return self.name
+
+    def __str__(self):
+        return self.name

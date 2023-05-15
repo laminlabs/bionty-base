@@ -13,7 +13,9 @@ def test_pw_pathway_curation_ontology_id():
             "This pathway does not exist",
         ]
     )
-    curated_df = bt.Pathway(database="pw", version="7.74").curate(df)
+
+    pw = bt.Pathway(source="pw", version="7.74")
+    curated_df = pw.curate(df)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
@@ -31,9 +33,9 @@ def test_pw_pathway_curation_name():
             "This pathway does not exist",
         ]
     )
-    curated_df = bt.Pathway(database="pw", version="7.74").curate(
-        df, reference_id="name"
-    )
+
+    pw = bt.Pathway(source="pw", version="7.74")
+    curated_df = pw.curate(df, reference_id=pw.name)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
