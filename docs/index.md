@@ -3,7 +3,7 @@
 :end-line: 5
 ```
 
-_Access pre-defined public & custom ontologies with auto-complete. Map synonyms with ease._
+_Access public & custom ontologies with auto-complete. Map synonyms with ease._
 
 If you'd like to maintain in-house along with public ontologies, you can manage them with Bionty's SQL interface: [lnschema-bionty](https://lamin.ai/docs/lnschema-bionty/).
 
