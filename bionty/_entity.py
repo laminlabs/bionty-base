@@ -146,10 +146,18 @@ class Bionty:
         return list(df[0].values)
 
     def _ontology_to_df(self, ontology: Ontology):
-        """Convert ontology to a DataFrame with ontology_id and name columns."""
-        df_values = [
-            (term.id, term.name) for term in ontology.terms() if term.id and term.name
-        ]
+        """Convert pronto.Ontology to a DataFrame with columns id, name, children."""
+        df_values = []
+        for term in ontology.terms():
+            if not term.id or not term.name:
+                continue
+            subclasses = [
+                s.id for s in term.subclasses(distance=1, with_self=False).to_set()
+            ]
+            if len(subclasses) > 0:
+                df_values.append((term.id, term.name, subclasses))
+            else:
+                df_values.append((term.id, term.name))  # type:ignore
 
         def __flatten_prefixes(db_to_prefixes: Dict[str, List[str]]) -> set:
             flat_prefixes = {
@@ -211,10 +219,11 @@ class Bionty:
                 )
             )
 
-        df = pd.DataFrame(df_values, columns=["ontology_id", "name"]).set_index(
-            "ontology_id"
-        )
+        df = pd.DataFrame(
+            df_values, columns=["ontology_id", "name", "children"]
+        ).set_index("ontology_id")
 
+        # needed to avoid erroring in .lookup()
         df["name"].fillna("", inplace=True)
 
         return df
