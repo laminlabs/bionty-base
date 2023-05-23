@@ -56,18 +56,6 @@ class Bionty:
                 )
                 source = deprecated_db_parameter
 
-        def _camel_to_snake(string: str) -> str:
-            """Convert CamelCase to snake_case."""
-            return re.sub(r"(?<!^)(?=[A-Z])", "_", string).lower()
-
-        self._species = "all" if species is None else species
-        self._entity = _camel_to_snake(self.__class__.__name__)
-        self.reference_id = reference_id
-        self.include_id_prefixes = include_id_prefixes
-        self.include_name_prefixes = include_name_prefixes
-        self.exclude_id_prefixes = exclude_id_prefixes
-        self.exclude_name_prefixes = exclude_name_prefixes
-
         if source:
             # We don't allow custom databases inside lamindb instances
             # because the lamindb standard should be used
@@ -80,7 +68,21 @@ class Bionty:
             if br.normalize_prefix(source):
                 source = br.normalize_prefix(source)
 
+        def _camel_to_snake(string: str) -> str:
+            """Convert CamelCase to snake_case."""
+            return re.sub(r"(?<!^)(?=[A-Z])", "_", string).lower()
+
+        self._species = "all" if species is None else species
+        self._entity = _camel_to_snake(self.__class__.__name__)
+        self.reference_id = reference_id
+        self.include_id_prefixes = include_id_prefixes
+        self.include_name_prefixes = include_name_prefixes
+        self.exclude_id_prefixes = exclude_id_prefixes
+        self.exclude_name_prefixes = exclude_name_prefixes
+
         self._set_attributes(source=source, version=version)
+
+        self._has_synonyms = {"Gene", "CellMarker"}
 
     def __repr__(self) -> str:
         representation = (
@@ -521,7 +523,7 @@ class Bionty:
     def inspect(
         self, identifiers: Iterable, reference_id: BiontyField, return_df: bool = False
     ) -> Union[DataFrame, dict[str, list[str]]]:
-        """Inspect if a list of identifiers are mappable to the entity reference.
+        """Inspect if a list of identifiers are _has_synonyms to the entity reference.
 
         Args:
             identifiers: Identifiers that will be checked against the Ontology.
@@ -535,7 +537,7 @@ class Bionty:
             - If specified A Pandas DataFrame with the curated index and a boolean `__curated__`
               column that indicates compliance with the default identifier.
         """
-        if self.__class__.__name__ in {"Gene", "CellMarker"}:
+        if self.__class__.__name__ in self._has_synonyms:
             agg_col = self.ALIAS_DICT.get(str(reference_id))  # type: ignore
             if agg_col:
                 logging.warning(
@@ -574,14 +576,14 @@ class Bionty:
             reference_id: The BiontyField of the ontology to compare against.
                           Examples are 'ontology_id' to map against the ontology ID
                           or 'name' to map against the ontologies field names.
-            return_mapper: Whether to return a dictionary with keys mappable identifiers to values mapped reference_id values.
+            return_mapper: Whether to return a dictionary with keys _has_synonyms identifiers to values mapped reference_id values.
 
         Returns:
             - A list of mapped reference_id values if return_mapper is False.
-            - A dictionary of mapped values with mappable identifiers as keys
+            - A dictionary of mapped values with _has_synonyms identifiers as keys
               and values mapped to reference_id as values if return_mapper is True.
         """
-        if self.__class__.__name__ not in {"Gene", "CellMarker"}:
+        if self.__class__.__name__ not in self._has_synonyms:
             raise NotImplementedError(
                 "map_synonyms is only supported for 'Gene' and 'CellMarker'."
             )
