@@ -36,3 +36,10 @@ def test_wrong_bionty():
 
     with pytest.raises(NotImplementedError):
         bfxp.map_synonyms([], bfxp.name, return_mapper=False)
+
+
+def test_unsupported_reference_id(genes):
+    gene_symbols, gn = genes
+
+    with pytest.raises(ValueError):
+        gn.map_synonyms(gene_symbols, gn.ensembl_gene_id, return_mapper=False)

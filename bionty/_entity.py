@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import os
 import re
 from collections import namedtuple
@@ -525,7 +526,13 @@ class Bionty:
             - If specified A Pandas DataFrame with the curated index and a boolean `__curated__`
               column that indicates compliance with the default identifier.
         """
-        # TODO: Implement detection of synonyms
+        if self.__class__.__name__ in {"Gene", "CellMarker"}:
+            agg_col = self.ALIAS_DICT.get(str(reference_id))  # type: ignore
+            if agg_col:
+                logging.warning(
+                    "The identifiers contain synonyms! Convert them into"
+                    " standardized symbols using '.map_synonyms()'"
+                )
 
         df = pd.DataFrame(index=identifiers)
 
@@ -572,6 +579,8 @@ class Bionty:
 
         reference_id_str = str(reference_id)
         agg_col = self.ALIAS_DICT.get(reference_id_str)  # type: ignore
+        if agg_col is None:
+            raise ValueError(f"No synonyms available for {reference_id_str}")
         alias_map = explode_aggregated_column_to_expand(
             self.df().reset_index(),
             aggregated_col=agg_col,
