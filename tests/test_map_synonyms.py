@@ -18,7 +18,7 @@ def test_map_synonyms_mapper(genes):
 
     expected_synonym_mapping = {"FANCD1": "BRCA2"}
 
-    # assert mapping == expected_synonym_mapping
+    assert mapping == expected_synonym_mapping
 
 
 def test_map_synonyms(genes):
@@ -28,4 +28,11 @@ def test_map_synonyms(genes):
 
     expected_synonym_mapping = ["A1CF", "A1BG", "BRCA2", "FANCD20"]
 
-    # assert mapping == expected_synonym_mapping
+    assert mapping == expected_synonym_mapping
+
+
+def test_wrong_bionty():
+    bfxp = bt.BFXPipeline()
+
+    with pytest.raises(NotImplementedError):
+        bfxp.map_synonyms([], bfxp.name, return_mapper=False)

@@ -565,39 +565,29 @@ class Bionty:
             - A dictionary of mapped values with mappable identifiers as keys
               and values mapped to reference_id as values if return_mapper is True.
         """
-        # The synonyms are stored in the synonyms column
-        # ALIAS_DICT contains them
-
         if self.__class__.__name__ not in {"Gene", "CellMarker"}:
-            raise AttributeError(
+            raise NotImplementedError(
                 "map_synonyms is only supported for 'Gene' and 'CellMarker'."
             )
 
-        # reference_id = str(reference_id)
-        # agg_col = self.ALIAS_DICT.get(reference_id)
-        # if agg_col is not None:
-        #     # if provided a column with aggregated values, performs alias mapping
-        #     alias_map = explode_aggregated_column_to_expand(
-        #         ref_df.reset_index(),
-        #         aggregated_col=agg_col,
-        #         target_col=reference_id,
-        #     )[reference_id]
+        reference_id_str = str(reference_id)
+        agg_col = self.ALIAS_DICT.get(reference_id_str)  # type: ignore
+        alias_map = explode_aggregated_column_to_expand(
+            self.df().reset_index(),
+            aggregated_col=agg_col,
+            target_col=reference_id_str,
+        )[reference_id_str]
 
-        # # when column is None, use index as the input column
-        # if column is None:
-        #     index_name = df.index.name
-        #     df["__mapped_index"] = (
-        #         df.index if agg_col is None else df.index.map(alias_map)
-        #     )
-        #     df["orig_index"] = df.index
-        #     df.index = df["__mapped_index"].fillna(df["orig_index"])
-        #     del df["__mapped_index"]
-        #     df.index.name = index_name
-        #
-        #     matches = check_if_index_compliant(
-        #         df.index, ref_df.reset_index()[str(reference_id)]
-        #     )
-        return  # type: ignore
+        if return_mapper:
+            mapped_dict = {
+                item: alias_map.get(item)
+                for item in identifiers
+                if alias_map.get(item) is not None and alias_map.get(item) != item
+            }
+            return mapped_dict
+        else:
+            mapped_list = [alias_map.get(item, item) for item in identifiers]
+            return mapped_list
 
 
 class BiontyField:
