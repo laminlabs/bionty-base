@@ -6,8 +6,6 @@ from .._entity import Bionty, BiontyField
 from ..dev._io import s3_bionty_assets
 from ._shared_docstrings import _doc_params, doc_curate, doc_entites
 
-ALIAS_DICT = {"name": "synonyms"}
-
 
 @_doc_params(doc_entities=doc_entites)
 class CellMarker(Bionty):
@@ -35,6 +33,7 @@ class CellMarker(Bionty):
             reference_id="name",
             **kwargs
         )
+        self.ALIAS_DICT = {"name": "synonyms"}
 
     def df(self) -> pd.DataFrame:
         """DataFrame.
@@ -65,7 +64,7 @@ class CellMarker(Bionty):
             column that indicates compliance with the default identifier.
         """
         reference_id = str(reference_id)
-        agg_col = ALIAS_DICT.get(reference_id)  # type: ignore
+        agg_col = self.ALIAS_DICT.get(reference_id)  # type: ignore
         df = df.copy()
 
         # if the query column name does not match any columns in the self.df()
@@ -79,7 +78,7 @@ class CellMarker(Bionty):
             else:
                 column = reference_id if column is None else column
                 df.rename(columns={orig_column: column}, inplace=True)
-            agg_col = ALIAS_DICT.get(column)
+            agg_col = self.ALIAS_DICT.get(column)
 
         return (
             super()

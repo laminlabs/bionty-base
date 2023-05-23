@@ -401,7 +401,7 @@ class Bionty:
         """
         if reference_id is None:
             reference_id = self.df().index.name  # type: ignore
-        if self.reference_id and reference_id != "ontology_id":
+        elif self.reference_id and reference_id != "ontology_id":
             reference_id = reference_id
         elif self.reference_id:
             reference_id = self.reference_id  # type: ignore
@@ -568,6 +568,13 @@ class Bionty:
         # The synonyms are stored in the synonyms column
         # ALIAS_DICT contains them
 
+        if self.__class__.__name__ not in {"Gene", "CellMarker"}:
+            raise AttributeError(
+                "map_synonyms is only supported for 'Gene' and 'CellMarker'."
+            )
+
+        # reference_id = str(reference_id)
+        # agg_col = self.ALIAS_DICT.get(reference_id)
         # if agg_col is not None:
         #     # if provided a column with aggregated values, performs alias mapping
         #     alias_map = explode_aggregated_column_to_expand(
@@ -575,7 +582,7 @@ class Bionty:
         #         aggregated_col=agg_col,
         #         target_col=reference_id,
         #     )[reference_id]
-        #
+
         # # when column is None, use index as the input column
         # if column is None:
         #     index_name = df.index.name
@@ -590,7 +597,7 @@ class Bionty:
         #     matches = check_if_index_compliant(
         #         df.index, ref_df.reset_index()[str(reference_id)]
         #     )
-        pass
+        return  # type: ignore
 
 
 class BiontyField:

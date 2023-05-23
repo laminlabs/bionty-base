@@ -7,8 +7,6 @@ from .._normalize import GENE_COLUMNS, NormalizeColumns
 from ..dev._io import s3_bionty_assets
 from ._shared_docstrings import _doc_params, doc_curate, doc_entites
 
-ALIAS_DICT = {"symbol": "synonyms"}
-
 
 @_doc_params(doc_entities=doc_entites)
 class Gene(Bionty):
@@ -43,6 +41,7 @@ class Gene(Bionty):
             **kwargs,
         )
         self._lookup_field = "symbol"
+        self.ALIAS_DICT = {"symbol": "synonyms"}
 
     def df(self) -> pd.DataFrame:
         """DataFrame.
@@ -83,7 +82,7 @@ class Gene(Bionty):
             column that indicates compliance with the default identifier.
         """
         reference_id = str(reference_id)
-        agg_col = ALIAS_DICT.get(reference_id)
+        agg_col = self.ALIAS_DICT.get(reference_id)
         df = df.copy()
 
         # if the query column name does not match any columns in the self.df()
@@ -98,7 +97,7 @@ class Gene(Bionty):
             else:
                 column = reference_id if column_norm is None else column_norm
                 df.rename(columns={orig_column: column}, inplace=True)
-            agg_col = ALIAS_DICT.get(column)
+            agg_col = self.ALIAS_DICT.get(column)
 
         return (
             super()
