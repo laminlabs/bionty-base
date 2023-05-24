@@ -71,8 +71,8 @@ def s3_bionty_assets(
 ):
     """Synchronizes a S3 file path with local file storage.
 
-    If the file does not exist locally it gets downloaded.
-    If the file does not exist on S3, the file does not get synchronized.
+    If the file does not exist locally it gets downloaded to datasetdir/filename.
+    If the file does not exist on S3, the file does not get synchronized, no erroring.
 
     Args:
         filename: The suffix of the assets_base_url.

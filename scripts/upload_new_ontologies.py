@@ -26,7 +26,7 @@ def _upload_ontology_artifacts(
     ln.setup.load(instance, migrate=True)
     with ln.Session() as ss:
         transform = ln.select(
-            ln.Transform, name="Bionty ontology artifacts upload"
+            ln.Transform, name="Bionty ontology artifacts"
         ).one_or_none()
 
         if transform is None:

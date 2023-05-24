@@ -107,18 +107,25 @@ class Bionty:
 
     @cached_property
     def ontology(self, **kwargs) -> Ontology:  # type:ignore
-        """The Pronto Ontology object."""
-        localpath = self._url_download(self._url)
+        """The Pronto Ontology object.
 
-        return Ontology(handle=localpath, **kwargs)
+        See: https://pronto.readthedocs.io/en/stable/api/pronto.Ontology.html
+        """
+        if not self._local_ontology_path.exists():
+            try:
+                self._url_download(self._url)
+            finally:
+                # Only verify md5 if it's actually available from the versions.yaml file
+                if len(self._md5) > 0:
+                    if not verify_md5(self._local_ontology_path, self._md5):
+                        logger.warning(
+                            f"MD5 sum for {self._local_ontology_path} did not match"
+                            f" {self._md5}! Redownloading..."
+                        )
+                        os.remove(self._local_ontology_path)
+                        self._url_download(self._url)
 
-    def _to_lookup_keys(self, x: list) -> list:
-        """Convert a list of strings to tab-completion allowed formats."""
-        lookup = [re.sub("[^0-9a-zA-Z]+", "_", str(i)) for i in x]
-        for i, value in enumerate(lookup):
-            if value == "" or (not value[0].isalpha()):
-                lookup[i] = f"LOOKUP_{value}"
-        return lookup
+        return Ontology(handle=self._local_ontology_path, **kwargs)
 
     def _namedtuple_from_dict(
         self, df: pd.DataFrame, name: Optional[str] = None
@@ -134,15 +141,6 @@ class Bionty:
                 for i, row in enumerate(df.itertuples(name=name, index=False))
             }
         )
-
-    def _uniquefy_duplicates(self, lst: Iterable) -> list:
-        """Uniquefy duplicated values in a list."""
-        df = pd.DataFrame(lst)
-        duplicated = df[df[0].duplicated(keep=False)]
-        df.loc[duplicated.index, 0] = (
-            duplicated[0] + "__" + duplicated.groupby(0).cumcount().astype(str)
-        )
-        return list(df[0].values)
 
     def _ontology_to_df(self, ontology: Ontology):
         """Convert pronto.Ontology to a DataFrame with columns id, name, children."""
@@ -229,21 +227,23 @@ class Bionty:
 
     @check_dynamicdir_exists
     def _url_download(self, url: str) -> str:
-        """Download file from url to dynamicdir."""
+        """Download file from url to dynamicdir _local_ontology_path."""
+        # Try to download from s3://bionty-assets
         s3_bionty_assets(
-            filename=self._semantic_file_name,
+            filename=self._ontology_filename,
             assets_base_url="s3://bionty-assets",
-            localpath=self._ontology_download_path,
+            localpath=self._local_ontology_path,
         )
 
-        if not self._ontology_download_path.exists():
+        # If the file is not available, download from the url
+        if not self._local_ontology_path.exists():
             logger.info(
                 f"Downloading {self.__class__.__name__} reference for the first time"
                 " might take a while..."
             )
-            url_download(url, self._ontology_download_path)
+            url_download(url, self._local_ontology_path)
 
-        return self._ontology_download_path
+        return self._local_ontology_path
 
     def _ontology_localpath_from_url(self, url: str) -> str:
         """Get version from the ontology url."""
@@ -317,14 +317,14 @@ class Bionty:
                 f" select one of the following: {available_db_versions}"
             )
 
-        self._cloud_parquet_path = f"{self.species}_{self.database}_{self.version}_{self.__class__.__name__}_lookup.parquet"  # noqa: E501
+        self._parquet_filename = f"{self.species}_{self.database}_{self.version}_{self.__class__.__name__}_lookup.parquet"  # noqa: E501
         self._local_parquet_path = (
-            settings.datasetdir / self._cloud_parquet_path
+            settings.dynamicdir / self._parquet_filename
         )  # noqa: W503,E501
-        self._semantic_file_name = f"{self.species}___{self.database}___{self.version}___{self.__class__.__name__}".replace(
+        self._ontology_filename = f"{self.species}___{self.database}___{self.version}___{self.__class__.__name__}".replace(
             " ", "_"
         )
-        self._ontology_download_path = settings.dynamicdir / self._semantic_file_name
+        self._local_ontology_path = settings.dynamicdir / self._ontology_filename
 
         for col_name in self.df().columns:
             try:
@@ -343,31 +343,43 @@ class Bionty:
         Returns:
             A NamedTuple of lookup information of the entitys values.
         """
+
+        def to_lookup_keys(x: list) -> list:
+            """Convert a list of strings to tab-completion allowed formats."""
+            lookup = [re.sub("[^0-9a-zA-Z]+", "_", str(i)) for i in x]
+            for i, value in enumerate(lookup):
+                if value == "" or (not value[0].isalpha()):
+                    lookup[i] = f"LOOKUP_{value}"
+            return lookup
+
+        def uniquefy_duplicates(lst: Iterable) -> list:
+            """Uniquefy duplicated values in a list."""
+            df = pd.DataFrame(lst)
+            duplicated = df[df[0].duplicated(keep=False)]
+            df.loc[duplicated.index, 0] = (
+                duplicated[0] + "__" + duplicated.groupby(0).cumcount().astype(str)
+            )
+            return list(df[0].values)
+
         df = self.df().reset_index()
         if field not in df:
             raise AssertionError(f"No {field} column exists!")
 
         # uniquefy lookup keys
-        df.index = self._uniquefy_duplicates(self._to_lookup_keys(df[field].values))
+        df.index = uniquefy_duplicates(to_lookup_keys(df[field].values))
 
         return self._namedtuple_from_dict(df)
 
     def df(self) -> pd.DataFrame:
         """Pandas DataFrame."""
-        # download
+        # Download and sync from s3://bionty-assets
+        s3_bionty_assets(
+            filename=self._parquet_filename,
+            assets_base_url="s3://bionty-assets",
+            localpath=self._local_parquet_path,
+        )
+        # If download is not possible, write a parquet file from ontology
         if not self._local_parquet_path.exists():
-            try:
-                self._url_download(self._url)
-            finally:
-                # Only verify md5 if it's actually available
-                if len(self._md5) > 0:
-                    if not verify_md5(self._ontology_download_path, self._md5):
-                        logger.warning(
-                            f"MD5 sum for {self._ontology_download_path} did not match"
-                            f" {self._md5}! Redownloading..."
-                        )
-                        os.remove(self._ontology_download_path)
-                        self._url_download(self._url)
             # write df to parquet file
             df = self._ontology_to_df(self.ontology)
             df.to_parquet(self._local_parquet_path)
