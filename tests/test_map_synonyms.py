@@ -31,14 +31,11 @@ def test_map_synonyms(genes):
     assert mapping == expected_synonym_mapping
 
 
-def test_map_ensembl(genes):
+def test_unsupported_reference_id(genes):
     gene_symbols, gn = genes
 
-    mapping = gn.map_synonyms(gene_symbols, gn.ensembl_gene_id, return_mapper=False)
-
-    expected_synonym_mapping = ["A1CF", "A1BG", "ENSG00000139618", "FANCD20"]
-
-    assert mapping == expected_synonym_mapping
+    with pytest.raises(ValueError):
+        gn.map_synonyms(gene_symbols, gn.ensembl_gene_id, return_mapper=False)
 
 
 def test_unsupported_bionty():

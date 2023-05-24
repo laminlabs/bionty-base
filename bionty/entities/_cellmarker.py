@@ -34,6 +34,7 @@ class CellMarker(Bionty):
             **kwargs
         )
         self._synonyms_field = "synonyms"
+        self.ALIAS_DICT = {"name": "synonyms"}
 
     def df(self) -> pd.DataFrame:
         """DataFrame.

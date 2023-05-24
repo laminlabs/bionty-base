@@ -42,6 +42,7 @@ class Gene(Bionty):
         )
         self._lookup_field = "symbol"
         self._synonyms_field = "synonyms"
+        self._synonyms_dict = {"symbol": "synonyms"}
 
     def df(self) -> pd.DataFrame:
         """DataFrame.

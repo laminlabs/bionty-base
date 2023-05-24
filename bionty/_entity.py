@@ -538,13 +538,8 @@ class Bionty:
               column that indicates compliance with the default identifier.
         """
         if self._synonyms_field:
-            reference_id_str = str(reference_id)
-            alias_map = explode_aggregated_column_to_expand(
-                self.df().reset_index(),
-                aggregated_col=str(self._synonyms_field),
-                target_col=reference_id_str,
-            )[reference_id_str]
-            if alias_map.index.isin(identifiers).any():
+            agg_col = self._synonyms_dict.get(str(reference_id))  # type: ignore
+            if agg_col:
                 logging.warning(
                     "The identifiers contain synonyms! Convert them into"
                     " standardized symbols using '.map_synonyms()'"
@@ -599,6 +594,9 @@ class Bionty:
             )
 
         reference_id_str = str(reference_id)
+        agg_col = self._synonyms_dict.get(reference_id_str)  # type: ignore
+        if agg_col is None:
+            raise ValueError(f"No synonyms available for {reference_id_str}")
         alias_map = explode_aggregated_column_to_expand(
             self.df().reset_index(),
             aggregated_col=str(self._synonyms_field),
