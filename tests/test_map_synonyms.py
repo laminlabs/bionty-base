@@ -31,15 +31,18 @@ def test_map_synonyms(genes):
     assert mapping == expected_synonym_mapping
 
 
-def test_wrong_bionty():
+def test_map_ensembl(genes):
+    gene_symbols, gn = genes
+
+    mapping = gn.map_synonyms(gene_symbols, gn.ensembl_gene_id, return_mapper=False)
+
+    expected_synonym_mapping = ["A1CF", "A1BG", "ENSG00000139618", "FANCD20"]
+
+    assert mapping == expected_synonym_mapping
+
+
+def test_unsupported_bionty():
     bfxp = bt.BFXPipeline()
 
     with pytest.raises(NotImplementedError):
         bfxp.map_synonyms([], bfxp.name, return_mapper=False)
-
-
-def test_unsupported_reference_id(genes):
-    gene_symbols, gn = genes
-
-    with pytest.raises(ValueError):
-        gn.map_synonyms(gene_symbols, gn.ensembl_gene_id, return_mapper=False)
