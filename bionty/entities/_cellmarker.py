@@ -33,8 +33,7 @@ class CellMarker(Bionty):
             reference_id="name",
             **kwargs
         )
-        self._synonyms_field = "synonyms"
-        self.ALIAS_DICT = {"name": "synonyms"}
+        self._synonyms_dict = {"name": "synonyms"}
 
     def df(self) -> pd.DataFrame:
         """DataFrame.
@@ -65,6 +64,7 @@ class CellMarker(Bionty):
             column that indicates compliance with the default identifier.
         """
         reference_id = str(reference_id)
+        agg_col = self._synonyms_dict.get(reference_id)
         df = df.copy()
 
         # if the query column name does not match any columns in the self.df()
@@ -78,13 +78,14 @@ class CellMarker(Bionty):
             else:
                 column = reference_id if column is None else column
                 df.rename(columns={orig_column: column}, inplace=True)
+            agg_col = self._synonyms_dict.get(column)
 
         return (
             super()
             ._curate(
                 df=df,
                 column=column,
-                agg_col=str(self._synonyms_field),
+                agg_col=agg_col,
                 reference_id=reference_id,
             )
             .rename(columns={column: orig_column})

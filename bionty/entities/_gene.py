@@ -41,7 +41,6 @@ class Gene(Bionty):
             **kwargs,
         )
         self._lookup_field = "symbol"
-        self._synonyms_field = "synonyms"
         self._synonyms_dict = {"symbol": "synonyms"}
 
     def df(self) -> pd.DataFrame:
@@ -83,6 +82,7 @@ class Gene(Bionty):
             column that indicates compliance with the default identifier.
         """
         reference_id = str(reference_id)
+        agg_col = self._synonyms_dict.get(reference_id)
         df = df.copy()
 
         # if the query column name does not match any columns in the self.df()
@@ -97,13 +97,14 @@ class Gene(Bionty):
             else:
                 column = reference_id if column_norm is None else column_norm
                 df.rename(columns={orig_column: column}, inplace=True)
+            agg_col = self._synonyms_dict.get(column)
 
         return (
             super()
             ._curate(
                 df=df,
                 column=column,
-                agg_col=str(self._synonyms_field),
+                agg_col=agg_col,
                 reference_id=reference_id,
             )
             .rename(columns={column: orig_column})
