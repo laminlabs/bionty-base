@@ -24,10 +24,6 @@ def get_compliant_index_from_column(
 ):
     """Get a reference-ID-compliant index based on a column with an alternative identifier.
 
-    Example:
-    >>> compliant_index = map_index_from_column(df, "ensemble_id")
-    >>> df.index = compliant_index
-
     This will fail for some entries if the column is not uniquely mappable to
     the Bionty ID.
 
@@ -42,6 +38,10 @@ def get_compliant_index_from_column(
         ref_df: Reference table in Bionty.
         column: Column to be mapped to reference ID.
         keep_data: Keep terms that are not mappable to the reference ID.
+
+    Example:
+        >>> compliant_index = get_compliant_index_from_column(df, "ensemble_id")
+        >>> df.index = compliant_index
     """
     df = df.copy()  # not touch the input df
 
@@ -75,15 +75,19 @@ def get_compliant_index_from_column(
 
 
 def explode_aggregated_column_to_expand(
-    df: pd.DataFrame, aggregated_col=str, target_col=None, sep="|"
+    df: pd.DataFrame,
+    aggregated_col: str,
+    target_col=None,
+    sep: str = "|",
 ) -> pd.DataFrame:
     """Explode values from an aggregated DataFrame column to expand a target column.
 
     Args:
-        df: a DataFrame containing the aggregated_col and target_col
-        aggregated_col: the name of the aggregated column
+        df: A DataFrame containing the aggregated_col and target_col.
+        aggregated_col: The name of the aggregated column
         target_col: the name of the target column
-            If None, use the index as the target column
+                    If None, use the index as the target column
+        sep: Splits all values of the aggregated_col by this separator.
 
     Returns:
         a DataFrame index by the split values from the aggregated column;

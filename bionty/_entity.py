@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import os
 import re
 from collections import namedtuple
@@ -39,6 +40,7 @@ class Bionty:
         species: Optional[str] = None,
         *,
         reference_id: Optional[Union[BiontyField, str]] = None,
+        synonyms_field: Optional[Union[BiontyField, str]] = None,
         include_id_prefixes: Optional[Dict[str, List[str]]] = None,
         include_name_prefixes: Optional[Dict[str, List[str]]] = None,
         exclude_id_prefixes: Optional[Dict[str, List[str]]] = None,
@@ -55,18 +57,6 @@ class Bionty:
                 )
                 source = deprecated_db_parameter
 
-        def _camel_to_snake(string: str) -> str:
-            """Convert CamelCase to snake_case."""
-            return re.sub(r"(?<!^)(?=[A-Z])", "_", string).lower()
-
-        self._species = "all" if species is None else species
-        self._entity = _camel_to_snake(self.__class__.__name__)
-        self.reference_id = reference_id
-        self.include_id_prefixes = include_id_prefixes
-        self.include_name_prefixes = include_name_prefixes
-        self.exclude_id_prefixes = exclude_id_prefixes
-        self.exclude_name_prefixes = exclude_name_prefixes
-
         if source:
             # We don't allow custom databases inside lamindb instances
             # because the lamindb standard should be used
@@ -78,6 +68,20 @@ class Bionty:
 
             if br.normalize_prefix(source):
                 source = br.normalize_prefix(source)
+
+        def _camel_to_snake(string: str) -> str:
+            """Convert CamelCase to snake_case."""
+            return re.sub(r"(?<!^)(?=[A-Z])", "_", string).lower()
+
+        self._species = "all" if species is None else species
+        self._entity = _camel_to_snake(self.__class__.__name__)
+        self.reference_id = reference_id
+        self._synonyms_field = synonyms_field
+        self._has_synonyms = {"Gene", "CellMarker"}
+        self.include_id_prefixes = include_id_prefixes
+        self.include_name_prefixes = include_name_prefixes
+        self.exclude_id_prefixes = exclude_id_prefixes
+        self.exclude_name_prefixes = exclude_name_prefixes
 
         self._set_attributes(source=source, version=version)
 
@@ -158,7 +162,7 @@ class Bionty:
             else:
                 df_values.append((term.id, term.name))  # type:ignore
 
-        def flatten_prefixes(db_to_prefixes: Dict[str, List[str]]) -> set:
+        def __flatten_prefixes(db_to_prefixes: Dict[str, List[str]]) -> set:
             flat_prefixes = {
                 prefix for values in db_to_prefixes.values() for prefix in values
             }
@@ -168,7 +172,7 @@ class Bionty:
         if self.include_id_prefixes and self.database in list(
             self.include_id_prefixes.keys()
         ):
-            flat_include_id_prefixes = flatten_prefixes(self.include_id_prefixes)
+            flat_include_id_prefixes = __flatten_prefixes(self.include_id_prefixes)
             df_values = list(
                 filter(
                     lambda val: any(
@@ -180,7 +184,7 @@ class Bionty:
         if self.include_name_prefixes and self.database in list(
             self.include_name_prefixes.keys()
         ):
-            flat_include_name_prefixes = flatten_prefixes(self.include_name_prefixes)
+            flat_include_name_prefixes = __flatten_prefixes(self.include_name_prefixes)
             df_values = list(
                 filter(
                     lambda val: any(
@@ -193,7 +197,7 @@ class Bionty:
         if self.exclude_id_prefixes and self.database in list(
             self.exclude_id_prefixes.keys()
         ):
-            flat_exclude_id_prefixes = flatten_prefixes(self.exclude_id_prefixes)
+            flat_exclude_id_prefixes = __flatten_prefixes(self.exclude_id_prefixes)
 
             df_values = list(
                 filter(
@@ -206,7 +210,7 @@ class Bionty:
         if self.exclude_name_prefixes and self.database in list(
             self.exclude_name_prefixes.keys()
         ):
-            flat_exclude_name_prefixes = flatten_prefixes(self.exclude_name_prefixes)
+            flat_exclude_name_prefixes = __flatten_prefixes(self.exclude_name_prefixes)
 
             df_values = list(
                 filter(
@@ -410,7 +414,7 @@ class Bionty:
         """
         if reference_id is None:
             reference_id = self.df().index.name  # type: ignore
-        if self.reference_id and reference_id != "ontology_id":
+        elif self.reference_id and reference_id != "ontology_id":
             reference_id = reference_id
         elif self.reference_id:
             reference_id = self.reference_id  # type: ignore
@@ -523,9 +527,10 @@ class Bionty:
         """Inspect if a list of identifiers are mappable to the entity reference.
 
         Args:
-            identifiers: These identifiers will be checked against the Ontology.
+            identifiers: Identifiers that will be checked against the Ontology.
             reference_id: The BiontyField of the ontology to compare against.
-                          Examples are 'ontology_id' to map against the ontology ID or 'name' to map against the ontologies field names.
+                          Examples are 'ontology_id' to map against the ontology ID
+                          or 'name' to map against the ontologies field names.
             return_df: Whether to return a Pandas DataFrame.
 
         Returns:
@@ -533,6 +538,14 @@ class Bionty:
             - If specified A Pandas DataFrame with the curated index and a boolean `__curated__`
               column that indicates compliance with the default identifier.
         """
+        if self.__class__.__name__ in self._has_synonyms:
+            agg_col = self._synonyms_dict.get(str(reference_id))  # type: ignore
+            if agg_col:
+                logging.warning(
+                    "The identifiers contain synonyms! Convert them into"
+                    " standardized symbols using '.map_synonyms()'"
+                )
+
         df = pd.DataFrame(index=identifiers)
 
         curated_df = self._curate(
@@ -550,6 +563,55 @@ class Bionty:
             ].tolist()
 
             return mapping
+
+    def map_synonyms(
+        self,
+        identifiers: Iterable,
+        reference_id: BiontyField,
+        *,
+        synonyms_field: BiontyField = None,
+        return_mapper: bool = False,
+    ) -> Union[Dict[str, str], List[str]]:
+        """Maps input identifiers against Ontology synonyms.
+
+        Args:
+            identifiers: Identifiers that will be mapped against the Ontology.
+            reference_id: The BiontyField of the ontology to compare against.
+                          Examples are 'ontology_id' to map against the ontology ID
+                          or 'name' to map against the ontologies field names.
+            return_mapper: Whether to return a dictionary with keys mappable identifiers to values mapped reference_id values.
+
+        Returns:
+            - A list of mapped reference_id values if return_mapper is False.
+            - A dictionary of mapped values with mappable identifiers as keys
+              and values mapped to reference_id as values if return_mapper is True.
+        """
+        if self.__class__.__name__ not in self._has_synonyms:
+            raise NotImplementedError(
+                f"map_synonyms is only supported for \n{self._has_synonyms}."
+            )
+
+        reference_id_str = str(reference_id)
+        if not self._synonyms_dict or self._synonyms_dict.get(reference_id_str) is None:  # type: ignore
+            raise ValueError(f"No synonyms available for {reference_id_str}")
+        synonyms_field = synonyms_field if synonyms_field else self._synonyms_dict.get(reference_id_str)  # type: ignore
+
+        alias_map = explode_aggregated_column_to_expand(
+            self.df().reset_index(),
+            aggregated_col=str(synonyms_field),
+            target_col=reference_id_str,
+        )[reference_id_str]
+
+        if return_mapper:
+            mapped_dict = {
+                item: alias_map.get(item)
+                for item in identifiers
+                if alias_map.get(item) is not None and alias_map.get(item) != item
+            }
+            return mapped_dict
+        else:
+            mapped_list = [alias_map.get(item, item) for item in identifiers]
+            return mapped_list
 
 
 class BiontyField:
