@@ -97,14 +97,14 @@ class Bionty:
         return representation
 
     @property
-    def source(self) -> str:
-        """Name of the source."""
-        return self._source
-
-    @property
     def species(self):
         """The `name` of `Species` Bionty."""
         return self._species
+
+    @property
+    def source(self) -> str:
+        """Name of the source."""
+        return self._source
 
     @property
     def version(self):
@@ -132,21 +132,6 @@ class Bionty:
                         self._url_download(self._url)
 
         return Ontology(handle=self._local_ontology_path, **kwargs)
-
-    def _namedtuple_from_dict(
-        self, df: pd.DataFrame, name: Optional[str] = None
-    ) -> tuple:
-        """Create a namedtuple from a dict to allow autocompletion."""
-        if name is None:
-            name = self._entity
-
-        nt = namedtuple(name, df.index)  # type:ignore
-        return nt(
-            **{
-                df.index[i]: row
-                for i, row in enumerate(df.itertuples(name=name, index=False))
-            }
-        )
 
     def _ontology_to_df(self, ontology: Ontology):
         """Convert pronto.Ontology to a DataFrame with columns id, name, children."""
@@ -365,6 +350,19 @@ class Bionty:
             )
             return list(df[0].values)
 
+        def namedtuple_from_df(df: pd.DataFrame, name: Optional[str] = None) -> tuple:
+            """Create a namedtuple from a dataframe to allow autocompletion."""
+            if name is None:
+                name = self._entity
+
+            nt = namedtuple(name, df.index)  # type:ignore
+            return nt(
+                **{
+                    df.index[i]: row
+                    for i, row in enumerate(df.itertuples(name=name, index=False))
+                }
+            )
+
         df = self.df().reset_index()
         if field not in df:
             raise AssertionError(f"No {field} column exists!")
@@ -372,7 +370,7 @@ class Bionty:
         # uniquefy lookup keys
         df.index = uniquefy_duplicates(to_lookup_keys(df[field].values))
 
-        return self._namedtuple_from_dict(df)
+        return namedtuple_from_df(df)
 
     def df(self) -> pd.DataFrame:
         """Pandas DataFrame."""
