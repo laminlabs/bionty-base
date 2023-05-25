@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+💄 Prettified __repr__   | [369](https://github.com/laminlabs/bionty/pull/369) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-25 |
 💄 Prettified `__repr__` | [368](https://github.com/laminlabs/bionty/pull/368) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-25 |
 🍱 Download parquet files from `s3://bionty-assets` | [365](https://github.com/laminlabs/bionty/pull/365) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-25 | 0.14.0
 ✨ Implement `map_synonyms` | [359](https://github.com/laminlabs/bionty/pull/359) | [Zethson](https://github.com/Zethson) | 2023-05-24 |
