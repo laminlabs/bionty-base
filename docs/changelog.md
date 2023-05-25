@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🍱 Download parquet files from `s3://bionty-assets` | [365](https://github.com/laminlabs/bionty/pull/365) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-25 |
 :sparkles: Implement map_synonyms | [359](https://github.com/laminlabs/bionty/pull/359) | [Zethson](https://github.com/Zethson) | 2023-05-24 |
 🍱 Added `children` column to ontology parquet files | [363](https://github.com/laminlabs/bionty/pull/363) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-23 |
 Add inspect | [356](https://github.com/laminlabs/bionty/pull/356) | [Zethson](https://github.com/Zethson) | 2023-05-15 |
