@@ -87,17 +87,19 @@ class Bionty:
 
     def __repr__(self) -> str:
         representation = (
-            f"Bionty of {self.__class__.__name__}\n"
+            f"{self.__class__.__name__}\n"
             f"Species: {self.species}\n"
-            f"Database: {self.database}\n\n"
-            f"Access ontology terms with '{self.__class__.__name__}.df'"
+            f"Source: {self.source}, {self.version}\n\n"
+            f"📖 {self.__class__.__name__}.df(): ontology reference table\n"
+            f"🔎 {self.__class__.__name__}.lookup(): autocompletion of ontology terms\n"
+            f"🔗 {self.__class__.__name__}.ontology: Pronto.Ontology object"
         )
         return representation
 
     @property
-    def database(self) -> str:
+    def source(self) -> str:
         """Name of the source."""
-        return self._database
+        return self._source
 
     @property
     def species(self):
@@ -167,7 +169,7 @@ class Bionty:
 
             return flat_prefixes
 
-        if self.include_id_prefixes and self.database in list(
+        if self.include_id_prefixes and self.source in list(
             self.include_id_prefixes.keys()
         ):
             flat_include_id_prefixes = __flatten_prefixes(self.include_id_prefixes)
@@ -179,7 +181,7 @@ class Bionty:
                     df_values,
                 )
             )
-        if self.include_name_prefixes and self.database in list(
+        if self.include_name_prefixes and self.source in list(
             self.include_name_prefixes.keys()
         ):
             flat_include_name_prefixes = __flatten_prefixes(self.include_name_prefixes)
@@ -192,7 +194,7 @@ class Bionty:
                     df_values,
                 )
             )
-        if self.exclude_id_prefixes and self.database in list(
+        if self.exclude_id_prefixes and self.source in list(
             self.exclude_id_prefixes.keys()
         ):
             flat_exclude_id_prefixes = __flatten_prefixes(self.exclude_id_prefixes)
@@ -205,7 +207,7 @@ class Bionty:
                     df_values,
                 )
             )
-        if self.exclude_name_prefixes and self.database in list(
+        if self.exclude_name_prefixes and self.source in list(
             self.exclude_name_prefixes.keys()
         ):
             flat_exclude_name_prefixes = __flatten_prefixes(self.exclude_name_prefixes)
@@ -301,31 +303,29 @@ class Bionty:
         available_db_versions = self._load_versions(source="local")
 
         # Use the latest version if version is None.
-        self._database = current_database if source is None else str(source)
+        self._source = current_database if source is None else str(source)
         # Only the source was passed -> get the latest version from the available db versions  # noqa: E501
         if source and not version:
-            self._version = next(
-                iter(available_db_versions[self._database]["versions"])
-            )
+            self._version = next(iter(available_db_versions[self._source]["versions"]))
         else:
             self._version = current_version if version is None else str(version)
 
         self._url, self._md5 = (
-            available_db_versions.get(self._database)  # type: ignore  # noqa: E501
+            available_db_versions.get(self._source)  # type: ignore  # noqa: E501
             .get("versions")
             .get(str(self._version))
         )
         if self._url is None:
             raise ValueError(
-                f"Database {self._database} version {self._version} is not found,"
+                f"Database {self._source} version {self._version} is not found,"
                 f" select one of the following: {available_db_versions}"
             )
 
-        self._parquet_filename = f"{self.species}_{self.database}_{self.version}_{self.__class__.__name__}_lookup.parquet"  # noqa: E501
+        self._parquet_filename = f"{self.species}_{self.source}_{self.version}_{self.__class__.__name__}_lookup.parquet"  # noqa: E501
         self._local_parquet_path = (
             settings.dynamicdir / self._parquet_filename
         )  # noqa: W503,E501
-        self._ontology_filename = f"{self.species}___{self.database}___{self.version}___{self.__class__.__name__}".replace(
+        self._ontology_filename = f"{self.species}___{self.source}___{self.version}___{self.__class__.__name__}".replace(
             " ", "_"
         )
         self._local_ontology_path = settings.dynamicdir / self._ontology_filename
