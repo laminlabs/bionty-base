@@ -315,7 +315,11 @@ class Bionty:
         )
         self._local_ontology_path = settings.dynamicdir / self._ontology_filename
 
-        for col_name in self.df().columns:
+        # To also include the index field
+        df = self.df()
+        if df.index.name is not None:
+            df = df.reset_index()
+        for col_name in df.columns:
             try:
                 setattr(self, col_name, BiontyField(self, col_name))
             # Some fields of an ontology (e.g. Gene) are not Bionty class attributes and must be skipped.
