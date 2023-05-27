@@ -112,12 +112,92 @@ class Bionty:
         return self._version
 
     @cached_property
-    def ontology(self, **kwargs) -> Ontology:  # type:ignore
+    def ontology(self) -> Ontology:  # type:ignore
         """The Pronto Ontology object.
 
         See: https://pronto.readthedocs.io/en/stable/api/pronto.Ontology.html
         """
+        self._download_ontology_file()
+        return Ontology(handle=self._local_ontology_path)
+
+    def df(self) -> pd.DataFrame:
+        """Pandas DataFrame."""
+        # Download and sync from s3://bionty-assets
+        s3_bionty_assets(
+            filename=self._parquet_filename,
+            assets_base_url="s3://bionty-assets",
+            localpath=self._local_parquet_path,
+        )
+        # If download is not possible, write a parquet file from ontology
+        if not self._local_parquet_path.exists():
+            # write df to parquet file
+            df = self._ontology_to_df(self.ontology)
+            df.to_parquet(self._local_parquet_path)
+
+        # loads the df and set index
+        df = pd.read_parquet(self._local_parquet_path).reset_index()
+        reference_index_name = self.reference_id
+        if self.reference_id is None and "ontology_id" in df.columns:
+            reference_index_name = "ontology_id"
+        try:
+            return df.set_index(reference_index_name)
+        except KeyError:
+            return df
+
+    def lookup(self, field: str = "name") -> tuple:
+        """Return an auto-complete object for the bionty id.
+
+        Args:
+            field: The field to lookup the values for. Adapt this parameter to, for example, 'ontology_id' to lookup by ID.
+                   Defaults to 'name'.
+
+        Returns:
+            A NamedTuple of lookup information of the entitys values.
+        """
+
+        def to_lookup_keys(x: list) -> list:
+            """Convert a list of strings to tab-completion allowed formats."""
+            lookup = [re.sub("[^0-9a-zA-Z]+", "_", str(i)) for i in x]
+            for i, value in enumerate(lookup):
+                if value == "" or (not value[0].isalpha()):
+                    lookup[i] = f"LOOKUP_{value}"
+            return lookup
+
+        def uniquefy_duplicates(lst: Iterable) -> list:
+            """Uniquefy duplicated values in a list."""
+            df = pd.DataFrame(lst)
+            duplicated = df[df[0].duplicated(keep=False)]
+            df.loc[duplicated.index, 0] = (
+                duplicated[0] + "__" + duplicated.groupby(0).cumcount().astype(str)
+            )
+            return list(df[0].values)
+
+        def namedtuple_from_df(df: pd.DataFrame, name: Optional[str] = None) -> tuple:
+            """Create a namedtuple from a dataframe to allow autocompletion."""
+            if name is None:
+                name = self._entity
+
+            nt = namedtuple(name, df.index)  # type:ignore
+            return nt(
+                **{
+                    df.index[i]: row
+                    for i, row in enumerate(df.itertuples(name=name, index=False))
+                }
+            )
+
+        df = self.df().reset_index()
+        if field not in df:
+            raise AssertionError(f"No {field} column exists!")
+
+        # uniquefy lookup keys
+        df.index = uniquefy_duplicates(to_lookup_keys(df[field].values))
+
+        return namedtuple_from_df(df)
+
+    def _download_ontology_file(self) -> None:
+        """Download ontology file to _local_ontology_path."""
         if not self._local_ontology_path.exists():
+            logger.download(f"Downloading {self.__class__.__name__} ontology file...")
             try:
                 self._url_download(self._url)
             finally:
@@ -131,21 +211,31 @@ class Bionty:
                         os.remove(self._local_ontology_path)
                         self._url_download(self._url)
 
-        return Ontology(handle=self._local_ontology_path, **kwargs)
-
     def _ontology_to_df(self, ontology: Ontology):
         """Convert pronto.Ontology to a DataFrame with columns id, name, children."""
         df_values = []
         for term in ontology.terms():
-            if not term.id or not term.name:
+            # skip terms without id or name
+            # skip obsolete terms
+            if (not term.id) or (not term.name) or term.obsolete:
                 continue
+
+            # term definition text
+            definition = None if term.definition is None else term.definition.title()
+
+            # concatenate synonyms into a string
+            synonyms = "|".join(
+                [i.description for i in term.synonyms if i.scope == "EXACT"]
+            )
+            if len(synonyms) == 0:
+                synonyms = None  # type:ignore
+
+            # get 1st degree children as a list
             subclasses = [
                 s.id for s in term.subclasses(distance=1, with_self=False).to_set()
             ]
-            if len(subclasses) > 0:
-                df_values.append((term.id, term.name, subclasses))
-            else:
-                df_values.append((term.id, term.name))  # type:ignore
+
+            df_values.append((term.id, term.name, definition, synonyms, subclasses))
 
         def __flatten_prefixes(db_to_prefixes: Dict[str, List[str]]) -> set:
             flat_prefixes = {
@@ -154,6 +244,7 @@ class Bionty:
 
             return flat_prefixes
 
+        # TODO: simply the below
         if self.include_id_prefixes and self.source in list(
             self.include_id_prefixes.keys()
         ):
@@ -208,7 +299,8 @@ class Bionty:
             )
 
         df = pd.DataFrame(
-            df_values, columns=["ontology_id", "name", "children"]
+            df_values,
+            columns=["ontology_id", "name", "definition", "synonyms", "children"],
         ).set_index("ontology_id")
 
         # needed to avoid erroring in .lookup()
@@ -228,9 +320,8 @@ class Bionty:
 
         # If the file is not available, download from the url
         if not self._local_ontology_path.exists():
-            logger.info(
-                f"Downloading {self.__class__.__name__} reference for the first time"
-                " might take a while..."
+            logger.download(
+                f"Downloading {self.__class__.__name__} ontology file from: {url}"
             )
             url_download(url, self._local_ontology_path)
 
@@ -325,80 +416,6 @@ class Bionty:
             # Some fields of an ontology (e.g. Gene) are not Bionty class attributes and must be skipped.
             except AttributeError:
                 pass
-
-    def lookup(self, field: str = "name") -> tuple:
-        """Return an auto-complete object for the bionty id.
-
-        Args:
-            field: The field to lookup the values for. Adapt this parameter to, for example, 'ontology_id' to lookup by ID.
-                   Defaults to 'name'.
-
-        Returns:
-            A NamedTuple of lookup information of the entitys values.
-        """
-
-        def to_lookup_keys(x: list) -> list:
-            """Convert a list of strings to tab-completion allowed formats."""
-            lookup = [re.sub("[^0-9a-zA-Z]+", "_", str(i)) for i in x]
-            for i, value in enumerate(lookup):
-                if value == "" or (not value[0].isalpha()):
-                    lookup[i] = f"LOOKUP_{value}"
-            return lookup
-
-        def uniquefy_duplicates(lst: Iterable) -> list:
-            """Uniquefy duplicated values in a list."""
-            df = pd.DataFrame(lst)
-            duplicated = df[df[0].duplicated(keep=False)]
-            df.loc[duplicated.index, 0] = (
-                duplicated[0] + "__" + duplicated.groupby(0).cumcount().astype(str)
-            )
-            return list(df[0].values)
-
-        def namedtuple_from_df(df: pd.DataFrame, name: Optional[str] = None) -> tuple:
-            """Create a namedtuple from a dataframe to allow autocompletion."""
-            if name is None:
-                name = self._entity
-
-            nt = namedtuple(name, df.index)  # type:ignore
-            return nt(
-                **{
-                    df.index[i]: row
-                    for i, row in enumerate(df.itertuples(name=name, index=False))
-                }
-            )
-
-        df = self.df().reset_index()
-        if field not in df:
-            raise AssertionError(f"No {field} column exists!")
-
-        # uniquefy lookup keys
-        df.index = uniquefy_duplicates(to_lookup_keys(df[field].values))
-
-        return namedtuple_from_df(df)
-
-    def df(self) -> pd.DataFrame:
-        """Pandas DataFrame."""
-        # Download and sync from s3://bionty-assets
-        s3_bionty_assets(
-            filename=self._parquet_filename,
-            assets_base_url="s3://bionty-assets",
-            localpath=self._local_parquet_path,
-        )
-        # If download is not possible, write a parquet file from ontology
-        if not self._local_parquet_path.exists():
-            # write df to parquet file
-            df = self._ontology_to_df(self.ontology)
-            df.to_parquet(self._local_parquet_path)
-
-        # loads the df and set index
-        df = pd.read_parquet(self._local_parquet_path).reset_index()
-        reference_index_name = self.reference_id
-        if self.reference_id is None and "ontology_id" in df.columns:
-            reference_index_name = "ontology_id"
-        try:
-            return df.set_index(reference_index_name)
-        except KeyError:
-            return df
 
     def curate(
         self,
