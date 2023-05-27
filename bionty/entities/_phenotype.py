@@ -23,4 +23,10 @@ class Phenotype(Bionty):
         version: Optional[str] = None,
         **kwargs
     ) -> None:
-        super().__init__(source=source, version=version, species=species, **kwargs)
+        super().__init__(
+            source=source,
+            version=version,
+            species=species,
+            include_id_prefixes={"hp": ["HP"]},
+            **kwargs
+        )

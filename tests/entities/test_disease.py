@@ -6,10 +6,10 @@ import bionty as bt
 def test_mondo_disease_curation_ontology_id():
     df = pd.DataFrame(
         index=[
-            "UBERON:8440004",
-            "UPHENO:0001001",
-            "UBERON:8420000",
-            "UBERON:8410057",
+            "MONDO:0001724",
+            "MONDO:0001712",
+            "MONDO:0001732",
+            "MONDO:0001735",
             "This disease does not exist",
         ]
     )
@@ -26,10 +26,10 @@ def test_mondo_disease_curation_ontology_id():
 def test_mondo_disease_curation_name():
     df = pd.DataFrame(
         index=[
-            "laminar subdivision of the cortex",
-            "hair of scalp",
-            "laminar subdivision of the cortex",
-            "capillary of anorectum",
+            "supraglottis cancer",
+            "alexia",
+            "trigonitis",
+            "paranasal sinus disorder",
             "This disease does not exist",
         ]
     )

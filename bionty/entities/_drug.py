@@ -27,6 +27,6 @@ class Drug(Bionty):
             source=source,
             version=version,
             species=species,
-            exclude_id_prefixes={"dron": ["SO:", "PR:", "BFO:"]},
+            include_id_prefixes={"dron": ["DRON"]},
             **kwargs
         )

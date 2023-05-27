@@ -20,7 +20,7 @@ class Pathway(Bionty):
         self,
         species: str = "human",
         source: Optional[Literal["pw"]] = None,
-        version: Optional[str] = None,
+        version: Optional[str] = "7.74",  # change to None after fixing 7.78
         **kwargs
     ) -> None:
         super().__init__(source=source, version=version, species=species, **kwargs)

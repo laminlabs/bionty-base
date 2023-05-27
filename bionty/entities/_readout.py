@@ -2,14 +2,13 @@ from functools import cached_property
 from typing import Literal, Optional
 
 import pandas as pd
+from lamin_logger import logger
 
 from bionty.entities._shared_docstrings import _doc_params, species_removed
 
 from .._entity import Bionty
 from .._ontology import Ontology
-from .._settings import check_datasetdir_exists, settings
-
-EFO_DF_D3 = "https://bionty-assets.s3.amazonaws.com/efo_df.json"
+from ..dev._io import s3_bionty_assets
 
 
 @_doc_params(doc_entities=species_removed)
@@ -30,12 +29,9 @@ class Readout(Bionty):
         self,
         source: Optional[Literal["efo"]] = None,
         version: Optional[str] = None,
-        **kwargs
+        **kwargs,
     ) -> None:
-        self._filepath = settings.datasetdir / "efo_df.json"
-        super().__init__(
-            source=source, version=version, reference_id="ontology_id", **kwargs
-        )
+        self._prefix = "http://www.ebi.ac.uk/efo/"
         self._readout_terms = {
             "assay": "OBI:0000070",
             "assay_by_molecule": "EFO:0002772",
@@ -43,13 +39,21 @@ class Readout(Bionty):
             "assay_by_sequencer": "EFO:0003740",
             "measurement": "EFO:0001444",
         }
+        super().__init__(
+            source=source,
+            version=version,
+            include_id_prefixes={"efo": ["EFO", "http://www.ebi.ac.uk/efo/"]},
+            **kwargs,
+        )
 
     @cached_property
     def ontology(self) -> Ontology:  # type:ignore
-        """EFO."""
-        localpath = self._url_download(self._url)
+        """The Pronto Ontology object.
 
-        return Ontology(handle=localpath, prefix="http://www.ebi.ac.uk/efo/")
+        See: https://pronto.readthedocs.io/en/stable/api/pronto.Ontology.html
+        """
+        self._download_ontology_file()
+        return Ontology(handle=self._local_ontology_path, prefix=self._prefix)
 
     @cached_property
     def assay(self) -> list:
@@ -83,26 +87,52 @@ class Readout(Bionty):
         # EFO:0001444
         return self.ontology._list_subclasses(self._readout_terms["measurement"])
 
-    @check_datasetdir_exists
-    def _download_df(self) -> None:
-        from urllib.request import urlretrieve
-
-        urlretrieve(
-            EFO_DF_D3,
-            self._filepath,
-        )
-
     def df(self) -> pd.DataFrame:
-        """DataFrame."""
-        if not self._filepath.exists():
-            self._download_df()
-        df = pd.read_json(self._filepath)
-        df.index.name = "ontology_id"
-        df = df.reset_index()
+        """Pandas DataFrame."""
+        # Extra parsing steps for EFO ontology
+        if self.source == "efo":
+            # Download and sync from s3://bionty-assets
+            s3_bionty_assets(
+                filename=self._parquet_filename,
+                assets_base_url="s3://bionty-assets",
+                localpath=self._local_parquet_path,
+            )
+            # If download is not possible, write a parquet file from ontology
+            if not self._local_parquet_path.exists():
+                # write df to parquet file
+                df = self._ontology_to_df(self.ontology).reset_index()
+                # fix ontology_id before saving to parquet
+                df["ontology_id"] = [
+                    i.replace(self._prefix, "").replace("_", ":")
+                    for i in df["ontology_id"]
+                ]
+                df["children"] = [
+                    [j.replace(self._prefix, "").replace("_", ":") for j in i]
+                    for i in df["children"]
+                ]
+                # parse terms
+                logger.info("Parsing EFO terms for the first time will take 6-10min...")
+                parsed_results = []
+                for term in df["ontology_id"]:
+                    parsed_results.append(self._parse(term))
+                df_parsed = pd.DataFrame.from_records(parsed_results)
+                df = df.merge(df_parsed).set_index("ontology_id")
 
-        return df
+                df.to_parquet(self._local_parquet_path)
 
-    def get(self, term_id: str) -> dict:
+            # loads the df and set index
+            df = pd.read_parquet(self._local_parquet_path).reset_index()
+            reference_index_name = self.reference_id
+            if self.reference_id is None and "ontology_id" in df.columns:
+                reference_index_name = "ontology_id"
+            try:
+                return df.set_index(reference_index_name)
+            except KeyError:
+                return df
+        else:
+            return super().df()
+
+    def _parse(self, term_id: str) -> dict:
         """Parse readout attributes from EFO."""
 
         def _list_to_str(lst: list):

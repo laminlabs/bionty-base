@@ -31,6 +31,6 @@ class Disease(Bionty):
             source=source,
             version=version,
             species=species,
-            exclude_id_prefixes={"mondo": ["http"]},
+            include_id_prefixes={"mondo": ["MONDO"]},
             **kwargs
         )
