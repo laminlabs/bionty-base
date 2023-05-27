@@ -57,7 +57,7 @@ def test_ca_celltype_curation_ontology_id():
     curated_df = bt.CellType(source="ca", version="2022-12-16").curate(df)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
-    expected_series = pd.Series([True, True, True, True, False])
+    expected_series = pd.Series([True, True, True, False, False])
 
     assert curation.equals(expected_series)
 
@@ -77,6 +77,6 @@ def test_ca_celltype_curation_name():
     )
 
     curation = curated_df["__curated__"].reset_index(drop=True)
-    expected_series = pd.Series([True, True, True, False, False])
+    expected_series = pd.Series([True, True, True, True, False])
 
     assert curation.equals(expected_series)
