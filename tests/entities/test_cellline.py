@@ -6,10 +6,10 @@ import bionty as bt
 def test_clo_cellline_curation_ontology_id():
     df = pd.DataFrame(
         index=[
-            "BFO:0000003",
-            "http://www.ebi.ac.uk/efo/EFO_0002970",
-            "http://www.ebi.ac.uk/efo/EFO_0002970",
-            "BFO:0000004",
+            "CLO:0001210",
+            "CLO:0001230",
+            "CLO:0001248",
+            "CLO:0001225",
             "This cell line does not exist",
         ]
     )
@@ -26,10 +26,10 @@ def test_clo_cellline_curation_ontology_id():
 def test_clo_cellline_curation_name():
     df = pd.DataFrame(
         index=[
-            "DA05702 cell",
-            "DA05703 cell",
-            "immortal astrocyte cell line cell",
-            "15P-1 cell",
+            "253D cell",
+            "HEK293",
+            "2C1H7 cell",
+            "283TAg cell",
             "This cell line does not exist",
         ]
     )

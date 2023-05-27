@@ -6,10 +6,10 @@ import bionty as bt
 def test_dron_drug_curation_ontology_id():
     df = pd.DataFrame(
         index=[
-            "APOLLO:SV_00000145",
-            "APOLLO:SV_00000336",
-            "CHEBI:100147",
-            "CHEBI:10023",
+            "DRON:00018440",
+            "DRON:00018432",
+            "DRON:00018438",
+            "DRON:00018452",
             "This drug does not exist",
         ]
     )
@@ -25,10 +25,10 @@ def test_dron_drug_curation_ontology_id():
 def test_dron_drug_curation_name():
     df = pd.DataFrame(
         index=[
-            "resistance to infection",
-            "resistance to malaria infection",
-            "voriconazole",
-            "nalidixic acid",
+            "LILIUM LONGIFLORIUM",
+            "citrus bioflavonoids",
+            "Ornithine, (L)-Isomer",
+            "Hyoscyamus extract",
             "This disease does not exist",
         ]
     )
