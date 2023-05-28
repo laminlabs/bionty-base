@@ -63,6 +63,8 @@ def url_download(  # pragma: no cover
                 for data in response.iter_content(block_size):
                     file.write(data)
                     progress.update(task, advance=block_size)
+            # force the progress bar to 100% at the end
+            progress.update(task, completed=total_content_length, refresh=True)
 
     except requests.exceptions.HTTPError as err:
         print(err)
@@ -114,6 +116,9 @@ def s3_bionty_assets(
                 for chunk in iter(lambda: stream.read(CHUNK_SIZE), b""):
                     f.write(chunk)
                     progress.update(task, advance=CHUNK_SIZE)
+            # force the progress bar to 100% at the end
+            progress.update(task, completed=total_content_length, refresh=True)
+
         os.utime(localpath, times=(cloud_mts, cloud_mts))
 
     return localpath
