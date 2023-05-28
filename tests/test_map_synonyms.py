@@ -29,7 +29,7 @@ def test_map_synonyms_mapper(genes):
     assert mapping == expected_synonym_mapping
 
 
-def test_map_synonyms(genes):
+def test_map_synonyms(genes, celltypes):
     gene_symbols, gn = genes
 
     mapping = gn.map_synonyms(gene_symbols, gn.symbol, return_mapper=False)
