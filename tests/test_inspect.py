@@ -43,7 +43,7 @@ def test_inspect_return_df(genes):
                 "ENSG00000188389",
                 "ENSG0000corrupted",
             ],
-            "__curated__": [True, True, True, False],
+            "__mapped__": [True, True, True, False],
         }
     )
 

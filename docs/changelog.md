@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+✨ Allow `map_synonyms` for every entity | [375](https://github.com/laminlabs/bionty/pull/375) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-28 |
 ✨ Include `synonyms`, `definition` columns in parquet | [372](https://github.com/laminlabs/bionty/pull/372) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-27 | 0.15.0
 🩹 Also include the index field in `BiontyField` | [370](https://github.com/laminlabs/bionty/pull/370) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-25 |
 💄 Prettified __repr__   | [369](https://github.com/laminlabs/bionty/pull/369) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-25 |
