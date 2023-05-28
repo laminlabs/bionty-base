@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import logging
 import os
 import re
 from collections import namedtuple
@@ -77,7 +76,6 @@ class Bionty:
         self._entity = _camel_to_snake(self.__class__.__name__)
         self.reference_id = reference_id
         self._synonyms_field = synonyms_field
-        self._has_synonyms = {"Gene", "CellMarker"}
         self.include_id_prefixes = include_id_prefixes
         self.include_name_prefixes = include_name_prefixes
         self.exclude_id_prefixes = exclude_id_prefixes
@@ -569,14 +567,6 @@ class Bionty:
             - If specified A Pandas DataFrame with the curated index and a boolean `__curated__`
               column that indicates compliance with the default identifier.
         """
-        if self.__class__.__name__ in self._has_synonyms:
-            agg_col = self._synonyms_dict.get(str(reference_id))  # type: ignore
-            if agg_col:
-                logging.warning(
-                    "The identifiers contain synonyms! Convert them into"
-                    " standardized symbols using '.map_synonyms()'"
-                )
-
         df = pd.DataFrame(index=identifiers)
 
         curated_df = self._curate(
@@ -600,7 +590,7 @@ class Bionty:
         identifiers: Iterable,
         reference_id: BiontyField,
         *,
-        synonyms_field: BiontyField = None,
+        synonyms_field: Union[BiontyField, str] = "synonyms",
         return_mapper: bool = False,
     ) -> Union[Dict[str, str], List[str]]:
         """Maps input identifiers against Ontology synonyms.
@@ -617,15 +607,7 @@ class Bionty:
             - A dictionary of mapped values with mappable identifiers as keys
               and values mapped to reference_id as values if return_mapper is True.
         """
-        if self.__class__.__name__ not in self._has_synonyms:
-            raise NotImplementedError(
-                f"map_synonyms is only supported for \n{self._has_synonyms}."
-            )
-
         reference_id_str = str(reference_id)
-        if not self._synonyms_dict or self._synonyms_dict.get(reference_id_str) is None:  # type: ignore
-            raise ValueError(f"No synonyms available for {reference_id_str}")
-        synonyms_field = synonyms_field if synonyms_field else self._synonyms_dict.get(reference_id_str)  # type: ignore
 
         alias_map = explode_aggregated_column_to_expand(
             self.df().reset_index(),
