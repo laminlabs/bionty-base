@@ -99,7 +99,12 @@ def explode_aggregated_column_to_expand(
             target_col = df.index.name = "index"
         else:
             target_col = df.index.name
-    df = df.reset_index()[[aggregated_col, target_col]].copy()
+    if aggregated_col == target_col:
+        raise AssertionError("synonyms and target columns can't be the same!")
+    try:
+        df = df.reset_index()[[aggregated_col, target_col]].copy()
+    except KeyError:
+        raise KeyError(f"{aggregated_col} field is not found!")
 
     # explode the values from the aggregated cells into new rows
     df[aggregated_col] = df[aggregated_col].str.split(sep)
