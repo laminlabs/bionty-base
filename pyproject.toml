@@ -16,8 +16,6 @@ classifiers = [
 dependencies = [
     "pronto>=2.5.4",
     "anndata",
-    "typeguard",
-    "orjson",
     "pyarrow",
     "nbproject",
     "fsspec[s3]",
@@ -40,7 +38,6 @@ test = [
     "pytest-cov",
     "laminci",
     "nbmake",
-    "scanpy",
 ]
 
 [project.scripts]
