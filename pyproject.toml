@@ -18,8 +18,7 @@ dependencies = [
     "anndata",
     "pyarrow",
     "nbproject",
-    "fsspec[s3]",
-    "universal_pathlib",
+    "botocore",
     "rich",
     "bioregistry",
     "filelock"
