@@ -1,13 +1,15 @@
+import os
 from pathlib import Path
 from typing import Union
 
+import botocore.session as session
 import requests  # type:ignore
 import yaml  # type:ignore
+from botocore.config import Config
 from rich import print
 from rich.progress import Progress
 
 from bionty._settings import settings
-from bionty.dev._upath import UPath
 
 
 def load_yaml(
@@ -82,10 +84,36 @@ def s3_bionty_assets(
     Returns:
         A Path object of the synchronized path.
     """
-    cloudpath = UPath(f"{assets_base_url}/{filename}", anon=True, cache_regions=True)
-    if not localpath:
+    if localpath is None:
         localpath = settings.datasetdir / filename
+    elif localpath.is_dir():
+        localpath = localpath / filename
 
-    cloudpath.bt_synchronize(localpath)
+    bucket = assets_base_url.replace("s3://", "")
+    s3_client = session.get_session().create_client(
+        "s3", config=Config(signature_version=session.UNSIGNED)
+    )
+
+    try:
+        s3_object = s3_client.get_object(Bucket=bucket, Key=filename)
+    except s3_client.exceptions.NoSuchKey:
+        return localpath
+
+    cloud_mts = s3_object["LastModified"].timestamp()
+    total_content_length = int(s3_object["ContentLength"])
+
+    CHUNK_SIZE = 64 * 1024
+
+    if not localpath.exists() or cloud_mts > localpath.stat().st_mtime:  # type: ignore
+        localpath.parent.mkdir(parents=True, exist_ok=True)
+        stream = s3_object["Body"]
+        with Progress(refresh_per_second=10000) as progress:
+            task = progress.add_task("[red]Downloading...", total=total_content_length)
+
+            with localpath.open(mode="wb") as f:
+                for chunk in iter(lambda: stream.read(CHUNK_SIZE), b""):
+                    f.write(chunk)
+                    progress.update(task, advance=CHUNK_SIZE)
+        os.utime(localpath, times=(cloud_mts, cloud_mts))
 
     return localpath
