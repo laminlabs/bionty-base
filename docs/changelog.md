@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+➖ Replace upath and fsspec with botocore | [376](https://github.com/laminlabs/bionty/pull/376) | [Koncopd](https://github.com/Koncopd) | 2023-05-28 |
 ➖ Removed unused dependencies | [377](https://github.com/laminlabs/bionty/pull/377) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-28 |
 ✨ Allow `map_synonyms` for every entity | [375](https://github.com/laminlabs/bionty/pull/375) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-28 |
 ✨ Include `synonyms`, `definition` columns in parquet | [372](https://github.com/laminlabs/bionty/pull/372) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-27 | 0.15.0
