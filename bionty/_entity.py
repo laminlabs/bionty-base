@@ -569,12 +569,28 @@ class Bionty:
         """
         df = pd.DataFrame(index=identifiers)
 
+        # check if synonyms are present
+        try:
+            synonyms_mapper = self.map_synonyms(
+                identifiers=identifiers, reference_id=reference_id, return_mapper=True
+            )
+            if len(synonyms_mapper) > 0:
+                logger.warning("The identifiers contain synonyms!")
+                logger.hint(
+                    "To increase mappability, convert them into standardized"
+                    " names/symbols using '.map_synonyms()'"
+                )
+        except Exception:
+            pass
+
         curated_df = self._curate(
             df=df, column=None, reference_id=reference_id, inplace=False
         )
 
         if return_df:
-            mapping_df = curated_df.rename(columns={"orig_index": str(reference_id)})
+            mapping_df = curated_df.rename(
+                columns={"orig_index": str(reference_id), "__curated__": "__mapped__"}
+            )
             return mapping_df.reset_index(drop=True)
         else:
             mapping: Dict[str, List[str]] = {}
