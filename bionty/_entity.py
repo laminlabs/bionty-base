@@ -596,22 +596,34 @@ class Bionty:
         """Maps input identifiers against Ontology synonyms.
 
         Args:
-            identifiers: Identifiers that will be mapped against the Ontology.
-            reference_id: The BiontyField of the ontology to compare against.
-                          Examples are 'ontology_id' to map against the ontology ID
-                          or 'name' to map against the ontologies field names.
-            return_mapper: Whether to return a dictionary with keys mappable identifiers to values mapped reference_id values.
+            identifiers: Identifiers that will be mapped against an Ontology field (BiontyField).
+            reference_id: The BiontyField of ontology representing the identifiers.
+            return_mapper: Whether to return a dictionary of {identifiers : <mapped reference_id values>}.
 
         Returns:
             - A list of mapped reference_id values if return_mapper is False.
             - A dictionary of mapped values with mappable identifiers as keys
               and values mapped to reference_id as values if return_mapper is True.
         """
-        reference_id_str = str(reference_id)
+        reference_id_str, synonyms_field_str = str(reference_id), str(synonyms_field)
+
+        df = self.df().reset_index()
+        if reference_id_str not in df.columns:
+            raise KeyError(
+                f"reference_id '{reference_id_str}' is invalid! Available fields are:"
+                f" {list(df.columns)}"
+            )
+        if synonyms_field_str not in df.columns:
+            raise KeyError(
+                f"synonyms_field '{synonyms_field_str}' is invalid! Available fields"
+                f" are: {list(df.columns)}"
+            )
+        if reference_id_str == synonyms_field_str:
+            raise KeyError("synonyms_field must be different from reference_id!")
 
         alias_map = explode_aggregated_column_to_expand(
-            self.df().reset_index(),
-            aggregated_col=str(synonyms_field),
+            df,
+            aggregated_col=synonyms_field_str,
             target_col=reference_id_str,
         )[reference_id_str]
 
