@@ -21,7 +21,8 @@ dependencies = [
     "botocore",
     "rich",
     "bioregistry",
-    "filelock"
+    "filelock",
+    "rapidfuzz",
 ]
 
 [project.urls]
