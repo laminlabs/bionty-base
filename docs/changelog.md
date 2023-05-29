@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🚑 Added `Entity=Bionty` backward compatibility | [381](https://github.com/laminlabs/bionty/pull/381) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-29 |
 ✨ Implemented a first `fuzzy_match` method | [380](https://github.com/laminlabs/bionty/pull/380) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-29 |
 🐛 Decrease refresh_per_second in the progress bar to10 | [379](https://github.com/laminlabs/bionty/pull/379) | [Koncopd](https://github.com/Koncopd) | 2023-05-28 |
 ➖ Replace upath and fsspec with botocore | [376](https://github.com/laminlabs/bionty/pull/376) | [Koncopd](https://github.com/Koncopd) | 2023-05-28 |
