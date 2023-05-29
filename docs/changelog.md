@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+➖ Remove nbproject from production dependencies | [382](https://github.com/laminlabs/bionty/pull/382) | [Koncopd](https://github.com/Koncopd) | 2023-05-29 |
 🚑 Added `Entity=Bionty` backward compatibility | [381](https://github.com/laminlabs/bionty/pull/381) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-29 | 0.15.1
 ✨ Implemented a first `fuzzy_match` method | [380](https://github.com/laminlabs/bionty/pull/380) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-29 |
 🐛 Decrease refresh_per_second in the progress bar to 10 | [379](https://github.com/laminlabs/bionty/pull/379) | [Koncopd](https://github.com/Koncopd) | 2023-05-28 |
