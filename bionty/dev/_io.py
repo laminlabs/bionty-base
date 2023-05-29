@@ -111,11 +111,15 @@ def s3_bionty_assets(
         stream = s3_object["Body"]
         with Progress(refresh_per_second=10) as progress:
             task = progress.add_task("[red]Downloading...", total=total_content_length)
-
-            with localpath.open(mode="wb") as f:
-                for chunk in iter(lambda: stream.read(CHUNK_SIZE), b""):
-                    f.write(chunk)
-                    progress.update(task, advance=CHUNK_SIZE)
+            try:
+                with localpath.open(mode="wb") as f:
+                    for chunk in iter(lambda: stream.read(CHUNK_SIZE), b""):
+                        f.write(chunk)
+                        progress.update(task, advance=CHUNK_SIZE)
+            except Exception as e:
+                if localpath.exists():
+                    localpath.unlink()
+                raise e
             # force the progress bar to 100% at the end
             progress.update(task, completed=total_content_length, refresh=True)
 
