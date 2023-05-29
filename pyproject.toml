@@ -15,9 +15,9 @@ classifiers = [
 ]
 dependencies = [
     "pronto>=2.5.4",
+    "lamin_logger",
     "anndata",
     "pyarrow",
-    "nbproject",
     "botocore",
     "rich",
     "bioregistry",
@@ -38,6 +38,7 @@ test = [
     "pytest-cov",
     "laminci",
     "nbmake",
+    "nbproject-test"
 ]
 
 [project.scripts]
