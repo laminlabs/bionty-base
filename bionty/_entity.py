@@ -654,6 +654,67 @@ class Bionty:
             mapped_list = [alias_map.get(item, item) for item in identifiers]
             return mapped_list
 
+    def fuzzy_match(
+        self,
+        string: str,
+        reference_id: BiontyField,
+        synonyms_field: Union[BiontyField, str, None] = "synonyms",
+        case_sensitive: bool = True,
+        return_ranked_results: bool = False,
+    ):
+        """Fuzzy matching of a given string using RapidFuzz.
+
+        Args:
+            string: an input string
+            reference_id: The BiontyField of ontology the input string is matching against
+            synonyms_field: Also map against in the synonyms (If None, no mapping against synonyms)
+            case_sensitive: Whether the match is case sensitive
+            return_ranked_results: Whether to return all entries ranked by matching ratios
+
+        Returns:
+            best match of the input string
+        """
+
+        def fuzz_ratio(string: str, iterable: pd.Series, case_sensitive: bool = True):
+            from rapidfuzz import fuzz, utils
+
+            if case_sensitive:
+                processor = None
+            else:
+                processor = utils.default_process
+            return iterable.apply(lambda x: fuzz.ratio(string, x, processor=processor))
+
+        df = self.df().reset_index()
+        reference_id_str = str(reference_id)
+        synonyms_field_str = str(synonyms_field)
+
+        if synonyms_field_str in df.columns:
+            df_exp = explode_aggregated_column_to_expand(
+                df,
+                aggregated_col=synonyms_field_str,
+                target_col=reference_id_str,
+            ).reset_index()
+            target_column = synonyms_field_str
+        else:
+            df_exp = df.copy()
+            target_column = reference_id_str
+
+        df_exp["__ratio__"] = fuzz_ratio(
+            string=string, iterable=df_exp[target_column], case_sensitive=case_sensitive
+        )
+        df_exp_grouped = (
+            df_exp.groupby(reference_id_str)
+            .max()
+            .sort_values("__ratio__", ascending=False)
+        )
+        df_scored = df.set_index(reference_id_str).loc[df_exp_grouped.index]
+        df_scored["__ratio__"] = df_exp_grouped["__ratio__"]
+
+        if return_ranked_results:
+            return df_scored.sort_values("__ratio__", ascending=False)
+        else:
+            return df_scored[df_scored["__ratio__"] == df_scored["__ratio__"].max()]
+
 
 class BiontyField:
     def __init__(self, parent: Bionty, name: str):
