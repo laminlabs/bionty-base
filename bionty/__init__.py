@@ -102,3 +102,6 @@ from ._display_versions import display_active_versions, display_available_versio
 
 # dev
 from . import dev
+
+# backward compat
+Entity = Bionty
