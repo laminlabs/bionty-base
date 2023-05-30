@@ -12,6 +12,10 @@ class Pathway(Bionty):
     Edits of terms are coordinated and reviewed on:
     https://bioportal.bioontology.org/ontologies/GO/?p=summary
 
+    2. Pathway Ontology
+    Edits of terms are coordinated and reviewed on:
+    https://bioportal.bioontology.org/ontologies/PW/?p=summary
+
     Args:
         {doc_entities}
     """
