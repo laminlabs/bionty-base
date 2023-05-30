@@ -109,12 +109,16 @@ Phenotype:
     name: Human Phenotype Ontology
     website: https://hpo.jax.org/
 Pathway:
+  go:
+    versions:
+      2023-05-10:
+        - https://data.bioontology.org/ontologies/GO/submissions/1814/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
+        - ""
+    name: Gene Ontology
+    website: http://geneontology.org/docs/download-ontology/
   pw:
     versions:
       7.78:
-        - https://data.bioontology.org/ontologies/PW/submissions/108/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
-        - ""
-      7.74:
         - https://data.bioontology.org/ontologies/PW/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb&download_format=rdf
         - a6df86616149dcdfe08fe16c900cba85
     name: Pathway Ontology

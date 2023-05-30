@@ -18,7 +18,7 @@ If you'd like to maintain in-house along with public ontologies, you can manage 
 - Tissue: [Uberon](http://obophenotype.github.io/uberon/)
 - Disease: [Mondo](https://mondo.monarchinitiative.org/), [Human Disease](https://disease-ontology.org/)
 - Phenotype: [Human Phenotype](https://hpo.jax.org/app/)
-- Pathway: [Pathway Ontology](https://bioportal.bioontology.org/ontologies/PW)
+- Pathway: [Gene Ontology](https://bioportal.bioontology.org/ontologies/GO), [Pathway Ontology](https://bioportal.bioontology.org/ontologies/PW)
 - Readout: [Experimental Factor Ontology](https://www.ebi.ac.uk/ols/ontologies/efo)
 - BFXPipeline: largely based on [nf-core](https://nf-co.re/)
 

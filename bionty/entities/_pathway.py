@@ -8,7 +8,11 @@ from ._shared_docstrings import _doc_params, doc_entites
 class Pathway(Bionty):
     """Pathway.
 
-    1. Pathway Ontology
+    1. Gene Ontology
+    Edits of terms are coordinated and reviewed on:
+    https://bioportal.bioontology.org/ontologies/GO/?p=summary
+
+    2. Pathway Ontology
     Edits of terms are coordinated and reviewed on:
     https://bioportal.bioontology.org/ontologies/PW/?p=summary
 
@@ -18,9 +22,9 @@ class Pathway(Bionty):
 
     def __init__(
         self,
-        species: str = "human",
-        source: Optional[Literal["pw"]] = None,
-        version: Optional[str] = "7.74",  # change to None after fixing 7.78
+        species: str = "all",
+        source: Optional[Literal["go", "pw"]] = None,
+        version: Optional[str] = None,
         **kwargs
     ) -> None:
         super().__init__(source=source, version=version, species=species, **kwargs)
