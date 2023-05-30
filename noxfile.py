@@ -20,7 +20,7 @@ def build(session, package):
     if package == "bionty":
         run_pytest(session)
         build_docs(session)
-        upload_docs_artifact()
+        upload_docs_artifact(aws=True)
         move_built_docs_to_docs_slash_project_slug()
     else:
         # navigate into submodule so that lamin-project.yml is correctly read
