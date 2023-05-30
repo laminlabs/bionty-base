@@ -102,6 +102,5 @@ Didn't see your favorite source or version? See how to {doc}`./guide/extend`.
 
 guide/index
 api
-faq/index
 changelog
 ```
