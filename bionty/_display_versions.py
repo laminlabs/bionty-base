@@ -99,7 +99,7 @@ def display_active_versions(
             table.add_row(entity, db, str(version))
 
     if return_df:
-        df = pd.DataFrame(df_rows)
+        df = pd.DataFrame(df_rows).set_index("Bionty class")
         return df
 
     console.print(table)
