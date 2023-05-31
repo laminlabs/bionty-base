@@ -38,13 +38,6 @@ Display of currently available or used versions:
     display_available_versions
     display_active_versions
 
-Lookup of vocabulary:
-
-.. autosummary::
-   :toctree: .
-
-   lookup
-
 Setting default ontologies
 
 .. autosummary::
@@ -97,7 +90,6 @@ from .entities._readout import Readout
 from ._normalize import NormalizeColumns
 from ._entity import Bionty
 from ._ontology import Ontology
-from ._lookup import lookup
 from ._display_versions import display_active_versions, display_available_versions
 
 # dev
