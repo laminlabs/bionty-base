@@ -85,14 +85,14 @@ jobs:
           aws-region: eu-central-1
 
       - name: Lint
-        if: matrix.python-version == '3.9'
+        if: matrix.python-version == '3.9' && matrix.package == 'bionty'
         run: |
           nox -s lint
       - name: Build
         run: |
           nox -s "build(package='${{ matrix.package }}')"
       - name: Codecov
-        if: matrix.python-version == '3.9'
+        if: matrix.python-version == '3.9' && matrix.package == 'bionty'
         uses: codecov/codecov-action@v2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
@@ -111,5 +111,5 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
       - name: Update version URLs
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push' && matrix.package == 'bionty'
         run: python ./scripts/upload_new_ontologies.py
