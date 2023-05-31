@@ -21,6 +21,10 @@ def display_available_versions(
 
     Args:
         return_df: Whether to return a Pandas DataFrame containing the available versions. Defaults to False.
+
+    Examples:
+        >>> import bionty as bt
+        >>> bt.display_available_versions()
     """
     VERSIONS_FILE_PATH = (settings.versionsdir / "local.yaml").resolve()
     versions = load_yaml(VERSIONS_FILE_PATH)
@@ -76,6 +80,10 @@ def display_active_versions(
 
     Args:
         return_df: Whether to return a Pandas DataFrame containing the available versions. Defaults to False.
+
+    Examples:
+        >>> import bionty as bt
+        >>> bt.display_active_versions()
     """
     version_table = (
         "._lndb.yaml" if os.getenv("LAMINDB_INSTANCE_LOADED") == 1 else "._current.yaml"

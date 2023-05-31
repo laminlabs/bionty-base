@@ -69,7 +69,6 @@ class Bionty:
                 source = br.normalize_prefix(source)
 
         def _camel_to_snake(string: str) -> str:
-            """Convert CamelCase to snake_case."""
             return re.sub(r"(?<!^)(?=[A-Z])", "_", string).lower()
 
         self._species = "all" if species is None else species
@@ -119,7 +118,15 @@ class Bionty:
         return Ontology(handle=self._local_ontology_path)
 
     def df(self) -> pd.DataFrame:
-        """Pandas DataFrame."""
+        """Pandas DataFrame of the ontology.
+
+        Returns:
+            A Pandas DataFrame of the ontology indexed by the passed reference_id or "ontology_id" if not specified.
+
+        Examples:
+            >>> import bionty as bt
+            >>> bt.Gene().df()
+        """
         # Download and sync from s3://bionty-assets
         s3_bionty_assets(
             filename=self._parquet_filename,
@@ -151,6 +158,11 @@ class Bionty:
 
         Returns:
             A NamedTuple of lookup information of the entitys values.
+
+        Examples:
+            >>> import bionty as bt
+            >>> gene_lookout = bt.Gene().lookup()
+            >>> gene_lookout.TEF
         """
 
         def to_lookup_keys(x: list) -> list:
@@ -242,7 +254,7 @@ class Bionty:
 
             return flat_prefixes
 
-        # TODO: simply the below
+        # TODO: simplify the below
         if self.include_id_prefixes and self.source in list(
             self.include_id_prefixes.keys()
         ):
@@ -440,6 +452,13 @@ class Bionty:
         Returns:
             Returns the DataFrame with the curated index and a boolean `__curated__`
             column that indicates compliance with the default identifier.
+
+        Examples:
+            >>> import pandas as pd
+            >>> import bionty as bt
+            >>> df = pd.DataFrame(index=["Boettcher cell", "bone marrow cell"]
+            >>> ct = bt.CellType()
+            >>> curated_df = ct.curate(df, reference_id=ct.name)
         """
         if reference_id is None:
             reference_id = self.df().index.name  # type: ignore
@@ -566,6 +585,13 @@ class Bionty:
             - A Dictionary that maps the input ontology (keys) to the ontology field (values)
             - If specified A Pandas DataFrame with the curated index and a boolean `__curated__`
               column that indicates compliance with the default identifier.
+
+        Examples:
+            >>> import pandas as pd
+            >>> import bionty as bt
+            >>> df = pd.DataFrame(index=["Boettcher cell", "bone marrow cell"]
+            >>> ct = bt.CellType()
+            >>> ct.inspect(df, reference_id=ct.name)
         """
         df = pd.DataFrame(index=identifiers)
 
@@ -620,6 +646,13 @@ class Bionty:
             - A list of mapped reference_id values if return_mapper is False.
             - A dictionary of mapped values with mappable identifiers as keys
               and values mapped to reference_id as values if return_mapper is True.
+
+        Examples:
+            >>> import pandas as pd
+            >>> import bionty as bt
+            >>> gene_symbols = ["A1CF", "A1BG", "FANCD1", "FANCD20"]
+            >>> gn = bt.Gene(source="ensembl", version="release-108")
+            >>> mapping = gn.map_synonyms(gene_symbols, gn.symbol)
         """
         reference_id_str, synonyms_field_str = str(reference_id), str(synonyms_field)
 
@@ -661,21 +694,26 @@ class Bionty:
         synonyms_field: Union[BiontyField, str, None] = "synonyms",
         case_sensitive: bool = True,
         return_ranked_results: bool = False,
-    ):
+    ) -> str:
         """Fuzzy matching of a given string using RapidFuzz.
 
         Args:
-            string: an input string
-            reference_id: The BiontyField of ontology the input string is matching against
-            synonyms_field: Also map against in the synonyms (If None, no mapping against synonyms)
-            case_sensitive: Whether the match is case sensitive
-            return_ranked_results: Whether to return all entries ranked by matching ratios
+            string: The input string to match against the reference_id ontology values.
+            reference_id: The BiontyField of ontology the input string is matching against.
+            synonyms_field: Also map against in the synonyms (If None, no mapping against synonyms).
+            case_sensitive: Whether the match is case sensitive.
+            return_ranked_results: Whether to return all entries ranked by matching ratios.
 
         Returns:
-            best match of the input string
+            Best match of the input string.
+
+        Examples:
+            >>> import bionty as bt
+            >>> ct = bt.CellType()
+            >>> ct.fuzzy_match("T cells", ct.name)
         """
 
-        def fuzz_ratio(string: str, iterable: pd.Series, case_sensitive: bool = True):
+        def _fuzz_ratio(string: str, iterable: pd.Series, case_sensitive: bool = True):
             from rapidfuzz import fuzz, utils
 
             if case_sensitive:
@@ -699,7 +737,7 @@ class Bionty:
             df_exp = df.copy()
             target_column = reference_id_str
 
-        df_exp["__ratio__"] = fuzz_ratio(
+        df_exp["__ratio__"] = _fuzz_ratio(
             string=string, iterable=df_exp[target_column], case_sensitive=case_sensitive
         )
         df_exp_grouped = (
