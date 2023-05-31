@@ -247,66 +247,38 @@ class Bionty:
 
             df_values.append((term.id, term.name, definition, synonyms, subclasses))
 
-        def __flatten_prefixes(db_to_prefixes: Dict[str, List[str]]) -> set:
+        def __flatten_prefixes(db_to_prefixes: Optional[Dict[str, List[str]]]) -> set:
             flat_prefixes = {
-                prefix for values in db_to_prefixes.values() for prefix in values
+                prefix for values in db_to_prefixes.values() for prefix in values  # type: ignore
             }
 
             return flat_prefixes
 
-        # TODO: simplify the below
-        if self.include_id_prefixes and self.source in list(
-            self.include_id_prefixes.keys()
-        ):
-            flat_include_id_prefixes = __flatten_prefixes(self.include_id_prefixes)
-            df_values = list(
-                filter(
-                    lambda val: any(
-                        val[0].startswith(prefix) for prefix in flat_include_id_prefixes
-                    ),
-                    df_values,
-                )
-            )
-        if self.include_name_prefixes and self.source in list(
-            self.include_name_prefixes.keys()
-        ):
-            flat_include_name_prefixes = __flatten_prefixes(self.include_name_prefixes)
-            df_values = list(
-                filter(
-                    lambda val: any(
-                        val[1].startswith(prefix)
-                        for prefix in flat_include_name_prefixes
-                    ),
-                    df_values,
-                )
-            )
-        if self.exclude_id_prefixes and self.source in list(
-            self.exclude_id_prefixes.keys()
-        ):
-            flat_exclude_id_prefixes = __flatten_prefixes(self.exclude_id_prefixes)
+        prefixes_to_filter: List[str] = []
+        if self.include_id_prefixes and self.source in self.include_id_prefixes.keys():
+            prefixes_to_filter.extend(__flatten_prefixes(self.include_id_prefixes))
 
-            df_values = list(
-                filter(
-                    lambda val: not any(
-                        val[0].startswith(prefix) for prefix in flat_exclude_id_prefixes
-                    ),
-                    df_values,
-                )
-            )
-        if self.exclude_name_prefixes and self.source in list(
-            self.exclude_name_prefixes.keys()
+        if (
+            self.include_name_prefixes
+            and self.source in self.include_name_prefixes.keys()
         ):
-            flat_exclude_name_prefixes = __flatten_prefixes(self.exclude_name_prefixes)
+            prefixes_to_filter.extend(__flatten_prefixes(self.include_name_prefixes))
 
-            df_values = list(
-                filter(
-                    lambda val: not any(
-                        val[1].startswith(prefix)
-                        for prefix in flat_exclude_name_prefixes
-                    ),
-                    df_values,
-                )
-            )
+        if self.exclude_id_prefixes and self.source in self.exclude_id_prefixes.keys():
+            prefixes_to_filter.extend(__flatten_prefixes(self.exclude_id_prefixes))
+
+        if (
+            self.exclude_name_prefixes
+            and self.source in self.exclude_name_prefixes.keys()
+        ):
+            prefixes_to_filter.extend(__flatten_prefixes(self.exclude_name_prefixes))
+
+        df_values = [
+            val
+            for val in df_values
+            if all(not val[0].startswith(prefix) for prefix in prefixes_to_filter)
+            or all(not val[1].startswith(prefix) for prefix in prefixes_to_filter)
+        ]
 
         df = pd.DataFrame(
             df_values,
