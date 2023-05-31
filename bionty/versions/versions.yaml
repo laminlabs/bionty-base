@@ -56,13 +56,6 @@ CellType:
         - d0655766574e63f3fe5ed56d3c030880
     name: Cell Ontology
     website: https://obophenotype.github.io/cell-ontology/
-  ca:
-    versions:
-      2022-12-16:
-        - https://www.ebi.ac.uk/ols/ontologies/hcao/download
-        - 98ba0d340bd1b34659e8a0bdd9535127
-    name: Human Cell Atlas Ontology
-    website: https://github.com/HumanCellAtlas/ontology
 Tissue:
   uberon:
     versions:

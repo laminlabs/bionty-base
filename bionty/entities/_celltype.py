@@ -12,10 +12,6 @@ class CellType(Bionty):
     Edits of terms are coordinated and reviewed on:
     https://github.com/obophenotype/cell-ontology
 
-    2. Human cell atlas ontology
-    Edits of terms are coordinated and reviewed on:
-    https://github.com/HumanCellAtlas/ontology
-
     Args:
         {doc_entities}
     """
@@ -23,7 +19,7 @@ class CellType(Bionty):
     def __init__(
         self,
         species: str = "human",
-        source: Optional[Literal["cl", "ca"]] = None,
+        source: Optional[Literal["cl"]] = None,
         version: Optional[str] = None,
         **kwargs
     ) -> None:
