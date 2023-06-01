@@ -1,4 +1,5 @@
 import os
+import sys
 
 import nox
 from laminci import move_built_docs_to_docs_slash_project_slug, upload_docs_artifact
@@ -25,7 +26,10 @@ def build(session, package):
         # navigate into submodule so that lamin-project.yml is correctly read
         os.chdir("./lnschema-bionty")
         session.run(*"pip install .[test]".split())
-        session.run(*"pip install lamindb".split())
+        session.run(*"git clone https://github.com/laminlabs/lamindb --depth 1".split())
+        if sys.platform.startswith("linux"):  # remove version pin when running on CI
+            session.run(*"sed -i /lnschema_bionty/d ./lamindb/pyproject.toml".split())
+        session.run(*"pip install ./lamindb".split())
         login_testuser1(session)
         session.run(
             "lamin",
