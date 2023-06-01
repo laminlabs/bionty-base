@@ -15,7 +15,7 @@ def lint(session: nox.Session) -> None:
 @nox.session
 @nox.parametrize("package", ["bionty", "lnschema-bionty"])
 def build(session, package):
-    session.install(*"pip install .[dev,test]".split())
+    session.run(*"pip install .[dev,test]".split())
     if package == "bionty":
         run_pytest(session)
         build_docs(session)
