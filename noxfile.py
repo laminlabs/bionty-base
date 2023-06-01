@@ -4,7 +4,7 @@ import nox
 from laminci import move_built_docs_to_docs_slash_project_slug, upload_docs_artifact
 from laminci.nox import build_docs, login_testuser1, run_pre_commit, run_pytest
 
-nox.options.reuse_existing_virtualenvs = True
+nox.options.default_venv_backend = "none"
 
 
 @nox.session
