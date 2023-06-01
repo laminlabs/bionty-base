@@ -2,7 +2,7 @@ import os
 
 import nox
 from laminci import move_built_docs_to_docs_slash_project_slug, upload_docs_artifact
-from laminci.nox import build_docs, run_pre_commit, run_pytest
+from laminci.nox import build_docs, login_testuser1, run_pre_commit, run_pytest
 
 nox.options.default_venv_backend = "none"
 
@@ -26,6 +26,7 @@ def build(session, package):
         os.chdir("./lnschema-bionty")
         session.run(*"pip install .[test]".split())
         session.run(*"pip install lamindb".split())
+        login_testuser1()
         session.run(
             "lamin",
             "init",
