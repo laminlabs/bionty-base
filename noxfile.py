@@ -26,7 +26,7 @@ def build(session, package):
         os.chdir("./lnschema-bionty")
         session.run(*"pip install .[test]".split())
         session.run(*"pip install lamindb".split())
-        login_testuser1()
+        login_testuser1(session)
         session.run(
             "lamin",
             "init",
