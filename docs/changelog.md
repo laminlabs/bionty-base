@@ -3,10 +3,10 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-👷 Remove nox venv | [388](https://github.com/laminlabs/bionty/pull/388) | [falexwolf](https://github.com/falexwolf) | 2023-06-01 |
-:sparkles: Add examples; Remove lookout | [387](https://github.com/laminlabs/bionty/pull/387) | [Zethson](https://github.com/Zethson) | 2023-05-31 |
+👷 Remove nox venv | [388](https://github.com/laminlabs/bionty/pull/388) | [falexwolf](https://github.com/falexwolf) | 2023-06-01 | 0.16.0
+🔥 Add examples; Remove global lookup <span class="badge badge-warning">Breaking</span> | [387](https://github.com/laminlabs/bionty/pull/387) | [Zethson](https://github.com/Zethson) | 2023-05-31 |
 🎨 Default to return df when displaying versions | [385](https://github.com/laminlabs/bionty/pull/385) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-30 |
-Add GO | [384](https://github.com/laminlabs/bionty/pull/384) | [Zethson](https://github.com/Zethson) | 2023-05-30 |
+✨ Add GO | [384](https://github.com/laminlabs/bionty/pull/384) | [Zethson](https://github.com/Zethson) | 2023-05-30 |
 🚸 Delete an incomplete file on an exception in s3_bionty_assets | [383](https://github.com/laminlabs/bionty/pull/383) | [Koncopd](https://github.com/Koncopd) | 2023-05-29 |
 ➖ Remove nbproject from production dependencies | [382](https://github.com/laminlabs/bionty/pull/382) | [Koncopd](https://github.com/Koncopd) | 2023-05-29 |
 🚑 Added `Entity=Bionty` backward compatibility | [381](https://github.com/laminlabs/bionty/pull/381) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-29 | 0.15.1
