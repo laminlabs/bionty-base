@@ -22,7 +22,7 @@ class Protein(Bionty):
 
     def __init__(
         self,
-        species: str = "human",
+        species: Optional[str] = "human",
         source: Optional[Literal["uniprot"]] = None,
         version: Optional[str] = None,
         **kwargs

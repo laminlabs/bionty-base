@@ -1,11 +1,12 @@
 from pathlib import Path
-from typing import List, Literal, Tuple, Union
+from typing import Literal, Sequence, Tuple, Union
 
 from filelock import FileLock  # type: ignore
 
 from ._compat.update_yaml_format import sync_yaml_format
 from ._settings import settings
 from .dev._handle_versions import (
+    MissingDefault,
     _get_missing_defaults,
     create_current,
     create_lndb,
@@ -23,34 +24,44 @@ _LOCAL_PATH = settings.versionsdir / "local.yaml"
 
 
 def update_defaults(
-    new_defaults: Union[Tuple[str, str, str], List[Tuple[str, str, str]]],
+    new_defaults: Union[list[MissingDefault], Sequence[Tuple[str, str, str, str]]],
     target: Literal["current", "lndb"] = "current",
 ) -> None:
-    """Updates the _current.yaml file wih new user defaults.
+    """Updates the _current.yaml file with new user defaults.
 
     The _current.yaml stores the default databases and versions that Bionty accesses.
     This function overwrites the current defaults in the ._current.yaml file.
 
     Args:
-        new_defaults: Triplets of (entity, source, version) tuples.
+        new_defaults: List of Tuples in order Bionty Entity, Source, Species, version
         target: The yaml file to update. Defaults to current
     """
     defaults = (
         load_yaml(_CURRENT_PATH) if target == "current" else load_yaml(_LNDB_PATH)
     )
 
-    if isinstance(new_defaults, Tuple):  # type: ignore
-        new_defaults = [new_defaults]  # type: ignore
+    def _is_sequence_of_tuples(obj: Sequence):
+        return isinstance(obj, Sequence) and all(
+            isinstance(item, Tuple) for item in obj  # type: ignore
+        )
 
-    # TODO Validate whether new defaults are also available in the local.yaml
+    if _is_sequence_of_tuples(new_defaults):
+        new_defaults = list(map(lambda item: MissingDefault(*item), new_defaults))  # type: ignore
+
     for nd in new_defaults:
-        entity = nd[0]
-        new_db = nd[1]
-        new_version = nd[2]
+        if nd.entity not in defaults:  # type: ignore
+            defaults[nd.entity] = {}  # type: ignore
 
-        defaults[entity] = {new_db: new_version}
+        for species in nd.species:  # type: ignore
+            if species not in defaults[nd.entity]:  # type: ignore
+                defaults[nd.entity][species] = {}  # type: ignore
 
-    write_yaml(defaults, _CURRENT_PATH)
+            defaults[nd.entity][species][nd.source] = nd.latest_version  # type: ignore
+
+    if target == "current":
+        write_yaml(defaults, _CURRENT_PATH)
+    else:
+        write_yaml(defaults, _LNDB_PATH)
 
 
 # Make this code safe when running bionty from multiple processes

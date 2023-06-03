@@ -346,15 +346,16 @@ class Bionty:
             source: The database to find the URL and version for.
             version: The requested version of the database.
         """
-        current_defaults = (
+        current_defaults_file_name = (
             "._lndb.yaml"
             if os.getenv("LAMINDB_INSTANCE_LOADED") == 1
             else "._current.yaml"
         )
 
         ((current_database, current_version),) = (
-            load_yaml(VERSIONS_PATH / current_defaults)
+            load_yaml(VERSIONS_PATH / current_defaults_file_name)
             .get(self.__class__.__name__)
+            .get(self.species)
             .items()
         )
 
@@ -371,7 +372,8 @@ class Bionty:
         self._url, self._md5 = (
             available_db_versions.get(self._source)  # type: ignore  # noqa: E501
             .get("versions")
-            .get(str(self._version))
+            .get(self._version)
+            .values()
         )
         if self._url is None:
             raise ValueError(

@@ -18,7 +18,7 @@ class CellLine(Bionty):
 
     def __init__(
         self,
-        species: str = "human",
+        species: Optional[str] = None,
         source: Optional[Literal["clo"]] = None,
         version: Optional[str] = None,
         **kwargs

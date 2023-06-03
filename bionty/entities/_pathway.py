@@ -22,7 +22,7 @@ class Pathway(Bionty):
 
     def __init__(
         self,
-        species: str = "all",
+        species: Optional[str] = None,
         source: Optional[Literal["go", "pw"]] = None,
         version: Optional[str] = None,
         **kwargs

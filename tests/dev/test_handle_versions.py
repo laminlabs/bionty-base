@@ -4,41 +4,37 @@ from unittest.mock import patch
 
 import pytest
 
+from bionty.dev._handle_versions import MissingDefault
+
 
 @pytest.fixture(scope="function")
 def versions_yaml_replica():
     input_file_content = """
-    version: "0.1.0"
+    version: "0.2.0"
     Species:
       ensembl:
         versions:
           release-108:
-            - https://ftp.ensembl.org/pub/release-108/mysql/
-            - ""
+            source: https://ftp.ensembl.org/pub/release-108/mysql/
+            md5: ""
+        species:
+          - all
         name: Ensembl
         website: https://www.ensembl.org/index.html
     Gene:
       ensembl:
         versions:
           release-108:
-            - https://ftp.ensembl.org/pub/release-108/mysql/
-            - ""
+            source: https://ftp.ensembl.org/pub/release-108/mysql/
+            md5: ""
           release-107:
-            - https://ftp.ensembl.org/pub/release-107/mysql/
-            - ""
+            source: https://ftp.ensembl.org/pub/release-107/mysql/
+            md5: ""
+        species:
+          - human
+          - mouse
         name: Ensembl
         website: https://www.ensembl.org/index.html
-    Pathway:
-      pw:
-        versions:
-          7.74:
-            - https://data.bioontology.org/ontologies/PW/filename
-            - a6df86616149dcdfe08fe16c900cba85
-          99.99:
-            - https://data.bioontology.org/ontologies/PW/filename
-            - a6df86616149dcdfe08fe16c900cba85
-        name: Pathway Ontology
-        website: https://www.ebi.ac.uk/ols/ontologies/pw
     """
     with tempfile.NamedTemporaryFile(mode="w+", delete=False) as f:
         f.write(input_file_content)
@@ -52,8 +48,7 @@ def versions_yaml_replica():
 def current_yaml_replica():
     input_file_content = """
     Species:
-        ensembl: release-108
-    Gene:
+      all:
         ensembl: release-108
     """
     with tempfile.NamedTemporaryFile(mode="w+", delete=False) as f:
@@ -70,7 +65,14 @@ def test_get_missing_defaults(versions_yaml_replica, current_yaml_replica):
         VERSIONS_PATH=versions_yaml_replica,
         _CURRENT_PATH=current_yaml_replica,
     ):
-        expected = [("Pathway", "pw", "7.74")]
+        expected = [
+            MissingDefault(
+                entity="Gene",
+                source="ensembl",
+                species=["human", "mouse"],
+                latest_version="release-108",
+            )
+        ]
         from bionty.dev._handle_versions import _get_missing_defaults
 
         result = _get_missing_defaults(source="versions")
