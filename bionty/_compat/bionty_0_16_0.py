@@ -23,6 +23,3 @@ def delete_yamls() -> None:
             logger.warning(f"Original file '{file_path}' successfully removed.")
         else:
             raise RuntimeError(f"File '{file_path}' does not exist.")
-
-
-delete_yamls()

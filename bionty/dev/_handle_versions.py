@@ -1,7 +1,6 @@
 import shutil
-from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, Literal, Union
+from typing import Dict, List, Literal, Tuple
 
 import pandas as pd
 
@@ -124,18 +123,10 @@ def create_lndb() -> None:
         shutil.copy2(_CURRENT_PATH, _LNDB_PATH)
 
 
-@dataclass
-class MissingDefault:
-    entity: str
-    source: str
-    species: Union[list[str], str]
-    latest_version: str
-
-
 def _get_missing_defaults(
     source: Literal["versions", "local"] = "local",
     defaults: Literal["current", "lndb"] = "current",
-) -> list[MissingDefault]:
+) -> List[Tuple[str, str, str, str]]:
     """Compares a version yaml file against a defaults yaml file and determines a diff.
 
     Args:
@@ -166,13 +157,7 @@ def _get_missing_defaults(
             species: list[str] = versions_species.get("species", {})
             latest_version = list(versions_species.get("versions", {}).keys())[0]
 
-            missing_defaults.append(
-                MissingDefault(
-                    entity=entity,
-                    source=database,
-                    species=species,
-                    latest_version=latest_version,
-                )
-            )
+            for spec in species:
+                missing_defaults.append((entity, database, spec, latest_version))
 
     return missing_defaults

@@ -1,12 +1,11 @@
 from pathlib import Path
-from typing import Literal, Sequence, Tuple, Union
+from typing import Literal, Sequence, Tuple
 
 from filelock import FileLock  # type: ignore
 
 from ._compat.update_yaml_format import sync_yaml_format
 from ._settings import settings
 from .dev._handle_versions import (
-    MissingDefault,
     _get_missing_defaults,
     create_current,
     create_lndb,
@@ -24,7 +23,7 @@ _LOCAL_PATH = settings.versionsdir / "local.yaml"
 
 
 def update_defaults(
-    new_defaults: Union[list[MissingDefault], Sequence[Tuple[str, str, str, str]]],
+    new_defaults: Sequence[Tuple[str, str, str, str]],
     target: Literal["current", "lndb"] = "current",
 ) -> None:
     """Updates the _current.yaml file with new user defaults.
@@ -40,23 +39,19 @@ def update_defaults(
         load_yaml(_CURRENT_PATH) if target == "current" else load_yaml(_LNDB_PATH)
     )
 
-    def _is_sequence_of_tuples(obj: Sequence):
-        return isinstance(obj, Sequence) and all(
-            isinstance(item, Tuple) for item in obj  # type: ignore
-        )
-
-    if _is_sequence_of_tuples(new_defaults):
-        new_defaults = list(map(lambda item: MissingDefault(*item), new_defaults))  # type: ignore
-
     for nd in new_defaults:
-        if nd.entity not in defaults:  # type: ignore
-            defaults[nd.entity] = {}  # type: ignore
+        entity = nd[0]
+        source = nd[1]
+        species = nd[2]
+        latest_version = nd[3]
 
-        for species in nd.species:  # type: ignore
-            if species not in defaults[nd.entity]:  # type: ignore
-                defaults[nd.entity][species] = {}  # type: ignore
+        if entity not in defaults:
+            defaults[entity] = {}
 
-            defaults[nd.entity][species][nd.source] = nd.latest_version  # type: ignore
+        if species not in defaults[entity]:  # type: ignore
+            defaults[entity][species] = {}  # type: ignore
+
+            defaults[entity][species][source] = latest_version  # type: ignore
 
     if target == "current":
         write_yaml(defaults, _CURRENT_PATH)

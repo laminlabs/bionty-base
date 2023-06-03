@@ -4,8 +4,6 @@ from unittest.mock import patch
 
 import pytest
 
-from bionty.dev._handle_versions import MissingDefault
-
 
 @pytest.fixture(scope="function")
 def versions_yaml_replica():
@@ -66,12 +64,18 @@ def test_get_missing_defaults(versions_yaml_replica, current_yaml_replica):
         _CURRENT_PATH=current_yaml_replica,
     ):
         expected = [
-            MissingDefault(
-                entity="Gene",
-                source="ensembl",
-                species=["human", "mouse"],
-                latest_version="release-108",
-            )
+            (
+                "Gene",
+                "ensembl",
+                "human",
+                "release-108",
+            ),
+            (
+                "Gene",
+                "ensembl",
+                "mouse",
+                "release-108",
+            ),
         ]
         from bionty.dev._handle_versions import _get_missing_defaults
 

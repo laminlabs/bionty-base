@@ -6,7 +6,6 @@ import pytest
 import yaml  # type:ignore
 
 from bionty import update_defaults
-from bionty.dev._handle_versions import MissingDefault
 
 
 @pytest.fixture(scope="function")
@@ -31,14 +30,7 @@ def current_yaml_replica():
 
 def test_update_defaults(current_yaml_replica):
     with patch("bionty._sync_versions._CURRENT_PATH", current_yaml_replica):
-        new_defaults = [
-            MissingDefault(
-                entity="Species",
-                source="new database",
-                species=["new species"],
-                latest_version="new version",
-            )
-        ]
+        new_defaults = [("Species", "new database", "new species", "new version")]
 
         update_defaults(new_defaults, "current")
 
