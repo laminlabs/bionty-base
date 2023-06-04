@@ -20,7 +20,7 @@ from .dev._fix_index import (
     explode_aggregated_column_to_expand,
     get_compliant_index_from_column,
 )
-from .dev._io import load_yaml, s3_bionty_assets, url_download
+from .dev._io import s3_bionty_assets, url_download
 
 
 class Bionty:
@@ -113,25 +113,6 @@ class Bionty:
         """
         self._download_ontology_file()
         return Ontology(handle=self._local_ontology_path)
-
-    @cached_property
-    def _avail_versions(self) -> Dict[str, Dict[str, Dict]]:
-        """Load all versions with string version keys from LOCAL_VERSIONS_PATH."""
-        from .dev._handle_versions import LOCAL_VERSIONS_PATH
-
-        return load_yaml(LOCAL_VERSIONS_PATH).get(self.__class__.__name__)
-
-    @cached_property
-    def _default_versions(self) -> dict:
-        """Default versions in CURRENT_VERSIONS_PATH."""
-        from .dev._handle_versions import CURRENT_VERSIONS_PATH, LAMINDB_VERSIONS_PATH
-
-        current_defaults_file_name = (
-            LAMINDB_VERSIONS_PATH
-            if os.getenv("LAMINDB_INSTANCE_LOADED") == 1
-            else CURRENT_VERSIONS_PATH
-        )
-        return load_yaml(current_defaults_file_name).get(self.__class__.__name__)
 
     def df(self) -> pd.DataFrame:
         """Pandas DataFrame of the ontology.
@@ -335,71 +316,76 @@ class Bionty:
             source: The database to find the URL and version for.
             version: The requested version of the database.
         """
-        default_versions = self._default_versions
-        all_versions = self._avail_versions
+        from ._display_versions import (
+            display_active_versions,
+            display_available_versions,
+        )
 
-        def _first_key_from_dict(d):
-            return next(iter(d))
+        def subset_to_entity(df: pd.DataFrame, key: str):
+            if isinstance(df.loc[key], pd.Series):
+                return df.loc[[key]]
+            else:
+                return df.loc[key]
 
-        # only use defaults if source is None
+        default_versions = subset_to_entity(
+            display_active_versions(), self.__class__.__name__
+        )
+        all_versions = subset_to_entity(
+            display_available_versions(), self.__class__.__name__
+        )
+
+        # default species is the first key in the default_versions
+        self._species = (
+            default_versions["species"][0] if self.species is None else self.species
+        )
+
         if source is None:
-            if self.species is None:
-                self._species = _first_key_from_dict(default_versions)
-            source_version = default_versions.get(self.species)
-            if source_version is None:
-                raise ValueError(f"Species '{self.species}' is not available!")
-
-        # Use the first source if source is None
-        self._source = (
-            _first_key_from_dict(all_versions) if source is None else str(source)
-        )
-        if all_versions.get(self.source) is None:
-            raise ValueError(
-                f"Source '{self.source}' is not found, select one of the following:\n"
-                f"{all_versions}"
-            )
-        else:
-            # Use the first species of the source
-            self._species = (
-                _first_key_from_dict(all_versions.get(self.source))
-                if self.species is None
-                else self.species
-            )
-        if all_versions.get(self.source).get(self.species) is None:  # type:ignore
-            raise ValueError(
-                f"Species '{self.species}' is not found for source '{self.source}',"
-                f" select one of the following:\n{all_versions}"
-            )
-        else:
-            # Use the max version if version is None
-            self._version = (
-                max(
-                    all_versions.get(self.source)  # type:ignore
-                    .get(self.species)  # type:ignore
-                    .keys()  # type:ignore
+            # there is only one single entry for a species
+            default_source_version = default_versions[
+                default_versions["species"] == self.species
+            ]
+            source_version = default_source_version.to_dict(orient="records")
+            if len(source_version) == 0:
+                raise ValueError(
+                    f"Species '{self.species}' is not available! Check"
+                    " `bionty.display_available_versions()`!"
                 )
-                if version is None
-                else version
+            self._source = source_version[0].get("source_key")
+            self._version = (
+                source_version[0].get("version") if version is None else version
             )
-        if (
-            all_versions.get(self.source)  # type:ignore
-            .get(self.species)  # type:ignore
-            .get(self.version)  # type:ignore
-            is None  # type:ignore
-        ):
-            raise ValueError(
-                f"Source version {self.version} is not found for '{self.source}' and"
-                f" species '{self.species}', select one of the"
-                f" following:\n{all_versions}"
+        else:
+            self._source = source
+            versions_source = all_versions[all_versions["source_key"] == source]
+            if versions_source.shape[0] == 0:
+                raise ValueError(
+                    f"Source '{self.source}' is not available! Check"
+                    " `bionty.display_available_versions()`!"
+                )
+            source_version = versions_source[
+                versions_source["species"] == self.species
+            ].to_dict(orient="records")
+            if len(source_version) == 0:
+                raise ValueError(
+                    f"Species '{self.species}' is not available! Check"
+                    " `bionty.display_available_versions()`!"
+                )
+            self._version = (
+                source_version[0].get("version") if version is None else version
             )
 
-        url_md5 = (
-            all_versions.get(self.source)  # type:ignore
-            .get(self.species)  # type:ignore
-            .get(self.version)  # type:ignore
-        )
-        self._url = url_md5.get("source")  # type:ignore
-        self._md5 = url_md5.get("md5")  # type:ignore
+        version_row = all_versions[
+            (all_versions["species"] == self.species)
+            & (all_versions["source_key"] == self.source)
+            & (all_versions["version"] == self.version)
+        ].to_dict(orient="records")
+        if len(version_row) == 0:
+            raise ValueError(
+                f"Version '{self.version}' is not available for source '{self.source}'!"
+                " Check `bionty.display_available_versions()`!"
+            )
+        self._url = version_row[0].get("url")
+        self._md5 = version_row[0].get("md5")
 
         self._parquet_filename = f"{self.species}_{self.source}_{self.version}_{self.__class__.__name__}_lookup.parquet"  # noqa: E501
         self._local_parquet_path = (
