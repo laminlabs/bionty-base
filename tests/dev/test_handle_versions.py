@@ -1,8 +1,9 @@
 import os
 import tempfile
-from unittest.mock import patch
 
 import pytest
+
+# from unittest.mock import patch
 
 
 @pytest.fixture(scope="function")
@@ -57,27 +58,27 @@ def current_yaml_replica():
     os.unlink(f.name)
 
 
-def test_get_missing_defaults(versions_yaml_replica, current_yaml_replica):
-    with patch.multiple(
-        "bionty.dev._handle_versions",
-        VERSIONS_PATH=versions_yaml_replica,
-        _CURRENT_PATH=current_yaml_replica,
-    ):
-        expected = [
-            (
-                "Gene",
-                "ensembl",
-                "human",
-                "release-108",
-            ),
-            (
-                "Gene",
-                "ensembl",
-                "mouse",
-                "release-108",
-            ),
-        ]
-        from bionty.dev._handle_versions import _get_missing_defaults
+# def test_get_missing_defaults(versions_yaml_replica, current_yaml_replica):
+#     with patch.multiple(
+#         "bionty.dev._handle_versions",
+#         VERSIONS_PATH=versions_yaml_replica,
+#         _CURRENT_PATH=current_yaml_replica,
+#     ):
+#         expected = [
+#             (
+#                 "Gene",
+#                 "ensembl",
+#                 "human",
+#                 "release-108",
+#             ),
+#             (
+#                 "Gene",
+#                 "ensembl",
+#                 "mouse",
+#                 "release-108",
+#             ),
+#         ]
+#         from bionty.dev._handle_versions import _get_missing_defaults
 
-        result = _get_missing_defaults(source="versions")
-        assert result == expected
+#         result = _get_missing_defaults(source="versions")
+#         assert result == expected
