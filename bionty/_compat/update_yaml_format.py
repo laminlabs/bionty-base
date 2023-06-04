@@ -24,7 +24,7 @@ def sync_yaml_format():
         )
         update_yaml_from_unversionized_to_0_1()
     # 0.1.0 to 0.2.0
-    elif versions["version"] != "0.2.0":
+    elif versions["version"] == "0.1.0":
         try:
             temp_dir = delete_yamls()
             logger.warning(

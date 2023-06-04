@@ -162,7 +162,7 @@ def parse_current_versions(yamlpath: Union[str, Path]):
     return current_dict
 
 
-def add_records_to_versions_yaml(records: List[dict], yaml_filepath):
+def add_records_to_versions_yaml(records: List[Dict], yaml_filepath):
     """Add records to a versions yaml file."""
     target_dict = load_yaml(yaml_filepath)
     for kwargs in records:
