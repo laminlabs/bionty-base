@@ -117,7 +117,11 @@ _dynamic/
 _docs_tmp*
 *.lock
 
-# local versions
+# legacy local versions
 **/versions/_current.yaml
 **/versions/_local.yaml
 **/versions/_lndb.yaml
+
+# local vrsions
+**/versions/.current_bionty_versions.yaml
+**/versions/.lamindb_setup.yaml

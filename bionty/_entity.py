@@ -4,8 +4,7 @@ import os
 import re
 from collections import namedtuple
 from functools import cached_property
-from pathlib import Path
-from typing import Dict, Iterable, List, Literal, Optional, Union
+from typing import Dict, Iterable, List, Optional, Union
 
 import bioregistry as br
 import pandas as pd
@@ -21,9 +20,7 @@ from .dev._fix_index import (
     explode_aggregated_column_to_expand,
     get_compliant_index_from_column,
 )
-from .dev._io import load_yaml, s3_bionty_assets, url_download
-
-VERSIONS_PATH = Path(__file__).parent / "versions"
+from .dev._io import s3_bionty_assets, url_download
 
 
 class Bionty:
@@ -71,7 +68,7 @@ class Bionty:
         def _camel_to_snake(string: str) -> str:
             return re.sub(r"(?<!^)(?=[A-Z])", "_", string).lower()
 
-        self._species = "all" if species is None else species
+        self._species = species
         self._entity = _camel_to_snake(self.__class__.__name__)
         self.reference_id = reference_id
         self._synonyms_field = synonyms_field
@@ -309,33 +306,6 @@ class Bionty:
 
         return self._local_ontology_path
 
-    def _ontology_localpath_from_url(self, url: str) -> str:
-        """Get version from the ontology url."""
-        version = url.split("/")[-2]
-        filename = url.split("/")[-1]
-
-        return settings.dynamicdir / f"{version}___{filename}"
-
-    def _load_versions(
-        self, source: Literal["versions", "local"] = "local"
-    ) -> Dict[str, Dict[str, Dict]]:
-        """Load all versions with string version keys."""
-        YAML_PATH = (
-            VERSIONS_PATH / "versions.yaml"
-            if source == "versions"
-            else settings.versionsdir / "local.yaml"
-        )
-        versions = load_yaml(YAML_PATH).get(self.__class__.__name__)
-
-        versions_db: Dict[str, Dict[str, Dict]] = {}
-
-        for db, vers in versions.items():
-            versions_db[db] = {"versions": {}}
-            for k in vers["versions"]:
-                versions_db[db]["versions"][str(k)] = versions[db]["versions"][k]
-
-        return versions_db
-
     @check_datasetdir_exists
     def _set_attributes(
         self, source: Optional[str], version: Optional[str] = None
@@ -346,40 +316,78 @@ class Bionty:
             source: The database to find the URL and version for.
             version: The requested version of the database.
         """
-        current_defaults_file_name = (
-            "._lndb.yaml"
-            if os.getenv("LAMINDB_INSTANCE_LOADED") == 1
-            else "._current.yaml"
+        from ._display_versions import (
+            display_active_versions,
+            display_available_versions,
         )
 
-        ((current_database, current_version),) = (
-            load_yaml(VERSIONS_PATH / current_defaults_file_name)
-            .get(self.__class__.__name__)
-            .get(self.species)
-            .items()
+        def subset_to_entity(df: pd.DataFrame, key: str):
+            if isinstance(df.loc[key], pd.Series):
+                return df.loc[[key]]
+            else:
+                return df.loc[key]
+
+        default_versions = subset_to_entity(
+            display_active_versions(), self.__class__.__name__
+        )
+        all_versions = subset_to_entity(
+            display_available_versions(), self.__class__.__name__
         )
 
-        available_db_versions = self._load_versions(source="local")
-
-        # Use the latest version if version is None.
-        self._source = current_database if source is None else str(source)
-        # Only the source was passed -> get the latest version from the available db versions  # noqa: E501
-        if source and not version:
-            self._version = next(iter(available_db_versions[self._source]["versions"]))
-        else:
-            self._version = current_version if version is None else str(version)
-
-        self._url, self._md5 = (
-            available_db_versions.get(self._source)  # type: ignore  # noqa: E501
-            .get("versions")
-            .get(self._version)
-            .values()
-        )
-        if self._url is None:
-            raise ValueError(
-                f"Database {self._source} version {self._version} is not found,"
-                f" select one of the following: {available_db_versions}"
+        if source is None:
+            # default species is the first key in the default_versions
+            self._species = (
+                default_versions["species"][0] if self.species is None else self.species
             )
+            # there is only one single entry for a species
+            default_source_version = default_versions[
+                default_versions["species"] == self.species
+            ]
+            source_version = default_source_version.to_dict(orient="records")
+            if len(source_version) == 0:
+                raise ValueError(
+                    f"Species '{self.species}' is not available! Check"
+                    " `bionty.display_available_versions()`!"
+                )
+            self._source = source_version[0].get("source_key")
+            self._version = (
+                source_version[0].get("version") if version is None else version
+            )
+        else:
+            self._source = source
+            versions_source = all_versions[all_versions["source_key"] == source]
+            if versions_source.shape[0] == 0:
+                raise ValueError(
+                    f"Source '{self.source}' is not available! Check"
+                    " `bionty.display_available_versions()`!"
+                )
+            self._species = (
+                versions_source["species"][0] if self.species is None else self.species
+            )
+            source_version = versions_source[
+                versions_source["species"] == self.species
+            ].to_dict(orient="records")
+            if len(source_version) == 0:
+                raise ValueError(
+                    f"Species '{self.species}' is not available! Check"
+                    " `bionty.display_available_versions()`!"
+                )
+            self._version = (
+                source_version[0].get("version") if version is None else version
+            )
+
+        version_row = all_versions[
+            (all_versions["species"] == self.species)
+            & (all_versions["source_key"] == self.source)
+            & (all_versions["version"] == self.version)
+        ].to_dict(orient="records")
+        if len(version_row) == 0:
+            raise ValueError(
+                f"Version '{self.version}' is not available for source '{self.source}'!"
+                " Check `bionty.display_available_versions()`!"
+            )
+        self._url = version_row[0].get("url")
+        self._md5 = version_row[0].get("md5")
 
         self._parquet_filename = f"{self.species}_{self.source}_{self.version}_{self.__class__.__name__}_lookup.parquet"  # noqa: E501
         self._local_parquet_path = (
