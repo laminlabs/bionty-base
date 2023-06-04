@@ -3,8 +3,8 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-♻️ Changed yaml format to have species as keys, refactored versioning | [394](https://github.com/laminlabs/bionty/pull/394) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-04 |
-:sparkles: Add improved species support | [392](https://github.com/laminlabs/bionty/pull/392) | [Zethson](https://github.com/Zethson) | 2023-06-04 |
+♻️ Changed yaml format to have species as keys, refactored versioning | [394](https://github.com/laminlabs/bionty/pull/394) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-04 | 0.17a1
+✨ Add improved species support | [392](https://github.com/laminlabs/bionty/pull/392) | [Zethson](https://github.com/Zethson) | 2023-06-04 |
 👷 Remove nox venv | [388](https://github.com/laminlabs/bionty/pull/388) | [falexwolf](https://github.com/falexwolf) | 2023-06-01 | 0.16.0
 🔥 Add examples; Remove global lookup <span class="badge badge-warning">Breaking</span> | [387](https://github.com/laminlabs/bionty/pull/387) | [Zethson](https://github.com/Zethson) | 2023-05-31 |
 🎨 Default to return df when displaying versions | [385](https://github.com/laminlabs/bionty/pull/385) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-30 |
