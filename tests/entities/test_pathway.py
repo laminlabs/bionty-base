@@ -54,7 +54,7 @@ def test_pw_pathway_curation_ontology_id():
         ]
     )
 
-    pw = bt.Pathway(source="pw", version="7.78")
+    pw = bt.Pathway(source="pw", version="7.79")
     curated_df = pw.curate(df)
 
     curation = curated_df["__curated__"].reset_index(drop=True)
@@ -74,7 +74,7 @@ def test_pw_pathway_curation_name():
         ]
     )
 
-    pw = bt.Pathway(source="pw", version="7.78")
+    pw = bt.Pathway(source="pw", version="7.79")
     curated_df = pw.curate(df, reference_id=pw.name)
 
     curation = curated_df["__curated__"].reset_index(drop=True)

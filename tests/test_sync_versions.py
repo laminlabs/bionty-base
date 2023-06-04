@@ -3,6 +3,7 @@ import tempfile
 from unittest.mock import patch
 
 import pytest
+import yaml  # type:ignore
 
 from bionty import update_defaults
 
@@ -11,8 +12,12 @@ from bionty import update_defaults
 def current_yaml_replica():
     input_file_content = """
     Species:
+      all:
         ensembl: release-108
     Gene:
+      human:
+        ensembl: release-108
+      mouse:
         ensembl: release-108
     """
     with tempfile.NamedTemporaryFile(mode="w+", delete=False) as f:
@@ -25,16 +30,13 @@ def current_yaml_replica():
 
 def test_update_defaults(current_yaml_replica):
     with patch("bionty._sync_versions._CURRENT_PATH", current_yaml_replica):
-        new_defaults = [
-            ("Species", "new_database", "new_version"),
-            ("Gene", "new_database", "new_version"),
-        ]
+        new_defaults = [("Species", "new database", "new species", "new version")]
 
         update_defaults(new_defaults, "current")
 
         with open(current_yaml_replica, "r") as f:
-            content = f.read()
-            assert (
-                "new_database: new_version"
-                in content.split("Species:\n", 1)[1].split("\nGene:", 1)[0]
-            )
+            content = yaml.safe_load(f.read())
+
+            assert "all" in content["Species"]
+            assert "new database" in content["Species"]["new species"]
+            assert "new version" in content["Species"]["new species"]["new database"]

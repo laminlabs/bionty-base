@@ -32,6 +32,7 @@ def display_available_versions(
     table = Table(title="Available versions")
 
     table.add_column("Bionty class", justify="right", style="cyan", no_wrap=True)
+    table.add_column("Species", justify="right", style="cyan", no_wrap=True)
     table.add_column("Source key", justify="right", style="cyan", no_wrap=True)
     table.add_column("Version", justify="right", style="cyan", no_wrap=True)
     table.add_column("Ontology", justify="right", style="cyan", no_wrap=True)
@@ -41,32 +42,30 @@ def display_available_versions(
     for entity, db_to_version in versions.items():
         if entity == "version":
             continue
-        for db, _to_versions_url in db_to_version.items():
-            versions = ""
-            _ontology_name = _to_versions_url["name"]
-            _ontology_url = _to_versions_url["website"]
-            for version_str, url_md5 in _to_versions_url["versions"].items():
-                versions += str(version_str) + "\n"
+        for db, db_content in db_to_version.items():
+            species = "\n".join(db_content.get("species", {}))
+            name = db_content.get("name", {})
+            url = db_content.get("website", {})
+            versions = "\n".join(
+                list(map(str, list(db_content.get("versions", {}).keys())))
+            )
 
-                # Compatibility code for old local.yml files that may not yet have md5s
-                if len(url_md5) > 1:
-                    url = url_md5[0]
-                else:
-                    url = url_md5
+            df_rows.append(
+                {
+                    "Bionty class": entity,
+                    "Species": species,
+                    "Source key": db,
+                    "Version": versions,
+                    "Ontology": name,
+                    "URL": url,
+                }
+            )
 
-                df_rows.append(
-                    {
-                        "Bionty class": entity,
-                        "Source key": db,
-                        "Version": str(version_str),
-                        "Ontology": _ontology_name,
-                        "URL": url,
-                    }
-                )
-                table.add_row(_ontology_name, _ontology_url, entity, db, versions)
+            table.add_row(entity, species, db, versions, name, url)
 
     if return_df:
         df = pd.DataFrame(df_rows).set_index(["Bionty class", "Source key"])
+        df = df.replace("\n", ",", regex=True)
         return df
 
     console.print(table)
@@ -95,16 +94,24 @@ def display_active_versions(
     table = Table(title=f"Currently used versions in {version_table}")
 
     table.add_column("Bionty class", justify="right", style="cyan", no_wrap=True)
+    table.add_column("Species", justify="right", style="cyan", no_wrap=True)
     table.add_column("Source key", justify="right", style="cyan", no_wrap=True)
     table.add_column("Version", justify="right", style="cyan", no_wrap=True)
 
     df_rows = []
-    for entity, db_to_version in versions.items():
-        for db, version in db_to_version.items():
-            df_rows.append(
-                {"Bionty class": entity, "Source key": db, "Version": str(version)}
-            )
-            table.add_row(entity, db, str(version))
+    for bionty_class, bionty_class_data in versions.items():
+        for species, species_data in bionty_class_data.items():
+            for source_key, version in species_data.items():
+                df_rows.append(
+                    {
+                        "Bionty class": bionty_class,
+                        "Species": species,
+                        "Source key": source_key,
+                        "Version": version,
+                    }
+                )
+
+                table.add_row(bionty_class, species, source_key, str(version))
 
     if return_df:
         df = pd.DataFrame(df_rows).set_index("Bionty class")

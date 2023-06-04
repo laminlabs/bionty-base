@@ -1,134 +1,166 @@
-version: "0.1.0"
+version: "0.2.0"
 Species:
   ensembl:
     versions:
       release-108:
-        - https://ftp.ensembl.org/pub/release-108/mysql/
-        - ""
+        source: https://ftp.ensembl.org/pub/release-108/mysql/
+        md5: ""
+    species:
+      - all
     name: Ensembl
     website: https://www.ensembl.org/index.html
 Gene:
   ensembl:
     versions:
       release-108:
-        - https://ftp.ensembl.org/pub/release-108/mysql/
-        - ""
+        source: https://ftp.ensembl.org/pub/release-108/mysql/
+        md5: ""
       release-107:
-        - https://ftp.ensembl.org/pub/release-107/mysql/
-        - ""
+        source: https://ftp.ensembl.org/pub/release-107/mysql/
+        md5: ""
+    species:
+      - human
+      - mouse
     name: Ensembl
     website: https://www.ensembl.org/index.html
 Protein:
   uniprot:
     versions:
       2022-04:
-        - https://ftp.uniprot.org/pub/databases/uniprot/current_release/
-        - ""
+        source: https://ftp.uniprot.org/pub/databases/uniprot/current_release/
+        md5: ""
       2022-03:
-        - https://ftp.uniprot.org/pub/databases/uniprot/previous_releases/release-2022_03/
-        - ""
+        source: https://ftp.uniprot.org/pub/databases/uniprot/previous_releases/release-2022_03/
+        md5: ""
+    species:
+      - human
     name: Uniprot
     website: https://www.uniprot.org/
 CellMarker:
   cellmarker:
     versions:
       2.0:
-        - http://bio-bigdata.hrbmu.edu.cn/CellMarker/CellMarker_download_files/file/Cell_marker_All.xlsx
-        - ""
+        source: http://bio-bigdata.hrbmu.edu.cn/CellMarker/CellMarker_download_files/file/Cell_marker_All.xlsx
+        md5: ""
+    species:
+      - human
+      - mouse
     name: CellMarker
     website: http://bio-bigdata.hrbmu.edu.cn/CellMarker/
 CellLine:
   clo:
     versions:
       2022-03-21:
-        - https://data.bioontology.org/ontologies/CLO/submissions/65/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
-        - ea58a1010b7e745702a8397a526b3a33
+        source: https://data.bioontology.org/ontologies/CLO/submissions/65/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
+        md5: ea58a1010b7e745702a8397a526b3a33
+    species:
+      - all
     name: Cell Line Ontology
     website: https://bioportal.bioontology.org/ontologies/CLO
 CellType:
   cl:
     versions:
       2023-02-15:
-        - http://purl.obolibrary.org/obo/cl/releases/2023-02-15/cl-base.owl
-        - 9331a6a029cb1863bd0584ab41508df7
+        source: http://purl.obolibrary.org/obo/cl/releases/2023-02-15/cl-base.owl
+        md5: 9331a6a029cb1863bd0584ab41508df7
       2022-08-16:
-        - http://purl.obolibrary.org/obo/cl/releases/2022-08-16/cl.owl
-        - d0655766574e63f3fe5ed56d3c030880
+        source: http://purl.obolibrary.org/obo/cl/releases/2022-08-16/cl.owl
+        md5: d0655766574e63f3fe5ed56d3c030880
+    species:
+      - all
     name: Cell Ontology
     website: https://obophenotype.github.io/cell-ontology/
 Tissue:
   uberon:
     versions:
       2023-02-14:
-        - http://purl.obolibrary.org/obo/uberon/releases/2023-02-14/uberon.owl
-        - 3f94e22fae4cdde88a555c5cd59c47da
+        source: http://purl.obolibrary.org/obo/uberon/releases/2023-02-14/uberon.owl
+        md5: 3f94e22fae4cdde88a555c5cd59c47da
       2022-08-19:
-        - http://purl.obolibrary.org/obo/uberon/releases/2022-08-19/uberon.owl
-        - c7c958a1ee48fdce146f2c1763eed27e
+        source: http://purl.obolibrary.org/obo/uberon/releases/2022-08-19/uberon.owl
+        md5: c7c958a1ee48fdce146f2c1763eed27e
+    species:
+      - all
     name: Uberon multi-species anatomy ontology
     website: http://obophenotype.github.io/uberon/
 Disease:
   mondo:
     versions:
       2023-02-06:
-        - http://purl.obolibrary.org/obo/mondo/releases/2023-02-06/mondo.owl
-        - 2b7d479d4bd02a94eab47d1c9e64c5db
+        source: http://purl.obolibrary.org/obo/mondo/releases/2023-02-06/mondo.owl
+        md5: 2b7d479d4bd02a94eab47d1c9e64c5db
       2022-10-11:
-        - http://purl.obolibrary.org/obo/mondo/releases/2022-10-11/mondo.owl
-        - 04b808d05c2c2e81430b20a0e87552bb
+        source: http://purl.obolibrary.org/obo/mondo/releases/2022-10-11/mondo.owl
+        md5: 04b808d05c2c2e81430b20a0e87552bb
+    species:
+      - all
     name: Mondo Disease Ontology
     website: https://mondo.monarchinitiative.org/
   doid:
     versions:
       2023-01-30:
-        - http://purl.obolibrary.org/obo/doid/releases/2023-01-30/doid.obo
-        - 9f0c92ad2896dda82195e9226a06dc36
+        source: http://purl.obolibrary.org/obo/doid/releases/2023-01-30/doid.obo
+        md5: 9f0c92ad2896dda82195e9226a06dc36
+    species:
+      - human
     name: Human Disease Ontology
     website: https://disease-ontology.org/
 Readout:
   efo:
     versions:
       3.48.0:
-        - http://www.ebi.ac.uk/efo/releases/v3.48.0/efo.owl
-        - 3367e9a9ae3dee9113024e5108c49091
+        source: http://www.ebi.ac.uk/efo/releases/v3.48.0/efo.owl
+        md5: 3367e9a9ae3dee9113024e5108c49091
+    species:
+      - all
     name: The Experimental Factor Ontology
     website: https://bioportal.bioontology.org/ontologies/EFO
 Phenotype:
   hp:
     versions:
       2023-01-27:
-        - https://github.com/obophenotype/human-phenotype-ontology/releases/download/v2023-01-27/hp.owl
-        - ceeb3ada771908deef620d74cd8e6b0f
+        source: https://github.com/obophenotype/human-phenotype-ontology/releases/download/v2023-01-27/hp.owl
+        md5: ceeb3ada771908deef620d74cd8e6b0f
+    species:
+      - human
     name: Human Phenotype Ontology
     website: https://hpo.jax.org/
 Pathway:
   go:
     versions:
       2023-05-10:
-        - https://data.bioontology.org/ontologies/GO/submissions/1814/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
-        - ""
+        source: https://data.bioontology.org/ontologies/GO/submissions/1814/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
+        md5: ""
+    species:
+      - all
     name: Gene Ontology
     website: http://geneontology.org/docs/download-ontology/
   pw:
     versions:
-      7.78:
-        - https://data.bioontology.org/ontologies/PW/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb&download_format=rdf
-        - a6df86616149dcdfe08fe16c900cba85
+      7.79:
+        source: https://data.bioontology.org/ontologies/PW/submissions/109/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
+        md5: a6df86616149dcdfe08fe16c900cba85
+    species:
+      - all
     name: Pathway Ontology
     website: https://www.ebi.ac.uk/ols/ontologies/pw
 BFXPipeline:
   lamin:
     versions:
       1.0.0:
-        - s3://bionty-assets/bfxpipelines.json
-        - ""
+        source: s3://bionty-assets/bfxpipelines.json
+        md5: ""
+    species:
+      - all
     name: Bioinformatics Pipeline
     website: https://lamin.ai
 Drug:
   dron:
     versions:
       2023-03-10:
-        - https://data.bioontology.org/ontologies/DRON/submissions/17/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
-        - ""
+        source: https://data.bioontology.org/ontologies/DRON/submissions/17/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
+        md5: ""
+    species:
+      - all
     name: Drug Ontology
     website: https://bioportal.bioontology.org/ontologies/DRON/?p=summary

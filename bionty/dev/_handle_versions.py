@@ -1,6 +1,6 @@
 import shutil
 from pathlib import Path
-from typing import List, Literal, Tuple
+from typing import Dict, List, Literal, Tuple
 
 import pandas as pd
 
@@ -60,20 +60,28 @@ def create_current(
             load_yaml(VERSIONS_PATH) if source == "versions" else load_yaml(LOCAL_PATH)
         )
 
-        def _write_current_yaml(versions):
-            _current = {}
-            for name, db_versions in versions.items():
-                if name == "version":
-                    continue
-                # this will only take the 1st db if multiple exists for the same entity
-                db = next(iter(db_versions))
-                versions = db_versions.get(db).get("versions")
-                version = str(sorted(versions.keys(), reverse=True)[0])
-                _current[name] = {db: version}
-            return _current
+        current_data: Dict[str, Dict[str, Dict[str, str]]] = {}
+        for bionty_entity, entity_data in versions.items():
+            if bionty_entity == "version":
+                continue
 
-        _current = _write_current_yaml(versions)
-        write_yaml(_current, _CURRENT_PATH)
+            current_data.setdefault(bionty_entity, {})
+
+            # Take the top most option for the database and it's associated metadata
+            database = list(entity_data.keys())[0]
+            database_metadata = list(entity_data.values())[0]
+            versions = database_metadata.get("versions", {})
+
+            if versions:
+                # convert to strings because lndb.yaml requires strings for lamindb compatbility
+                latest_version = str(max(versions.keys()))
+
+                for species in database_metadata["species"]:
+                    current_data[bionty_entity].setdefault(species, {}).update(
+                        {database: latest_version}
+                    )
+
+        write_yaml(current_data, _CURRENT_PATH)
 
 
 def create_local(overwrite: bool = True) -> None:
@@ -84,50 +92,29 @@ def create_local(overwrite: bool = True) -> None:
     """
     if not LOCAL_PATH.exists() or overwrite:
         versions = load_yaml(VERSIONS_PATH)
-        # convert all non string keys to strings
-        local_versions = {}
-        for entity, dbs in versions.items():
-            local_versions[entity] = versions[entity]
-            if entity == "version":
-                continue
-            for db_name, v in dbs.items():
-                # list is needed here to avoid dict key change error
-                for version in list(v["versions"]):
-                    if isinstance(version, str):
-                        continue
-                    local_versions[entity][db_name]["versions"][
-                        str(version)
-                    ] = local_versions[entity][db_name]["versions"].pop(version)
-
-        write_yaml(local_versions, LOCAL_PATH)
+        write_yaml(versions, LOCAL_PATH)
 
 
 def update_local() -> None:
     """Update local.yaml to add additional entries from the public versions.yaml table."""
-    to_update_yaml = load_yaml(LOCAL_PATH)
+    local = load_yaml(LOCAL_PATH)
 
     versions = load_yaml(VERSIONS_PATH)
 
-    for entity, dbs in versions.items():
-        if entity == "version":
-            continue
-        if entity not in to_update_yaml:
-            to_update_yaml[entity] = versions[entity]
+    for key, value in versions.items():
+        if key in local:
+            if "versions" in local[key] and "versions" in value:
+                local_versions = local[key]["versions"]
+                versions = value["versions"]
+                for version, info in versions.items():
+                    if version not in local_versions:
+                        local_versions[version] = info
+            else:
+                local[key] = value
         else:
-            for db_name, v in dbs.items():
-                if db_name not in to_update_yaml[entity]:
-                    to_update_yaml[entity][db_name] = dbs[db_name]
-                else:
-                    for version in v["versions"]:
-                        if (
-                            str(version)
-                            not in to_update_yaml[entity][db_name]["versions"]
-                        ):
-                            to_update_yaml[entity][db_name]["versions"][version] = v[
-                                "versions"
-                            ][version]
+            local[key] = value
 
-    write_yaml(to_update_yaml, LOCAL_PATH)
+    write_yaml(local, LOCAL_PATH)
 
 
 def create_lndb() -> None:
@@ -139,7 +126,7 @@ def create_lndb() -> None:
 def _get_missing_defaults(
     source: Literal["versions", "local"] = "local",
     defaults: Literal["current", "lndb"] = "current",
-) -> List[Tuple[str, str, str]]:
+) -> List[Tuple[str, str, str, str]]:
     """Compares a version yaml file against a defaults yaml file and determines a diff.
 
     Args:
@@ -149,8 +136,7 @@ def _get_missing_defaults(
                   Defaults to "current".
 
     Returns:
-        A list of tuples in the form of [(Bionty class, source, version)] that
-        can serve as input for `update_defaults`.
+        A list of MissingDefault that can serve as input for `update_defaults`.
     """
     versions_yaml = (
         load_yaml(VERSIONS_PATH) if source == "versions" else load_yaml(LOCAL_PATH)
@@ -159,15 +145,19 @@ def _get_missing_defaults(
         load_yaml(_CURRENT_PATH) if defaults == "current" else load_yaml(_LNDB_PATH)
     )
 
-    formatted_missing = []
+    missing_defaults = []
     missing_entites = set(versions_yaml.keys()) - set(defaults_yaml.keys())
     missing_entites.remove("version")
 
     for entity in missing_entites:
-        database, _ = list(versions_yaml.get(entity).items())[0]
-        version = str(
-            list(versions_yaml.get(entity, {}).get(database, {}).get("versions", {}))[0]
-        )
-        formatted_missing.append((entity, database, version))
+        entity_content = list(versions_yaml.get(entity).items())
+        for content in entity_content:
+            database = content[0]
+            versions_species = content[1]
+            species: list[str] = versions_species.get("species", {})
+            latest_version = list(versions_species.get("versions", {}).keys())[0]
 
-    return formatted_missing
+            for spec in species:
+                missing_defaults.append((entity, database, spec, latest_version))
+
+    return missing_defaults
