@@ -32,7 +32,6 @@ def sync_yaml_format():
                 f" {temp_dir}! Please contact Lamin if you were using customized"
                 " ontology sources!"
             )
-            logger.success("Reimported Bionty!")
             reload(bionty)
             logger.success("Migrated to the latest yaml version 0.2.0!")
         except RuntimeError:
