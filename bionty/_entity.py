@@ -334,12 +334,11 @@ class Bionty:
             display_available_versions(), self.__class__.__name__
         )
 
-        # default species is the first key in the default_versions
-        self._species = (
-            default_versions["species"][0] if self.species is None else self.species
-        )
-
         if source is None:
+            # default species is the first key in the default_versions
+            self._species = (
+                default_versions["species"][0] if self.species is None else self.species
+            )
             # there is only one single entry for a species
             default_source_version = default_versions[
                 default_versions["species"] == self.species
@@ -362,6 +361,9 @@ class Bionty:
                     f"Source '{self.source}' is not available! Check"
                     " `bionty.display_available_versions()`!"
                 )
+            self._species = (
+                versions_source["species"][0] if self.species is None else self.species
+            )
             source_version = versions_source[
                 versions_source["species"] == self.species
             ].to_dict(orient="records")
