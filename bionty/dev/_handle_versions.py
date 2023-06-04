@@ -1,8 +1,8 @@
 import shutil
 from pathlib import Path
-from typing import Dict, Literal, Union
+from typing import Dict, List, Literal, Union
 
-import pandas as pd
+from lamin_logger import logger
 
 from bionty._settings import settings
 from bionty.dev._io import load_yaml, write_yaml
@@ -111,120 +111,82 @@ def create_current_versions_yaml(
             PUBLIC_VERSIONS_PATH if source == "versions" else LOCAL_VERSIONS_PATH
         )
 
-        df = parse_versions_yaml(source_path)
-        df_current = (
-            df[["entity", "source_key", "species", "version"]]
-            .drop_duplicates(["entity", "species", "source_key"], keep="first")
-            .groupby(["entity", "species", "source_key"], sort=False)
-            .max()
-        )
-
-        current_dict: Dict = {}
-        for kwargs in df_current.reset_index().to_dict(orient="records"):
-            entity, species, source_key, version = (
-                kwargs["entity"],
-                kwargs["species"],
-                kwargs["source_key"],
-                kwargs["version"],
-            )
-            if entity not in current_dict:
-                current_dict[entity] = {}
-            if species not in current_dict[entity]:
-                current_dict[entity][species] = {source_key: version}
-
-        write_yaml(current_dict, CURRENT_VERSIONS_PATH)
+        write_yaml(parse_current_versions(source_path), CURRENT_VERSIONS_PATH)
 
 
 def update_local_from_versions_yaml():
     """Update LOCAL_VERSIONS_PATH to add additional entries from PUBLIC_VERSIONS_PATH."""
-    pass
+    public_df_records = parse_versions_yaml(PUBLIC_VERSIONS_PATH).to_dict(
+        orient="records"
+    )
+    local_df_records = parse_versions_yaml(LOCAL_VERSIONS_PATH).to_dict(
+        orient="records"
+    )
+    additional_records = [i for i in public_df_records if i not in local_df_records]
+    if len(additional_records) > 0:
+        updated_local_versions = add_records_to_versions_yaml(
+            additional_records, LOCAL_VERSIONS_PATH
+        )
+        write_yaml(updated_local_versions, LOCAL_VERSIONS_PATH)
+        logger.success(
+            "New records found in the public version.yaml, updated"
+            f" {LOCAL_VERSIONS_PATH}!"
+        )
+        # update LOCAL_VERSIONS_PATH will always generate new CURRENT_VERSIONS_PATH
+        create_current_versions_yaml(overwrite=True)
 
 
-# def update_local() -> None:
-#     """Update local.yaml to add additional entries from the public versions.yaml table."""
-#     local = load_yaml(LOCAL_PATH)
+def parse_current_versions(yamlpath: Union[str, Path]):
+    """Parse out the most recent versions from yaml."""
+    df = parse_versions_yaml(yamlpath)
+    df_current = (
+        df[["entity", "source_key", "species", "version"]]
+        .drop_duplicates(["entity", "species", "source_key"], keep="first")
+        .groupby(["entity", "species", "source_key"], sort=False)
+        .max()
+    )
 
-#     versions = load_yaml(VERSIONS_PATH)
-
-#     for key, value in versions.items():
-#         if key in local:
-#             if "versions" in local[key] and "versions" in value:
-#                 local_versions = local[key]["versions"]
-#                 versions = value["versions"]
-#                 for version, info in versions.items():
-#                     if version not in local_versions:
-#                         local_versions[version] = info
-#             else:
-#                 local[key] = value
-#         else:
-#             local[key] = value
-
-#     write_yaml(local, LOCAL_PATH)
-
-
-# def _get_missing_defaults(
-#     source: Literal["versions", "local"] = "local",
-#     defaults: Literal["current", "lndb"] = "current",
-# ) -> List[Tuple[str, str, str, str]]:
-#     """Compares a version yaml file against a defaults yaml file and determines a diff.
-
-#     Args:
-#         source: The complete versions yaml file. One of "versions, "local".
-#                 Defaults to "local".
-#         defaults: The current defaults yaml file. One of "current", "lndb".
-#                   Defaults to "current".
-
-#     Returns:
-#         A list of MissingDefault that can serve as input for `update_defaults`.
-#     """
-#     versions_yaml = (
-#         load_yaml(VERSIONS_PATH) if source == "versions" else load_yaml(LOCAL_PATH)
-#     )
-#     defaults_yaml = (
-#         load_yaml(_CURRENT_PATH) if defaults == "current" else load_yaml(_LNDB_PATH)
-#     )
-
-#     missing_defaults = []
-#     missing_entites = set(versions_yaml.keys()) - set(defaults_yaml.keys())
-#     missing_entites.remove("version")
-
-#     for entity in missing_entites:
-#         entity_content = list(versions_yaml.get(entity).items())
-#         for content in entity_content:
-#             database = content[0]
-#             versions_species = content[1]
-#             species: list[str] = versions_species.get("species", {})
-#             latest_version = list(versions_species.get("versions", {}).keys())[0]
-
-#             for spec in species:
-#                 missing_defaults.append((entity, database, spec, latest_version))
-
-#     return missing_defaults
+    current_dict: Dict = {}
+    for kwargs in df_current.reset_index().to_dict(orient="records"):
+        entity, species, source_key, version = (
+            kwargs["entity"],
+            kwargs["species"],
+            kwargs["source_key"],
+            kwargs["version"],
+        )
+        if entity not in current_dict:
+            current_dict[entity] = {}
+        if species not in current_dict[entity]:
+            current_dict[entity][species] = {source_key: version}
+    return current_dict
 
 
-def latest_db_version(db: str) -> str:
-    """Lookup the latest version of a source.
-
-    Args:
-        db: The source to look up the version for.
-
-    Returns:
-        The version of the source. Usually a date.
-    """
-    db = db.lower()
-
-    if db == "ensembl":
-        # For Ensembl, parse the current_README file
-        lines = []
-
-        for line in pd.read_csv(
-            "https://ftp.ensembl.org/pub/README",
-            chunksize=1,
-            header=None,
-            encoding="utf-8",
-        ):
-            lines.append(line.iloc[0, 0])
-        return "-".join(lines[1].split(" ")[1:-1]).lower()
-
-    else:
-        raise NotImplementedError
+def add_records_to_versions_yaml(records: List[dict], yaml_filepath):
+    """Add records to a versions yaml file."""
+    target_dict = load_yaml(yaml_filepath)
+    for kwargs in records:
+        entity, source_key, species, version = (
+            kwargs["entity"],
+            kwargs["source_key"],
+            kwargs["species"],
+            kwargs["version"],
+        )
+        if entity not in target_dict:
+            target_dict[entity] = {}
+        if source_key not in target_dict[entity]:
+            target_dict[entity][source_key] = {
+                species: {version: {"source": kwargs["url"], "md5": kwargs["md5"]}}
+            }
+            target_dict[entity][source_key].update(
+                {"name": kwargs["source_name"], "website": kwargs["source_website"]}
+            )
+        if species not in target_dict[entity][source_key]:
+            target_dict[entity][source_key][species] = {
+                version: {"source": kwargs["url"], "md5": kwargs["md5"]}
+            }
+        if version not in target_dict[entity][source_key][species]:
+            target_dict[entity][source_key][species][version] = {
+                "source": kwargs["url"],
+                "md5": kwargs["md5"],
+            }
+    return target_dict
