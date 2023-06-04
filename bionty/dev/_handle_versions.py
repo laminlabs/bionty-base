@@ -134,6 +134,7 @@ def update_local_from_versions_yaml():
         )
         # update LOCAL_VERSIONS_PATH will always generate new CURRENT_VERSIONS_PATH
         create_current_versions_yaml(overwrite=True)
+        create_lamindb_setup_yaml(overwrite=True)
 
 
 def parse_current_versions(yamlpath: Union[str, Path]):

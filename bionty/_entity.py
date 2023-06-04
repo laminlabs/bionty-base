@@ -4,8 +4,7 @@ import os
 import re
 from collections import namedtuple
 from functools import cached_property
-from pathlib import Path
-from typing import Dict, Iterable, List, Literal, Optional, Union
+from typing import Dict, Iterable, List, Optional, Union
 
 import bioregistry as br
 import pandas as pd
@@ -22,8 +21,6 @@ from .dev._fix_index import (
     get_compliant_index_from_column,
 )
 from .dev._io import load_yaml, s3_bionty_assets, url_download
-
-VERSIONS_PATH = Path(__file__).parent / "versions"
 
 
 class Bionty:
@@ -71,7 +68,7 @@ class Bionty:
         def _camel_to_snake(string: str) -> str:
             return re.sub(r"(?<!^)(?=[A-Z])", "_", string).lower()
 
-        self._species = "all" if species is None else species
+        self._species = species
         self._entity = _camel_to_snake(self.__class__.__name__)
         self.reference_id = reference_id
         self._synonyms_field = synonyms_field
@@ -116,6 +113,25 @@ class Bionty:
         """
         self._download_ontology_file()
         return Ontology(handle=self._local_ontology_path)
+
+    @cached_property
+    def _avail_versions(self) -> Dict[str, Dict[str, Dict]]:
+        """Load all versions with string version keys from LOCAL_VERSIONS_PATH."""
+        from .dev._handle_versions import LOCAL_VERSIONS_PATH
+
+        return load_yaml(LOCAL_VERSIONS_PATH).get(self.__class__.__name__)
+
+    @cached_property
+    def _default_versions(self) -> dict:
+        """Default versions in CURRENT_VERSIONS_PATH."""
+        from .dev._handle_versions import CURRENT_VERSIONS_PATH, LAMINDB_VERSIONS_PATH
+
+        current_defaults_file_name = (
+            LAMINDB_VERSIONS_PATH
+            if os.getenv("LAMINDB_INSTANCE_LOADED") == 1
+            else CURRENT_VERSIONS_PATH
+        )
+        return load_yaml(current_defaults_file_name).get(self.__class__.__name__)
 
     def df(self) -> pd.DataFrame:
         """Pandas DataFrame of the ontology.
@@ -309,33 +325,6 @@ class Bionty:
 
         return self._local_ontology_path
 
-    def _ontology_localpath_from_url(self, url: str) -> str:
-        """Get version from the ontology url."""
-        version = url.split("/")[-2]
-        filename = url.split("/")[-1]
-
-        return settings.dynamicdir / f"{version}___{filename}"
-
-    def _load_versions(
-        self, source: Literal["versions", "local"] = "local"
-    ) -> Dict[str, Dict[str, Dict]]:
-        """Load all versions with string version keys."""
-        YAML_PATH = (
-            VERSIONS_PATH / "versions.yaml"
-            if source == "versions"
-            else settings.versionsdir / "local.yaml"
-        )
-        versions = load_yaml(YAML_PATH).get(self.__class__.__name__)
-
-        versions_db: Dict[str, Dict[str, Dict]] = {}
-
-        for db, vers in versions.items():
-            versions_db[db] = {"versions": {}}
-            for k in vers["versions"]:
-                versions_db[db]["versions"][str(k)] = versions[db]["versions"][k]
-
-        return versions_db
-
     @check_datasetdir_exists
     def _set_attributes(
         self, source: Optional[str], version: Optional[str] = None
@@ -346,40 +335,71 @@ class Bionty:
             source: The database to find the URL and version for.
             version: The requested version of the database.
         """
-        current_defaults_file_name = (
-            "._lndb.yaml"
-            if os.getenv("LAMINDB_INSTANCE_LOADED") == 1
-            else "._current.yaml"
+        default_versions = self._default_versions
+        all_versions = self._avail_versions
+
+        def _first_key_from_dict(d):
+            return next(iter(d))
+
+        # only use defaults if source is None
+        if source is None:
+            if self.species is None:
+                self._species = _first_key_from_dict(default_versions)
+            source_version = default_versions.get(self.species)
+            if source_version is None:
+                raise ValueError(f"Species '{self.species}' is not available!")
+
+        # Use the first source if source is None
+        self._source = (
+            _first_key_from_dict(all_versions) if source is None else str(source)
         )
-
-        ((current_database, current_version),) = (
-            load_yaml(VERSIONS_PATH / current_defaults_file_name)
-            .get(self.__class__.__name__)
-            .get(self.species)
-            .items()
-        )
-
-        available_db_versions = self._load_versions(source="local")
-
-        # Use the latest version if version is None.
-        self._source = current_database if source is None else str(source)
-        # Only the source was passed -> get the latest version from the available db versions  # noqa: E501
-        if source and not version:
-            self._version = next(iter(available_db_versions[self._source]["versions"]))
-        else:
-            self._version = current_version if version is None else str(version)
-
-        self._url, self._md5 = (
-            available_db_versions.get(self._source)  # type: ignore  # noqa: E501
-            .get("versions")
-            .get(self._version)
-            .values()
-        )
-        if self._url is None:
+        if all_versions.get(self.source) is None:
             raise ValueError(
-                f"Database {self._source} version {self._version} is not found,"
-                f" select one of the following: {available_db_versions}"
+                f"Source '{self.source}' is not found, select one of the following:\n"
+                f"{all_versions}"
             )
+        else:
+            # Use the first species of the source
+            self._species = (
+                _first_key_from_dict(all_versions.get(self.source))
+                if self.species is None
+                else self.species
+            )
+        if all_versions.get(self.source).get(self.species) is None:  # type:ignore
+            raise ValueError(
+                f"Species '{self.species}' is not found for source '{self.source}',"
+                f" select one of the following:\n{all_versions}"
+            )
+        else:
+            # Use the max version if version is None
+            self._version = (
+                max(
+                    all_versions.get(self.source)  # type:ignore
+                    .get(self.species)  # type:ignore
+                    .keys()  # type:ignore
+                )
+                if version is None
+                else version
+            )
+        if (
+            all_versions.get(self.source)  # type:ignore
+            .get(self.species)  # type:ignore
+            .get(self.version)  # type:ignore
+            is None  # type:ignore
+        ):
+            raise ValueError(
+                f"Source version {self.version} is not found for '{self.source}' and"
+                f" species '{self.species}', select one of the"
+                f" following:\n{all_versions}"
+            )
+
+        url_md5 = (
+            all_versions.get(self.source)  # type:ignore
+            .get(self.species)  # type:ignore
+            .get(self.version)  # type:ignore
+        )
+        self._url = url_md5.get("source")  # type:ignore
+        self._md5 = url_md5.get("md5")  # type:ignore
 
         self._parquet_filename = f"{self.species}_{self.source}_{self.version}_{self.__class__.__name__}_lookup.parquet"  # noqa: E501
         self._local_parquet_path = (
