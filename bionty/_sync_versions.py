@@ -1,25 +1,17 @@
-from pathlib import Path
 from typing import Literal, Sequence, Tuple
 
 from filelock import FileLock  # type: ignore
 
 from ._compat.update_yaml_format import sync_yaml_format
-from ._settings import settings
 from .dev._handle_versions import (
-    _get_missing_defaults,
-    create_current,
-    create_lndb,
-    create_local,
-    update_local,
+    CURRENT_VERSIONS_PATH,
+    LAMINDB_VERSIONS_PATH,
+    ROOT,
+    create_current_versions_yaml,
+    create_lamindb_setup_yaml,
+    create_local_versions_yaml,
 )
 from .dev._io import load_yaml, write_yaml
-
-ROOT = Path(__file__).parent / "versions"
-VERSIONS_PATH = ROOT / "versions.yaml"
-_CURRENT_PATH = ROOT / "._current.yaml"
-_LNDB_PATH = ROOT / "._lndb.yaml"
-
-_LOCAL_PATH = settings.versionsdir / "local.yaml"
 
 
 def update_defaults(
@@ -36,7 +28,9 @@ def update_defaults(
         target: The yaml file to update. Defaults to current
     """
     defaults = (
-        load_yaml(_CURRENT_PATH) if target == "current" else load_yaml(_LNDB_PATH)
+        load_yaml(CURRENT_VERSIONS_PATH)
+        if target == "current"
+        else load_yaml(LAMINDB_VERSIONS_PATH)
     )
 
     for nd in new_defaults:
@@ -54,18 +48,18 @@ def update_defaults(
             defaults[entity][species][source] = latest_version  # type: ignore
 
     if target == "current":
-        write_yaml(defaults, _CURRENT_PATH)
+        write_yaml(defaults, CURRENT_VERSIONS_PATH)
     else:
-        write_yaml(defaults, _LNDB_PATH)
+        write_yaml(defaults, LAMINDB_VERSIONS_PATH)
 
 
 # Make this code safe when running bionty from multiple processes
 with FileLock(ROOT / "bionty.lock"):
-    create_local(overwrite=False)
+    create_local_versions_yaml(overwrite=False)
     sync_yaml_format()
-    update_local()
-    create_current(overwrite=False)
-    create_lndb()
-    for default in ["current", "lndb"]:
-        missing_defaults = _get_missing_defaults(source="local", defaults=default)  # type: ignore  # noqa: E501
-        update_defaults(missing_defaults, target=default)  # type: ignore
+    # update_local()
+    create_current_versions_yaml(overwrite=False)
+    create_lamindb_setup_yaml(overwrite=False)
+    # for default in ["current", "lndb"]:
+    #     missing_defaults = _get_missing_defaults(source="local", defaults=default)  # type: ignore  # noqa: E501
+    #     update_defaults(missing_defaults, target=default)  # type: ignore
