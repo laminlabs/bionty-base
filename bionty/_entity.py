@@ -321,16 +321,16 @@ class Bionty:
             display_available_versions,
         )
 
-        def subset_to_entity(df: pd.DataFrame, key: str):
+        def _subset_to_entity(df: pd.DataFrame, key: str):
             if isinstance(df.loc[key], pd.Series):
                 return df.loc[[key]]
             else:
                 return df.loc[key]
 
-        default_versions = subset_to_entity(
+        default_versions = _subset_to_entity(
             display_active_versions(), self.__class__.__name__
         )
-        all_versions = subset_to_entity(
+        all_versions = _subset_to_entity(
             display_available_versions(), self.__class__.__name__
         )
 

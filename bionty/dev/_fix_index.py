@@ -62,7 +62,9 @@ def get_compliant_index_from_column(
     matches = check_if_index_compliant(pd.Index(query_values), lookup_df.index)
 
     if all(~matches):  # nothing is mappable
-        raise AssertionError(f"{column} name must contain at least one mappable term!")
+        raise AssertionError(
+            f"Reference ID {column} must contain at least one mappable term!"
+        )
 
     # mapped_dict is the {query_id: bionty_id}, where query_id = ref_df[column]
     lookup_df_mappable = lookup_df.loc[query_values[matches]]
