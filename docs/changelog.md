@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🎨 Use the same code to create and update local yaml | [396](https://github.com/laminlabs/bionty/pull/396) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-06 |
 ♻️ Changed yaml format to have species as keys, refactored versioning | [394](https://github.com/laminlabs/bionty/pull/394) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-04 | 0.17a1
 ✨ Add improved species support | [392](https://github.com/laminlabs/bionty/pull/392) | [Zethson](https://github.com/Zethson) | 2023-06-04 |
 👷 Remove nox venv | [388](https://github.com/laminlabs/bionty/pull/388) | [falexwolf](https://github.com/falexwolf) | 2023-06-01 | 0.16.0
