@@ -80,8 +80,14 @@ def create_local_versions_yaml(overwrite: bool = True) -> None:
         overwrite: Whether to overwrite the current local_bionty_versions.yaml .
     """
     if not LOCAL_VERSIONS_PATH.exists() or overwrite:
-        versions = load_yaml(PUBLIC_VERSIONS_PATH)
-        write_yaml(versions, LOCAL_VERSIONS_PATH)
+        public_df_records = parse_versions_yaml(PUBLIC_VERSIONS_PATH).to_dict(
+            orient="records"
+        )
+        versions = add_records_to_existing_dict(public_df_records, {})
+        versions_header = {"version": load_yaml(PUBLIC_VERSIONS_PATH).get("version")}
+        versions_header.update(versions)
+        write_yaml(versions_header, LOCAL_VERSIONS_PATH)
+        logger.success(f"Created {LOCAL_VERSIONS_PATH}!")
 
 
 def create_lamindb_setup_yaml(overwrite: bool = True) -> None:
@@ -124,8 +130,8 @@ def update_local_from_versions_yaml():
     )
     additional_records = [i for i in public_df_records if i not in local_df_records]
     if len(additional_records) > 0:
-        updated_local_versions = add_records_to_versions_yaml(
-            additional_records, LOCAL_VERSIONS_PATH
+        updated_local_versions = add_records_to_existing_dict(
+            additional_records, load_yaml(LOCAL_VERSIONS_PATH)
         )
         write_yaml(updated_local_versions, LOCAL_VERSIONS_PATH)
         logger.success(
@@ -162,9 +168,8 @@ def parse_current_versions(yamlpath: Union[str, Path]):
     return current_dict
 
 
-def add_records_to_versions_yaml(records: List[Dict], yaml_filepath):
+def add_records_to_existing_dict(records: List[Dict], target_dict: Dict):
     """Add records to a versions yaml file."""
-    target_dict = load_yaml(yaml_filepath)
     for kwargs in records:
         entity, source_key, species, version = (
             kwargs["entity"],

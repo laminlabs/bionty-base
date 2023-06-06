@@ -116,7 +116,7 @@ Pathway:
     all:
       7.79:
         source: https://data.bioontology.org/ontologies/PW/submissions/109/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
-        md5: a6df86616149dcdfe08fe16c900cba85
+        md5: 02e2337bb1ab7cc4332ef6acc4cbdfa6
     name: Pathway Ontology
     website: https://www.ebi.ac.uk/ols/ontologies/pw
 BFXPipeline:
