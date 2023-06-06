@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-from typing import Optional
 
 import pandas as pd
 
@@ -9,7 +8,7 @@ from bionty.dev._io import load_yaml
 ROOT_DIR = Path(__file__).parent.resolve()
 
 
-def display_available_versions() -> Optional[pd.DataFrame]:
+def display_available_versions() -> pd.DataFrame:
     """Displays all available entities and versions.
 
     Examples:
@@ -18,7 +17,7 @@ def display_available_versions() -> Optional[pd.DataFrame]:
     """
     from .dev._handle_versions import LOCAL_VERSIONS_PATH, parse_versions_yaml
 
-    return parse_versions_yaml(LOCAL_VERSIONS_PATH).set_index("entity")
+    return parse_versions_yaml(LOCAL_VERSIONS_PATH).set_index("entity")  # type: ignore
 
 
 def display_active_versions() -> pd.DataFrame:
