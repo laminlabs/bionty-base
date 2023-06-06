@@ -120,15 +120,20 @@ def create_current_versions_yaml(
         write_yaml(parse_current_versions(source_path), CURRENT_VERSIONS_PATH)
 
 
+def records_diff_btw_yamls(yamlpath1: Union[str, Path], yamlpath2: Union[str, Path]):
+    """Records in yaml1 but not yaml2."""
+    public_df_records = parse_versions_yaml(yamlpath1).to_dict(orient="records")
+    local_df_records = parse_versions_yaml(yamlpath2).to_dict(orient="records")
+    additional_records = [i for i in public_df_records if i not in local_df_records]
+    return additional_records
+
+
 def update_local_from_versions_yaml():
     """Update LOCAL_VERSIONS_PATH to add additional entries from PUBLIC_VERSIONS_PATH."""
-    public_df_records = parse_versions_yaml(PUBLIC_VERSIONS_PATH).to_dict(
-        orient="records"
+    additional_records = records_diff_btw_yamls(
+        PUBLIC_VERSIONS_PATH, LOCAL_VERSIONS_PATH
     )
-    local_df_records = parse_versions_yaml(LOCAL_VERSIONS_PATH).to_dict(
-        orient="records"
-    )
-    additional_records = [i for i in public_df_records if i not in local_df_records]
+
     if len(additional_records) > 0:
         updated_local_versions = add_records_to_existing_dict(
             additional_records, load_yaml(LOCAL_VERSIONS_PATH)
