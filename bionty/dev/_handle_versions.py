@@ -1,8 +1,9 @@
 import shutil
 from pathlib import Path
-from typing import Dict, List, Literal, Union
+from typing import Dict, List, Literal, Tuple, Union
 
 from lamin_logger import logger
+from pandas import DataFrame
 
 from bionty._settings import settings
 from bionty.dev._io import load_yaml, write_yaml
@@ -18,17 +19,24 @@ LAMINDB_VERSIONS_PATH = ROOT / ".lamindb_setup.yaml"
 LOCAL_VERSIONS_PATH = settings.versionsdir / "local_bionty_versions.yaml"
 
 
-def parse_versions_yaml(filepath: Union[str, Path], return_df=True):
+def parse_versions_yaml(
+    filepath: Union[str, Path], return_df: bool = True
+) -> Union[DataFrame, List[Tuple[str, str, str, str, str, str, str, str]]]:
     """Parse values from versions yaml file into a DataFrame.
 
-    - entity
-    - source_key
-    - species
-    - version
-    - url
-    - md5
-    - source_name
-    - source_website
+    Args:
+        filepath: Path to the versions yaml file.
+        return_df: Whether to return a Pandas DataFrame
+
+    Returns:
+        - entity
+        - source_key
+        - species
+        - version
+        - url
+        - md5
+        - source_name
+        - source_website
     """
     all_rows = []
     for entity, sources in load_yaml(filepath).items():
@@ -80,7 +88,7 @@ def create_local_versions_yaml(overwrite: bool = True) -> None:
         overwrite: Whether to overwrite the current local_bionty_versions.yaml .
     """
     if not LOCAL_VERSIONS_PATH.exists() or overwrite:
-        public_df_records = parse_versions_yaml(PUBLIC_VERSIONS_PATH).to_dict(
+        public_df_records = parse_versions_yaml(PUBLIC_VERSIONS_PATH).to_dict(  # type: ignore
             orient="records"
         )
         versions = add_records_to_existing_dict(public_df_records, {})
@@ -133,7 +141,6 @@ def update_local_from_versions_yaml():
     additional_records = records_diff_btw_yamls(
         PUBLIC_VERSIONS_PATH, LOCAL_VERSIONS_PATH
     )
-
     if len(additional_records) > 0:
         updated_local_versions = add_records_to_existing_dict(
             additional_records, load_yaml(LOCAL_VERSIONS_PATH)
@@ -152,7 +159,7 @@ def parse_current_versions(yamlpath: Union[str, Path]):
     """Parse out the most recent versions from yaml."""
     df = parse_versions_yaml(yamlpath)
     df_current = (
-        df[["entity", "source_key", "species", "version"]]
+        df[["entity", "source_key", "species", "version"]]  # type: ignore
         .drop_duplicates(["entity", "species", "source_key"], keep="first")
         .groupby(["entity", "species", "source_key"], sort=False)
         .max()

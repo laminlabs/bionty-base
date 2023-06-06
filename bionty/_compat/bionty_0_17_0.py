@@ -2,7 +2,7 @@ import os
 import shutil
 import tempfile
 from pathlib import Path
-from typing import Union
+from typing import Optional
 
 from lamin_logger import logger
 
@@ -16,7 +16,7 @@ _LNDB_PATH = ROOT / "._lndb.yaml"
 LOCAL_PATH = settings.versionsdir / "local.yaml"
 
 
-def delete_yamls() -> Union[None, Path]:
+def delete_yamls() -> Optional[Path]:
     temp_dir = None
     for file_path in [LOCAL_PATH, _CURRENT_PATH, _LNDB_PATH]:
         if os.path.exists(file_path):
@@ -29,4 +29,5 @@ def delete_yamls() -> Union[None, Path]:
             logger.warning(f"Original file '{file_path}' successfully removed.")
         else:
             raise RuntimeError(f"File '{file_path}' does not exist.")
+
     return temp_dir
