@@ -3,6 +3,8 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🚑 Fixed readout parsing | [398](https://github.com/laminlabs/bionty/pull/398) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-07 | 0.17a1
+🧪 Add tests to versions file generation | [397](https://github.com/laminlabs/bionty/pull/397) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-07 |
 🎨 Use the same code to create and update local yaml | [396](https://github.com/laminlabs/bionty/pull/396) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-06 |
 ♻️ Changed yaml format to have species as keys, refactored versioning | [394](https://github.com/laminlabs/bionty/pull/394) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-04 | 0.17a1
 ✨ Add improved species support | [392](https://github.com/laminlabs/bionty/pull/392) | [Zethson](https://github.com/Zethson) | 2023-06-04 |

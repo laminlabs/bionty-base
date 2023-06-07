@@ -9,19 +9,19 @@ Entities:
 .. autosummary::
    :toctree: .
 
-   BFXPipeline
    Species
    Gene
    Protein
-   CellLine
-   CellType
    CellMarker
+   CellType
+   CellLine
    Tissue
    Disease
-   Drug
    Phenotype
    Pathway
+   Drug
    Readout
+   BFXPipeline
 
 The base model for every entity class is:
 
@@ -37,13 +37,6 @@ Display of currently available or used versions:
 
     display_available_versions
     display_active_versions
-
-Setting default ontologies
-
-.. autosummary::
-    :toctree: .
-
-    update_defaults
 
 External API:
 
@@ -61,7 +54,7 @@ Dev API:
 
 """
 
-__version__ = "0.17a1"  # denote release candidate for 0.1.0 with 0.1rc1
+__version__ = "0.17a2"  # denote release candidate for 0.1.0 with 0.1rc1
 
 # prints warning of python versions
 from lamin_logger import py_version_warning
