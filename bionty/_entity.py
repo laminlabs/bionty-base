@@ -58,8 +58,8 @@ class Bionty:
             # because the lamindb standard should be used
             if os.getenv("LAMINDB_INSTANCE_LOADED") == 1:
                 raise ValueError(
-                    "Custom databases are not allowed inside lamindb instances."
-                    "Check active databases using `bionty.display_active_versions`."
+                    "Custom databases are not allowed inside lamindb instances.Check"
+                    " active databases using `bionty.display_currently_used_sources`."
                 )
 
             if br.normalize_prefix(source):
@@ -208,7 +208,7 @@ class Bionty:
             try:
                 self._url_download(self._url)
             finally:
-                # Only verify md5 if it's actually available from the versions.yaml file
+                # Only verify md5 if it's actually available from the sources.yaml file
                 if len(self._md5) > 0:
                     if not verify_md5(self._local_ontology_path, self._md5):
                         logger.warning(
@@ -316,9 +316,9 @@ class Bionty:
             source: The database to find the URL and version for.
             version: The requested version of the database.
         """
-        from ._display_versions import (
-            display_active_versions,
-            display_available_versions,
+        from ._display_sources import (
+            display_available_sources,
+            display_currently_used_sources,
         )
 
         def _subset_to_entity(df: pd.DataFrame, key: str):
@@ -328,10 +328,10 @@ class Bionty:
                 return df.loc[key]
 
         default_versions = _subset_to_entity(
-            display_active_versions(), self.__class__.__name__
+            display_currently_used_sources(), self.__class__.__name__
         )
         all_versions = _subset_to_entity(
-            display_available_versions(), self.__class__.__name__
+            display_available_sources(), self.__class__.__name__
         )
 
         if source is None:
@@ -347,7 +347,7 @@ class Bionty:
             if len(source_version) == 0:
                 raise ValueError(
                     f"Species '{self.species}' is not available! Check"
-                    " `bionty.display_available_versions()`!"
+                    " `bionty.display_available_sources()`!"
                 )
             self._source = source_version[0].get("source_key")
             self._version = (
@@ -359,7 +359,7 @@ class Bionty:
             if versions_source.shape[0] == 0:
                 raise ValueError(
                     f"Source '{self.source}' is not available! Check"
-                    " `bionty.display_available_versions()`!"
+                    " `bionty.display_available_sources()`!"
                 )
             self._species = (
                 versions_source["species"][0] if self.species is None else self.species
@@ -370,7 +370,7 @@ class Bionty:
             if len(source_version) == 0:
                 raise ValueError(
                     f"Species '{self.species}' is not available! Check"
-                    " `bionty.display_available_versions()`!"
+                    " `bionty.display_available_sources()`!"
                 )
             self._version = (
                 source_version[0].get("version") if version is None else version
@@ -384,7 +384,7 @@ class Bionty:
         if len(version_row) == 0:
             raise ValueError(
                 f"Version '{self.version}' is not available for source '{self.source}'!"
-                " Check `bionty.display_available_versions()`!"
+                " Check `bionty.display_available_sources()`!"
             )
         self._url = version_row[0].get("url")
         self._md5 = version_row[0].get("md5")

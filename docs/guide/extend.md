@@ -14,8 +14,8 @@ For use cases where Bionty is run standalone, we kindly ask users to be patience
 
 ## New ontologies
 
-The easiest way to add new ontologies or versions to existing entities is to adapt the `local_bionty_versions.yaml` file in the `$home/.lamin/bionty/versions` directory.
-For example, to add a new disease ontology (termed "inhouse_diseases") with an associated version and URL, one adds the following lines to the `local_bionty_versions.yaml`.
+The easiest way to add new ontologies or versions to existing entities is to adapt the `sources.local.yaml` file in the `$home/.lamin/bionty/versions` directory.
+For example, to add a new disease ontology (termed "inhouse_diseases") with an associated version and URL, one adds the following lines to the `sources.local.yaml`.
 
 ```yaml
 Disease:

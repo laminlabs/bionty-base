@@ -9,18 +9,18 @@ from bionty._settings import settings
 from bionty.dev._io import load_yaml, write_yaml
 
 ROOT = Path(__file__).parent.parent / "versions"
-PUBLIC_VERSIONS_PATH = ROOT / "versions.yaml"
+PUBLIC_SOURCES_PATH = ROOT / "sources.yaml"
 
 # hidden from the users
-CURRENT_VERSIONS_PATH = ROOT / ".current_bionty_versions.yaml"
-LAMINDB_VERSIONS_PATH = ROOT / ".lamindb_setup.yaml"
+CURRENT_SOURCES_PATH = ROOT / ".currently_used_sources.yaml"
+LAMINDB_SOURCES_PATH = ROOT / ".lamindb_setup.yaml"
 
 # Visible to the users and can be modified
-LOCAL_VERSIONS_PATH = settings.versionsdir / "local_bionty_versions.yaml"
+LOCAL_VERSIONS_PATH = settings.versionsdir / "sources.local.yaml"
 
 
-def parse_versions_yaml(filepath: Union[str, Path]) -> DataFrame:
-    """Parse values from versions yaml file into a DataFrame.
+def parse_sources_yaml(filepath: Union[str, Path]) -> DataFrame:
+    """Parse values from sources yaml file into a DataFrame.
 
     Args:
         filepath: Path to the versions yaml file.
@@ -76,18 +76,18 @@ def parse_versions_yaml(filepath: Union[str, Path]) -> DataFrame:
     )
 
 
-def create_local_versions_yaml(overwrite: bool = True) -> None:
-    """If local_bionty_versions.yaml doesn't exist, copy from versions.yaml and create it.
+def create_sources_local_yaml(overwrite: bool = True) -> None:
+    """If sources.local.yaml doesn't exist, copy from sources.yaml and create it.
 
     Args:
-        overwrite: Whether to overwrite the current local_bionty_versions.yaml .
+        overwrite: Whether to overwrite the current sources.local.yaml .
     """
     if not LOCAL_VERSIONS_PATH.exists() or overwrite:
-        public_df_records = parse_versions_yaml(PUBLIC_VERSIONS_PATH).to_dict(  # type: ignore
+        public_df_records = parse_sources_yaml(PUBLIC_SOURCES_PATH).to_dict(  # type: ignore
             orient="records"
         )
         versions = add_records_to_existing_dict(public_df_records, {})
-        versions_header = {"version": load_yaml(PUBLIC_VERSIONS_PATH).get("version")}
+        versions_header = {"version": load_yaml(PUBLIC_SOURCES_PATH).get("version")}
         versions_header.update(versions)
         write_yaml(versions_header, LOCAL_VERSIONS_PATH)
         logger.success(f"Created {LOCAL_VERSIONS_PATH}!")
@@ -99,11 +99,11 @@ def create_lamindb_setup_yaml(overwrite: bool = True) -> None:
     Args:
         overwrite: Whether to overwrite the current lamindb_setup.yaml .
     """
-    if not LAMINDB_VERSIONS_PATH.exists() or overwrite:
-        shutil.copy2(CURRENT_VERSIONS_PATH, LAMINDB_VERSIONS_PATH)
+    if not LAMINDB_SOURCES_PATH.exists() or overwrite:
+        shutil.copy2(CURRENT_SOURCES_PATH, LAMINDB_SOURCES_PATH)
 
 
-def create_current_versions_yaml(
+def create_currently_used_sources_yaml(
     overwrite: bool = True, source: Literal["versions", "local"] = "local"
 ) -> None:
     """Write the most recent version to the current_bionty_versions.yaml .
@@ -115,28 +115,28 @@ def create_current_versions_yaml(
         source: The yaml source to use to create the _current.yaml .
                 Defaults to 'local'.
     """
-    if not CURRENT_VERSIONS_PATH.exists() or overwrite:
+    if not CURRENT_SOURCES_PATH.exists() or overwrite:
         source_path = (
-            PUBLIC_VERSIONS_PATH if source == "versions" else LOCAL_VERSIONS_PATH
+            PUBLIC_SOURCES_PATH if source == "versions" else LOCAL_VERSIONS_PATH
         )
 
-        write_yaml(parse_current_versions(source_path), CURRENT_VERSIONS_PATH)
+        write_yaml(parse_currently_used_sources(source_path), CURRENT_SOURCES_PATH)
 
 
 def records_diff_btw_yamls(
     yamlpath1: Union[str, Path], yamlpath2: Union[str, Path]
 ) -> List:
     """Records in yaml1 but not yaml2."""
-    public_df_records = parse_versions_yaml(yamlpath1).to_dict(orient="records")
-    local_df_records = parse_versions_yaml(yamlpath2).to_dict(orient="records")
+    public_df_records = parse_sources_yaml(yamlpath1).to_dict(orient="records")
+    local_df_records = parse_sources_yaml(yamlpath2).to_dict(orient="records")
     additional_records = [i for i in public_df_records if i not in local_df_records]
     return additional_records
 
 
-def update_local_from_versions_yaml() -> None:
-    """Update LOCAL_VERSIONS_PATH to add additional entries from PUBLIC_VERSIONS_PATH."""
+def update_local_from_public_sources_yaml() -> None:
+    """Update LOCAL_VERSIONS_PATH to add additional entries from PUBLIC_SOURCES_PATH."""
     additional_records = records_diff_btw_yamls(
-        PUBLIC_VERSIONS_PATH, LOCAL_VERSIONS_PATH
+        PUBLIC_SOURCES_PATH, LOCAL_VERSIONS_PATH
     )
     if len(additional_records) > 0:
         updated_local_versions = add_records_to_existing_dict(
@@ -147,15 +147,15 @@ def update_local_from_versions_yaml() -> None:
             "New records found in the public version.yaml, updated"
             f" {LOCAL_VERSIONS_PATH}!"
         )
-        # update LOCAL_VERSIONS_PATH will always generate new CURRENT_VERSIONS_PATH
-        create_current_versions_yaml(overwrite=True)
+        # update LOCAL_VERSIONS_PATH will always generate new CURRENT_SOURCES_PATH
+        create_currently_used_sources_yaml(overwrite=True)
         create_lamindb_setup_yaml(overwrite=True)
 
 
-def parse_current_versions(yaml: Union[str, Path, List[Dict]]) -> Dict:
+def parse_currently_used_sources(yaml: Union[str, Path, List[Dict]]) -> Dict:
     """Parse out the most recent versions from yaml."""
     if isinstance(yaml, (str, Path)):
-        df = parse_versions_yaml(yaml)
+        df = parse_sources_yaml(yaml)
         df_current = (
             df[["entity", "source_key", "species", "version"]]  # type: ignore
             .drop_duplicates(["entity", "species", "source_key"], keep="first")

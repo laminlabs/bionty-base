@@ -6,7 +6,7 @@ from urllib.error import HTTPError, URLError
 
 import yaml  # type:ignore
 
-VERSIONS_FILE_PATH = Path(f"{os.getcwd()}/bionty/versions/versions.yaml")
+VERSIONS_FILE_PATH = Path(f"{os.getcwd()}/bionty/versions/sources.yaml")
 
 
 def extract_urls_from_yaml(yaml_file):

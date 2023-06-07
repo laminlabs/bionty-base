@@ -8,33 +8,35 @@ from bionty.dev._io import load_yaml
 ROOT_DIR = Path(__file__).parent.resolve()
 
 
-def display_available_versions() -> pd.DataFrame:
-    """Displays all available entities and versions.
+def display_available_sources() -> pd.DataFrame:
+    """Displays all available sources.
 
     Examples:
         >>> import bionty as bt
-        >>> bt.display_available_versions()
+        >>> bt.display_available_sources()
     """
-    from .dev._handle_versions import LOCAL_VERSIONS_PATH, parse_versions_yaml
+    from .dev._handle_versions import LOCAL_VERSIONS_PATH, parse_sources_yaml
 
-    return parse_versions_yaml(LOCAL_VERSIONS_PATH).set_index("entity")  # type: ignore
+    return parse_sources_yaml(LOCAL_VERSIONS_PATH).set_index("entity")  # type: ignore
 
 
-def display_active_versions() -> pd.DataFrame:
-    """Displays all currently set as default entities and versions.
+# This function naming is consistent with the `currently_used` field in BiontySource SQL table
+# Do not rename!
+def display_currently_used_sources() -> pd.DataFrame:
+    """Displays all currently used sources.
 
     Active version is unique for entity + species.
 
     Examples:
         >>> import bionty as bt
-        >>> bt.display_active_versions()
+        >>> bt.display_currently_used_sources()
     """
-    from .dev._handle_versions import CURRENT_VERSIONS_PATH, LAMINDB_VERSIONS_PATH
+    from .dev._handle_versions import CURRENT_SOURCES_PATH, LAMINDB_SOURCES_PATH
 
     VERSIONS_FILE_PATH = (
-        LAMINDB_VERSIONS_PATH
+        LAMINDB_SOURCES_PATH
         if os.getenv("LAMINDB_INSTANCE_LOADED") == 1
-        else CURRENT_VERSIONS_PATH
+        else CURRENT_SOURCES_PATH
     )
 
     versions = load_yaml(VERSIONS_FILE_PATH.resolve())

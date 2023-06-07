@@ -14,7 +14,7 @@ from ._fix_index import (
 
 from ._ontology import ontology_info
 from ._handle_versions import (
-    create_current_versions_yaml,
-    create_local_versions_yaml,
+    create_currently_used_sources_yaml,
+    create_sources_local_yaml,
     create_lamindb_setup_yaml,
 )

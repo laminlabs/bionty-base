@@ -5,8 +5,8 @@ import pytest
 
 from bionty.dev._handle_versions import (
     add_records_to_existing_dict,
-    parse_current_versions,
-    parse_versions_yaml,
+    parse_currently_used_sources,
+    parse_sources_yaml,
     records_diff_btw_yamls,
 )
 from bionty.dev._io import load_yaml
@@ -124,7 +124,7 @@ def current_yaml_replica():
 
 
 def test_parse_versions_yaml(versions_yaml_replica):
-    parsed_df = parse_versions_yaml(versions_yaml_replica)
+    parsed_df = parse_sources_yaml(versions_yaml_replica)
     assert parsed_df.shape == (6, 8)
     assert all(
         parsed_df["entity"].values
@@ -149,7 +149,7 @@ def test_parse_current_versions(versions_yaml_replica):
         "CellType": {"all": {"cl": "2023-02-15"}},
     }
 
-    assert parse_current_versions(versions_yaml_replica) == expected
+    assert parse_currently_used_sources(versions_yaml_replica) == expected
 
 
 def test_add_records_to_existing_dict(new_versions_yaml_replica, versions_yaml_replica):

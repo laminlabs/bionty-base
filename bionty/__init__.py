@@ -35,8 +35,8 @@ Display of currently available or used versions:
 .. autosummary::
    :toctree: .
 
-    display_available_versions
-    display_active_versions
+    display_available_sources
+    display_currently_used_sources
 
 External API:
 
@@ -82,7 +82,7 @@ from .entities._readout import Readout
 from ._normalize import NormalizeColumns
 from ._entity import Bionty
 from ._ontology import Ontology
-from ._display_versions import display_active_versions, display_available_versions
+from ._display_sources import display_currently_used_sources, display_available_sources
 
 # dev
 from . import dev
