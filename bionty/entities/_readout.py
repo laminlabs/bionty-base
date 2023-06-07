@@ -55,38 +55,6 @@ class Readout(Bionty):
         self._download_ontology_file()
         return Ontology(handle=self._local_ontology_path, prefix=self._prefix)
 
-    @cached_property
-    def assay(self) -> list:
-        """Assays."""
-        # OBI:0000070
-        return self.ontology._list_subclasses(self._readout_terms["assay"])
-
-    @cached_property
-    def assay_by_molecule(self) -> list:
-        """Assays by molecule."""
-        # EFO:0002772
-        return self.ontology._list_subclasses(self._readout_terms["assay_by_molecule"])
-
-    @cached_property
-    def assay_by_instrument(self) -> list:
-        """Assays by instrument."""
-        # EFO:0002773
-        return self.ontology._list_subclasses(
-            self._readout_terms["assay_by_instrument"]
-        )
-
-    @cached_property
-    def assay_by_sequencer(self) -> list:
-        """Assay by sequencer."""
-        # EFO:0003740
-        return self.ontology._list_subclasses(self._readout_terms["assay_by_sequencer"])
-
-    @cached_property
-    def measurement(self) -> list:
-        """Measurement."""
-        # EFO:0001444
-        return self.ontology._list_subclasses(self._readout_terms["measurement"])
-
     def df(self) -> pd.DataFrame:
         """Pandas DataFrame."""
         # Extra parsing steps for EFO ontology
@@ -146,14 +114,27 @@ class Readout(Bionty):
         term = self.ontology.get_term(term_id)
         superclasses = term.superclasses()
 
+        # assay = self.ontology._list_subclasses(self._readout_terms["assay"])
+        assay_by_molecule = self.ontology._list_subclasses(
+            self._readout_terms["assay_by_molecule"]
+        )
+        assay_by_instrument = self.ontology._list_subclasses(
+            self._readout_terms["assay_by_instrument"]
+        )
+
+        assay_by_sequencer = self.ontology._list_subclasses(
+            self._readout_terms["assay_by_sequencer"]
+        )
+        measurement = self.ontology._list_subclasses(self._readout_terms["measurement"])
+
         # get the molecule term
-        molecules = [i for i in self.assay_by_molecule if i in superclasses]
+        molecules = [i for i in assay_by_molecule if i in superclasses]
         # get the instrument term
-        instruments = [i for i in self.assay_by_sequencer if i in superclasses]
+        instruments = [i for i in assay_by_sequencer if i in superclasses]
         if len(instruments) == 0:
-            instruments = [i for i in self.assay_by_instrument if i in superclasses]
+            instruments = [i for i in assay_by_instrument if i in superclasses]
         # get the measurement for non-molecular readouts
-        measurements = [i for i in self.measurement if i in superclasses]
+        measurements = [i for i in measurement if i in superclasses]
 
         readout = {
             "ontology_id": term_id,
