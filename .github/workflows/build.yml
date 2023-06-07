@@ -19,7 +19,7 @@ jobs:
       matrix:
         python-version: ["3.9"]
         package: ["bionty", "lnschema-bionty"]
-    timeout-minutes: 15
+    timeout-minutes: 25
 
     steps:
       - name: Checkout main
