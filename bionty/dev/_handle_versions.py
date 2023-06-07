@@ -77,10 +77,10 @@ def parse_sources_yaml(filepath: Union[str, Path]) -> DataFrame:
 
 
 def create_sources_local_yaml(overwrite: bool = True) -> None:
-    """If sources.local.yaml doesn't exist, copy from sources.yaml and create it.
+    """If LOCAL_VERSIONS_PATH doesn't exist, copy from PUBLIC_SOURCES_PATH and create it.
 
     Args:
-        overwrite: Whether to overwrite the current sources.local.yaml .
+        overwrite: Whether to overwrite the current LOCAL_VERSIONS_PATH.
     """
     if not LOCAL_VERSIONS_PATH.exists() or overwrite:
         public_df_records = parse_sources_yaml(PUBLIC_SOURCES_PATH).to_dict(  # type: ignore
@@ -94,10 +94,10 @@ def create_sources_local_yaml(overwrite: bool = True) -> None:
 
 
 def create_lamindb_setup_yaml(overwrite: bool = True) -> None:
-    """Create .lamindb_setup.yaml file from .
+    """Create LAMINDB_SOURCES_PATH file from .
 
     Args:
-        overwrite: Whether to overwrite the current lamindb_setup.yaml .
+        overwrite: Whether to overwrite the current LAMINDB_SOURCES_PATH.
     """
     if not LAMINDB_SOURCES_PATH.exists() or overwrite:
         shutil.copy2(CURRENT_SOURCES_PATH, LAMINDB_SOURCES_PATH)
@@ -106,13 +106,13 @@ def create_lamindb_setup_yaml(overwrite: bool = True) -> None:
 def create_currently_used_sources_yaml(
     overwrite: bool = True, source: Literal["versions", "local"] = "local"
 ) -> None:
-    """Write the most recent version to the current_bionty_versions.yaml .
+    """Write the most recent version to the CURRENT_SOURCES_PATH .
 
     Takes the 1st source defined in the source.
 
     Args:
-        overwrite: Whether to overwrite the current_bionty_versions.yaml even if it exists already.
-        source: The yaml source to use to create the _current.yaml .
+        overwrite: Whether to overwrite the CURRENT_SOURCES_PATH even if it exists already.
+        source: The yaml source to use to create the CURRENT_SOURCES_PATH.
                 Defaults to 'local'.
     """
     if not CURRENT_SOURCES_PATH.exists() or overwrite:
@@ -144,7 +144,7 @@ def update_local_from_public_sources_yaml() -> None:
         )
         write_yaml(updated_local_versions, LOCAL_VERSIONS_PATH)
         logger.success(
-            "New records found in the public version.yaml, updated"
+            "New records found in the public sources.yaml, updated"
             f" {LOCAL_VERSIONS_PATH}!"
         )
         # update LOCAL_VERSIONS_PATH will always generate new CURRENT_SOURCES_PATH
