@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-🚚 Renamed version to source everywhere possible | [401](https://github.com/laminlabs/bionty/pull/401) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-07 |
+🚚 Renamed version to source everywhere possible | [401](https://github.com/laminlabs/bionty/pull/401) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-07 | 0.17a3
 🎨 Updated yaml para | [400](https://github.com/laminlabs/bionty/pull/400) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-07 |
 Harmonize names | [399](https://github.com/laminlabs/bionty/pull/399) | [Zethson](https://github.com/Zethson) | 2023-06-07 |
 🚑 Fixed readout parsing | [398](https://github.com/laminlabs/bionty/pull/398) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-07 | 0.17a1
