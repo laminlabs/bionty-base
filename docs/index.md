@@ -22,7 +22,7 @@ If you'd like to maintain in-house along with public ontologies, you can manage 
 - Readout: [Experimental Factor Ontology](https://www.ebi.ac.uk/ols/ontologies/efo)
 - BFXPipeline: largely based on [nf-core](https://nf-co.re/)
 
-Check out [versions.yaml](https://github.com/laminlabs/bionty/blob/main/bionty/versions/versions.yaml) for details.
+Check out [sources.yaml](https://github.com/laminlabs/bionty/blob/main/bionty/versions/sources.yaml) for details.
 
 ## Install
 
@@ -83,7 +83,7 @@ See {doc}`./guide/curate` for more.
 
 ```python
 # Display all managed versions
-bt.display_available_versions()
+bt.display_available_sources()
 
 # Access to the Mondo ontology
 disease = bt.Disease(database="mondo")

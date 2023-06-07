@@ -123,5 +123,7 @@ _docs_tmp*
 **/versions/_lndb.yaml
 
 # local vrsions
-**/versions/.current_bionty_versions.yaml
+**/versions/.currently_used_sources.yaml
 **/versions/.lamindb_setup.yaml
+**/sources/.currently_used_sources.yaml
+**/sources/.lamindb_currently_used_sources.yaml

@@ -3,7 +3,7 @@ from pathlib import Path
 
 from rich import print
 
-from bionty.dev._handle_versions import PUBLIC_VERSIONS_PATH, parse_versions_yaml
+from bionty.dev._handle_versions import PUBLIC_SOURCES_PATH, parse_sources_yaml
 
 
 def _upload_ontology_artifacts(
@@ -55,7 +55,7 @@ def _upload_ontology_artifacts(
                 ss.add(ontology_ln_file)
 
 
-all_public_versions = parse_versions_yaml(PUBLIC_VERSIONS_PATH)
+all_public_versions = parse_sources_yaml(PUBLIC_SOURCES_PATH)
 # nothing happens if no additional versions are added
 if all_public_versions.shape[0] > 23:
     _upload_ontology_artifacts(
