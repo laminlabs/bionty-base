@@ -1,6 +1,6 @@
 import shutil
 from pathlib import Path
-from typing import Dict, List, Literal, Tuple, Union
+from typing import Dict, List, Literal, Union
 
 from lamin_logger import logger
 from pandas import DataFrame
@@ -19,9 +19,7 @@ LAMINDB_VERSIONS_PATH = ROOT / ".lamindb_setup.yaml"
 LOCAL_VERSIONS_PATH = settings.versionsdir / "local_bionty_versions.yaml"
 
 
-def parse_versions_yaml(
-    filepath: Union[str, Path], return_df: bool = True
-) -> Union[DataFrame, List[Tuple[str, str, str, str, str, str, str, str]]]:
+def parse_versions_yaml(filepath: Union[str, Path]) -> DataFrame:
     """Parse values from versions yaml file into a DataFrame.
 
     Args:
@@ -38,6 +36,8 @@ def parse_versions_yaml(
         - source_name
         - source_website
     """
+    import pandas as pd
+
     all_rows = []
     for entity, sources in load_yaml(filepath).items():
         if entity == "version":
@@ -61,24 +61,19 @@ def parse_versions_yaml(
                     )
                     all_rows.append(row)
 
-    if return_df:
-        import pandas as pd
-
-        return pd.DataFrame(
-            all_rows,
-            columns=[
-                "entity",
-                "source_key",
-                "species",
-                "version",
-                "url",
-                "md5",
-                "source_name",
-                "source_website",
-            ],
-        )
-
-    return all_rows
+    return pd.DataFrame(
+        all_rows,
+        columns=[
+            "entity",
+            "source_key",
+            "species",
+            "version",
+            "url",
+            "md5",
+            "source_name",
+            "source_website",
+        ],
+    )
 
 
 def create_local_versions_yaml(overwrite: bool = True) -> None:
@@ -157,7 +152,7 @@ def update_local_from_versions_yaml() -> None:
         create_lamindb_setup_yaml(overwrite=True)
 
 
-def parse_current_versions(yamlpath: Union[str, Path]):
+def parse_current_versions(yamlpath: Union[str, Path]) -> Dict:
     """Parse out the most recent versions from yaml."""
     df = parse_versions_yaml(yamlpath)
     df_current = (
@@ -182,7 +177,7 @@ def parse_current_versions(yamlpath: Union[str, Path]):
     return current_dict
 
 
-def add_records_to_existing_dict(records: List[Dict], target_dict: Dict):
+def add_records_to_existing_dict(records: List[Dict], target_dict: Dict) -> Dict:
     """Add records to a versions yaml file."""
     for kwargs in records:
         entity, source_key, species, version = (
