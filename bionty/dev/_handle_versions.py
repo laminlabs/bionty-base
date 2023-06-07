@@ -152,18 +152,22 @@ def update_local_from_versions_yaml() -> None:
         create_lamindb_setup_yaml(overwrite=True)
 
 
-def parse_current_versions(yamlpath: Union[str, Path]) -> Dict:
+def parse_current_versions(yaml: Union[str, Path, List[Dict]]) -> Dict:
     """Parse out the most recent versions from yaml."""
-    df = parse_versions_yaml(yamlpath)
-    df_current = (
-        df[["entity", "source_key", "species", "version"]]  # type: ignore
-        .drop_duplicates(["entity", "species", "source_key"], keep="first")
-        .groupby(["entity", "species", "source_key"], sort=False)
-        .max()
-    )
+    if isinstance(yaml, (str, Path)):
+        df = parse_versions_yaml(yaml)
+        df_current = (
+            df[["entity", "source_key", "species", "version"]]  # type: ignore
+            .drop_duplicates(["entity", "species", "source_key"], keep="first")
+            .groupby(["entity", "species", "source_key"], sort=False)
+            .max()
+        )
+        records = df_current.reset_index().to_dict(orient="records")
+    else:
+        records = yaml
 
     current_dict: Dict = {}
-    for kwargs in df_current.reset_index().to_dict(orient="records"):
+    for kwargs in records:
         entity, species, source_key, version = (
             kwargs["entity"],
             kwargs["species"],
