@@ -8,7 +8,7 @@ from pandas import DataFrame
 from bionty._settings import settings
 from bionty.dev._io import load_yaml, write_yaml
 
-ROOT = Path(__file__).parent.parent / "versions"
+ROOT = Path(__file__).parent.parent / "sources"
 PUBLIC_SOURCES_PATH = ROOT / "sources.yaml"
 
 # hidden from the users
