@@ -9,19 +9,19 @@ Entities:
 .. autosummary::
    :toctree: .
 
-   BFXPipeline
    Species
    Gene
    Protein
-   CellLine
-   CellType
    CellMarker
+   CellType
+   CellLine
    Tissue
    Disease
-   Drug
    Phenotype
    Pathway
+   Drug
    Readout
+   BFXPipeline
 
 The base model for every entity class is:
 
@@ -37,13 +37,6 @@ Display of currently available or used versions:
 
     display_available_versions
     display_active_versions
-
-Setting default ontologies
-
-.. autosummary::
-    :toctree: .
-
-    update_defaults
 
 External API:
 

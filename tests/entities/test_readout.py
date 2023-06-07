@@ -41,3 +41,15 @@ def test_efo_readout_curation_name():
     expected_series = pd.Series([True, True, True, True, False])
 
     assert curation.equals(expected_series)
+
+
+def test_readout_parse():
+    ro = bt.Readout(source="efo", version="3.48.0")
+
+    assert ro._parse("EFO:0008913") == {
+        "ontology_id": "EFO:0008913",
+        "name": "single-cell RNA sequencing",
+        "molecule": "RNA assay",
+        "instrument": "single cell sequencing",
+        "measurement": None,
+    }
