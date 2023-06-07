@@ -125,3 +125,5 @@ _docs_tmp*
 # local vrsions
 **/versions/.currently_used_sources.yaml
 **/versions/.lamindb_setup.yaml
+**/sources/.currently_used_sources.yaml
+**/sources/.lamindb_currently_used_sources.yaml

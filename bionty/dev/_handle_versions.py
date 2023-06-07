@@ -1,4 +1,3 @@
-import shutil
 from pathlib import Path
 from typing import Dict, List, Literal, Union
 
@@ -13,7 +12,7 @@ PUBLIC_SOURCES_PATH = ROOT / "sources.yaml"
 
 # hidden from the users
 CURRENT_SOURCES_PATH = ROOT / ".currently_used_sources.yaml"
-LAMINDB_SOURCES_PATH = ROOT / ".lamindb_setup.yaml"
+LAMINDB_SOURCES_PATH = ROOT / ".lamindb_currently_used_sources.yaml"
 
 # Visible to the users and can be modified
 LOCAL_VERSIONS_PATH = settings.versionsdir / "sources.local.yaml"
@@ -93,16 +92,6 @@ def create_sources_local_yaml(overwrite: bool = True) -> None:
         logger.success(f"Created {LOCAL_VERSIONS_PATH}!")
 
 
-def create_lamindb_setup_yaml(overwrite: bool = True) -> None:
-    """Create LAMINDB_SOURCES_PATH file from .
-
-    Args:
-        overwrite: Whether to overwrite the current LAMINDB_SOURCES_PATH.
-    """
-    if not LAMINDB_SOURCES_PATH.exists() or overwrite:
-        shutil.copy2(CURRENT_SOURCES_PATH, LAMINDB_SOURCES_PATH)
-
-
 def create_currently_used_sources_yaml(
     overwrite: bool = True, source: Literal["versions", "local"] = "local"
 ) -> None:
@@ -149,7 +138,6 @@ def update_local_from_public_sources_yaml() -> None:
         )
         # update LOCAL_VERSIONS_PATH will always generate new CURRENT_SOURCES_PATH
         create_currently_used_sources_yaml(overwrite=True)
-        create_lamindb_setup_yaml(overwrite=True)
 
 
 def parse_currently_used_sources(yaml: Union[str, Path, List[Dict]]) -> Dict:

@@ -4,7 +4,6 @@ from ._compat.update_yaml_format import sync_yaml_format
 from .dev._handle_versions import (
     ROOT,
     create_currently_used_sources_yaml,
-    create_lamindb_setup_yaml,
     create_sources_local_yaml,
     update_local_from_public_sources_yaml,
 )
@@ -15,4 +14,3 @@ with FileLock(ROOT / "bionty.lock"):
     sync_yaml_format()
     update_local_from_public_sources_yaml()
     create_currently_used_sources_yaml(overwrite=False)
-    create_lamindb_setup_yaml(overwrite=False)
