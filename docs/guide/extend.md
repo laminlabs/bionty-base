@@ -14,7 +14,7 @@ For use cases where Bionty is run standalone, we kindly ask users to be patience
 
 ## New ontologies
 
-The easiest way to add new ontologies or versions to existing entities is to adapt the `sources.local.yaml` file in the `$home/.lamin/bionty/versions` directory.
+The easiest way to add new ontologies to existing entities is to adapt the `sources.local.yaml` file in the `$home/.lamin/bionty/sources` directory.
 For example, to add a new disease ontology (termed "inhouse_diseases") with an associated version and URL, one adds the following lines to the `sources.local.yaml`.
 
 ```yaml
@@ -69,7 +69,7 @@ If desired, the new ontology can be set as default. See {doc}`./config` for more
 
 ## New entites
 
-Adding new entities to Bionty requires subclassing the {class}`bionty.Entity` and modifying the `local.yml` file.
+Adding new entities to Bionty requires subclassing the {class}`bionty.Bionty` and modifying the `sources.local.yaml` file.
 
 The {class}`bionty.Bionty` requires several properties to be defined:
 
@@ -79,9 +79,9 @@ source: str,
 version: str,
 ```
 
-These are automatically populated by either the `._current.yaml` (see {doc}`./config`) or explicitly passed as parameters when initializing an Entity.
+These are automatically populated by either the currently used Bionty sources (see {doc}`./config`) or explicitly passed as parameters when initializing an Entity.
 
-Hence, a new Entity `MyEntity` would be defined as:
+Hence, a new Bionty class `MyEntity` would be defined as:
 
 ```python
 from bionty import Bionty
@@ -121,4 +121,4 @@ MyEntity:
         md5: "md5 if available or leave out this row"
 ```
 
-Great! Now we've added a new Entity, which can be used with all Bionty functions! 🎉
+Great! Now we've added a new Bionty class, which can be used with all Bionty functions! 🎉
