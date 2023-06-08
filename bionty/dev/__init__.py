@@ -4,7 +4,6 @@
    :toctree: .
 
    ontology_info
-   latest_db_version
 """
 from ._fix_index import (
     check_if_index_compliant,
