@@ -3,17 +3,17 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-📝 Fix API ref | [402](https://github.com/laminlabs/bionty/pull/402) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-08 |
-🚚 Renamed version to source everywhere possible | [401](https://github.com/laminlabs/bionty/pull/401) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-07 | 0.17a3
-🎨 Updated yaml para | [400](https://github.com/laminlabs/bionty/pull/400) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-07 |
-Harmonize names | [399](https://github.com/laminlabs/bionty/pull/399) | [Zethson](https://github.com/Zethson) | 2023-06-07 |
+📝 Fix API ref | [402](https://github.com/laminlabs/bionty/pull/402) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-08 | 0.17.0
+🚚 Renamed version to source everywhere possible <span class="badge badge-warning">Breaking</span>| [401](https://github.com/laminlabs/bionty/pull/401) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-07 | 0.17a3
+🎨 Updated yaml parameter in parse_current_versions | [400](https://github.com/laminlabs/bionty/pull/400) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-07 |
+🎨 Harmonize names | [399](https://github.com/laminlabs/bionty/pull/399) | [Zethson](https://github.com/Zethson) | 2023-06-07 |
 🚑 Fixed readout parsing | [398](https://github.com/laminlabs/bionty/pull/398) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-07 | 0.17a1
 🧪 Add tests to versions file generation | [397](https://github.com/laminlabs/bionty/pull/397) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-07 |
 🎨 Use the same code to create and update local yaml | [396](https://github.com/laminlabs/bionty/pull/396) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-06 |
-♻️ Changed yaml format to have species as keys, refactored versioning | [394](https://github.com/laminlabs/bionty/pull/394) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-04 | 0.17a1
-✨ Add improved species support | [392](https://github.com/laminlabs/bionty/pull/392) | [Zethson](https://github.com/Zethson) | 2023-06-04 |
+♻️ Changed yaml format to have species as keys, refactored versioning <span class="badge badge-warning">Breaking</span> | [394](https://github.com/laminlabs/bionty/pull/394) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-04 | 0.17a1
+✨ Add improved species support <span class="badge badge-warning">Breaking</span> | [392](https://github.com/laminlabs/bionty/pull/392) | [Zethson](https://github.com/Zethson) | 2023-06-04 |
 👷 Remove nox venv | [388](https://github.com/laminlabs/bionty/pull/388) | [falexwolf](https://github.com/falexwolf) | 2023-06-01 | 0.16.0
-🔥 Add examples; Remove global lookup <span class="badge badge-warning">Breaking</span> | [387](https://github.com/laminlabs/bionty/pull/387) | [Zethson](https://github.com/Zethson) | 2023-05-31 |
+🔥 Remove global lookup <span class="badge badge-warning">Breaking</span> | [387](https://github.com/laminlabs/bionty/pull/387) | [Zethson](https://github.com/Zethson) | 2023-05-31 |
 🎨 Default to return df when displaying versions | [385](https://github.com/laminlabs/bionty/pull/385) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-30 |
 ✨ Add GO | [384](https://github.com/laminlabs/bionty/pull/384) | [Zethson](https://github.com/Zethson) | 2023-05-30 |
 🚸 Delete an incomplete file on an exception in s3_bionty_assets | [383](https://github.com/laminlabs/bionty/pull/383) | [Koncopd](https://github.com/Koncopd) | 2023-05-29 |
