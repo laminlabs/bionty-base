@@ -1,8 +1,9 @@
 import os
+import shutil
 import sys
 
 import nox
-from laminci import move_built_docs_to_docs_slash_project_slug, upload_docs_artifact
+from laminci import upload_docs_artifact
 from laminci.nox import build_docs, login_testuser1, run_pre_commit, run_pytest
 
 nox.options.default_venv_backend = "none"
@@ -19,9 +20,9 @@ def build(session, package):
     session.run(*"pip install .[dev,test]".split())
     if package == "bionty":
         run_pytest(session)
+        shutil.copy("README.md", "docs/README.md")
         build_docs(session)
         upload_docs_artifact(aws=True)
-        move_built_docs_to_docs_slash_project_slug()
     else:
         # navigate into submodule so that lamin-project.yml is correctly read
         os.chdir("./lnschema-bionty")
