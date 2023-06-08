@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+📝 Re-organize docs | [403](https://github.com/laminlabs/bionty/pull/403) | [falexwolf](https://github.com/falexwolf) | 2023-06-08 |
 📝 Fix API ref | [402](https://github.com/laminlabs/bionty/pull/402) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-08 | 0.17.0
 🚚 Renamed version to source everywhere possible <span class="badge badge-warning">Breaking</span>| [401](https://github.com/laminlabs/bionty/pull/401) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-07 | 0.17a3
 🎨 Updated yaml parameter in parse_current_versions | [400](https://github.com/laminlabs/bionty/pull/400) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-07 |
