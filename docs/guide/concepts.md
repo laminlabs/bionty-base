@@ -1,56 +1,25 @@
-# Guide
+# Concepts
 
-Welcome to the Bionty guide! 👋
+## Entity
 
-In the following we will outline the main concepts and terminology of Bionty.
-
-## Entities
-
-In many practical applications, a biological entity (e.g., `Species`) represents a variable that can take values from a vocabulary of terms.
+Let's define a biological entity (e.g., `Species`) to be a variable that takes values from a vocabulary of terms with biological meaning.
 
 1. There are different roughly equivalent vocabularies for the same entity.
-   For example, one can describe species with the vocabulary of the scientific names, the vocabulary of the common names,
-   or the vocabulary of ontology IDs for the same species.
-2. There are different versions and granularity of these vocabularies.
-   Typically, vocabularies are based on a given version of a public ontology,
-   and may contain “custom” terms representing new knowledge that is not yet represented publicly.
+   For example, one can describe species with the vocabulary of the scientific
+   names, the vocabulary of the common names, or the vocabulary of ontology IDs
+   for the same species.
+2. There are different versions & sources of these vocabularies.
+3. Terms in the vocabularies have different granularity, and are often hierarchical.
+4. Typically, vocabularies are based on a given version of a public reference ontology,
+   but contain additional “custom” terms corresponding to "new knowledge" absent
+   from reference ontologies. For example, new cell types or states, new
+   synthetic genes, etc.
 
-## Entity model
+## Bionty
 
-We address 1. with a so-called `Entity` model: Within Bionty, the primary representation for an entity is a `Bionty` object resembling an `Entity`,
-in which each column of the Entity table attribute corresponds to a vocabulary.
+The central class {class}`~bionty.Bionty` models 3 of the 4 above-mentioned properties of biological entities:
 
-We address 2. through a user-setup process consists of:
-
-- looking up a standard ontology, fixing a resolution/depth of terms in the ontology and writing it to the vocabulary.
-- adding user-defined terms to the ontology, or, if their relation within the ontology is not yet clear, directly to the vocabulary.
-
-Example:
-
-- Species is an entity.
-- Take one value that the entity can take: _human_ is a choice (the name) for a descriptor of the abstract entry/ value/ term _homo sapiens_
-
-## The Bionty class
-
-The {class}`~bionty.Bionty` class is the core class of Bionty that implements the above introduced **Entity model**.
-
-It offers three primary functionalities (`.df`, `.lookup`, `.curate`) that are managed by a single parameter `id`.
-When instantiating a {class}`~bionty.Bionty` object set the default `id` by, for example, `bionty.Phenotype(reference_id="id")`.
-The `id` corresponds to the field name that constitutes the primary reference for every subsequent operation (`.df`, `.lookup`, `.curate`).
-
-1. Accessing ontology DataFrames: The `reference_id` parameter sets the default index of the Pandas DataFrame when it is accessed (`.df`).
-   See {doc}`./lookup`.
-2. Looking up records: Bionty offers a `.lookup` function to lookup identifiers of Bionty records.
-   See {doc}`./lookup`.
-3. Curating ontologies: By default, `.curate` curates any specified column in the target Pandas DataFrame
-   against the index as defined by the `reference_id` of the Bionty DataFrame.
-   See {doc}`./curate`.
-
-## Glossary
-
-1. **entity** (lower case) refers to biological entities as described above.
-2. **`Bionty`** refers to the entity class.
-3. **Bionty table/reference table** refers to a table where the columns are vocabularies, accessed via `Bionty.df`.
-4. **Records** refers to entries/rows in the Bionty table.
-5. **Vocabularies** are sets of terms that describe an entity.
-6. **Ontologies** refer to sets of standardized terms that constitute a vocabulary.
+1. Every `Bionty` object comes with a table of terms in which each column corresponds to an alternative vocabulary for the entity.
+2. Every table is versioned & has a tracked reference source (typically, a public ontology).
+3. Most tables have a children column that allows mapping hierarchies.
+4. Adding user-defined records amounts to managing bioregistries, and we recommend using Bionty's SQL extension ([lnschema_bionty](https://lamin.ai/docs/lnschema-bionty)).

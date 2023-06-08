@@ -10,7 +10,7 @@
 lookup
 ontology
 concepts
-curate
+inspect
 match
 config
 extend
