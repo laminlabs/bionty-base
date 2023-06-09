@@ -10,7 +10,7 @@ env:
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-22.04
     env:
       GITHUB_EVENT_NAME: ${{ github.event_name }}
@@ -18,7 +18,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.9"]
-        package: ["bionty", "lnschema-bionty"]
+        group: ["bionty-unit", "bionty-docs", "lnschema-bionty"]
     timeout-minutes: 25
 
     steps:
@@ -45,18 +45,6 @@ jobs:
         with:
           path: ~/.cache/pre-commit
           key: pre-commit-${{ runner.os }}-${{ hashFiles('.pre-commit-config.yaml') }}
-      - name: Cache postgres
-        id: cache-postgres
-        uses: actions/cache@v3
-        with:
-          path: ~/postgres.tar
-          key: cache-postgres-0
-      - name: Cache postgres miss
-        if: steps.cache-postgres.outputs.cache-hit != 'true'
-        run: docker pull postgres:latest && docker image save postgres:latest --output ~/postgres.tar
-      - name: Cache postgres use
-        if: steps.cache-postgres.outputs.cache-hit == 'true'
-        run: docker image load --input ~/postgres.tar
 
       - name: Install Python dependencies
         run: |
@@ -64,11 +52,6 @@ jobs:
           pip install -U laminci
           pip install rich
           pip install ipywidgets
-      - name: Install apt-get dependencies
-        run: |
-          sudo apt-get -y install graphviz --fix-missing
-          sudo apt-get install sqlite3-tools=3.37.2-2
-          sudo apt-get install libpq-dev
 
       - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@v1
@@ -78,20 +61,21 @@ jobs:
           aws-region: eu-central-1
 
       - name: Lint
-        if: matrix.python-version == '3.9' && matrix.package == 'bionty'
+        if: matrix.python-version == '3.9' && matrix.group == 'bionty-unit'
         run: |
           nox -s lint
       - name: Build
         run: |
-          nox -s "build(package='${{ matrix.package }}')"
-      - name: Codecov
-        if: matrix.python-version == '3.9' && matrix.package == 'bionty'
-        uses: codecov/codecov-action@v2
+          nox -s "build(group='${{ matrix.group }}')"
+
+      - name: upload coverage
+        uses: actions/upload-artifact@v2
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          name: coverage--${{ matrix.group }}
+          path: .coverage
 
       - name: Deploy docs
-        if: ${{ matrix.python-version == '3.9' && matrix.package == 'bionty' }}
+        if: ${{ matrix.python-version == '3.9' && matrix.group == 'bionty-docs' }}
         id: netlify
         uses: nwtgck/actions-netlify@v1.2
         with:
@@ -104,5 +88,28 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
       - name: Update version URLs
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push' && matrix.package == 'bionty'
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push' && matrix.group == 'bionty-unit'
         run: python ./scripts/upload_new_ontologies.py
+
+  coverage:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.9
+          cache: "pip"
+          cache-dependency-path: ".github/workflows/build.yml"
+      - run: |
+          pip install coverage[toml]
+          pip install --no-deps .
+      - uses: actions/download-artifact@v2
+      - name: run coverage
+        run: |
+          coverage combine coverage--*/.coverage*
+          coverage report --fail-under=0
+          coverage xml
+      - uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}

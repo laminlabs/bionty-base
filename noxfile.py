@@ -1,9 +1,10 @@
 import os
+import shutil
 import sys
 
 import nox
-from laminci import move_built_docs_to_docs_slash_project_slug, upload_docs_artifact
-from laminci.nox import build_docs, login_testuser1, run_pre_commit, run_pytest
+from laminci import upload_docs_artifact
+from laminci.nox import build_docs, login_testuser1, run_pre_commit
 
 nox.options.default_venv_backend = "none"
 
@@ -14,14 +15,17 @@ def lint(session: nox.Session) -> None:
 
 
 @nox.session
-@nox.parametrize("package", ["bionty", "lnschema-bionty"])
-def build(session, package):
+@nox.parametrize("group", ["bionty-unit", "bionty-docs", "lnschema-bionty"])
+def build(session, group):
     session.run(*"pip install .[dev,test]".split())
-    if package == "bionty":
-        run_pytest(session)
+    coverage_args = "--cov=bionty --cov-append --cov-report=term-missing"  # noqa
+    if group == "bionty-unit":
+        session.run(*f"pytest -s {coverage_args} ./tests".split())
+    elif group == "bionty-docs":
+        session.run(*f"pytest -s {coverage_args} ./docs/guide".split())
+        shutil.copy("README.md", "docs/README.md")
         build_docs(session)
         upload_docs_artifact(aws=True)
-        move_built_docs_to_docs_slash_project_slug()
     else:
         # navigate into submodule so that lamin-project.yml is correctly read
         os.chdir("./lnschema-bionty")
