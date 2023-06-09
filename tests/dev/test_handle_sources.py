@@ -3,7 +3,7 @@ import tempfile
 
 import pytest
 
-from bionty.dev._handle_versions import (
+from bionty.dev._handle_sources import (
     add_records_to_existing_dict,
     parse_currently_used_sources,
     parse_sources_yaml,

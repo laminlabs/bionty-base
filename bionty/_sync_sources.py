@@ -1,7 +1,7 @@
 from filelock import FileLock  # type: ignore
 
 from ._compat.update_yaml_format import sync_yaml_format
-from .dev._handle_versions import (
+from .dev._handle_sources import (
     ROOT,
     create_currently_used_sources_yaml,
     create_sources_local_yaml,

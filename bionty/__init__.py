@@ -61,7 +61,7 @@ from lamin_logger import py_version_warning
 
 py_version_warning("3.8", "3.10")
 
-from . import _sync_versions
+from . import _sync_sources
 
 # dynamic classes
 from .entities._bfxpipeline import BFXPipeline
