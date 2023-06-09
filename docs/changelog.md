@@ -3,11 +3,11 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-🎨 Removed environment variable for loaded lamindb instance | [405](https://github.com/laminlabs/bionty/pull/405) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-09 |
+🎨 Removed environment variable for loaded lamindb instance <span class="badge badge-warning">Breaking</span> | [405](https://github.com/laminlabs/bionty/pull/405) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-09 | 0.18.0
 🚚 Move img folder to guide | [404](https://github.com/laminlabs/bionty/pull/404) | [falexwolf](https://github.com/falexwolf) | 2023-06-09 |
 📝 Re-organize docs | [403](https://github.com/laminlabs/bionty/pull/403) | [falexwolf](https://github.com/falexwolf) | 2023-06-08 |
 📝 Fix API ref | [402](https://github.com/laminlabs/bionty/pull/402) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-08 | 0.17.0
-🚚 Renamed version to source everywhere possible <span class="badge badge-warning">Breaking</span>| [401](https://github.com/laminlabs/bionty/pull/401) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-07 | 0.17a3
+🚚 Renamed version to source everywhere possible <span class="badge badge-warning">Breaking</span> | [401](https://github.com/laminlabs/bionty/pull/401) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-07 | 0.17a3
 🎨 Updated yaml parameter in parse_current_versions | [400](https://github.com/laminlabs/bionty/pull/400) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-07 |
 🎨 Harmonize names | [399](https://github.com/laminlabs/bionty/pull/399) | [Zethson](https://github.com/Zethson) | 2023-06-07 |
 🚑 Fixed readout parsing | [398](https://github.com/laminlabs/bionty/pull/398) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-07 | 0.17a1
