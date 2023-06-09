@@ -1,8 +1,8 @@
-import os
 from pathlib import Path
 
 import pandas as pd
 
+from bionty.dev._handle_versions import LAMINDB_INSTANCE_LOADED
 from bionty.dev._io import load_yaml
 
 ROOT_DIR = Path(__file__).parent.resolve()
@@ -15,7 +15,7 @@ def display_available_sources() -> pd.DataFrame:
         >>> import bionty as bt
         >>> bt.display_available_sources()
     """
-    from .dev._handle_versions import LOCAL_VERSIONS_PATH, parse_sources_yaml
+    from .dev._handle_sources import LOCAL_VERSIONS_PATH, parse_sources_yaml
 
     return parse_sources_yaml(LOCAL_VERSIONS_PATH).set_index("entity")  # type: ignore
 
@@ -31,12 +31,10 @@ def display_currently_used_sources() -> pd.DataFrame:
         >>> import bionty as bt
         >>> bt.display_currently_used_sources()
     """
-    from .dev._handle_versions import CURRENT_SOURCES_PATH, LAMINDB_SOURCES_PATH
+    from .dev._handle_sources import CURRENT_SOURCES_PATH, LAMINDB_SOURCES_PATH
 
     VERSIONS_FILE_PATH = (
-        LAMINDB_SOURCES_PATH
-        if os.getenv("LAMINDB_INSTANCE_LOADED") == 1
-        else CURRENT_SOURCES_PATH
+        LAMINDB_SOURCES_PATH if LAMINDB_INSTANCE_LOADED else CURRENT_SOURCES_PATH
     )
 
     versions = load_yaml(VERSIONS_FILE_PATH.resolve())

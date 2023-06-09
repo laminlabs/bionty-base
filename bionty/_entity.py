@@ -20,6 +20,7 @@ from .dev._fix_index import (
     explode_aggregated_column_to_expand,
     get_compliant_index_from_column,
 )
+from .dev._handle_sources import LAMINDB_INSTANCE_LOADED
 from .dev._io import s3_bionty_assets, url_download
 
 
@@ -41,26 +42,24 @@ class Bionty:
         include_name_prefixes: Optional[Dict[str, List[str]]] = None,
         exclude_id_prefixes: Optional[Dict[str, List[str]]] = None,
         exclude_name_prefixes: Optional[Dict[str, List[str]]] = None,
-        **kwargs,
     ):
-        if kwargs:
-            deprecated_db_parameter = kwargs.pop("database", None)
-            if deprecated_db_parameter is not None:
-                logger.warning(
-                    "Parameter 'database' is deprecated and will be removed in a"
-                    " future version. Use 'source' instead.",
-                    DeprecationWarning,
-                )
-                source = deprecated_db_parameter
-
-        if source:
+        if source is not None or version is not None:
             # We don't allow custom databases inside lamindb instances
             # because the lamindb standard should be used
-            if os.getenv("LAMINDB_INSTANCE_LOADED") == 1:
-                raise ValueError(
-                    "Custom databases are not allowed inside lamindb instances.Check"
-                    " active databases using `bionty.display_currently_used_sources`."
+            if LAMINDB_INSTANCE_LOADED:
+                logger.error(
+                    "Only default sources are allowed inside LaminDB instances!"
                 )
+                logger.hint(
+                    "To use a different source, please either:\n    Close your instance"
+                    " via `lamin close` \n    OR\n    Configure currently_used"
+                    f" {self.__class__.__name__} source in"
+                    " lnschema_bionty.BiontySource table"
+                )
+                self._species = None
+                self._source = None
+                self._version = None
+                return
 
             if br.normalize_prefix(source):
                 source = br.normalize_prefix(source)
@@ -88,7 +87,10 @@ class Bionty:
             f"🔎 {self.__class__.__name__}.lookup(): autocompletion of ontology terms\n"
             f"🔗 {self.__class__.__name__}.ontology: Pronto.Ontology object"
         )
-        return representation
+        if self._source is not None:
+            return representation
+        else:
+            return "invalid Bionty object"
 
     @property
     def species(self):
@@ -96,7 +98,7 @@ class Bionty:
         return self._species
 
     @property
-    def source(self) -> str:
+    def source(self):
         """Name of the source."""
         return self._source
 
@@ -354,7 +356,7 @@ class Bionty:
                 source_version[0].get("version") if version is None else version
             )
         else:
-            self._source = source
+            self._source = source  # type:ignore
             versions_source = all_versions[all_versions["source_key"] == source]
             if versions_source.shape[0] == 0:
                 raise ValueError(

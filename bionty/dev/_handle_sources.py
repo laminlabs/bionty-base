@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from typing import Dict, List, Literal, Union
 
@@ -16,6 +17,10 @@ LAMINDB_SOURCES_PATH = ROOT / ".lamindb_currently_used_sources.yaml"
 
 # Visible to the users and can be modified
 LOCAL_VERSIONS_PATH = settings.versionsdir / "sources.local.yaml"
+
+LAMINDB_INSTANCE_LOADED = os.path.exists(
+    f"{os.environ['HOME']}/.lamin/current_instance.env"
+)
 
 
 def parse_sources_yaml(filepath: Union[str, Path]) -> DataFrame:
