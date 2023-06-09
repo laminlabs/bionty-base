@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🎨 Removed environment variable for loaded lamindb instance | [405](https://github.com/laminlabs/bionty/pull/405) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-09 |
 🚚 Move img folder to guide | [404](https://github.com/laminlabs/bionty/pull/404) | [falexwolf](https://github.com/falexwolf) | 2023-06-09 |
 📝 Re-organize docs | [403](https://github.com/laminlabs/bionty/pull/403) | [falexwolf](https://github.com/falexwolf) | 2023-06-08 |
 📝 Fix API ref | [402](https://github.com/laminlabs/bionty/pull/402) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-08 | 0.17.0
