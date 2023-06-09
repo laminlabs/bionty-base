@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pandas as pd
 
-from bionty.dev._handle_versions import LAMINDB_INSTANCE_LOADED
+from bionty.dev._handle_sources import LAMINDB_INSTANCE_LOADED
 from bionty.dev._io import load_yaml
 
 ROOT_DIR = Path(__file__).parent.resolve()

@@ -3,7 +3,7 @@ from pathlib import Path
 
 from rich import print
 
-from bionty.dev._handle_versions import PUBLIC_SOURCES_PATH, parse_sources_yaml
+from bionty.dev._handle_sources import PUBLIC_SOURCES_PATH, parse_sources_yaml
 
 
 def _upload_ontology_artifacts(
