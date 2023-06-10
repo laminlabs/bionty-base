@@ -40,7 +40,12 @@ To set your own default ontology and version, shift the order of entries.
 
 For example, in the following "doid" used when "species" is specified as "human":
 
-```yaml
+(highlighted sources are considered the default)
+
+```{code-block} yaml
+---
+emphasize-lines: 2-6,12-16
+---
 Disease:
   mondo:
     all:
@@ -63,30 +68,37 @@ Disease:
     human:
       2000-01-01:
         source: http://download-my-diseases.com/releases/2000-01-01/mydiseases.owl
-        md5: "md5 if available or leave out this row"
+        md5: md5 if available or leave out this row
     name: My in-house Disease Ontology
     website: http://my-website.com
 ```
 
+<br>
+
 We may change the default to "inhouse_diseases" when "species" is specified as "human", by the following:
 
-```yaml
+Note: changing the order of versions won't have an effect, as most recent version is taken as default.
+
+```{code-block} yaml
+---
+emphasize-lines: 2,3,7-9,12-16
+---
 Disease:
   mondo:
     all:
-      2023-02-06:
-        source: http://purl.obolibrary.org/obo/mondo/releases/2023-02-06/mondo.owl
-        md5: 2b7d479d4bd02a94eab47d1c9e64c5db
       2022-10-11:
         source: http://purl.obolibrary.org/obo/mondo/releases/2022-10-11/mondo.owl
         md5: 04b808d05c2c2e81430b20a0e87552bb
+      2023-02-06:
+        source: http://purl.obolibrary.org/obo/mondo/releases/2023-02-06/mondo.owl
+        md5: 2b7d479d4bd02a94eab47d1c9e64c5db
     name: Mondo Disease Ontology
     website: https://mondo.monarchinitiative.org/
   inhouse_diseases:
     human:
       2000-01-01:
         source: http://download-my-diseases.com/releases/2000-01-01/mydiseases.owl
-        md5: "md5 if available or leave out this row"
+        md5: md5 if available or leave out this row
     name: My in-house Disease Ontology
     website: http://my-website.com
   doid:
