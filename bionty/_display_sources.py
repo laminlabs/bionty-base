@@ -15,9 +15,9 @@ def display_available_sources() -> pd.DataFrame:
         >>> import bionty as bt
         >>> bt.display_available_sources()
     """
-    from .dev._handle_sources import LOCAL_VERSIONS_PATH, parse_sources_yaml
+    from .dev._handle_sources import LOCAL_SOURCES, parse_sources_yaml
 
-    return parse_sources_yaml(LOCAL_VERSIONS_PATH).set_index("entity")  # type: ignore
+    return parse_sources_yaml(LOCAL_SOURCES).set_index("entity")  # type: ignore
 
 
 # This function naming is consistent with the `currently_used` field in BiontySource SQL table
@@ -31,11 +31,9 @@ def display_currently_used_sources() -> pd.DataFrame:
         >>> import bionty as bt
         >>> bt.display_currently_used_sources()
     """
-    from .dev._handle_sources import CURRENT_SOURCES_PATH, LAMINDB_SOURCES_PATH
+    from .dev._handle_sources import CURRENT_SOURCES, LAMINDB_SOURCES
 
-    VERSIONS_FILE_PATH = (
-        LAMINDB_SOURCES_PATH if LAMINDB_INSTANCE_LOADED else CURRENT_SOURCES_PATH
-    )
+    VERSIONS_FILE_PATH = LAMINDB_SOURCES if LAMINDB_INSTANCE_LOADED else CURRENT_SOURCES
 
     versions = load_yaml(VERSIONS_FILE_PATH.resolve())
 

@@ -84,6 +84,9 @@ from ._entity import Bionty
 from ._ontology import Ontology
 from ._display_sources import display_currently_used_sources, display_available_sources
 
+# sources
+from .dev._handle_sources import LOCAL_SOURCES
+
 # dev
 from . import dev
 
