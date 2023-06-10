@@ -16,7 +16,8 @@ classifiers = [
 dependencies = [
     "pronto>=2.5.4",
     "lamin_logger",
-    "anndata",
+    "pyyaml",
+    "pandas",
     "pyarrow",
     "botocore",
     "rich",
@@ -29,20 +30,13 @@ dependencies = [
 Home = "https://github.com/laminlabs/bionty"
 
 [project.optional-dependencies]
-dev = [
-    "pre-commit",
-    "nox",
-]
 test = [
+    "pre-commit",
     "pytest>=6.0",
     "pytest-cov",
     "laminci",
-    "nbmake",
     "nbproject-test"
 ]
-
-[project.scripts]
-bionty = "bionty.__main__:main"
 
 [tool.black]
 preview = true
