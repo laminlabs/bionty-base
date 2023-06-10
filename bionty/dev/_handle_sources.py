@@ -23,6 +23,25 @@ LAMINDB_INSTANCE_LOADED = os.path.exists(
 )
 
 
+def create_or_update_sources_local_yaml(overwrite: bool = True) -> None:
+    """If LOCAL_SOURCES doesn't exist, copy from PUBLIC_SOURCES and create it.
+
+    Args:
+        overwrite: Whether to overwrite the current LOCAL_SOURCES.
+    """
+    if not LOCAL_SOURCES.exists() or overwrite:
+        public_df_records = parse_sources_yaml(PUBLIC_SOURCES).to_dict(  # type: ignore
+            orient="records"
+        )
+        versions = add_records_to_existing_dict(public_df_records, {})
+        versions_header = {"version": load_yaml(PUBLIC_SOURCES).get("version")}
+        versions_header.update(versions)
+        write_yaml(versions_header, LOCAL_SOURCES)
+        logger.success(f"Created {LOCAL_SOURCES}!")
+    else:
+        update_local_from_public_sources_yaml()
+
+
 def parse_sources_yaml(filepath: Union[str, Path]) -> DataFrame:
     """Parse values from sources yaml file into a DataFrame.
 
@@ -80,23 +99,6 @@ def parse_sources_yaml(filepath: Union[str, Path]) -> DataFrame:
     )
 
 
-def create_sources_local_yaml(overwrite: bool = True) -> None:
-    """If LOCAL_SOURCES doesn't exist, copy from PUBLIC_SOURCES and create it.
-
-    Args:
-        overwrite: Whether to overwrite the current LOCAL_SOURCES.
-    """
-    if not LOCAL_SOURCES.exists() or overwrite:
-        public_df_records = parse_sources_yaml(PUBLIC_SOURCES).to_dict(  # type: ignore
-            orient="records"
-        )
-        versions = add_records_to_existing_dict(public_df_records, {})
-        versions_header = {"version": load_yaml(PUBLIC_SOURCES).get("version")}
-        versions_header.update(versions)
-        write_yaml(versions_header, LOCAL_SOURCES)
-        logger.success(f"Created {LOCAL_SOURCES}!")
-
-
 def create_currently_used_sources_yaml(
     overwrite: bool = True, source: Literal["versions", "local"] = "local"
 ) -> None:
@@ -136,8 +138,6 @@ def update_local_from_public_sources_yaml() -> None:
         logger.success(
             f"New records found in the public sources.yaml, updated {LOCAL_SOURCES}!"
         )
-        # update LOCAL_SOURCES will always generate new CURRENT_SOURCES
-        create_currently_used_sources_yaml(overwrite=True)
 
 
 def parse_currently_used_sources(yaml: Union[str, Path, List[Dict]]) -> Dict:
