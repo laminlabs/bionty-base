@@ -20,19 +20,19 @@ def versions_yaml_replica():
       ensembl:
         all:
           release-108:
-            source: https://ftp.ensembl.org/pub/release-108/species_EnsemblVertebrates.txt
+            url: https://ftp.ensembl.org/pub/release-108/species_EnsemblVertebrates.txt
         name: Ensembl
         website: https://www.ensembl.org/index.html
     Gene:
       ensembl:
         human:
           release-108:
-            source: https://ftp.ensembl.org/pub/release-108/mysql/homo_sapiens_core_108_38/
+            url: https://ftp.ensembl.org/pub/release-108/mysql/homo_sapiens_core_108_38/
           release-107:
-            source: https://ftp.ensembl.org/pub/release-107/mysql/homo_sapiens_core_107_38/
+            url: https://ftp.ensembl.org/pub/release-107/mysql/homo_sapiens_core_107_38/
         mouse:
           release-108:
-            source: https://ftp.ensembl.org/pub/release-108/mysql/mus_musculus_core_108_39/
+            url: https://ftp.ensembl.org/pub/release-108/mysql/mus_musculus_core_108_39/
         name: Ensembl
         website: https://www.ensembl.org/index.html
     CellType:
@@ -41,10 +41,10 @@ def versions_yaml_replica():
         website: https://obophenotype.github.io/cell-ontology/
         all:
           2023-02-15:
-            source: http://purl.obolibrary.org/obo/cl/releases/2023-02-15/cl-base.owl
+            url: http://purl.obolibrary.org/obo/cl/releases/2023-02-15/cl-base.owl
             md5: 9331a6a029cb1863bd0584ab41508df7
           2022-08-16:
-            source: http://purl.obolibrary.org/obo/cl/releases/2022-08-16/cl.owl
+            url: http://purl.obolibrary.org/obo/cl/releases/2022-08-16/cl.owl
             md5: d0655766574e63f3fe5ed56d3c030880
     """
     with tempfile.NamedTemporaryFile(mode="w+", delete=False) as f:
