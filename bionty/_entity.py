@@ -351,13 +351,13 @@ class Bionty:
                     f"Species '{self.species}' is not available! Check"
                     " `bionty.display_available_sources()`!"
                 )
-            self._source = source_version[0].get("source_key")
+            self._source = source_version[0].get("source")
             self._version = (
                 source_version[0].get("version") if version is None else version
             )
         else:
             self._source = source  # type:ignore
-            versions_source = all_versions[all_versions["source_key"] == source]
+            versions_source = all_versions[all_versions["source"] == source]
             if versions_source.shape[0] == 0:
                 raise ValueError(
                     f"Source '{self.source}' is not available! Check"
@@ -380,7 +380,7 @@ class Bionty:
 
         version_row = all_versions[
             (all_versions["species"] == self.species)
-            & (all_versions["source_key"] == self.source)
+            & (all_versions["source"] == self.source)
             & (all_versions["version"] == self.version)
         ].to_dict(orient="records")
         if len(version_row) == 0:

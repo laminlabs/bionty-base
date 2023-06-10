@@ -23,20 +23,22 @@ Entities:
    Readout
    BFXPipeline
 
-The base model for every entity class is:
+Base model of entity classes:
 
 .. autosummary::
    :toctree: .
 
    Bionty
 
-Display of currently available or used versions:
+Bionty sources:
 
 .. autosummary::
    :toctree: .
 
     display_available_sources
     display_currently_used_sources
+    LOCAL_SOURCES
+    reset_sources
 
 External API:
 
@@ -85,7 +87,7 @@ from ._ontology import Ontology
 from ._display_sources import display_currently_used_sources, display_available_sources
 
 # sources
-from .dev._handle_sources import LOCAL_SOURCES
+from .dev._handle_sources import LOCAL_SOURCES, reset_sources
 
 # dev
 from . import dev

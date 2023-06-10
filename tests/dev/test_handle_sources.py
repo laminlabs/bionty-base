@@ -20,19 +20,19 @@ def versions_yaml_replica():
       ensembl:
         all:
           release-108:
-            source: https://ftp.ensembl.org/pub/release-108/species_EnsemblVertebrates.txt
+            url: https://ftp.ensembl.org/pub/release-108/species_EnsemblVertebrates.txt
         name: Ensembl
         website: https://www.ensembl.org/index.html
     Gene:
       ensembl:
         human:
           release-108:
-            source: https://ftp.ensembl.org/pub/release-108/mysql/homo_sapiens_core_108_38/
+            url: https://ftp.ensembl.org/pub/release-108/mysql/homo_sapiens_core_108_38/
           release-107:
-            source: https://ftp.ensembl.org/pub/release-107/mysql/homo_sapiens_core_107_38/
+            url: https://ftp.ensembl.org/pub/release-107/mysql/homo_sapiens_core_107_38/
         mouse:
           release-108:
-            source: https://ftp.ensembl.org/pub/release-108/mysql/mus_musculus_core_108_39/
+            url: https://ftp.ensembl.org/pub/release-108/mysql/mus_musculus_core_108_39/
         name: Ensembl
         website: https://www.ensembl.org/index.html
     CellType:
@@ -41,10 +41,10 @@ def versions_yaml_replica():
         website: https://obophenotype.github.io/cell-ontology/
         all:
           2023-02-15:
-            source: http://purl.obolibrary.org/obo/cl/releases/2023-02-15/cl-base.owl
+            url: http://purl.obolibrary.org/obo/cl/releases/2023-02-15/cl-base.owl
             md5: 9331a6a029cb1863bd0584ab41508df7
           2022-08-16:
-            source: http://purl.obolibrary.org/obo/cl/releases/2022-08-16/cl.owl
+            url: http://purl.obolibrary.org/obo/cl/releases/2022-08-16/cl.owl
             md5: d0655766574e63f3fe5ed56d3c030880
     """
     with tempfile.NamedTemporaryFile(mode="w+", delete=False) as f:
@@ -63,41 +63,41 @@ def new_versions_yaml_replica():
       ensembl:
         all:
           release-108:
-            source: https://ftp.ensembl.org/pub/release-108/species_EnsemblVertebrates.txt
+            url: https://ftp.ensembl.org/pub/release-108/species_EnsemblVertebrates.txt
         name: Ensembl
         website: https://www.ensembl.org/index.html
         new-species:
           release-x:
-            source: new-species-source-link
+            url: new-species-source-link
     Gene:
       ensembl:
         human:
           release-108:
-            source: https://ftp.ensembl.org/pub/release-108/mysql/homo_sapiens_core_108_38/
+            url: https://ftp.ensembl.org/pub/release-108/mysql/homo_sapiens_core_108_38/
           release-107:
-            source: https://ftp.ensembl.org/pub/release-107/mysql/homo_sapiens_core_107_38/
+            url: https://ftp.ensembl.org/pub/release-107/mysql/homo_sapiens_core_107_38/
         mouse:
           release-108:
-            source: https://ftp.ensembl.org/pub/release-108/mysql/mus_musculus_core_108_39/
+            url: https://ftp.ensembl.org/pub/release-108/mysql/mus_musculus_core_108_39/
         name: Ensembl
         website: https://www.ensembl.org/index.html
       new-source:
         human:
           release-x:
-            source: new-gene-source-link
+            url: new-gene-source-link
     CellType:
       cl:
         name: Cell Ontology
         website: https://obophenotype.github.io/cell-ontology/
         all:
           new-version:
-            source: new-cell-type-source
+            url: new-cell-type-source
             md5: new-md5
           2023-02-15:
-            source: http://purl.obolibrary.org/obo/cl/releases/2023-02-15/cl-base.owl
+            url: http://purl.obolibrary.org/obo/cl/releases/2023-02-15/cl-base.owl
             md5: 9331a6a029cb1863bd0584ab41508df7
           2022-08-16:
-            source: http://purl.obolibrary.org/obo/cl/releases/2022-08-16/cl.owl
+            url: http://purl.obolibrary.org/obo/cl/releases/2022-08-16/cl.owl
             md5: d0655766574e63f3fe5ed56d3c030880
     """
     with tempfile.NamedTemporaryFile(mode="w+", delete=False) as f:
@@ -134,7 +134,7 @@ def test_parse_versions_yaml(versions_yaml_replica):
         parsed_df["species"].values == ["all", "human", "human", "mouse", "all", "all"]
     )
     assert all(
-        parsed_df["source_key"].values
+        parsed_df["source"].values
         == ["ensembl", "ensembl", "ensembl", "ensembl", "cl", "cl"]
     )
 
@@ -156,7 +156,7 @@ def test_add_records_to_existing_dict(new_versions_yaml_replica, versions_yaml_r
     expected = [
         {
             "entity": "Species",
-            "source_key": "ensembl",
+            "source": "ensembl",
             "species": "new-species",
             "version": "release-x",
             "url": "new-species-source-link",
@@ -166,7 +166,7 @@ def test_add_records_to_existing_dict(new_versions_yaml_replica, versions_yaml_r
         },
         {
             "entity": "Gene",
-            "source_key": "new-source",
+            "source": "new-source",
             "species": "human",
             "version": "release-x",
             "url": "new-gene-source-link",
@@ -176,7 +176,7 @@ def test_add_records_to_existing_dict(new_versions_yaml_replica, versions_yaml_r
         },
         {
             "entity": "CellType",
-            "source_key": "cl",
+            "source": "cl",
             "species": "all",
             "version": "new-version",
             "url": "new-cell-type-source",
@@ -195,12 +195,12 @@ def test_add_records_to_existing_dict(new_versions_yaml_replica, versions_yaml_r
     )
     assert updated_dict.get("Species").get("ensembl").get("new-species").get(
         "release-x"
-    ) == {"source": "new-species-source-link", "md5": ""}
+    ) == {"url": "new-species-source-link", "md5": ""}
     assert updated_dict.get("Gene").get("new-source").get("human").get("release-x") == {
-        "source": "new-gene-source-link",
+        "url": "new-gene-source-link",
         "md5": "",
     }
     assert updated_dict.get("CellType").get("cl").get("all").get("new-version") == {
-        "source": "new-cell-type-source",
+        "url": "new-cell-type-source",
         "md5": "new-md5",
     }

@@ -20,64 +20,39 @@ LOCAL_SOURCES = settings.versionsdir / "sources.local.yaml"
 LAMINDB_INSTANCE_LOADED = (Path.home() / ".lamin/current_instance.env").exists()
 
 
-def parse_sources_yaml(filepath: Union[str, Path]) -> DataFrame:
-    """Parse values from sources yaml file into a DataFrame.
+def reset_sources(confirm: bool = False):
+    """Reset local bionty sources file."""
+    if confirm:
+        from importlib import reload
 
-    Args:
-        filepath: Path to the versions yaml file.
-        return_df: Whether to return a Pandas DataFrame
+        import bionty
 
-    Returns:
-        - entity
-        - source_key
-        - species
-        - version
-        - url
-        - md5
-        - source_name
-        - source_website
-    """
-    import pandas as pd
+        try:
+            LOCAL_SOURCES.unlink()
+            logger.success(f"Removed file: {LOCAL_SOURCES}.")
+        except FileNotFoundError:
+            pass
+        try:
+            CURRENT_SOURCES.unlink()
+            logger.success(f"Removed file: {CURRENT_SOURCES}.")
+        except FileNotFoundError:
+            pass
+        try:
+            LAMINDB_SOURCES.unlink()
+            logger.success(f"Removed file: {LAMINDB_SOURCES}.")
+        except FileNotFoundError:
+            pass
 
-    all_rows = []
-    for entity, sources in load_yaml(filepath).items():
-        if entity == "version":
-            continue
-        for source_key, species_source in sources.items():
-            name = species_source.get("name", "")
-            website = species_source.get("website", "")
-            for species, versions in species_source.items():
-                if species in ["name", "website"]:
-                    continue
-                for version_key, version_meta in versions.items():
-                    row = (
-                        entity,
-                        source_key,
-                        species,
-                        str(version_key),
-                        version_meta.get("source"),
-                        version_meta.get("md5", ""),
-                        name,
-                        website,
-                    )
-                    all_rows.append(row)
+        reload(bionty)
+        logger.info("Reloaded bionty")
 
-    return pd.DataFrame(
-        all_rows,
-        columns=[
-            "entity",
-            "source_key",
-            "species",
-            "version",
-            "url",
-            "md5",
-            "source_name",
-            "source_website",
-        ],
-    )
+    else:
+        logger.warning(
+            "Are you sure to reset your local bionty sources? Pass 'confirm=True'"
+        )
 
 
-def create_sources_local_yaml(overwrite: bool = True) -> None:
+def create_or_update_sources_local_yaml(overwrite: bool = True) -> None:
     """If LOCAL_SOURCES doesn't exist, copy from PUBLIC_SOURCES and create it.
 
     Args:
@@ -92,6 +67,65 @@ def create_sources_local_yaml(overwrite: bool = True) -> None:
         versions_header.update(versions)
         write_yaml(versions_header, LOCAL_SOURCES)
         logger.success(f"Created {LOCAL_SOURCES}!")
+    else:
+        update_local_from_public_sources_yaml()
+
+
+def parse_sources_yaml(filepath: Union[str, Path]) -> DataFrame:
+    """Parse values from sources yaml file into a DataFrame.
+
+    Args:
+        filepath: Path to the versions yaml file.
+        return_df: Whether to return a Pandas DataFrame
+
+    Returns:
+        - entity
+        - source
+        - species
+        - version
+        - url
+        - md5
+        - source_name
+        - source_website
+    """
+    import pandas as pd
+
+    all_rows = []
+    for entity, sources in load_yaml(filepath).items():
+        if entity == "version":
+            continue
+        for source, species_source in sources.items():
+            name = species_source.get("name", "")
+            website = species_source.get("website", "")
+            for species, versions in species_source.items():
+                if species in ["name", "website"]:
+                    continue
+                for version_key, version_meta in versions.items():
+                    row = (
+                        entity,
+                        source,
+                        species,
+                        str(version_key),
+                        version_meta.get("url"),
+                        version_meta.get("md5", ""),
+                        name,
+                        website,
+                    )
+                    all_rows.append(row)
+
+    return pd.DataFrame(
+        all_rows,
+        columns=[
+            "entity",
+            "source",
+            "species",
+            "version",
+            "url",
+            "md5",
+            "source_name",
+            "source_website",
+        ],
+    )
 
 
 def create_currently_used_sources_yaml(
@@ -133,8 +167,6 @@ def update_local_from_public_sources_yaml() -> None:
         logger.success(
             f"New records found in the public sources.yaml, updated {LOCAL_SOURCES}!"
         )
-        # update LOCAL_SOURCES will always generate new CURRENT_SOURCES
-        create_currently_used_sources_yaml(overwrite=True)
 
 
 def parse_currently_used_sources(yaml: Union[str, Path, List[Dict]]) -> Dict:
@@ -142,9 +174,9 @@ def parse_currently_used_sources(yaml: Union[str, Path, List[Dict]]) -> Dict:
     if isinstance(yaml, (str, Path)):
         df = parse_sources_yaml(yaml)
         df_current = (
-            df[["entity", "source_key", "species", "version"]]  # type: ignore
-            .drop_duplicates(["entity", "species", "source_key"], keep="first")
-            .groupby(["entity", "species", "source_key"], sort=False)
+            df[["entity", "source", "species", "version"]]  # type: ignore
+            .drop_duplicates(["entity", "species", "source"], keep="first")
+            .groupby(["entity", "species", "source"], sort=False)
             .max()
         )
         records = df_current.reset_index().to_dict(orient="records")
@@ -153,44 +185,44 @@ def parse_currently_used_sources(yaml: Union[str, Path, List[Dict]]) -> Dict:
 
     current_dict: Dict = {}
     for kwargs in records:
-        entity, species, source_key, version = (
+        entity, species, source, version = (
             kwargs["entity"],
             kwargs["species"],
-            kwargs["source_key"],
+            kwargs["source"],
             kwargs["version"],
         )
         if entity not in current_dict:
             current_dict[entity] = {}
         if species not in current_dict[entity]:
-            current_dict[entity][species] = {source_key: version}
+            current_dict[entity][species] = {source: version}
     return current_dict
 
 
 def add_records_to_existing_dict(records: List[Dict], target_dict: Dict) -> Dict:
     """Add records to a versions yaml file."""
     for kwargs in records:
-        entity, source_key, species, version = (
+        entity, source, species, version = (
             kwargs["entity"],
-            kwargs["source_key"],
+            kwargs["source"],
             kwargs["species"],
             kwargs["version"],
         )
         if entity not in target_dict:
             target_dict[entity] = {}
-        if source_key not in target_dict[entity]:
-            target_dict[entity][source_key] = {
-                species: {version: {"source": kwargs["url"], "md5": kwargs["md5"]}}
+        if source not in target_dict[entity]:
+            target_dict[entity][source] = {
+                species: {version: {"url": kwargs["url"], "md5": kwargs["md5"]}}
             }
-            target_dict[entity][source_key].update(
+            target_dict[entity][source].update(
                 {"name": kwargs["source_name"], "website": kwargs["source_website"]}
             )
-        if species not in target_dict[entity][source_key]:
-            target_dict[entity][source_key][species] = {
-                version: {"source": kwargs["url"], "md5": kwargs["md5"]}
+        if species not in target_dict[entity][source]:
+            target_dict[entity][source][species] = {
+                version: {"url": kwargs["url"], "md5": kwargs["md5"]}
             }
-        if version not in target_dict[entity][source_key][species]:
-            target_dict[entity][source_key][species][version] = {
-                "source": kwargs["url"],
+        if version not in target_dict[entity][source][species]:
+            target_dict[entity][source][species][version] = {
+                "url": kwargs["url"],
                 "md5": kwargs["md5"],
             }
     return target_dict
