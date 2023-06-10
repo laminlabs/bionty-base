@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+➖ Clean up dependencies | [406](https://github.com/laminlabs/bionty/pull/406) | [falexwolf](https://github.com/falexwolf) | 2023-06-10 |
 🎨 Removed environment variable for loaded lamindb instance <span class="badge badge-warning">Breaking</span> | [405](https://github.com/laminlabs/bionty/pull/405) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-09 | 0.18.0
 🚚 Move img folder to guide | [404](https://github.com/laminlabs/bionty/pull/404) | [falexwolf](https://github.com/falexwolf) | 2023-06-09 |
 📝 Re-organize docs | [403](https://github.com/laminlabs/bionty/pull/403) | [falexwolf](https://github.com/falexwolf) | 2023-06-08 |
