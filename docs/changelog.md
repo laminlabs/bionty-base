@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🐛 Fix LAMINDB_INSTANCE_LOADED on Windows | [409](https://github.com/laminlabs/bionty/pull/409) | [Koncopd](https://github.com/Koncopd) | 2023-06-10 |
 :white_check_mark: Fix notebook execution | [408](https://github.com/laminlabs/bionty/pull/408) | [falexwolf](https://github.com/falexwolf) | 2023-06-10 |
 🚚 Renamed source path variables | [407](https://github.com/laminlabs/bionty/pull/407) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-10 | 0.18.1
 ➖ Clean up dependencies | [406](https://github.com/laminlabs/bionty/pull/406) | [falexwolf](https://github.com/falexwolf) | 2023-06-10 |
