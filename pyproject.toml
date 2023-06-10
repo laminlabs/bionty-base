@@ -17,6 +17,7 @@ dependencies = [
     "pronto>=2.5.4",
     "lamin_logger",
     "pyyaml",
+    "pandas",
     "pyarrow",
     "botocore",
     "rich",
@@ -36,9 +37,6 @@ test = [
     "laminci",
     "nbproject-test"
 ]
-
-[project.scripts]
-bionty = "bionty.__main__:main"
 
 [tool.black]
 preview = true
