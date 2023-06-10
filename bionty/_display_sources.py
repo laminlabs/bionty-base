@@ -40,12 +40,12 @@ def display_currently_used_sources() -> pd.DataFrame:
     df_rows = []
     for bionty_class, bionty_class_data in versions.items():
         for species, species_data in bionty_class_data.items():
-            for source_key, version in species_data.items():
+            for source, version in species_data.items():
                 df_rows.append(
                     {
                         "entity": bionty_class,
                         "species": species,
-                        "source_key": source_key,
+                        "source": source,
                         "version": version,
                     }
                 )

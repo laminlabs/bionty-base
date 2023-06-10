@@ -1,24 +1,36 @@
 # Configuration
 
-## On the various yaml files
+## Public bionty sources
 
-Bionty tracks all supported and the currently active ontologies four `*.yaml` files.
+Bionty maintains a [sources.yaml](https://raw.githubusercontent.com/laminlabs/bionty/main/bionty/sources/sources.yaml) listing public sources of each entity.
 
-1. `sources.yaml`: Stores all Bionty supported public ontologies. Users should not edit this file.
-2. `sources.local.yaml`: Stores all locally available ontologies. **Users may edit this file.** The file is stored at `$home:/.lamin/bionty`.
-3. `.currently_used_sources.yaml`: Stores the currently active ontologies. Users should not edit this file.
-4. `.lamindb_setup.yaml`: Stores the currently active ontologies as defined by lamindb. Users should never edit this file directly.
+These sources are curated ([biony-assets](https://lamin.ai/docs/bionty-assets)) and stored at s3://bionty-assets to provide fast and reliable access.
 
-On startup, Bionty syncs these yaml files.
-If Bionty is used for the first time the `sources.local.yaml` file gets populated by the versions available in the most recent `sources.yaml`.
-Afterwards, the `.currently_used_sources.yaml` file containing the current default versions gets written
-using the versions that are at the top of the `.sources.local.yaml` file.
-If the user is operating in a lamindb instance, the versions specified in the `.lamindb_setup.yaml` will be used.
-Alternatively, if Bionty is run in standalone mode, the versions specified in `.currently_used_sources.yaml` will be used.
-Users may adapt the `sources.local.yaml` with additional sources of ontologies that Bionty may not offer out of the box.
+Cached sources files are stored at your local `bionty/bionty/_dynamic/` directory.
 
-The available and currently active ontologies can also be printed to the console with
+## Local bionty sources
+
+File `$home:/.lamin/bionty/sources.local.yaml` stores all locally available ontologies.
+
+The content of this file is identical to the public `sources.yaml` for a freshly-installed Bionty.
+
+**Users may edit this file in order to configure customized sources.**
+
+## Display sources
+
+The available and currently active ontologies can also be printed with
 {func}`bionty.display_available_sources` or {func}`bionty.display_currently_used_sources`.
+
+## Format of the sources yaml file
+
+```yaml
+entity: # Bionty entity class name, e.g. CellType
+  source: # short name of the source, (CURIE prefix for ontologies) e.g. cl
+    species: # species common name, (if none applied, use 'all') e.g. human
+      version: # version of the source
+        url: "link to the source file"
+        md5: "md5 of the source file"
+```
 
 ## Setting default ontologies and versions
 
