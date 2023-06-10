@@ -23,6 +23,38 @@ LAMINDB_INSTANCE_LOADED = os.path.exists(
 )
 
 
+def reset_sources(confirm: bool = False):
+    """Reset local bionty sources file."""
+    if confirm:
+        from importlib import reload
+
+        import bionty
+
+        try:
+            LOCAL_SOURCES.unlink()
+            logger.success(f"Removed file: {LOCAL_SOURCES}.")
+        except FileNotFoundError:
+            pass
+        try:
+            CURRENT_SOURCES.unlink()
+            logger.success(f"Removed file: {CURRENT_SOURCES}.")
+        except FileNotFoundError:
+            pass
+        try:
+            LAMINDB_SOURCES.unlink()
+            logger.success(f"Removed file: {LAMINDB_SOURCES}.")
+        except FileNotFoundError:
+            pass
+
+        reload(bionty)
+        logger.info("Reloaded bionty")
+
+    else:
+        logger.warning(
+            "Are you sure to reset your local bionty sources? Pass 'confirm=True'"
+        )
+
+
 def create_or_update_sources_local_yaml(overwrite: bool = True) -> None:
     """If LOCAL_SOURCES doesn't exist, copy from PUBLIC_SOURCES and create it.
 
