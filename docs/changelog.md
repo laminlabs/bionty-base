@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+:white_check_mark: Fix notebook execution | [408](https://github.com/laminlabs/bionty/pull/408) | [falexwolf](https://github.com/falexwolf) | 2023-06-10 |
 🚚 Renamed source path variables | [407](https://github.com/laminlabs/bionty/pull/407) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-10 | 0.18.1
 ➖ Clean up dependencies | [406](https://github.com/laminlabs/bionty/pull/406) | [falexwolf](https://github.com/falexwolf) | 2023-06-10 |
 🎨 Removed environment variable for loaded lamindb instance <span class="badge badge-warning">Breaking</span> | [405](https://github.com/laminlabs/bionty/pull/405) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-09 | 0.18.0
