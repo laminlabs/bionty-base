@@ -34,7 +34,9 @@ entity: # Bionty entity class name, e.g. CellType
 
 ## Setting default ontologies and versions
 
-The first entry in `sources.local.yaml` is used as default. To set your own default ontology and version, shift the order of entries.
+For each entity, the **first source** and its **maximum version** in `sources.local.yaml` is used as default.
+
+To set your own default ontology and version, shift the order of entries.
 
 For example, in the following "doid" used when "species" is specified as "human":
 
