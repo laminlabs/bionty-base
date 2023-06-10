@@ -1,0 +1,47 @@
+Species:
+  all:
+    ensembl: release-108
+Gene:
+  human:
+    ensembl: release-108
+  mouse:
+    ensembl: release-108
+Protein:
+  human:
+    uniprot: 2022-04
+  mouse:
+    uniprot: 2022-04
+CellMarker:
+  human:
+    cellmarker: "2.0"
+  mouse:
+    cellmarker: "2.0"
+CellLine:
+  all:
+    clo: "2022-03-21"
+CellType:
+  all:
+    cl: "2023-02-15"
+Tissue:
+  all:
+    uberon: "2023-02-14"
+Disease:
+  all:
+    mondo: "2023-02-06"
+  human:
+    doid: "2023-01-30"
+Readout:
+  all:
+    efo: 3.48.0
+Phenotype:
+  human:
+    hp: "2023-01-27"
+Pathway:
+  all:
+    go: "2023-05-10"
+BFXPipeline:
+  all:
+    lamin: 1.0.0
+Drug:
+  all:
+    dron: "2023-03-10"
