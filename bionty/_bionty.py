@@ -250,6 +250,7 @@ class Bionty:
         species: Optional[str] = None,
     ):
         # kwargs that are not None
+        all = self._all_sources  # shorten variable
         kwargs = {
             k: v
             for k, v in locals().items()
@@ -258,23 +259,22 @@ class Bionty:
         keys = list(kwargs.keys())
         if len(keys) == 0:
             curr = self._default_sources.head(1).to_dict(orient="records")[0]
-            for k in ["species", "source", "version"]:
-                kwargs[k] = curr[k]
+            kwargs = {
+                k: v for k, v in curr.items() if k in ["species", "source", "version"]
+            }
         else:
-            condition = self._all_sources[keys[0]] == kwargs.get(keys[0])
+            cond = all[keys[0]] == kwargs.get(keys[0])
             if len(kwargs) == 1:
-                row = self._all_sources[condition].head(1)
+                row = all[cond].head(1)
             elif len(kwargs) == 2:
-                condition = getattr(condition, "__and__")(
-                    self._all_sources[keys[1]] == kwargs.get(keys[1])
-                )
-                row = self._all_sources[condition].head(1)
+                cond = getattr(cond, "__and__")(all[keys[1]] == kwargs.get(keys[1]))
+                row = all[cond].head(1)
 
         if len(kwargs) == 3:
-            row = self._all_sources[
-                (self._all_sources["species"] == species)
-                & (self._all_sources["source"] == source)
-                & (self._all_sources["version"] == version)
+            row = all[
+                (all["species"] == kwargs["species"])
+                & (all["source"] == kwargs["source"])
+                & (all["version"] == kwargs["version"])
             ].head(1)
 
         if row.shape[0] == 0:
