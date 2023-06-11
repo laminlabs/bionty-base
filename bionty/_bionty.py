@@ -98,37 +98,6 @@ class Bionty:
             except AttributeError:
                 pass
 
-    def _match_all_sources(
-        self,
-        source: Optional[str] = None,
-        version: Optional[str] = None,
-        species: Optional[str] = None,
-    ):
-        # kwargs that are not None
-        kwargs = {
-            k: v
-            for k, v in locals().items()
-            if k in ["source", "version", "species"] and v is not None
-        }
-        keys = list(kwargs.keys())
-        if len(keys) == 0:
-            row = self._default_sources.head(1)
-        else:
-            condition = self._all_sources[keys[0]] == kwargs.get(keys[0])
-            if len(kwargs) == 1:
-                row = self._all_sources[condition].head(1)
-            elif len(kwargs) == 2:
-                condition = getattr(condition, "__and__")(
-                    self._all_sources[keys[1]] == kwargs.get(keys[1])
-                )
-                row = self._all_sources[condition].head(1)
-        if row.shape[0] == 0:
-            raise ValueError(
-                f"No source is available with {kwargs}\nCheck"
-                " `bionty.display_available_sources()`"
-            )
-        return row.to_dict(orient="records")[0]
-
     def __repr__(self) -> str:
         representation = (
             f"{self.__class__.__name__}\n"
@@ -273,6 +242,42 @@ class Bionty:
         self._all_sources = _subset_to_entity(
             display_available_sources(), self.__class__.__name__
         )
+
+    def _match_all_sources(
+        self,
+        source: Optional[str] = None,
+        version: Optional[str] = None,
+        species: Optional[str] = None,
+    ):
+        # kwargs that are not None
+        kwargs = {
+            k: v
+            for k, v in locals().items()
+            if k in ["source", "version", "species"] and v is not None
+        }
+        keys = list(kwargs.keys())
+        if len(keys) == 0:
+            curr = self._default_sources.head(1).to_dict(orient="records")[0]
+            row = self._all_sources[
+                (self._all_sources["species"] == curr.get("species"))
+                & (self._all_sources["source"] == curr.get("source"))
+                & (self._all_sources["version"] == curr.get("version"))
+            ].head(1)
+        else:
+            condition = self._all_sources[keys[0]] == kwargs.get(keys[0])
+            if len(kwargs) == 1:
+                row = self._all_sources[condition].head(1)
+            elif len(kwargs) == 2:
+                condition = getattr(condition, "__and__")(
+                    self._all_sources[keys[1]] == kwargs.get(keys[1])
+                )
+                row = self._all_sources[condition].head(1)
+        if row.shape[0] == 0:
+            raise ValueError(
+                f"No source is available with {kwargs}\nCheck"
+                " `bionty.display_available_sources()`"
+            )
+        return row.to_dict(orient="records")[0]
 
     def _download_ontology_file(self) -> None:
         """Download ontology file to _local_ontology_path."""
