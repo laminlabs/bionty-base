@@ -32,7 +32,7 @@ class Bionty:
 
     def __init__(
         self,
-        source: Optional[str],
+        source: Optional[str] = None,
         version: Optional[str] = None,
         species: Optional[str] = None,
         *,
@@ -43,6 +43,8 @@ class Bionty:
         exclude_id_prefixes: Optional[Dict[str, List[str]]] = None,
         exclude_name_prefixes: Optional[Dict[str, List[str]]] = None,
     ):
+        self._fetch_sources()
+
         if source is not None or version is not None:
             # We don't allow custom databases inside lamindb instances
             # because the lamindb standard should be used
@@ -77,6 +79,22 @@ class Bionty:
         self.exclude_name_prefixes = exclude_name_prefixes
 
         self._set_attributes(source=source, version=version)
+
+    def _match_currently_used_sources(
+        self,
+        source: Optional[str] = None,
+        version: Optional[str] = None,
+        species: Optional[str] = None,
+    ):
+        pass
+
+    def _raise_lamindb_error(
+        self,
+        source: Optional[str] = None,
+        version: Optional[str] = None,
+        species: Optional[str] = None,
+    ):
+        pass
 
     def __repr__(self) -> str:
         representation = (
@@ -203,6 +221,25 @@ class Bionty:
 
         return namedtuple_from_df(df)
 
+    def _fetch_sources(self) -> None:
+        from ._display_sources import (
+            display_available_sources,
+            display_currently_used_sources,
+        )
+
+        def _subset_to_entity(df: pd.DataFrame, key: str):
+            if isinstance(df.loc[key], pd.Series):
+                return df.loc[[key]]
+            else:
+                return df.loc[key]
+
+        self._default_sources = _subset_to_entity(
+            display_currently_used_sources(), self.__class__.__name__
+        )
+        self._all_sources = _subset_to_entity(
+            display_available_sources(), self.__class__.__name__
+        )
+
     def _download_ontology_file(self) -> None:
         """Download ontology file to _local_ontology_path."""
         if not self._local_ontology_path.exists():
@@ -318,32 +355,16 @@ class Bionty:
             source: The database to find the URL and version for.
             version: The requested version of the database.
         """
-        from ._display_sources import (
-            display_available_sources,
-            display_currently_used_sources,
-        )
-
-        def _subset_to_entity(df: pd.DataFrame, key: str):
-            if isinstance(df.loc[key], pd.Series):
-                return df.loc[[key]]
-            else:
-                return df.loc[key]
-
-        default_versions = _subset_to_entity(
-            display_currently_used_sources(), self.__class__.__name__
-        )
-        all_versions = _subset_to_entity(
-            display_available_sources(), self.__class__.__name__
-        )
-
         if source is None:
             # default species is the first key in the default_versions
             self._species = (
-                default_versions["species"][0] if self.species is None else self.species
+                self._default_sources["species"][0]
+                if self.species is None
+                else self.species
             )
             # there is only one single entry for a species
-            default_source_version = default_versions[
-                default_versions["species"] == self.species
+            default_source_version = self._default_sources[
+                self._default_sources["species"] == self.species
             ]
             source_version = default_source_version.to_dict(orient="records")
             if len(source_version) == 0:
@@ -357,7 +378,7 @@ class Bionty:
             )
         else:
             self._source = source  # type:ignore
-            versions_source = all_versions[all_versions["source"] == source]
+            versions_source = self._all_sources[self._all_sources["source"] == source]
             if versions_source.shape[0] == 0:
                 raise ValueError(
                     f"Source '{self.source}' is not available! Check"
@@ -378,10 +399,10 @@ class Bionty:
                 source_version[0].get("version") if version is None else version
             )
 
-        version_row = all_versions[
-            (all_versions["species"] == self.species)
-            & (all_versions["source"] == self.source)
-            & (all_versions["version"] == self.version)
+        version_row = self._all_sources[
+            (self._all_sources["species"] == self.species)
+            & (self._all_sources["source"] == self.source)
+            & (self._all_sources["version"] == self.version)
         ].to_dict(orient="records")
         if len(version_row) == 0:
             raise ValueError(

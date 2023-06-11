@@ -4,7 +4,7 @@ import pandas as pd
 
 from bionty.entities._shared_docstrings import _doc_params, species_removed
 
-from .._entity import Bionty
+from .._bionty import Bionty
 
 
 @_doc_params(doc_entities=species_removed)

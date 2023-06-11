@@ -6,7 +6,7 @@ from lamin_logger import logger
 
 from bionty.entities._shared_docstrings import _doc_params, species_removed
 
-from .._entity import Bionty
+from .._bionty import Bionty
 from .._ontology import Ontology
 from ..dev._io import s3_bionty_assets
 

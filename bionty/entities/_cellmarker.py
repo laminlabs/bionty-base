@@ -2,7 +2,7 @@ from typing import Literal, Optional, Union
 
 import pandas as pd
 
-from .._entity import Bionty, BiontyField
+from .._bionty import Bionty, BiontyField
 from ..dev._io import s3_bionty_assets
 from ._shared_docstrings import _doc_params, doc_curate, doc_entites
 
