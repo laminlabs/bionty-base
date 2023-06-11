@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🚑 Fixed lamindb instance error and refactored source matching | [417](https://github.com/laminlabs/bionty/pull/417) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-11 |
 🔥 No longer checks compat | [411](https://github.com/laminlabs/bionty/pull/411) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-10 |
 🎨 Always regenerate `.current_sources.yaml` upon import <span class="badge badge-warning">Breaking</span> | [410](https://github.com/laminlabs/bionty/pull/410) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-10 | 0.19.0
 🐛 Fix LAMINDB_INSTANCE_LOADED on Windows | [409](https://github.com/laminlabs/bionty/pull/409) | [Koncopd](https://github.com/Koncopd) | 2023-06-10 |
