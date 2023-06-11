@@ -44,32 +44,41 @@ class Bionty:
         exclude_name_prefixes: Optional[Dict[str, List[str]]] = None,
     ):
         self._fetch_sources()
+        # standardize prefix using bioregistry
+        if br.normalize_prefix(source):
+            source = br.normalize_prefix(source)
+        # match user input species, source and version with yaml
+        self._source_record = self._match_all_sources(
+            source=source, version=version, species=species
+        )
+        self._species = self._source_record.get("species")
+        self._source = self._source_record.get("source")
+        self._version = self._source_record.get("version")
 
-        if source is not None or version is not None:
-            # We don't allow custom databases inside lamindb instances
-            # because the lamindb standard should be used
-            if LAMINDB_INSTANCE_LOADED:
-                logger.error(
-                    "Only default sources are allowed inside LaminDB instances!"
-                )
-                logger.hint(
-                    "To use a different source, please either:\n    Close your instance"
-                    " via `lamin close` \n    OR\n    Configure currently_used"
-                    f" {self.__class__.__name__} source in"
-                    " lnschema_bionty.BiontySource table"
-                )
-                self._species = None
-                self._source = None
-                self._version = None
-                return
+        # only currently_used sources are allowed inside lamindb instances
+        default_sources = list(self._default_sources.itertuples(index=False, name=None))
+        if (
+            LAMINDB_INSTANCE_LOADED
+            and (self.species, self.source, self.version) not in default_sources
+        ):
+            logger.error(
+                "Only default sources below are allowed inside LaminDB"
+                f" instances!\n{self._default_sources}\n"
+            )
+            logger.hint(
+                "To use a different source, please either:\n    Close your instance"
+                " via `lamin close` \n    OR\n    Configure currently_used"
+                f" {self.__class__.__name__} source in"
+                " lnschema_bionty.BiontySource table"
+            )
+            self._source = None
+            return
 
-            if br.normalize_prefix(source):
-                source = br.normalize_prefix(source)
+        self._set_file_paths()
 
         def _camel_to_snake(string: str) -> str:
             return re.sub(r"(?<!^)(?=[A-Z])", "_", string).lower()
 
-        self._species = species
         self._entity = _camel_to_snake(self.__class__.__name__)
         self.reference_id = reference_id
         self._synonyms_field = synonyms_field
@@ -78,23 +87,47 @@ class Bionty:
         self.exclude_id_prefixes = exclude_id_prefixes
         self.exclude_name_prefixes = exclude_name_prefixes
 
-        self._set_attributes(source=source, version=version)
+        # To also include the index field
+        df = self.df()
+        if df.index.name is not None:
+            df = df.reset_index()
+        for col_name in df.columns:
+            try:
+                setattr(self, col_name, BiontyField(self, col_name))
+            # Some fields of an ontology (e.g. Gene) are not Bionty class attributes and must be skipped.
+            except AttributeError:
+                pass
 
-    def _match_currently_used_sources(
+    def _match_all_sources(
         self,
         source: Optional[str] = None,
         version: Optional[str] = None,
         species: Optional[str] = None,
     ):
-        pass
-
-    def _raise_lamindb_error(
-        self,
-        source: Optional[str] = None,
-        version: Optional[str] = None,
-        species: Optional[str] = None,
-    ):
-        pass
+        # kwargs that are not None
+        kwargs = {
+            k: v
+            for k, v in locals().items()
+            if k in ["source", "version", "species"] and v is not None
+        }
+        keys = list(kwargs.keys())
+        if len(keys) == 0:
+            row = self._default_sources.head(1)
+        else:
+            condition = self._all_sources[keys[0]] == kwargs.get(keys[0])
+            if len(kwargs) == 1:
+                row = self._all_sources[condition].head(1)
+            elif len(kwargs) == 2:
+                condition = getattr(condition, "__and__")(
+                    self._all_sources[keys[1]] == kwargs.get(keys[1])
+                )
+                row = self._all_sources[condition].head(1)
+        if row.shape[0] == 0:
+            raise ValueError(
+                f"No source is available with {kwargs}\nCheck"
+                " `bionty.display_available_sources()`"
+            )
+        return row.to_dict(orient="records")[0]
 
     def __repr__(self) -> str:
         representation = (
@@ -236,6 +269,7 @@ class Bionty:
         self._default_sources = _subset_to_entity(
             display_currently_used_sources(), self.__class__.__name__
         )
+
         self._all_sources = _subset_to_entity(
             display_available_sources(), self.__class__.__name__
         )
@@ -346,71 +380,15 @@ class Bionty:
         return self._local_ontology_path
 
     @check_datasetdir_exists
-    def _set_attributes(
-        self, source: Optional[str], version: Optional[str] = None
-    ) -> None:
+    def _set_file_paths(self) -> None:
         """Sets version, database and URL attributes for passed database and requested version.
 
         Args:
             source: The database to find the URL and version for.
             version: The requested version of the database.
         """
-        if source is None:
-            # default species is the first key in the default_versions
-            self._species = (
-                self._default_sources["species"][0]
-                if self.species is None
-                else self.species
-            )
-            # there is only one single entry for a species
-            default_source_version = self._default_sources[
-                self._default_sources["species"] == self.species
-            ]
-            source_version = default_source_version.to_dict(orient="records")
-            if len(source_version) == 0:
-                raise ValueError(
-                    f"Species '{self.species}' is not available! Check"
-                    " `bionty.display_available_sources()`!"
-                )
-            self._source = source_version[0].get("source")
-            self._version = (
-                source_version[0].get("version") if version is None else version
-            )
-        else:
-            self._source = source  # type:ignore
-            versions_source = self._all_sources[self._all_sources["source"] == source]
-            if versions_source.shape[0] == 0:
-                raise ValueError(
-                    f"Source '{self.source}' is not available! Check"
-                    " `bionty.display_available_sources()`!"
-                )
-            self._species = (
-                versions_source["species"][0] if self.species is None else self.species
-            )
-            source_version = versions_source[
-                versions_source["species"] == self.species
-            ].to_dict(orient="records")
-            if len(source_version) == 0:
-                raise ValueError(
-                    f"Species '{self.species}' is not available! Check"
-                    " `bionty.display_available_sources()`!"
-                )
-            self._version = (
-                source_version[0].get("version") if version is None else version
-            )
-
-        version_row = self._all_sources[
-            (self._all_sources["species"] == self.species)
-            & (self._all_sources["source"] == self.source)
-            & (self._all_sources["version"] == self.version)
-        ].to_dict(orient="records")
-        if len(version_row) == 0:
-            raise ValueError(
-                f"Version '{self.version}' is not available for source '{self.source}'!"
-                " Check `bionty.display_available_sources()`!"
-            )
-        self._url = version_row[0].get("url")
-        self._md5 = version_row[0].get("md5")
+        self._url = self._source_record.get("url")
+        self._md5 = self._source_record.get("md5")
 
         self._parquet_filename = f"{self.species}_{self.source}_{self.version}_{self.__class__.__name__}_lookup.parquet"  # noqa: E501
         self._local_parquet_path = (
@@ -420,17 +398,6 @@ class Bionty:
             " ", "_"
         )
         self._local_ontology_path = settings.dynamicdir / self._ontology_filename
-
-        # To also include the index field
-        df = self.df()
-        if df.index.name is not None:
-            df = df.reset_index()
-        for col_name in df.columns:
-            try:
-                setattr(self, col_name, BiontyField(self, col_name))
-            # Some fields of an ontology (e.g. Gene) are not Bionty class attributes and must be skipped.
-            except AttributeError:
-                pass
 
     def curate(
         self,
