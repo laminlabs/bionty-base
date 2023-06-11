@@ -249,15 +249,16 @@ class Bionty:
         version: Optional[str] = None,
         species: Optional[str] = None,
     ):
-        # kwargs that are not None
         all = self._all_sources  # shorten variable
         lc = locals()
+        # kwargs that are not None
         kwargs = {
             k: lc.get(k)
             for k in ["source", "version", "species"]
             if lc.get(k) is not None
         }
         keys = list(kwargs.keys())
+
         if (len(kwargs) == 1) or (len(kwargs) == 2):
             cond = all[keys[0]] == kwargs.get(keys[0])
             if len(kwargs) == 1:
