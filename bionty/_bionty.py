@@ -258,11 +258,8 @@ class Bionty:
         keys = list(kwargs.keys())
         if len(keys) == 0:
             curr = self._default_sources.head(1).to_dict(orient="records")[0]
-            row = self._all_sources[
-                (self._all_sources["species"] == curr.get("species"))
-                & (self._all_sources["source"] == curr.get("source"))
-                & (self._all_sources["version"] == curr.get("version"))
-            ].head(1)
+            for k in ["species", "source", "version"]:
+                kwargs[k] = curr[k]
         else:
             condition = self._all_sources[keys[0]] == kwargs.get(keys[0])
             if len(kwargs) == 1:
@@ -272,6 +269,14 @@ class Bionty:
                     self._all_sources[keys[1]] == kwargs.get(keys[1])
                 )
                 row = self._all_sources[condition].head(1)
+
+        if len(kwargs) == 3:
+            row = self._all_sources[
+                (self._all_sources["species"] == species)
+                & (self._all_sources["source"] == source)
+                & (self._all_sources["version"] == version)
+            ].head(1)
+
         if row.shape[0] == 0:
             raise ValueError(
                 f"No source is available with {kwargs}\nCheck"
