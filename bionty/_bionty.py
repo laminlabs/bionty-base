@@ -251,26 +251,29 @@ class Bionty:
     ):
         # kwargs that are not None
         all = self._all_sources  # shorten variable
+        lc = locals()
         kwargs = {
-            k: v
-            for k, v in locals().items()
-            if k in ["source", "version", "species"] and v is not None
+            k: lc.get(k)
+            for k in ["source", "version", "species"]
+            if lc.get(k) is not None
         }
         keys = list(kwargs.keys())
-        if len(keys) == 0:
-            curr = self._default_sources.head(1).to_dict(orient="records")[0]
-            kwargs = {
-                k: v for k, v in curr.items() if k in ["species", "source", "version"]
-            }
-        else:
+        if (len(kwargs) == 1) or (len(kwargs) == 2):
             cond = all[keys[0]] == kwargs.get(keys[0])
             if len(kwargs) == 1:
                 row = all[cond].head(1)
-            elif len(kwargs) == 2:
+            else:
+                # len(kwargs) == 2
                 cond = getattr(cond, "__and__")(all[keys[1]] == kwargs.get(keys[1]))
                 row = all[cond].head(1)
-
-        if len(kwargs) == 3:
+        else:
+            if len(keys) == 0:
+                curr = self._default_sources.head(1).to_dict(orient="records")[0]
+                kwargs = {
+                    k: v
+                    for k, v in curr.items()
+                    if k in ["species", "source", "version"]
+                }
             row = all[
                 (all["species"] == kwargs["species"])
                 & (all["source"] == kwargs["source"])
