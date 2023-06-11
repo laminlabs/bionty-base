@@ -45,7 +45,7 @@ class Bionty:
     ):
         self._fetch_sources()
         # standardize prefix using bioregistry
-        if br.normalize_prefix(source):
+        if source is not None and br.normalize_prefix(source):
             source = br.normalize_prefix(source)
         # match user input species, source and version with yaml
         self._source_record = self._match_all_sources(
