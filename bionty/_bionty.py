@@ -51,9 +51,9 @@ class Bionty:
         self._source_record = self._match_all_sources(
             source=source, version=version, species=species
         )
-        self._species = self._source_record.get("species")
-        self._source = self._source_record.get("source")
-        self._version = self._source_record.get("version")
+        self._species = self._source_record["species"]
+        self._source = self._source_record["source"]
+        self._version = self._source_record["version"]
 
         # only currently_used sources are allowed inside lamindb instances
         default_sources = list(self._default_sources.itertuples(index=False, name=None))
@@ -140,7 +140,7 @@ class Bionty:
         """Pandas DataFrame of the ontology.
 
         Returns:
-            A Pandas DataFrame of the ontology indexed by the passed reference_id or "ontology_id" if not specified.
+            A Pandas DataFrame of the ontology.
 
         Examples:
             >>> import bionty as bt
@@ -172,11 +172,11 @@ class Bionty:
         """Return an auto-complete object for the bionty id.
 
         Args:
-            field: The field to lookup the values for. Adapt this parameter to, for example, 'ontology_id' to lookup by ID.
+            field: The field to lookup the values for.
                    Defaults to 'name'.
 
         Returns:
-            A NamedTuple of lookup information of the entitys values.
+            A NamedTuple of lookup information of the field values.
 
         Examples:
             >>> import bionty as bt
@@ -189,7 +189,7 @@ class Bionty:
             lookup = [re.sub("[^0-9a-zA-Z]+", "_", str(i)) for i in x]
             for i, value in enumerate(lookup):
                 if value == "" or (not value[0].isalpha()):
-                    lookup[i] = f"LOOKUP_{value}"
+                    lookup[i] = f"{self.__class__.__name__}_{value}"
             return lookup
 
         def uniquefy_duplicates(lst: Iterable) -> list:
@@ -230,10 +230,7 @@ class Bionty:
         )
 
         def _subset_to_entity(df: pd.DataFrame, key: str):
-            if isinstance(df.loc[key], pd.Series):
-                return df.loc[[key]]
-            else:
-                return df.loc[key]
+            return df.loc[[key]] if isinstance(df.loc[key], pd.Series) else df.loc[key]
 
         self._default_sources = _subset_to_entity(
             display_currently_used_sources(), self.__class__.__name__
