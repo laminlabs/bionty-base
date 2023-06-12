@@ -15,7 +15,7 @@ def test_mondo_disease_inspect_name():
     )
 
     ds = bt.Disease(source="mondo", version="2023-02-06")
-    inspected_df = ds.inspect(df, field=ds.name, return_df=True)
+    inspected_df = ds.inspect(df.index, field=ds.name, return_df=True)
 
     inspect = inspected_df["__mapped__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])

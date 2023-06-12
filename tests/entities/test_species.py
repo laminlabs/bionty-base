@@ -15,7 +15,7 @@ def test_ensemble_species_inspect_name():
     )
 
     sp = bt.Species(source="ensembl", version="release-108")
-    inspected_df = sp.inspect(df, field=sp.name, return_df=True)
+    inspected_df = sp.inspect(df.index, field=sp.name, return_df=True)
 
     inspect = inspected_df["__mapped__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])

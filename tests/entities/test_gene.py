@@ -26,7 +26,7 @@ def genes():
 def test_gene_ensembl_inspect_hgnc_id(genes):
     df, gn = genes
 
-    inspected_df = gn.inspect(df, field=gn.hgnc_id, column="hgnc id")
+    inspected_df = gn.inspect(df["hgnc id"], field=gn.hgnc_id, return_df=True)
 
     inspect = inspected_df["__mapped__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, False])

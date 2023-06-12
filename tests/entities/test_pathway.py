@@ -15,7 +15,7 @@ def test_pw_go_inspect_ontology_id():
     )
 
     pw = bt.Pathway(source="go", version="2023-05-10")
-    inspected_df = pw.inspect(df, pw.ontology_id, return_df=True)
+    inspected_df = pw.inspect(df.index, pw.ontology_id, return_df=True)
 
     inspect = inspected_df["__mapped__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
@@ -35,7 +35,7 @@ def test_pw_pathway_inspect_name():
     )
 
     pw = bt.Pathway(source="pw", version="7.79")
-    inspected_df = pw.inspect(df, field=pw.name, return_df=True)
+    inspected_df = pw.inspect(df.index, field=pw.name, return_df=True)
 
     inspect = inspected_df["__mapped__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])

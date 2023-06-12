@@ -15,7 +15,7 @@ def test_efo_readout_inspect_ontology_id():
     )
 
     ro = bt.Readout(source="efo", version="3.48.0")
-    inspected_df = ro.inspect(df, ro.ontology_id, return_df=True)
+    inspected_df = ro.inspect(df.index, ro.ontology_id, return_df=True)
 
     inspect = inspected_df["__mapped__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
