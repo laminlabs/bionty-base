@@ -1,6 +1,7 @@
 import os
 import re
 import urllib.request
+from http.client import BadStatusLine
 from pathlib import Path
 from urllib.error import HTTPError, URLError
 
@@ -40,7 +41,7 @@ failed_urls = []
 for url in urls:
     try:
         assert urllib.request.urlopen(url, timeout=1000).getcode() == 200
-    except URLError:
+    except (URLError, BadStatusLine):
         print(f"URL: {url} is currently not accessible.")
         pass
     except (AssertionError, ValueError, HTTPError) as e:
