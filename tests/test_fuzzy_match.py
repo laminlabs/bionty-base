@@ -29,3 +29,10 @@ def test_fuzzy_match_return_ranked_results(ct):
 
 def test_fuzzy_match_return_tie_results(ct):
     assert ct.fuzzy_match("A cell", ct.name, synonyms_field=None).shape[0] == 2
+
+
+def test_fuzzy_match_disease():
+    disease_bionty = bt.Disease()
+    assert disease_bionty.fuzzy_match(
+        "Multiple sclerosis", field=disease_bionty.name
+    ).index.values == ["multiple sclerosis"]
