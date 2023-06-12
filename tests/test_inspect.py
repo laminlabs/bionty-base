@@ -24,9 +24,9 @@ def genes():
 
 
 def test_inspect_iterable(genes):
-    gene_ids, gn = genes
+    df, gn = genes
 
-    mapping = gn.inspect(gene_ids, field=gn.ensembl_gene_id)
+    mapping = gn.inspect(df.index, field=gn.ensembl_gene_id)
 
     expected_mapping = {
         "mapped": ["ENSG00000148584", "ENSG00000121410", "ENSG00000188389"],
@@ -37,9 +37,9 @@ def test_inspect_iterable(genes):
 
 
 def test_inspect_return_df(genes):
-    gene_ids, gn = genes
+    df, gn = genes
 
-    mapping = gn.inspect(gene_ids, field=gn.ensembl_gene_id, return_df=True)
+    mapping = gn.inspect(df.index, field=gn.ensembl_gene_id, return_df=True)
 
     expected_df = pd.DataFrame(
         index=[
@@ -53,4 +53,4 @@ def test_inspect_return_df(genes):
         },
     )
 
-    assert mapping.equals(expected_df)  # type: ignore
+    assert mapping.equals(expected_df)
