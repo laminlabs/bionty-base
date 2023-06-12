@@ -20,7 +20,7 @@ def genes():
 def test_inspect_iterable(genes):
     gene_ids, gn = genes
 
-    mapping = gn.inspect(gene_ids, reference_id=gn.ensembl_gene_id)
+    mapping = gn.inspect(gene_ids, field=gn.ensembl_gene_id)
 
     expected_mapping = {
         "mapped": ["ENSG00000148584", "ENSG00000121410", "ENSG00000188389"],
@@ -33,7 +33,7 @@ def test_inspect_iterable(genes):
 def test_inspect_return_df(genes):
     gene_ids, gn = genes
 
-    mapping = gn.inspect(gene_ids, reference_id=gn.ensembl_gene_id, return_df=True)
+    mapping = gn.inspect(gene_ids, field=gn.ensembl_gene_id, return_df=True)
 
     expected_df = pd.DataFrame(
         data={

@@ -40,5 +40,5 @@ df: DataFrame with a column of identifiers
                   the default identifier.
                 If `column` denotes an entity identifier, tries to map that identifier
                   to the default identifier.
-        reference_id: The type of identifier for mapping.
+        field: The type of identifier for mapping.
 """

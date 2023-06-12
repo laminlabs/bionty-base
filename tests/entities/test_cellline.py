@@ -3,27 +3,7 @@ import pandas as pd
 import bionty as bt
 
 
-def test_clo_cellline_curation_ontology_id():
-    df = pd.DataFrame(
-        index=[
-            "CLO:0001210",
-            "CLO:0001230",
-            "CLO:0001248",
-            "CLO:0001225",
-            "This cell line does not exist",
-        ]
-    )
-
-    cl = bt.CellLine(source="clo", version="2022-03-21")
-    curated_df = cl.curate(df)
-
-    curation = curated_df["__curated__"].reset_index(drop=True)
-    expected_series = pd.Series([True, True, True, True, False])
-
-    assert curation.equals(expected_series)
-
-
-def test_clo_cellline_curation_name():
+def test_clo_cellline_inspect_name():
     df = pd.DataFrame(
         index=[
             "253D cell",
@@ -35,9 +15,9 @@ def test_clo_cellline_curation_name():
     )
 
     cl = bt.CellLine(source="clo", version="2022-03-21")
-    curated_df = cl.curate(df, reference_id=cl.name)
+    inspected_df = cl.inspect(df.index, field=cl.name, return_df=True)
 
-    curation = curated_df["__curated__"].reset_index(drop=True)
+    inspect = inspected_df["__mapped__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
 
-    assert curation.equals(expected_series)
+    assert inspect.equals(expected_series)

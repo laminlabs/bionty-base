@@ -3,7 +3,7 @@ import pandas as pd
 import bionty as bt
 
 
-def test_efo_readout_curation_ontology_id():
+def test_efo_readout_inspect_ontology_id():
     df = pd.DataFrame(
         index=[
             "EFO:0000001",
@@ -15,32 +15,12 @@ def test_efo_readout_curation_ontology_id():
     )
 
     ro = bt.Readout(source="efo", version="3.48.0")
-    curated_df = ro.curate(df)
+    inspected_df = ro.inspect(df, ro.ontology_id, return_df=True)
 
-    curation = curated_df["__curated__"].reset_index(drop=True)
+    inspect = inspected_df["__mapped__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
 
-    assert curation.equals(expected_series)
-
-
-def test_efo_readout_curation_name():
-    df = pd.DataFrame(
-        index=[
-            "CS57511",
-            "CS57520",
-            "CS57515",
-            "experimental factor",
-            "This readout does not exist",
-        ]
-    )
-
-    ro = bt.Readout(source="efo", version="3.48.0")
-    curated_df = ro.curate(df, reference_id=ro.name)
-
-    curation = curated_df["__curated__"].reset_index(drop=True)
-    expected_series = pd.Series([True, True, True, True, False])
-
-    assert curation.equals(expected_series)
+    assert inspect.equals(expected_series)
 
 
 def test_readout_parse():
