@@ -3,9 +3,9 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-🐛 Fixed index bug in fuzzy_match | [429](https://github.com/laminlabs/bionty/pull/429) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-12 |
+🐛 Fixed index bug in fuzzy_match | [429](https://github.com/laminlabs/bionty/pull/429) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-12 | 0.20.0
 🔊 Improved inspect logging | [428](https://github.com/laminlabs/bionty/pull/428) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-12 |
-♻️ Removed curate, updated inspect guide | [419](https://github.com/laminlabs/bionty/pull/419) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-12 |
+♻️ Removed curate, updated inspect guide <span class="badge badge-warning">Breaking</span> | [419](https://github.com/laminlabs/bionty/pull/419) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-12 |
 🚑 Fixed lamindb instance error and refactored source matching | [417](https://github.com/laminlabs/bionty/pull/417) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-11 | 0.19.1
 🔥 No longer checks compat | [411](https://github.com/laminlabs/bionty/pull/411) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-10 |
 🎨 Always regenerate `.current_sources.yaml` upon import <span class="badge badge-warning">Breaking</span> | [410](https://github.com/laminlabs/bionty/pull/410) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-10 | 0.19.0
