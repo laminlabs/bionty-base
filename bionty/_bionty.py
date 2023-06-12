@@ -237,7 +237,7 @@ class Bionty:
             >>> celltype_bionty = bt.CellType()
             >>> celltype_bionty.inspect(["Boettcher cell", "bone marrow cell"], field=ct.name)
         """
-        curated_df = pd.DataFrame(index=identifiers)
+        mapped_df = pd.DataFrame(index=identifiers)
 
         # check if synonyms are present
         try:
@@ -254,26 +254,41 @@ class Bionty:
             pass
 
         matches = check_if_index_compliant(
-            curated_df.index, self.df().reset_index()[str(field)]
+            mapped_df.index, self.df().reset_index()[str(field)]
         )
 
         # annotated what complies with the default ID
-        curated_df["__mapped__"] = matches
+        mapped_df["__mapped__"] = matches
+
+        def unique_rm_empty(idx: pd.Index):
+            idx = idx.unique()
+            return idx[(idx != "") & (~idx.isnull())]
+
+        mapped = unique_rm_empty(mapped_df.index[mapped_df["__mapped__"]]).tolist()
+        unmapped = unique_rm_empty(mapped_df.index[~mapped_df["__mapped__"]]).tolist()
+
+        n_mapped = len(mapped)
+        n_unmapped = len(unmapped)
+        n_unique_terms = len(mapped) + len(unmapped)
+        n_empty = len(matches) - n_unique_terms
+        frac_unmapped = round(n_unmapped / len(matches) * 100, 1)
+        frac_mapped = 100 - frac_unmapped
+
         # some stats for logging
-        n_misses = len(matches) - matches.sum()
-        frac_misses = round(n_misses / len(matches) * 100, 1)
-        n_mapped = matches.sum()
-        frac_mapped = 100 - frac_misses
+        if n_empty > 0:
+            logger.warning(
+                f"Received {n_unique_terms} unique terms, {n_empty} empty/duplicated"
+                " terms are ignored."
+            )
         logger.success(f"{n_mapped} terms ({frac_mapped}%) are mapped.")
-        logger.warning(f"{n_misses} terms ({frac_misses}%) are not mapped.")
+        logger.warning(f"{n_unmapped} terms ({frac_unmapped}%) are not mapped.")
 
         if return_df:
-            return curated_df
+            return mapped_df
         else:
             mapping: Dict[str, List[str]] = {}
-            mapping["mapped"] = curated_df.index[curated_df["__mapped__"]].tolist()
-            mapping["not_mapped"] = curated_df.index[~curated_df["__mapped__"]].tolist()
-
+            mapping["mapped"] = mapped
+            mapping["not_mapped"] = unmapped
             return mapping
 
     def map_synonyms(
