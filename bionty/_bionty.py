@@ -406,6 +406,7 @@ class Bionty:
         df_exp_grouped = (
             df_exp.groupby(field_str).max().sort_values("__ratio__", ascending=False)
         )
+        df_exp_grouped = df_exp_grouped[df_exp_grouped.index.isin(df[field_str])]
         df_scored = df.set_index(field_str).loc[df_exp_grouped.index]
         df_scored["__ratio__"] = df_exp_grouped["__ratio__"]
 
