@@ -358,7 +358,7 @@ class Bionty:
         Examples:
             >>> import bionty as bt
             >>> celltype_bionty = bt.CellType()
-            >>> celltype_bionty.fuzzy_match("T cells", ct.name)
+            >>> celltype_bionty.fuzzy_match("gamma delta T cell", celltype_bionty.name)
         """
 
         def _fuzz_ratio(string: str, iterable: pd.Series, case_sensitive: bool = True):
