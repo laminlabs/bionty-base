@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🐛 Fixed index bug in fuzzy_match | [429](https://github.com/laminlabs/bionty/pull/429) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-12 |
 🔊 Improved inspect logging | [428](https://github.com/laminlabs/bionty/pull/428) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-12 |
 ♻️ Removed curate, updated inspect guide | [419](https://github.com/laminlabs/bionty/pull/419) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-12 |
 🚑 Fixed lamindb instance error and refactored source matching | [417](https://github.com/laminlabs/bionty/pull/417) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-11 | 0.19.1
