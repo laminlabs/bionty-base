@@ -24,7 +24,9 @@ To manage in-house bioregistries along with ontologies, see [lnschema_bionty](ht
 - `Drug` - [Drug Ontology](https://bioportal.bioontology.org/ontologies/DRON)
 - `BFXPipeline` - largely based on [nf-core](https://nf-co.re/)
 
-Check out [sources.yaml](https://github.com/laminlabs/bionty/blob/main/bionty/versions/sources.yaml) for details.
+Check out [sources.yaml](https://github.com/laminlabs/bionty/blob/main/bionty/sources/sources.yaml) for details.
+
+Didn't see your favorite source or version? Bionty is [extendable](https://lamin.ai/docs/bionty/extend)!
 
 ## Installation
 
@@ -86,10 +88,6 @@ disease = bt.Disease(source="mondo")
 # Access to the Human Disease ontology
 disease = bt.Disease(source="doid", version="2023-01-30")
 ```
-
-<br>
-
-Didn't see your favorite source or version? Bionty is extendable!
 
 ## Documentation
 
