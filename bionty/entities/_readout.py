@@ -89,7 +89,7 @@ class Readout(Bionty):
                 df.to_parquet(self._local_parquet_path)
 
             # loads the df and set index
-            df = pd.read_parquet(self._local_parquet_path)
+            return pd.read_parquet(self._local_parquet_path)
         else:
             return super().df()
 
