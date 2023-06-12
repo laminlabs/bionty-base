@@ -172,8 +172,8 @@ class Bionty:
 
         Examples:
             >>> import bionty as bt
-            >>> gene_lookout = bt.Gene().lookup()
-            >>> gene_lookout.TEF
+            >>> gene_bionty_lookup = bt.Gene().lookup()
+            >>> gene_bionty_lookup.TEF
         """
 
         def to_lookup_keys(x: list) -> list:
@@ -233,11 +233,9 @@ class Bionty:
               column that indicates compliance with the default identifier.
 
         Examples:
-            >>> import pandas as pd
             >>> import bionty as bt
-            >>> df = pd.DataFrame(index=["Boettcher cell", "bone marrow cell"]
-            >>> ct = bt.CellType()
-            >>> ct.inspect(df, field=ct.name)
+            >>> celltype_bionty = bt.CellType()
+            >>> celltype_bionty.inspect(["Boettcher cell", "bone marrow cell"], field=ct.name)
         """
         curated_df = pd.DataFrame(index=identifiers)
 
@@ -299,11 +297,10 @@ class Bionty:
               and values mapped to field as values if return_mapper is True.
 
         Examples:
-            >>> import pandas as pd
             >>> import bionty as bt
+            >>> gene_bionty = bt.Gene(source="ensembl", version="release-108")
             >>> gene_symbols = ["A1CF", "A1BG", "FANCD1", "FANCD20"]
-            >>> gn = bt.Gene(source="ensembl", version="release-108")
-            >>> mapping = gn.map_synonyms(gene_symbols, gn.symbol)
+            >>> mapping = gene_bionty.map_synonyms(gene_symbols, gn.symbol)
         """
         field_str, synonyms_field_str = str(field), str(synonyms_field)
 
@@ -360,8 +357,8 @@ class Bionty:
 
         Examples:
             >>> import bionty as bt
-            >>> ct = bt.CellType()
-            >>> ct.fuzzy_match("T cells", ct.name)
+            >>> celltype_bionty = bt.CellType()
+            >>> celltype_bionty.fuzzy_match("T cells", ct.name)
         """
 
         def _fuzz_ratio(string: str, iterable: pd.Series, case_sensitive: bool = True):
