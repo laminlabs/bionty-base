@@ -89,14 +89,7 @@ class Readout(Bionty):
                 df.to_parquet(self._local_parquet_path)
 
             # loads the df and set index
-            df = pd.read_parquet(self._local_parquet_path).reset_index()
-            reference_index_name = self.reference_id
-            if self.reference_id is None and "ontology_id" in df.columns:
-                reference_index_name = "ontology_id"
-            try:
-                return df.set_index(reference_index_name)
-            except KeyError:
-                return df
+            df = pd.read_parquet(self._local_parquet_path)
         else:
             return super().df()
 

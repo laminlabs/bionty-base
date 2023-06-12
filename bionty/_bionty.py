@@ -18,7 +18,6 @@ from ._settings import check_datasetdir_exists, check_dynamicdir_exists, setting
 from .dev._fix_index import (
     check_if_index_compliant,
     explode_aggregated_column_to_expand,
-    get_compliant_index_from_column,
 )
 from .dev._handle_sources import LAMINDB_INSTANCE_LOADED
 from .dev._io import s3_bionty_assets, url_download
@@ -36,8 +35,6 @@ class Bionty:
         version: Optional[str] = None,
         species: Optional[str] = None,
         *,
-        reference_id: Optional[Union[BiontyField, str]] = None,
-        synonyms_field: Optional[Union[BiontyField, str]] = None,
         include_id_prefixes: Optional[Dict[str, List[str]]] = None,
         include_name_prefixes: Optional[Dict[str, List[str]]] = None,
         exclude_id_prefixes: Optional[Dict[str, List[str]]] = None,
@@ -80,8 +77,6 @@ class Bionty:
             return re.sub(r"(?<!^)(?=[A-Z])", "_", string).lower()
 
         self._entity = _camel_to_snake(self.__class__.__name__)
-        self.reference_id = reference_id
-        self._synonyms_field = synonyms_field
         self.include_id_prefixes = include_id_prefixes
         self.include_name_prefixes = include_name_prefixes
         self.exclude_id_prefixes = exclude_id_prefixes
@@ -160,16 +155,13 @@ class Bionty:
 
         # loads the df and set index
         df = pd.read_parquet(self._local_parquet_path).reset_index()
-        reference_index_name = self.reference_id
-        if self.reference_id is None and "ontology_id" in df.columns:
-            reference_index_name = "ontology_id"
-        try:
-            return df.set_index(reference_index_name)
-        except KeyError:
+        if "ontology_id" in df.columns:
+            return df.set_index("ontology_id")
+        else:
             return df
 
     def lookup(self, field: str = "name") -> tuple:
-        """Return an auto-complete object for the bionty id.
+        """Return an auto-complete object for the bionty field.
 
         Args:
             field: The field to lookup the values for.
@@ -222,6 +214,195 @@ class Bionty:
         df.index = uniquefy_duplicates(to_lookup_keys(df[field].values))
 
         return namedtuple_from_df(df)
+
+    def inspect(
+        self, identifiers: Iterable, reference_id: BiontyField, return_df: bool = False
+    ) -> Union[DataFrame, dict[str, list[str]]]:
+        """Inspect if a list of identifiers are mappable to the entity reference.
+
+        Args:
+            identifiers: Identifiers that will be checked against the Ontology.
+            reference_id: The BiontyField of the ontology to compare against.
+                          Examples are 'ontology_id' to map against the ontology ID
+                          or 'name' to map against the ontologies field names.
+            return_df: Whether to return a Pandas DataFrame.
+
+        Returns:
+            - A Dictionary that maps the input ontology (keys) to the ontology field (values)
+            - If specified A Pandas DataFrame with the curated index and a boolean `__mapped__`
+              column that indicates compliance with the default identifier.
+
+        Examples:
+            >>> import pandas as pd
+            >>> import bionty as bt
+            >>> df = pd.DataFrame(index=["Boettcher cell", "bone marrow cell"]
+            >>> ct = bt.CellType()
+            >>> ct.inspect(df, reference_id=ct.name)
+        """
+        curated_df = pd.DataFrame(index=identifiers)
+
+        # check if synonyms are present
+        try:
+            synonyms_mapper = self.map_synonyms(
+                identifiers=identifiers, reference_id=reference_id, return_mapper=True
+            )
+            if len(synonyms_mapper) > 0:
+                logger.warning("The identifiers contain synonyms!")
+                logger.hint(
+                    "To increase mappability, convert them into standardized"
+                    " names/symbols using '.map_synonyms()'"
+                )
+        except Exception:
+            pass
+
+        matches = check_if_index_compliant(
+            curated_df.index, self.df().reset_index()[str(reference_id)]
+        )
+
+        # annotated what complies with the default ID
+        curated_df["__mapped__"] = matches
+        # some stats for logging
+        n_misses = len(matches) - matches.sum()
+        frac_misses = round(n_misses / len(matches) * 100, 1)
+        n_mapped = matches.sum()
+        frac_mapped = 100 - frac_misses
+        logger.success(f"{n_mapped} terms ({frac_mapped}%) are mapped.")
+        logger.warning(f"{n_misses} terms ({frac_misses}%) are not mapped.")
+
+        if return_df:
+            return curated_df
+        else:
+            mapping: Dict[str, List[str]] = {}
+            mapping["mapped"] = curated_df.index[curated_df["__mapped__"]].tolist()
+            mapping["not_mapped"] = curated_df.index[~curated_df["__mapped__"]].tolist()
+
+            return mapping
+
+    def map_synonyms(
+        self,
+        identifiers: Iterable,
+        reference_id: BiontyField,
+        *,
+        synonyms_field: Union[BiontyField, str] = "synonyms",
+        return_mapper: bool = False,
+    ) -> Union[Dict[str, str], List[str]]:
+        """Maps input identifiers against Ontology synonyms.
+
+        Args:
+            identifiers: Identifiers that will be mapped against an Ontology field (BiontyField).
+            reference_id: The BiontyField of ontology representing the identifiers.
+            return_mapper: Whether to return a dictionary of {identifiers : <mapped reference_id values>}.
+
+        Returns:
+            - A list of mapped reference_id values if return_mapper is False.
+            - A dictionary of mapped values with mappable identifiers as keys
+              and values mapped to reference_id as values if return_mapper is True.
+
+        Examples:
+            >>> import pandas as pd
+            >>> import bionty as bt
+            >>> gene_symbols = ["A1CF", "A1BG", "FANCD1", "FANCD20"]
+            >>> gn = bt.Gene(source="ensembl", version="release-108")
+            >>> mapping = gn.map_synonyms(gene_symbols, gn.symbol)
+        """
+        reference_id_str, synonyms_field_str = str(reference_id), str(synonyms_field)
+
+        df = self.df().reset_index()
+        if reference_id_str not in df.columns:
+            raise KeyError(
+                f"reference_id '{reference_id_str}' is invalid! Available fields are:"
+                f" {list(df.columns)}"
+            )
+        if synonyms_field_str not in df.columns:
+            raise KeyError(
+                f"synonyms_field '{synonyms_field_str}' is invalid! Available fields"
+                f" are: {list(df.columns)}"
+            )
+        if reference_id_str == synonyms_field_str:
+            raise KeyError("synonyms_field must be different from reference_id!")
+
+        alias_map = explode_aggregated_column_to_expand(
+            df,
+            aggregated_col=synonyms_field_str,
+            target_col=reference_id_str,
+        )[reference_id_str]
+
+        if return_mapper:
+            mapped_dict = {
+                item: alias_map.get(item)
+                for item in identifiers
+                if alias_map.get(item) is not None and alias_map.get(item) != item
+            }
+            return mapped_dict
+        else:
+            mapped_list = [alias_map.get(item, item) for item in identifiers]
+            return mapped_list
+
+    def fuzzy_match(
+        self,
+        string: str,
+        reference_id: BiontyField,
+        synonyms_field: Union[BiontyField, str, None] = "synonyms",
+        case_sensitive: bool = True,
+        return_ranked_results: bool = False,
+    ) -> str:
+        """Fuzzy matching of a given string using RapidFuzz.
+
+        Args:
+            string: The input string to match against the reference_id ontology values.
+            reference_id: The BiontyField of ontology the input string is matching against.
+            synonyms_field: Also map against in the synonyms (If None, no mapping against synonyms).
+            case_sensitive: Whether the match is case sensitive.
+            return_ranked_results: Whether to return all entries ranked by matching ratios.
+
+        Returns:
+            Best match of the input string.
+
+        Examples:
+            >>> import bionty as bt
+            >>> ct = bt.CellType()
+            >>> ct.fuzzy_match("T cells", ct.name)
+        """
+
+        def _fuzz_ratio(string: str, iterable: pd.Series, case_sensitive: bool = True):
+            from rapidfuzz import fuzz, utils
+
+            if case_sensitive:
+                processor = None
+            else:
+                processor = utils.default_process
+            return iterable.apply(lambda x: fuzz.ratio(string, x, processor=processor))
+
+        df = self.df().reset_index()
+        reference_id_str = str(reference_id)
+        synonyms_field_str = str(synonyms_field)
+
+        if synonyms_field_str in df.columns:
+            df_exp = explode_aggregated_column_to_expand(
+                df,
+                aggregated_col=synonyms_field_str,
+                target_col=reference_id_str,
+            ).reset_index()
+            target_column = synonyms_field_str
+        else:
+            df_exp = df.copy()
+            target_column = reference_id_str
+
+        df_exp["__ratio__"] = _fuzz_ratio(
+            string=string, iterable=df_exp[target_column], case_sensitive=case_sensitive
+        )
+        df_exp_grouped = (
+            df_exp.groupby(reference_id_str)
+            .max()
+            .sort_values("__ratio__", ascending=False)
+        )
+        df_scored = df.set_index(reference_id_str).loc[df_exp_grouped.index]
+        df_scored["__ratio__"] = df_exp_grouped["__ratio__"]
+
+        if return_ranked_results:
+            return df_scored.sort_values("__ratio__", ascending=False)
+        else:
+            return df_scored[df_scored["__ratio__"] == df_scored["__ratio__"].max()]
 
     def _fetch_sources(self) -> None:
         from ._display_sources import (
@@ -409,332 +590,6 @@ class Bionty:
             " ", "_"
         )
         self._local_ontology_path = settings.dynamicdir / self._ontology_filename
-
-    def curate(
-        self,
-        df: pd.DataFrame,
-        column: str = None,
-        reference_id: Union[BiontyField, str] = None,
-        case_sensitive: bool = True,
-    ) -> pd.DataFrame:
-        """Curate index of passed DataFrame to conform with default identifier.
-
-        - If `target_column` is `None`, checks the existing index for compliance
-          with the default identifier.
-        - If `target_column` denotes an entity identifier,
-          tries to map that identifier to the default identifier.
-
-        Args:
-            df: The input Pandas DataFrame to curate.
-            column: The column in the passed Pandas DataFrame to curate.
-            reference_id: The reference column in the ontology Pandas DataFrame.
-                             'Defaults to ontology_id'.
-            case_sensitive: Whether the curation should be case sensitive or not.
-                            Defaults to True.
-
-        Returns:
-            Returns the DataFrame with the curated index and a boolean `__curated__`
-            column that indicates compliance with the default identifier.
-
-        Examples:
-            >>> import pandas as pd
-            >>> import bionty as bt
-            >>> df = pd.DataFrame(index=["Boettcher cell", "bone marrow cell"]
-            >>> ct = bt.CellType()
-            >>> curated_df = ct.curate(df, reference_id=ct.name)
-        """
-        if reference_id is None:
-            reference_id = self.df().index.name  # type: ignore
-        elif self.reference_id and reference_id != "ontology_id":
-            reference_id = reference_id
-        elif self.reference_id:
-            reference_id = self.reference_id  # type: ignore
-
-        df = df.copy()
-        ref_df = self.df()
-        orig_column = column
-        if column is not None and column not in ref_df.columns:
-            column = reference_id  # type: ignore
-            df.rename(columns={orig_column: column}, inplace=True)
-
-        # uppercasing the target column before curating
-        orig_column_values = None
-        if not case_sensitive:
-            if column in df.columns:
-                orig_column_values = df[column].values
-                df[column] = df[column].str.upper()
-            else:
-                orig_column_values = df.index.values
-                df.index = df.index.str.upper()
-
-        curated_df = self._curate(
-            df=df, column=column, reference_id=reference_id
-        ).rename(columns={column: orig_column})
-
-        # change the original column values back
-        if orig_column_values is not None:
-            if "orig_index" in curated_df:
-                curated_df["orig_index"] = orig_column_values
-            else:
-                curated_df[orig_column] = orig_column_values
-
-        return curated_df
-
-    def _curate(
-        self,
-        df: pd.DataFrame,
-        reference_id: Union[BiontyField, str],
-        column: str = None,
-        agg_col: str = None,
-        inplace: bool = False,
-    ) -> pd.DataFrame:
-        """Curate index of passed DataFrame to conform with default identifier."""
-        if reference_id is None:
-            reference_id = self.reference_id  # type: ignore
-
-        if not inplace:
-            df = df.copy()
-        ref_df = self.df()
-
-        # this is needed for features parsing in lamindb
-        self._parsing_id = reference_id
-
-        if agg_col is not None:
-            # if provided a column with aggregated values, performs alias mapping
-            alias_map = explode_aggregated_column_to_expand(
-                ref_df.reset_index(),
-                aggregated_col=agg_col,
-                target_col=reference_id,
-            )[reference_id]
-
-        # when column is None, use index as the input column
-        if column is None:
-            index_name = df.index.name
-            df["__mapped_index"] = (
-                df.index if agg_col is None else df.index.map(alias_map)
-            )
-            df["orig_index"] = df.index
-            df.index = df["__mapped_index"].fillna(df["orig_index"])
-            del df["__mapped_index"]
-            df.index.name = index_name
-
-            matches = check_if_index_compliant(
-                df.index, ref_df.reset_index()[str(reference_id)]
-            )
-        else:
-            orig_series = df[column]
-            df[column] = df[column] if agg_col is None else df[column].map(alias_map)
-            df[column] = df[column].fillna(orig_series)
-            new_index, matches = get_compliant_index_from_column(
-                df=df,
-                ref_df=ref_df,
-                column=column,
-            )
-
-            # keep the original index name as column name if exists
-            # otherwise name it "orig_index"
-            if df.index.name is None:
-                df["orig_index"] = df.index
-            else:
-                df[df.index.name] = df.index
-            df.index = new_index
-            df.index.name = reference_id
-            df[column] = orig_series.values  # keep the original column untouched
-        # annotated what complies with the default ID
-        df["__curated__"] = matches
-        # some stats for logging
-        n_misses = len(matches) - matches.sum()
-        frac_misses = round(n_misses / len(matches) * 100, 1)
-        n_mapped = matches.sum()
-        frac_mapped = 100 - frac_misses
-        logger.success(f"{n_mapped} terms ({frac_mapped}%) are mapped.")
-        logger.warning(f"{n_misses} terms ({frac_misses}%) are not mapped.")
-
-        return df
-
-    def inspect(
-        self, identifiers: Iterable, reference_id: BiontyField, return_df: bool = False
-    ) -> Union[DataFrame, dict[str, list[str]]]:
-        """Inspect if a list of identifiers are mappable to the entity reference.
-
-        Args:
-            identifiers: Identifiers that will be checked against the Ontology.
-            reference_id: The BiontyField of the ontology to compare against.
-                          Examples are 'ontology_id' to map against the ontology ID
-                          or 'name' to map against the ontologies field names.
-            return_df: Whether to return a Pandas DataFrame.
-
-        Returns:
-            - A Dictionary that maps the input ontology (keys) to the ontology field (values)
-            - If specified A Pandas DataFrame with the curated index and a boolean `__curated__`
-              column that indicates compliance with the default identifier.
-
-        Examples:
-            >>> import pandas as pd
-            >>> import bionty as bt
-            >>> df = pd.DataFrame(index=["Boettcher cell", "bone marrow cell"]
-            >>> ct = bt.CellType()
-            >>> ct.inspect(df, reference_id=ct.name)
-        """
-        df = pd.DataFrame(index=identifiers)
-
-        # check if synonyms are present
-        try:
-            synonyms_mapper = self.map_synonyms(
-                identifiers=identifiers, reference_id=reference_id, return_mapper=True
-            )
-            if len(synonyms_mapper) > 0:
-                logger.warning("The identifiers contain synonyms!")
-                logger.hint(
-                    "To increase mappability, convert them into standardized"
-                    " names/symbols using '.map_synonyms()'"
-                )
-        except Exception:
-            pass
-
-        curated_df = self._curate(
-            df=df, column=None, reference_id=reference_id, inplace=False
-        )
-
-        if return_df:
-            mapping_df = curated_df.rename(
-                columns={"orig_index": str(reference_id), "__curated__": "__mapped__"}
-            )
-            return mapping_df.reset_index(drop=True)
-        else:
-            mapping: Dict[str, List[str]] = {}
-            mapping["mapped"] = curated_df.index[curated_df["__curated__"]].tolist()
-            mapping["not_mapped"] = curated_df.index[
-                ~curated_df["__curated__"]
-            ].tolist()
-
-            return mapping
-
-    def map_synonyms(
-        self,
-        identifiers: Iterable,
-        reference_id: BiontyField,
-        *,
-        synonyms_field: Union[BiontyField, str] = "synonyms",
-        return_mapper: bool = False,
-    ) -> Union[Dict[str, str], List[str]]:
-        """Maps input identifiers against Ontology synonyms.
-
-        Args:
-            identifiers: Identifiers that will be mapped against an Ontology field (BiontyField).
-            reference_id: The BiontyField of ontology representing the identifiers.
-            return_mapper: Whether to return a dictionary of {identifiers : <mapped reference_id values>}.
-
-        Returns:
-            - A list of mapped reference_id values if return_mapper is False.
-            - A dictionary of mapped values with mappable identifiers as keys
-              and values mapped to reference_id as values if return_mapper is True.
-
-        Examples:
-            >>> import pandas as pd
-            >>> import bionty as bt
-            >>> gene_symbols = ["A1CF", "A1BG", "FANCD1", "FANCD20"]
-            >>> gn = bt.Gene(source="ensembl", version="release-108")
-            >>> mapping = gn.map_synonyms(gene_symbols, gn.symbol)
-        """
-        reference_id_str, synonyms_field_str = str(reference_id), str(synonyms_field)
-
-        df = self.df().reset_index()
-        if reference_id_str not in df.columns:
-            raise KeyError(
-                f"reference_id '{reference_id_str}' is invalid! Available fields are:"
-                f" {list(df.columns)}"
-            )
-        if synonyms_field_str not in df.columns:
-            raise KeyError(
-                f"synonyms_field '{synonyms_field_str}' is invalid! Available fields"
-                f" are: {list(df.columns)}"
-            )
-        if reference_id_str == synonyms_field_str:
-            raise KeyError("synonyms_field must be different from reference_id!")
-
-        alias_map = explode_aggregated_column_to_expand(
-            df,
-            aggregated_col=synonyms_field_str,
-            target_col=reference_id_str,
-        )[reference_id_str]
-
-        if return_mapper:
-            mapped_dict = {
-                item: alias_map.get(item)
-                for item in identifiers
-                if alias_map.get(item) is not None and alias_map.get(item) != item
-            }
-            return mapped_dict
-        else:
-            mapped_list = [alias_map.get(item, item) for item in identifiers]
-            return mapped_list
-
-    def fuzzy_match(
-        self,
-        string: str,
-        reference_id: BiontyField,
-        synonyms_field: Union[BiontyField, str, None] = "synonyms",
-        case_sensitive: bool = True,
-        return_ranked_results: bool = False,
-    ) -> str:
-        """Fuzzy matching of a given string using RapidFuzz.
-
-        Args:
-            string: The input string to match against the reference_id ontology values.
-            reference_id: The BiontyField of ontology the input string is matching against.
-            synonyms_field: Also map against in the synonyms (If None, no mapping against synonyms).
-            case_sensitive: Whether the match is case sensitive.
-            return_ranked_results: Whether to return all entries ranked by matching ratios.
-
-        Returns:
-            Best match of the input string.
-
-        Examples:
-            >>> import bionty as bt
-            >>> ct = bt.CellType()
-            >>> ct.fuzzy_match("T cells", ct.name)
-        """
-
-        def _fuzz_ratio(string: str, iterable: pd.Series, case_sensitive: bool = True):
-            from rapidfuzz import fuzz, utils
-
-            if case_sensitive:
-                processor = None
-            else:
-                processor = utils.default_process
-            return iterable.apply(lambda x: fuzz.ratio(string, x, processor=processor))
-
-        df = self.df().reset_index()
-        reference_id_str = str(reference_id)
-        synonyms_field_str = str(synonyms_field)
-
-        if synonyms_field_str in df.columns:
-            df_exp = explode_aggregated_column_to_expand(
-                df,
-                aggregated_col=synonyms_field_str,
-                target_col=reference_id_str,
-            ).reset_index()
-            target_column = synonyms_field_str
-        else:
-            df_exp = df.copy()
-            target_column = reference_id_str
-
-        df_exp["__ratio__"] = _fuzz_ratio(
-            string=string, iterable=df_exp[target_column], case_sensitive=case_sensitive
-        )
-        df_exp_grouped = (
-            df_exp.groupby(reference_id_str)
-            .max()
-            .sort_values("__ratio__", ascending=False)
-        )
-        df_scored = df.set_index(reference_id_str).loc[df_exp_grouped.index]
-        df_scored["__ratio__"] = df_exp_grouped["__ratio__"]
-
-        if return_ranked_results:
-            return df_scored.sort_values("__ratio__", ascending=False)
-        else:
-            return df_scored[df_scored["__ratio__"] == df_scored["__ratio__"].max()]
 
 
 class BiontyField:
