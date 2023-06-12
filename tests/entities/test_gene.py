@@ -13,7 +13,7 @@ def genes():
             "ENSG00000148584",
             "ENSG00000121410",
             "ENSG00000188389",
-            "corrupted",
+            "ENSG0000corrupted",
         ],
     }
     df = pd.DataFrame(data).set_index("ensembl_gene_id")
@@ -32,17 +32,3 @@ def test_gene_ensembl_inspect_hgnc_id(genes):
     expected_series = pd.Series([True, True, True, False])
 
     assert inspect.equals(expected_series)
-
-
-def test_gene_ensembl_map_synonyms(genes):
-    df, gn = genes
-
-    assert gn.map_synonyms(df["gene symbol"], gn.symbol) == [
-        "A1CF",
-        "A1BG",
-        "BRCA2",
-        "corrupted",
-    ]
-
-    with pytest.raises(KeyError):
-        gn.map_synonyms(df["gene symbol"], gn.symbol, synonyms_field="not exist")

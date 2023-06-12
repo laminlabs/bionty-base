@@ -6,15 +6,21 @@ import bionty as bt
 
 @pytest.fixture(scope="session")
 def genes():
-    gene_ids = [
-        "ENSG00000148584",
-        "ENSG00000121410",
-        "ENSG00000188389",
-        "ENSG0000corrupted",
-    ]
+    data = {
+        "gene symbol": ["A1CF", "A1BG", "FANCD1", "corrupted"],
+        "hgnc id": ["HGNC:24086", "HGNC:5", "HGNC:1101", "corrupted"],
+        "ensembl_gene_id": [
+            "ENSG00000148584",
+            "ENSG00000121410",
+            "ENSG00000188389",
+            "ENSG0000corrupted",
+        ],
+    }
+    df = pd.DataFrame(data).set_index("ensembl_gene_id")
+
     gn = bt.Gene(source="ensembl", version="release-108")
 
-    return gene_ids, gn
+    return df, gn
 
 
 def test_inspect_iterable(genes):
@@ -36,15 +42,33 @@ def test_inspect_return_df(genes):
     mapping = gn.inspect(gene_ids, field=gn.ensembl_gene_id, return_df=True)
 
     expected_df = pd.DataFrame(
+        index=[
+            "ENSG00000148584",
+            "ENSG00000121410",
+            "ENSG00000188389",
+            "ENSG0000corrupted",
+        ],
         data={
-            "ensembl_gene_id": [
-                "ENSG00000148584",
-                "ENSG00000121410",
-                "ENSG00000188389",
-                "ENSG0000corrupted",
-            ],
             "__mapped__": [True, True, True, False],
-        }
+        },
     )
 
     assert mapping.equals(expected_df)  # type: ignore
+
+
+def test_gene_ensembl_map_synonyms(genes):
+    df, gn = genes
+
+    assert gn.map_synonyms(df["gene symbol"], gn.symbol) == [
+        "A1CF",
+        "A1BG",
+        "BRCA2",
+        "corrupted",
+    ]
+
+    gn.map_synonyms(df["gene symbol"], gn.symbol, return_mapper=True) == {
+        "FANCD1": "BRCA2"
+    }
+
+    with pytest.raises(KeyError):
+        gn.map_synonyms(df["gene symbol"], gn.symbol, synonyms_field="not exist")
