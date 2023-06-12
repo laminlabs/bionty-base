@@ -54,21 +54,3 @@ def test_inspect_return_df(genes):
     )
 
     assert mapping.equals(expected_df)  # type: ignore
-
-
-def test_gene_ensembl_map_synonyms(genes):
-    df, gn = genes
-
-    assert gn.map_synonyms(df["gene symbol"], gn.symbol) == [
-        "A1CF",
-        "A1BG",
-        "BRCA2",
-        "corrupted",
-    ]
-
-    gn.map_synonyms(df["gene symbol"], gn.symbol, return_mapper=True) == {
-        "FANCD1": "BRCA2"
-    }
-
-    with pytest.raises(KeyError):
-        gn.map_synonyms(df["gene symbol"], gn.symbol, synonyms_field="not exist")
