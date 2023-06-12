@@ -3,7 +3,7 @@ import pandas as pd
 import bionty as bt
 
 
-def test_uniprot_protein_curation_uniprotkb_id():
+def test_uniprot_protein_inspect_uniprotkb_id():
     df = pd.DataFrame(
         index=[
             "A0A024QZ08",
@@ -15,29 +15,9 @@ def test_uniprot_protein_curation_uniprotkb_id():
     )
 
     pr = bt.Protein(source="uniprot", version="2022-04")
-    curated_df = pr.curate(df)
+    inspected_df = pr.inspect(df.index, pr.uniprotkb_id, return_df=True)
 
-    curation = curated_df["__curated__"].reset_index(drop=True)
+    inspect = inspected_df["__mapped__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
 
-    assert curation.equals(expected_series)
-
-
-def test_uniprot_protein_curation_name():
-    df = pd.DataFrame(
-        index=[
-            "isoform CRA_c",
-            "Battenin",
-            "Probable ATP-dependent RNA helicase DDX5",
-            "isoform CRA_a",
-            "This cell line does not exist",
-        ]
-    )
-
-    pr = bt.Protein(source="uniprot", version="2022-04")
-    curated_df = pr.curate(df, reference_id=pr.name)
-
-    curation = curated_df["__curated__"].reset_index(drop=True)
-    expected_series = pd.Series([True, True, True, True, False])
-
-    assert curation.equals(expected_series)
+    assert inspect.equals(expected_series)

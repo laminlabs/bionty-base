@@ -1,11 +1,11 @@
-from typing import Literal, Optional, Union
+from typing import Literal, Optional
 
 import pandas as pd
 
-from .._bionty import Bionty, BiontyField
-from .._normalize import GENE_COLUMNS, NormalizeColumns
+from .._bionty import Bionty
+from .._normalize import NormalizeColumns
 from ..dev._io import s3_bionty_assets
-from ._shared_docstrings import _doc_params, doc_curate, doc_entites
+from ._shared_docstrings import _doc_params, doc_entites
 
 
 @_doc_params(doc_entities=doc_entites)
@@ -15,8 +15,6 @@ class Gene(Bionty):
     1. Ensembl
     Edits of terms are coordinated and reviewed on:
     https://www.ensembl.org/
-
-    The default indexer is `ensembl_gene_id`
 
     Args:
         {doc_entities}
@@ -37,14 +35,13 @@ class Gene(Bionty):
             source=source,
             version=version,
             species=species,
-            reference_id="ensembl_gene_id",
             **kwargs,
         )
-        self._lookup_field = "symbol"
-        self._synonyms_dict = {"symbol": "synonyms"}
 
     def df(self) -> pd.DataFrame:
         """DataFrame.
+
+        The default indexer is `ensembl_gene_id`
 
         See ingestion: https://lamin.ai/docs/bionty-assets/ingest/ensembl-gene
         """
@@ -59,56 +56,23 @@ class Gene(Bionty):
         except AttributeError:
             if not df.index.is_numeric():
                 df = df.reset_index().copy()
-        df = df[~df[self.reference_id].isnull()]
+        df = df[~df["ensembl_gene_id"].isnull()]
 
         return df
 
-    @_doc_params(doc_curate=doc_curate)
-    def curate(  # type: ignore
-        self,
-        df: pd.DataFrame,
-        column: str = None,
-        reference_id: Union[BiontyField, str] = "ensembl_gene_id",
-    ) -> pd.DataFrame:
-        """Curate index of passed DataFrame to conform with default identifier.
-
-        In addition to the .curate() in base class, this also performs alias mapping.
+    def lookup(self, field: str = "symbol") -> tuple:
+        """Return an auto-complete object for the bionty field.
 
         Args:
-            {doc_curate}
+            field: The field to lookup the values for.
+                   Defaults to 'name'.
 
         Returns:
-            The input DataFrame with the curated index and a boolean `__curated__`
-            column that indicates compliance with the default identifier.
+            A NamedTuple of lookup information of the field values.
+
+        Examples:
+            >>> import bionty as bt
+            >>> gene_lookout = bt.Gene().lookup()
+            >>> gene_lookout.TEF
         """
-        reference_id = str(reference_id)
-        agg_col = self._synonyms_dict.get(reference_id)
-        df = df.copy()
-
-        # if the query column name does not match any columns in the self.df()
-        # Bionty assume the query column and the self.reference_id field use
-        # the same type of identifier
-        orig_column = column
-        if column is not None and column not in self.df().columns:
-            # normalize the target column
-            column_norm = GENE_COLUMNS.get(column)
-            if column_norm in df.columns:
-                raise ValueError(f"{column_norm} column already exist!")
-            else:
-                column = reference_id if column_norm is None else column_norm
-                df.rename(columns={orig_column: column}, inplace=True)
-            agg_col = self._synonyms_dict.get(column)
-
-        return (
-            super()
-            ._curate(
-                df=df,
-                column=column,
-                agg_col=agg_col,
-                reference_id=reference_id,
-            )
-            .rename(columns={column: orig_column})
-        )
-
-    def lookup(self, field: str = "symbol"):
         return super().lookup(field=field)

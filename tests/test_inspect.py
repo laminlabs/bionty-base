@@ -6,21 +6,27 @@ import bionty as bt
 
 @pytest.fixture(scope="session")
 def genes():
-    gene_ids = [
-        "ENSG00000148584",
-        "ENSG00000121410",
-        "ENSG00000188389",
-        "ENSG0000corrupted",
-    ]
+    data = {
+        "gene symbol": ["A1CF", "A1BG", "FANCD1", "corrupted"],
+        "hgnc id": ["HGNC:24086", "HGNC:5", "HGNC:1101", "corrupted"],
+        "ensembl_gene_id": [
+            "ENSG00000148584",
+            "ENSG00000121410",
+            "ENSG00000188389",
+            "ENSG0000corrupted",
+        ],
+    }
+    df = pd.DataFrame(data).set_index("ensembl_gene_id")
+
     gn = bt.Gene(source="ensembl", version="release-108")
 
-    return gene_ids, gn
+    return df, gn
 
 
 def test_inspect_iterable(genes):
-    gene_ids, gn = genes
+    df, gn = genes
 
-    mapping = gn.inspect(gene_ids, reference_id=gn.ensembl_gene_id)
+    mapping = gn.inspect(df.index, field=gn.ensembl_gene_id)
 
     expected_mapping = {
         "mapped": ["ENSG00000148584", "ENSG00000121410", "ENSG00000188389"],
@@ -31,20 +37,20 @@ def test_inspect_iterable(genes):
 
 
 def test_inspect_return_df(genes):
-    gene_ids, gn = genes
+    df, gn = genes
 
-    mapping = gn.inspect(gene_ids, reference_id=gn.ensembl_gene_id, return_df=True)
+    mapping = gn.inspect(df.index, field=gn.ensembl_gene_id, return_df=True)
 
     expected_df = pd.DataFrame(
+        index=[
+            "ENSG00000148584",
+            "ENSG00000121410",
+            "ENSG00000188389",
+            "ENSG0000corrupted",
+        ],
         data={
-            "ensembl_gene_id": [
-                "ENSG00000148584",
-                "ENSG00000121410",
-                "ENSG00000188389",
-                "ENSG0000corrupted",
-            ],
             "__mapped__": [True, True, True, False],
-        }
+        },
     )
 
-    assert mapping.equals(expected_df)  # type: ignore
+    assert mapping.equals(expected_df)

@@ -9,9 +9,8 @@
 
 lookup
 ontology
-concepts
 inspect
-match
 config
 extend
+concepts
 ```

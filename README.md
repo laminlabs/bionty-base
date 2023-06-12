@@ -21,6 +21,7 @@ To manage in-house bioregistries along with ontologies, see [lnschema_bionty](ht
 - `Phenotype` - [Human Phenotype](https://hpo.jax.org/app/)
 - `Pathway` - [Gene Ontology](https://bioportal.bioontology.org/ontologies/GO), [Pathway Ontology](https://bioportal.bioontology.org/ontologies/PW)
 - `Readout` - [Experimental Factor Ontology](https://www.ebi.ac.uk/ols/ontologies/efo)
+- `Drug` - [Drug Ontology](https://bioportal.bioontology.org/ontologies/DRON)
 - `BFXPipeline` - largely based on [nf-core](https://nf-co.re/)
 
 Check out [sources.yaml](https://github.com/laminlabs/bionty/blob/main/bionty/versions/sources.yaml) for details.
@@ -38,21 +39,52 @@ pip install bionty
 ```python
 import bionty as bt
 
-gene = bt.Gene()
-gene.lookup().LNMA
+gene_bionty_lookup = bt.Gene().lookup()
+gene_bionty_lookup.LNMA
+```
+
+## Inspect & map identifiers
+
+```python
+import bionty as bt
+
+gene_bionty = bt.Gene()
+# Inspect if the gene symbols are mappable onto the reference
+gene_bionty.inspect(["A1BG", "FANCD1"], gene_bionty.symbol)
+# Map synonyms of gene symbols
+gene_bionty.map_synonyms(["A1BG", "FANCD1"], gene_bionty.symbol)
+
+celltype_bionty = bt.CellType()
+# Fuzzy string matching of a cell type name
+celltype_bionty.fuzzy_match("gamma delta T cell", celltype_bionty.name)
+```
+
+## Reference tables of ontologies
+
+```python
+import bionty as bt
+
+# Reference table of the human genes
+df = bt.Gene(species="human").df()
 ```
 
 ## Track ontology sources
 
 ```python
-# Display all managed versions
+# Display currently used sources
+bt.display_currently_used_sources()
+
+# Display all managed sources
 bt.display_available_sources()
 
+# Local yaml file specifying all managed sources
+bt.LOCAL_SOURCES
+
 # Access to the Mondo ontology
-disease = bt.Disease(database="mondo")
+disease = bt.Disease(source="mondo")
 
 # Access to the Human Disease ontology
-disease = bt.Disease(database="doid", version="2023-01-30")
+disease = bt.Disease(source="doid", version="2023-01-30")
 ```
 
 <br>

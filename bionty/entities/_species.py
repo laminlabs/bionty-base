@@ -25,7 +25,7 @@ class Species(Bionty):
         version: Optional[str] = None,
         **kwargs,
     ):
-        super().__init__(source=source, version=version, reference_id="name", **kwargs)
+        super().__init__(source=source, version=version, **kwargs)
 
     def df(self) -> pd.DataFrame:
         """DataFrame.
@@ -47,4 +47,4 @@ class Species(Bionty):
         df["name"] = df["name"].str.lower()
         df.insert(0, "id", "NCBI_" + df["taxon_id"].astype(str))
 
-        return df
+        return df.set_index("name")

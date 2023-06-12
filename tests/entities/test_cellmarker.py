@@ -3,29 +3,29 @@ import pandas as pd
 import bionty as bt
 
 
-def test_cellmarker_cellmarker_curation_name_human():
+def test_cellmarker_cellmarker_inspect_name_human():
     df = pd.DataFrame(
         index=["CCR7", "CD69", "CD8A", "CD45RA", "This protein does not exist"]
     )
 
     cm = bt.CellMarker(source="cellmarker", version="2.0")
-    curated_df = cm.curate(df, reference_id=cm.name)
+    curated = cm.inspect(df.index, field=cm.name)
 
-    curation = curated_df["__curated__"].reset_index(drop=True)
-    expected_series = pd.Series([True, True, True, True, False])
+    assert curated == {
+        "mapped": ["CCR7", "CD69", "CD8A", "CD45RA"],
+        "not_mapped": ["This protein does not exist"],
+    }
 
-    assert curation.equals(expected_series)
 
-
-def test_cellmarker_cellmarker_curation_name_mouse():
+def test_cellmarker_cellmarker_inspect_name_mouse():
     df = pd.DataFrame(
         index=["Tcf4", "Cd36", "Cd34", "Cd45", "This protein does not exist"]
     )
 
     cm = bt.CellMarker(source="cellmarker", version="2.0", species="mouse")
-    curated_df = cm.curate(df, reference_id=cm.name)
+    inspected_df = cm.inspect(df.index, field=cm.name, return_df=True)
 
-    curation = curated_df["__curated__"].reset_index(drop=True)
+    inspect = inspected_df["__mapped__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
 
-    assert curation.equals(expected_series)
+    assert inspect.equals(expected_series)

@@ -23,9 +23,7 @@ class BFXPipeline(Bionty):
         version: Optional[str] = None,
         **kwargs
     ) -> None:
-        super().__init__(
-            source=source, version=version, species=species, reference_id="id", **kwargs
-        )
+        super().__init__(source=source, version=version, species=species, **kwargs)
 
     def df(self) -> pd.DataFrame:
         """DataFrame."""
@@ -35,4 +33,4 @@ class BFXPipeline(Bionty):
 
         df = pd.DataFrame(data).transpose()
 
-        return df
+        return df.reset_index().set_index("id")

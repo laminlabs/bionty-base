@@ -3,7 +3,7 @@ import pandas as pd
 import bionty as bt
 
 
-def test_uberon_tissue_curation_ontology_id():
+def test_uberon_tissue_inspect_ontology_id():
     df = pd.DataFrame(
         index=[
             "UBERON:0000000",
@@ -15,29 +15,9 @@ def test_uberon_tissue_curation_ontology_id():
     )
 
     ts = bt.Tissue(source="uberon", version="2023-02-14")
-    curated_df = ts.curate(df)
+    inspected_df = ts.inspect(df.index, ts.ontology_id, return_df=True)
 
-    curation = curated_df["__curated__"].reset_index(drop=True)
+    inspect = inspected_df["__mapped__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
 
-    assert curation.equals(expected_series)
-
-
-def test_uberon_tissue_curation_name():
-    df = pd.DataFrame(
-        index=[
-            "nose",
-            "chemosensory organ",
-            "epithelium of lobular bronchiole",
-            "smooth muscle tissue of lobular bronchiole",
-            "This tissue does not exist",
-        ]
-    )
-
-    ts = bt.Tissue(source="uberon", version="2023-02-14")
-    curated_df = ts.curate(df, reference_id=ts.name)
-
-    curation = curated_df["__curated__"].reset_index(drop=True)
-    expected_series = pd.Series([True, True, True, True, False])
-
-    assert curation.equals(expected_series)
+    assert inspect.equals(expected_series)

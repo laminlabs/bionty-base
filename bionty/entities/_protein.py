@@ -27,16 +27,12 @@ class Protein(Bionty):
         version: Optional[str] = None,
         **kwargs
     ) -> None:
-        super().__init__(
-            source=source,
-            version=version,
-            species=species,
-            reference_id="uniprotkb_id",
-            **kwargs
-        )
+        super().__init__(source=source, version=version, species=species, **kwargs)
 
     def df(self) -> pd.DataFrame:
         """DataFrame.
+
+        The default indexer is `uniprotkb_id`
 
         See ingestion: https://lamin.ai/docs/bionty-assets/ingest/uniprot-protein
         """
@@ -54,7 +50,7 @@ class Protein(Bionty):
         except AttributeError:
             if not df.index.is_numeric():
                 df = df.reset_index().copy()
-        df = df[~df[self.reference_id].isnull()]
+        df = df[~df["uniprotkb_id"].isnull()]
 
         return df
 

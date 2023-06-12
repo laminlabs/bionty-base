@@ -3,27 +3,7 @@ import pandas as pd
 import bionty as bt
 
 
-def test_hp_phenotype_curation_ontology_id():
-    df = pd.DataFrame(
-        index=[
-            "HP:0001328",
-            "HP:0001332",
-            "HP:0001342",
-            "HP:0001350",
-            "This phenotype does not exist",
-        ]
-    )
-
-    pt = bt.Phenotype(source="hp", version="2023-01-27")
-    curated_df = pt.curate(df)
-
-    curation = curated_df["__curated__"].reset_index(drop=True)
-    expected_series = pd.Series([True, True, True, True, False])
-
-    assert curation.equals(expected_series)
-
-
-def test_hp_phenotype_curation_name():
+def test_hp_phenotype_inspect_name():
     df = pd.DataFrame(
         index=[
             "Specific learning disability",
@@ -35,9 +15,9 @@ def test_hp_phenotype_curation_name():
     )
 
     pt = bt.Phenotype(source="hp", version="2023-01-27")
-    curated_df = pt.curate(df, reference_id=pt.name)
+    inspected_df = pt.inspect(df.index, field=pt.name, return_df=True)
 
-    curation = curated_df["__curated__"].reset_index(drop=True)
+    inspect = inspected_df["__mapped__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
 
-    assert curation.equals(expected_series)
+    assert inspect.equals(expected_series)
