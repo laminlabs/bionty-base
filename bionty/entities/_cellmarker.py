@@ -28,7 +28,7 @@ class CellMarker(Bionty):
     ) -> None:
         super().__init__(source=source, version=version, species=species, **kwargs)
 
-    def df(self) -> pd.DataFrame:
+    def _load_df(self) -> pd.DataFrame:
         """DataFrame.
 
         See ingestion: https://lamin.ai/docs/bionty-assets/ingest/cell-marker-2.0

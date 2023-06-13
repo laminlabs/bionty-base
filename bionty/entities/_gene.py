@@ -39,13 +39,7 @@ class Gene(Bionty):
             **kwargs,
         )
 
-    def df(self) -> pd.DataFrame:
-        """DataFrame.
-
-        The default indexer is `ensembl_gene_id`
-
-        See ingestion: https://lamin.ai/docs/bionty-assets/ingest/ensembl-gene
-        """
+    def _load_df(self) -> pd.DataFrame:
         self._filepath = s3_bionty_assets(self._parquet_filename)
 
         df = pd.read_parquet(self._filepath)

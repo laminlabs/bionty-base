@@ -27,11 +27,7 @@ class Species(Bionty):
     ):
         super().__init__(source=source, version=version, **kwargs)
 
-    def df(self) -> pd.DataFrame:
-        """DataFrame.
-
-        See ingestion: https://lamin.ai/docs/bionty-assets/ingest/ensembl-species
-        """
+    def _load_df(self) -> pd.DataFrame:
         url = f"https://ftp.ensembl.org/pub/{self._version}/species_EnsemblVertebrates.txt"  # noqa
         self._filepath = self._url_download(url)
 

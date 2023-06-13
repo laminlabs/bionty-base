@@ -29,13 +29,7 @@ class Protein(Bionty):
     ) -> None:
         super().__init__(source=source, version=version, species=species, **kwargs)
 
-    def df(self) -> pd.DataFrame:
-        """DataFrame.
-
-        The default indexer is `uniprotkb_id`
-
-        See ingestion: https://lamin.ai/docs/bionty-assets/ingest/uniprot-protein
-        """
+    def _load_df(self) -> pd.DataFrame:
         self._filepath = s3_bionty_assets(self._parquet_filename)
 
         df = pd.read_parquet(self._filepath)

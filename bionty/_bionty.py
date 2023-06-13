@@ -67,7 +67,7 @@ class Bionty:
         self.include_id_prefixes = include_id_prefixes
 
         # df is only read into memory at the init to improve performance
-        self._load_df()
+        self._df: pd.DataFrame = self._load_df()
         # self._df has no index
         for col_name in self._df.columns:
             try:
@@ -264,7 +264,7 @@ class Bionty:
 
         return df
 
-    def _load_df(self) -> None:
+    def _load_df(self) -> pd.DataFrame:
         # Download and sync from s3://bionty-assets
         s3_bionty_assets(
             filename=self._parquet_filename,
@@ -281,8 +281,7 @@ class Bionty:
         df = pd.read_parquet(self._local_parquet_path)
         if df.index.name is not None:
             df = df.reset_index()
-        # sets self._df
-        self._df: pd.DataFrame = df
+        return df
 
     @check_dynamicdir_exists
     def _url_download(self, url: str) -> str:
