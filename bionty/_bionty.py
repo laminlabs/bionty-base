@@ -2,9 +2,8 @@ from __future__ import annotations
 
 import os
 import re
-from collections import namedtuple
 from functools import cached_property
-from typing import Dict, Iterable, List, Optional, Tuple, Union
+from typing import Dict, Iterable, List, Optional, Union
 
 import pandas as pd
 from lamin_logger import logger
@@ -12,6 +11,7 @@ from pandas import DataFrame
 
 from bionty._md5 import verify_md5
 
+from ._lookup import Lookup
 from ._ontology import Ontology
 from ._settings import check_datasetdir_exists, check_dynamicdir_exists, settings
 from .dev._fix_index import (
@@ -321,7 +321,7 @@ class Bionty:
         else:
             return df
 
-    def lookup(self, field: str = "name") -> Tuple:
+    def lookup(self, field: Union[BiontyField, str] = "name") -> Lookup:
         """Return an auto-complete object for the bionty field.
 
         Args:
@@ -334,47 +334,25 @@ class Bionty:
         Examples:
             >>> import bionty as bt
             >>> gene_bionty_lookup = bt.Gene().lookup()
-            >>> gene_bionty_lookup.TEF
+            >>> gene_bionty_lookup['ADGB-DT']
         """
+        df = self.df()
+        if df.index.name is not None:
+            df = df.reset_index()
 
-        def to_lookup_keys(lst: List) -> List:
-            """Convert a list of strings to tab-completion allowed formats."""
-            lookup = [re.sub("[^0-9a-zA-Z]+", "_", str(val)) for val in lst]
-            for i, value in enumerate(lookup):
-                if value == "" or (not value[0].isalpha()):
-                    lookup[i] = f"{self.__class__.__name__}_{value}"
-            return lookup
-
-        def uniquefy_duplicates(lst: Iterable) -> List:
-            """Uniquefy duplicated values in a list."""
-            df = pd.DataFrame(lst)
-            duplicated = df[df[0].duplicated(keep=False)]
-            df.loc[duplicated.index, 0] = (
-                duplicated[0] + "__" + duplicated.groupby(0).cumcount().astype(str)
-            )
-            return list(df[0].values)
-
-        def namedtuple_from_df(df: pd.DataFrame, name: Optional[str] = None) -> tuple:
-            """Create a namedtuple from a DataFrame to enable autocompletion."""
-            if name is None:
-                name = self._entity
-
-            nt = namedtuple(name, df.index)  # type:ignore
-            return nt(
-                **{
-                    df.index[i]: row
-                    for i, row in enumerate(df.itertuples(name=name, index=False))
-                }
-            )
-
-        df = self.df().reset_index()
-        if field not in df:
+        field = str(field)
+        if field not in df.columns:
             raise AssertionError(f"No {field} column exists!")
 
-        # uniquefy lookup keys
-        df.index = uniquefy_duplicates(to_lookup_keys(df[field].values))
+        # This implementation only returns the last row if multiple rows
+        # match the same field value i
+        df_dict = {}
+        for i, row in enumerate(
+            df.itertuples(index=False, name=self.__class__.__name__)
+        ):
+            df_dict[df[field][i]] = row
 
-        return namedtuple_from_df(df)
+        return Lookup(df_dict)
 
     def inspect(
         self, identifiers: Iterable, field: BiontyField, return_df: bool = False

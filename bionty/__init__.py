@@ -53,7 +53,7 @@ Dev API:
    :toctree: .
 
    dev
-
+   Lookup
 """
 
 __version__ = "0.20.0"  # denote release candidate for 0.1.0 with 0.1rc1
@@ -84,6 +84,7 @@ from .entities._readout import Readout
 from ._normalize import NormalizeColumns
 from ._bionty import Bionty
 from ._ontology import Ontology
+from ._lookup import Lookup
 from ._display_sources import display_currently_used_sources, display_available_sources
 
 # sources
