@@ -412,7 +412,7 @@ class Bionty:
         Examples:
             >>> import bionty as bt
             >>> celltype_bionty = bt.CellType()
-            >>> celltype_bionty.inspect(["Boettcher cell", "bone marrow cell"], field=ct.name)
+            >>> celltype_bionty.inspect(["Boettcher cell", "bone marrow cell"], field=celltype_bionty.name)
         """
         mapped_df = pd.DataFrame(index=identifiers)
 
