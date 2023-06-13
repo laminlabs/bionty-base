@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+:bug: Fix filtering & remove bioregistry & refactoring | [430](https://github.com/laminlabs/bionty/pull/430) | [Zethson](https://github.com/Zethson) | 2023-06-13 |
 🐛 Fixed index bug in fuzzy_match | [429](https://github.com/laminlabs/bionty/pull/429) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-12 | 0.20.0
 🔊 Improved inspect logging | [428](https://github.com/laminlabs/bionty/pull/428) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-12 |
 ♻️ Removed curate, updated inspect guide <span class="badge badge-warning">Breaking</span> | [419](https://github.com/laminlabs/bionty/pull/419) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-12 |
