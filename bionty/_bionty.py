@@ -84,14 +84,17 @@ class Bionty:
                 pass
 
     def __repr__(self) -> str:
+        # fmt: off
         representation = (
-            f"{self.__class__.__name__}\nSpecies: {self.species}\nSource:"
-            f" {self.source}, {self.version}\n\n📖 {self.__class__.__name__}.df():"
-            f" ontology reference table\n🔎 {self.__class__.__name__}.lookup():"
-            " autocompletion of ontology terms\n🎯"
-            f" {self.__class__.__name__}.fuzzy_match(): fuzzy match against ontology"
-            f" terms\n🔗 {self.__class__.__name__}.ontology: Pronto.Ontology object"
+            f"{self.__class__.__name__}\n"
+            f"Species: {self.species}\n"
+            f"Source: {self.source}, {self.version}\n\n"
+            f"📖 {self.__class__.__name__}.df(): ontology reference table\n"
+            f"🔎 {self.__class__.__name__}.lookup(): autocompletion of ontology terms\n"
+            f"🎯 {self.__class__.__name__}.fuzzy_match(): fuzzy match against ontology terms\n"
+            f"🔗 {self.__class__.__name__}.ontology: Pronto.Ontology object"
         )
+        # fmt: on
         if self._source is not None:
             return representation
         else:
