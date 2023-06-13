@@ -21,7 +21,6 @@ dependencies = [
     "pyarrow",
     "botocore",
     "rich",
-    "bioregistry",
     "filelock",
     "rapidfuzz",
 ]
