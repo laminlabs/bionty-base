@@ -32,4 +32,4 @@ class BFXPipeline(Bionty):
 
         df = pd.DataFrame(data).transpose()
 
-        return df.reset_index().set_index("id")
+        return df.reset_index()

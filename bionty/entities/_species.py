@@ -43,4 +43,4 @@ class Species(Bionty):
         df["name"] = df["name"].str.lower()
         df.insert(0, "id", "NCBI_" + df["taxon_id"].astype(str))
 
-        return df.set_index("name")
+        return df
