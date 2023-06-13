@@ -15,7 +15,7 @@ CURRENT_SOURCES = ROOT / ".current_sources.yaml"
 LAMINDB_SOURCES = ROOT / ".lamindb_current_sources.yaml"
 
 # Visible to the users and can be modified
-LOCAL_SOURCES = settings.versionsdir / "sources.local.yaml"
+LOCAL_SOURCES = settings.versionsdir / "sources_local.yaml"
 
 LAMINDB_INSTANCE_LOADED = (Path.home() / ".lamin/current_instance.env").exists()
 
@@ -152,7 +152,10 @@ def records_diff_btw_yamls(
     """Records in yaml1 but not yaml2."""
     public_df_records = parse_sources_yaml(yamlpath1).to_dict(orient="records")
     local_df_records = parse_sources_yaml(yamlpath2).to_dict(orient="records")
-    additional_records = [i for i in public_df_records if i not in local_df_records]
+    additional_records = [
+        record for record in public_df_records if record not in local_df_records
+    ]
+
     return additional_records
 
 

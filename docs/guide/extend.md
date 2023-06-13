@@ -14,7 +14,7 @@ For use cases where Bionty is run standalone, we kindly ask users to be patience
 
 ## New ontologies
 
-The easiest way to add new ontologies to existing entities is to adapt the `sources.local.yaml` file in the `$home/.lamin/bionty/sources` directory.
+The easiest way to add new ontologies to existing entities is to adapt the `sources_local.yaml` file in the `$home/.lamin/bionty/sources` directory.
 For example, to add a new disease ontology (termed "inhouse_diseases") with an associated version and URL, one adds the following lines to the `sources.local.yaml`.
 
 ```yaml
@@ -69,7 +69,7 @@ If desired, the new ontology can be set as default. See {doc}`./config` for more
 
 ## New entites
 
-Adding new entities to Bionty requires subclassing the {class}`bionty.Bionty` and modifying the `sources.local.yaml` file.
+Adding new entities to Bionty requires subclassing the {class}`bionty.Bionty` and modifying the `sources_local.yaml` file.
 
 The {class}`bionty.Bionty` requires several properties to be defined:
 
