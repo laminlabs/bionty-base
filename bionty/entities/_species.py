@@ -44,3 +44,15 @@ class Species(Bionty):
         df.insert(0, "id", "NCBI_" + df["taxon_id"].astype(str))
 
         return df
+
+    def df(self) -> pd.DataFrame:
+        """Pandas DataFrame of the ontology.
+
+        Returns:
+            A Pandas DataFrame of the ontology.
+
+        Examples:
+            >>> import bionty as bt
+            >>> bt.Species().df()
+        """
+        return self._df.set_index("name")

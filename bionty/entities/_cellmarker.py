@@ -37,3 +37,15 @@ class CellMarker(Bionty):
         df = pd.read_parquet(localpath)
 
         return df
+
+    def df(self) -> pd.DataFrame:
+        """Pandas DataFrame of the ontology.
+
+        Returns:
+            A Pandas DataFrame of the ontology.
+
+        Examples:
+            >>> import bionty as bt
+            >>> bt.CellMarker().df()
+        """
+        return self._df.set_index("name")

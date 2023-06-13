@@ -33,3 +33,15 @@ class BFXPipeline(Bionty):
         df = pd.DataFrame(data).transpose()
 
         return df.reset_index()
+
+    def df(self) -> pd.DataFrame:
+        """Pandas DataFrame of the ontology.
+
+        Returns:
+            A Pandas DataFrame of the ontology.
+
+        Examples:
+            >>> import bionty as bt
+            >>> bt.BFXPipeline().df()
+        """
+        return self._df.set_index("id")
