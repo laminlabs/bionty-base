@@ -67,18 +67,14 @@ class Bionty:
         self.include_id_prefixes = include_id_prefixes
 
         # df is only read into memory at the init to improve performance
-        self._df = None
-        df = self.df()
-        if df.index.name is not None:
-            # To also include the index fields
-            df = df.reset_index()
-        for col_name in df.columns:
+        self._load_df()
+        # self._df has no index
+        for col_name in self._df.columns:
             try:
                 setattr(self, col_name, BiontyField(self, col_name))
             # Some fields of an ontology (e.g. Gene) are not Bionty class attributes and must be skipped.
             except AttributeError:
                 pass
-        self._df = df
 
     def __repr__(self) -> str:
         # fmt: off
@@ -268,6 +264,26 @@ class Bionty:
 
         return df
 
+    def _load_df(self) -> None:
+        # Download and sync from s3://bionty-assets
+        s3_bionty_assets(
+            filename=self._parquet_filename,
+            assets_base_url="s3://bionty-assets",
+            localpath=self._local_parquet_path,
+        )
+        # If download is not possible, write a parquet file from ontology
+        if not self._local_parquet_path.exists():
+            # write df to parquet file
+            df = self._ontology_to_df(self.ontology)
+            df.to_parquet(self._local_parquet_path)
+
+        # loads the df and reset index
+        df = pd.read_parquet(self._local_parquet_path)
+        if df.index.name is not None:
+            df = df.reset_index()
+        # sets self._df
+        self._df: pd.DataFrame = df
+
     @check_dynamicdir_exists
     def _url_download(self, url: str) -> str:
         """Download file from url to dynamicdir _local_ontology_path."""
@@ -317,25 +333,8 @@ class Bionty:
             >>> import bionty as bt
             >>> bt.Gene().df()
         """
-        if self._df is None:
-            # Download and sync from s3://bionty-assets
-            s3_bionty_assets(
-                filename=self._parquet_filename,
-                assets_base_url="s3://bionty-assets",
-                localpath=self._local_parquet_path,
-            )
-            # If download is not possible, write a parquet file from ontology
-            if not self._local_parquet_path.exists():
-                # write df to parquet file
-                df = self._ontology_to_df(self.ontology)
-                df.to_parquet(self._local_parquet_path)
-
-            # loads the df and set index
-            df = pd.read_parquet(self._local_parquet_path).reset_index()
-            if "ontology_id" in df.columns:
-                return df.set_index("ontology_id")
-            else:
-                return df
+        if "ontology_id" in self._df.columns:
+            return self._df.set_index("ontology_id")
         else:
             return self._df
 
@@ -354,7 +353,7 @@ class Bionty:
             >>> gene_bionty_lookup = bt.Gene().lookup()
             >>> gene_bionty_lookup['ADGB-DT']
         """
-        df = self.df()
+        df = self._df
 
         field = str(field)
         if field not in df.columns:
@@ -407,7 +406,7 @@ class Bionty:
         except Exception:
             pass
 
-        matches = check_if_index_compliant(mapped_df.index, self.df()[str(field)])
+        matches = check_if_index_compliant(mapped_df.index, self._df[str(field)])
 
         # annotated what complies with the default ID
         mapped_df["__mapped__"] = matches
@@ -470,7 +469,7 @@ class Bionty:
         """
         field_str, synonyms_field_str = str(field), str(synonyms_field)
 
-        df = self.df()
+        df = self._df
         if field_str not in df.columns:
             raise KeyError(
                 f"field '{field_str}' is invalid! Available fields are:"
@@ -536,7 +535,7 @@ class Bionty:
                 processor = utils.default_process
             return iterable.apply(lambda x: fuzz.ratio(string, x, processor=processor))
 
-        df = self.df()
+        df = self._df
         field_str = str(field)
         synonyms_field_str = str(synonyms_field)
 
