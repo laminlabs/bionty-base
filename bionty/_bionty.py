@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import os
-import re
 from functools import cached_property
 from typing import Dict, Iterable, List, Optional, Set, Union
 
@@ -65,16 +64,13 @@ class Bionty:
             return
 
         self._set_file_paths()
-
-        def _camel_to_snake(string: str) -> str:
-            return re.sub(r"(?<!^)(?=[A-Z])", "_", string).lower()
-
-        self._entity = _camel_to_snake(self.__class__.__name__)
         self.include_id_prefixes = include_id_prefixes
 
-        # To also include the index field
+        # df is only read into memory at the init to improve performance
+        self._df = None
         df = self.df()
         if df.index.name is not None:
+            # To also include the index fields
             df = df.reset_index()
         for col_name in df.columns:
             try:
@@ -82,6 +78,7 @@ class Bionty:
             # Some fields of an ontology (e.g. Gene) are not Bionty class attributes and must be skipped.
             except AttributeError:
                 pass
+        self._df = df
 
     def __repr__(self) -> str:
         # fmt: off
@@ -92,6 +89,8 @@ class Bionty:
             f"📖 {self.__class__.__name__}.df(): ontology reference table\n"
             f"🔎 {self.__class__.__name__}.lookup(): autocompletion of ontology terms\n"
             f"🎯 {self.__class__.__name__}.fuzzy_match(): fuzzy match against ontology terms\n"
+            f"🧐 {self.__class__.__name__}.inspect(): check if identifiers are mappable\n"
+            f"👽 {self.__class__.__name__}.map_synonyms(): map synonyms to standardized names\n"
             f"🔗 {self.__class__.__name__}.ontology: Pronto.Ontology object"
         )
         # fmt: on
@@ -318,24 +317,27 @@ class Bionty:
             >>> import bionty as bt
             >>> bt.Gene().df()
         """
-        # Download and sync from s3://bionty-assets
-        s3_bionty_assets(
-            filename=self._parquet_filename,
-            assets_base_url="s3://bionty-assets",
-            localpath=self._local_parquet_path,
-        )
-        # If download is not possible, write a parquet file from ontology
-        if not self._local_parquet_path.exists():
-            # write df to parquet file
-            df = self._ontology_to_df(self.ontology)
-            df.to_parquet(self._local_parquet_path)
+        if self._df is None:
+            # Download and sync from s3://bionty-assets
+            s3_bionty_assets(
+                filename=self._parquet_filename,
+                assets_base_url="s3://bionty-assets",
+                localpath=self._local_parquet_path,
+            )
+            # If download is not possible, write a parquet file from ontology
+            if not self._local_parquet_path.exists():
+                # write df to parquet file
+                df = self._ontology_to_df(self.ontology)
+                df.to_parquet(self._local_parquet_path)
 
-        # loads the df and set index
-        df = pd.read_parquet(self._local_parquet_path).reset_index()
-        if "ontology_id" in df.columns:
-            return df.set_index("ontology_id")
+            # loads the df and set index
+            df = pd.read_parquet(self._local_parquet_path).reset_index()
+            if "ontology_id" in df.columns:
+                return df.set_index("ontology_id")
+            else:
+                return df
         else:
-            return df
+            return self._df
 
     def lookup(self, field: Union[BiontyField, str] = "name") -> Lookup:
         """Return an auto-complete object for the bionty field.
@@ -353,8 +355,6 @@ class Bionty:
             >>> gene_bionty_lookup['ADGB-DT']
         """
         df = self.df()
-        if df.index.name is not None:
-            df = df.reset_index()
 
         field = str(field)
         if field not in df.columns:
@@ -407,9 +407,7 @@ class Bionty:
         except Exception:
             pass
 
-        matches = check_if_index_compliant(
-            mapped_df.index, self.df().reset_index()[str(field)]
-        )
+        matches = check_if_index_compliant(mapped_df.index, self.df()[str(field)])
 
         # annotated what complies with the default ID
         mapped_df["__mapped__"] = matches
@@ -472,7 +470,7 @@ class Bionty:
         """
         field_str, synonyms_field_str = str(field), str(synonyms_field)
 
-        df = self.df().reset_index()
+        df = self.df()
         if field_str not in df.columns:
             raise KeyError(
                 f"field '{field_str}' is invalid! Available fields are:"
@@ -506,11 +504,11 @@ class Bionty:
     def fuzzy_match(
         self,
         string: str,
-        field: BiontyField,
+        field: Union[BiontyField, str] = "name",
         synonyms_field: Union[BiontyField, str, None] = "synonyms",
         case_sensitive: bool = True,
         return_ranked_results: bool = False,
-    ) -> str:
+    ) -> pd.DataFrame:
         """Fuzzy matching of a given string against a Bionty field.
 
         Args:
@@ -526,7 +524,7 @@ class Bionty:
         Examples:
             >>> import bionty as bt
             >>> celltype_bionty = bt.CellType()
-            >>> celltype_bionty.fuzzy_match("gamma delta T cell", celltype_bionty.name)
+            >>> celltype_bionty.fuzzy_match("gamma delta T cell")
         """
 
         def _fuzz_ratio(string: str, iterable: pd.Series, case_sensitive: bool = True):
@@ -538,7 +536,7 @@ class Bionty:
                 processor = utils.default_process
             return iterable.apply(lambda x: fuzz.ratio(string, x, processor=processor))
 
-        df = self.df().reset_index()
+        df = self.df()
         field_str = str(field)
         synonyms_field_str = str(synonyms_field)
 
