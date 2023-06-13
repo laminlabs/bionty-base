@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 import re
 from functools import cached_property
-from typing import Dict, Iterable, List, Optional, Union
+from typing import Dict, Iterable, List, Optional, Set, Union
 
 import pandas as pd
 from lamin_logger import logger
@@ -84,14 +84,17 @@ class Bionty:
                 pass
 
     def __repr__(self) -> str:
+        # fmt: off
         representation = (
             f"{self.__class__.__name__}\n"
             f"Species: {self.species}\n"
             f"Source: {self.source}, {self.version}\n\n"
             f"📖 {self.__class__.__name__}.df(): ontology reference table\n"
             f"🔎 {self.__class__.__name__}.lookup(): autocompletion of ontology terms\n"
+            f"🎯 {self.__class__.__name__}.fuzzy_match(): fuzzy match against ontology terms\n"
             f"🔗 {self.__class__.__name__}.ontology: Pronto.Ontology object"
         )
+        # fmt: on
         if self._source is not None:
             return representation
         else:
@@ -111,6 +114,19 @@ class Bionty:
     def version(self):
         """The `name` of `version` entity Bionty."""
         return self._version
+
+    @property
+    def fields(self) -> Set:
+        """All Bionty entity fields."""
+        blacklist = {"include_id_prefixes"}
+        fields = set(
+            [
+                field
+                for field in vars(self)
+                if not callable(getattr(self, field)) and not field.startswith("_")
+            ]
+        )
+        return fields - blacklist
 
     @cached_property
     def ontology(self) -> Ontology:  # type:ignore
