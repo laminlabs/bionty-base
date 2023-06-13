@@ -1,10 +1,8 @@
 from __future__ import annotations
 
 import os
-import re
-from collections import namedtuple
 from functools import cached_property
-from typing import Dict, Iterable, List, Optional, Set, Tuple, Union
+from typing import Dict, Iterable, List, Optional, Set, Union
 
 import pandas as pd
 from lamin_logger import logger
@@ -12,6 +10,7 @@ from pandas import DataFrame
 
 from bionty._md5 import verify_md5
 
+from ._lookup import Lookup
 from ._ontology import Ontology
 from ._settings import check_datasetdir_exists, check_dynamicdir_exists, settings
 from .dev._fix_index import (
@@ -48,7 +47,7 @@ class Bionty:
         # only currently_used sources are allowed inside lamindb instances
         default_sources = list(self._default_sources.itertuples(index=False, name=None))
         if (
-            LAMINDB_INSTANCE_LOADED
+            LAMINDB_INSTANCE_LOADED()
             and (self.species, self.source, self.version) not in default_sources
         ):
             logger.error(
@@ -65,18 +64,12 @@ class Bionty:
             return
 
         self._set_file_paths()
-
-        def _camel_to_snake(string: str) -> str:
-            return re.sub(r"(?<!^)(?=[A-Z])", "_", string).lower()
-
-        self._entity = _camel_to_snake(self.__class__.__name__)
         self.include_id_prefixes = include_id_prefixes
 
-        # To also include the index field
-        df = self.df()
-        if df.index.name is not None:
-            df = df.reset_index()
-        for col_name in df.columns:
+        # df is only read into memory at the init to improve performance
+        self._df: pd.DataFrame = self._load_df()
+        # self._df has no index
+        for col_name in self._df.columns:
             try:
                 setattr(self, col_name, BiontyField(self, col_name))
             # Some fields of an ontology (e.g. Gene) are not Bionty class attributes and must be skipped.
@@ -92,6 +85,8 @@ class Bionty:
             f"📖 {self.__class__.__name__}.df(): ontology reference table\n"
             f"🔎 {self.__class__.__name__}.lookup(): autocompletion of ontology terms\n"
             f"🎯 {self.__class__.__name__}.fuzzy_match(): fuzzy match against ontology terms\n"
+            f"🧐 {self.__class__.__name__}.inspect(): check if identifiers are mappable\n"
+            f"👽 {self.__class__.__name__}.map_synonyms(): map synonyms to standardized names\n"
             f"🔗 {self.__class__.__name__}.ontology: Pronto.Ontology object"
         )
         # fmt: on
@@ -269,6 +264,25 @@ class Bionty:
 
         return df
 
+    def _load_df(self) -> pd.DataFrame:
+        # Download and sync from s3://bionty-assets
+        s3_bionty_assets(
+            filename=self._parquet_filename,
+            assets_base_url="s3://bionty-assets",
+            localpath=self._local_parquet_path,
+        )
+        # If download is not possible, write a parquet file from ontology
+        if not self._local_parquet_path.exists():
+            # write df to parquet file
+            df = self._ontology_to_df(self.ontology)
+            df.to_parquet(self._local_parquet_path)
+
+        # loads the df and reset index
+        df = pd.read_parquet(self._local_parquet_path)
+        if df.index.name is not None:
+            df = df.reset_index()
+        return df
+
     @check_dynamicdir_exists
     def _url_download(self, url: str) -> str:
         """Download file from url to dynamicdir _local_ontology_path."""
@@ -318,26 +332,12 @@ class Bionty:
             >>> import bionty as bt
             >>> bt.Gene().df()
         """
-        # Download and sync from s3://bionty-assets
-        s3_bionty_assets(
-            filename=self._parquet_filename,
-            assets_base_url="s3://bionty-assets",
-            localpath=self._local_parquet_path,
-        )
-        # If download is not possible, write a parquet file from ontology
-        if not self._local_parquet_path.exists():
-            # write df to parquet file
-            df = self._ontology_to_df(self.ontology)
-            df.to_parquet(self._local_parquet_path)
-
-        # loads the df and set index
-        df = pd.read_parquet(self._local_parquet_path).reset_index()
-        if "ontology_id" in df.columns:
-            return df.set_index("ontology_id")
+        if "ontology_id" in self._df.columns:
+            return self._df.set_index("ontology_id")
         else:
-            return df
+            return self._df
 
-    def lookup(self, field: str = "name") -> Tuple:
+    def lookup(self, field: Union[BiontyField, str] = "name") -> Lookup:
         """Return an auto-complete object for the bionty field.
 
         Args:
@@ -350,47 +350,23 @@ class Bionty:
         Examples:
             >>> import bionty as bt
             >>> gene_bionty_lookup = bt.Gene().lookup()
-            >>> gene_bionty_lookup.TEF
+            >>> gene_bionty_lookup['ADGB-DT']
         """
+        df = self._df
 
-        def to_lookup_keys(lst: List) -> List:
-            """Convert a list of strings to tab-completion allowed formats."""
-            lookup = [re.sub("[^0-9a-zA-Z]+", "_", str(val)) for val in lst]
-            for i, value in enumerate(lookup):
-                if value == "" or (not value[0].isalpha()):
-                    lookup[i] = f"{self.__class__.__name__}_{value}"
-            return lookup
-
-        def uniquefy_duplicates(lst: Iterable) -> List:
-            """Uniquefy duplicated values in a list."""
-            df = pd.DataFrame(lst)
-            duplicated = df[df[0].duplicated(keep=False)]
-            df.loc[duplicated.index, 0] = (
-                duplicated[0] + "__" + duplicated.groupby(0).cumcount().astype(str)
-            )
-            return list(df[0].values)
-
-        def namedtuple_from_df(df: pd.DataFrame, name: Optional[str] = None) -> tuple:
-            """Create a namedtuple from a DataFrame to enable autocompletion."""
-            if name is None:
-                name = self._entity
-
-            nt = namedtuple(name, df.index)  # type:ignore
-            return nt(
-                **{
-                    df.index[i]: row
-                    for i, row in enumerate(df.itertuples(name=name, index=False))
-                }
-            )
-
-        df = self.df().reset_index()
-        if field not in df:
+        field = str(field)
+        if field not in df.columns:
             raise AssertionError(f"No {field} column exists!")
 
-        # uniquefy lookup keys
-        df.index = uniquefy_duplicates(to_lookup_keys(df[field].values))
+        # This implementation only returns the last row if multiple rows
+        # match the same field value i
+        df_dict = {}
+        for i, row in enumerate(
+            df.itertuples(index=False, name=self.__class__.__name__)
+        ):
+            df_dict[df[field][i]] = row
 
-        return namedtuple_from_df(df)
+        return Lookup(df_dict)
 
     def inspect(
         self, identifiers: Iterable, field: BiontyField, return_df: bool = False
@@ -429,9 +405,7 @@ class Bionty:
         except Exception:
             pass
 
-        matches = check_if_index_compliant(
-            mapped_df.index, self.df().reset_index()[str(field)]
-        )
+        matches = check_if_index_compliant(mapped_df.index, self._df[str(field)])
 
         # annotated what complies with the default ID
         mapped_df["__mapped__"] = matches
@@ -494,7 +468,7 @@ class Bionty:
         """
         field_str, synonyms_field_str = str(field), str(synonyms_field)
 
-        df = self.df().reset_index()
+        df = self._df
         if field_str not in df.columns:
             raise KeyError(
                 f"field '{field_str}' is invalid! Available fields are:"
@@ -528,11 +502,11 @@ class Bionty:
     def fuzzy_match(
         self,
         string: str,
-        field: BiontyField,
+        field: Union[BiontyField, str] = "name",
         synonyms_field: Union[BiontyField, str, None] = "synonyms",
         case_sensitive: bool = True,
         return_ranked_results: bool = False,
-    ) -> str:
+    ) -> pd.DataFrame:
         """Fuzzy matching of a given string against a Bionty field.
 
         Args:
@@ -548,7 +522,7 @@ class Bionty:
         Examples:
             >>> import bionty as bt
             >>> celltype_bionty = bt.CellType()
-            >>> celltype_bionty.fuzzy_match("gamma delta T cell", celltype_bionty.name)
+            >>> celltype_bionty.fuzzy_match("gamma delta T cell")
         """
 
         def _fuzz_ratio(string: str, iterable: pd.Series, case_sensitive: bool = True):
@@ -560,7 +534,7 @@ class Bionty:
                 processor = utils.default_process
             return iterable.apply(lambda x: fuzz.ratio(string, x, processor=processor))
 
-        df = self.df().reset_index()
+        df = self._df
         field_str = str(field)
         synonyms_field_str = str(synonyms_field)
 

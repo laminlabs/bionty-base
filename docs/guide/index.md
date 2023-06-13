@@ -10,7 +10,7 @@
 lookup
 ontology
 inspect
-config
+sources
 extend
 concepts
 ```

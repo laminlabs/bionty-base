@@ -17,7 +17,9 @@ LAMINDB_SOURCES = ROOT / ".lamindb_current_sources.yaml"
 # Visible to the users and can be modified
 LOCAL_SOURCES = settings.versionsdir / "sources_local.yaml"
 
-LAMINDB_INSTANCE_LOADED = (Path.home() / ".lamin/current_instance.env").exists()
+
+def LAMINDB_INSTANCE_LOADED():
+    return (Path.home() / ".lamin/current_instance.env").exists()
 
 
 def reset_sources(confirm: bool = False):

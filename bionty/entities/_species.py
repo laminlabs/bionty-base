@@ -27,11 +27,7 @@ class Species(Bionty):
     ):
         super().__init__(source=source, version=version, **kwargs)
 
-    def df(self) -> pd.DataFrame:
-        """DataFrame.
-
-        See ingestion: https://lamin.ai/docs/bionty-assets/ingest/ensembl-species
-        """
+    def _load_df(self) -> pd.DataFrame:
         url = f"https://ftp.ensembl.org/pub/{self._version}/species_EnsemblVertebrates.txt"  # noqa
         self._filepath = self._url_download(url)
 
@@ -47,4 +43,16 @@ class Species(Bionty):
         df["name"] = df["name"].str.lower()
         df.insert(0, "id", "NCBI_" + df["taxon_id"].astype(str))
 
-        return df.set_index("name")
+        return df
+
+    def df(self) -> pd.DataFrame:
+        """Pandas DataFrame of the ontology.
+
+        Returns:
+            A Pandas DataFrame of the ontology.
+
+        Examples:
+            >>> import bionty as bt
+            >>> bt.Species().df()
+        """
+        return self._df.set_index("name")

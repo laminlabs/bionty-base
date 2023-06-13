@@ -33,7 +33,9 @@ def display_currently_used_sources() -> pd.DataFrame:
     """
     from .dev._handle_sources import CURRENT_SOURCES, LAMINDB_SOURCES
 
-    VERSIONS_FILE_PATH = LAMINDB_SOURCES if LAMINDB_INSTANCE_LOADED else CURRENT_SOURCES
+    VERSIONS_FILE_PATH = (
+        LAMINDB_SOURCES if LAMINDB_INSTANCE_LOADED() else CURRENT_SOURCES
+    )
 
     versions = load_yaml(VERSIONS_FILE_PATH.resolve())
 
