@@ -48,7 +48,7 @@ class Bionty:
         # only currently_used sources are allowed inside lamindb instances
         default_sources = list(self._default_sources.itertuples(index=False, name=None))
         if (
-            LAMINDB_INSTANCE_LOADED
+            LAMINDB_INSTANCE_LOADED()
             and (self.species, self.source, self.version) not in default_sources
         ):
             logger.error(
