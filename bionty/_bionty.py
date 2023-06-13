@@ -4,9 +4,8 @@ import os
 import re
 from collections import namedtuple
 from functools import cached_property
-from typing import Dict, Iterable, List, Optional, Union
+from typing import Dict, Iterable, List, Optional, Tuple, Union
 
-import bioregistry as br
 import pandas as pd
 from lamin_logger import logger
 from pandas import DataFrame
@@ -36,14 +35,8 @@ class Bionty:
         species: Optional[str] = None,
         *,
         include_id_prefixes: Optional[Dict[str, List[str]]] = None,
-        include_name_prefixes: Optional[Dict[str, List[str]]] = None,
-        exclude_id_prefixes: Optional[Dict[str, List[str]]] = None,
-        exclude_name_prefixes: Optional[Dict[str, List[str]]] = None,
     ):
         self._fetch_sources()
-        # standardize prefix using bioregistry
-        if source is not None and br.normalize_prefix(source):
-            source = br.normalize_prefix(source)
         # match user input species, source and version with yaml
         self._source_record = self._match_all_sources(
             source=source, version=version, species=species
@@ -68,7 +61,7 @@ class Bionty:
                 f" {self.__class__.__name__} source in"
                 " lnschema_bionty.BiontySource table"
             )
-            self._source = None
+            self._source = None  # type: ignore
             return
 
         self._set_file_paths()
@@ -78,9 +71,6 @@ class Bionty:
 
         self._entity = _camel_to_snake(self.__class__.__name__)
         self.include_id_prefixes = include_id_prefixes
-        self.include_name_prefixes = include_name_prefixes
-        self.exclude_id_prefixes = exclude_id_prefixes
-        self.exclude_name_prefixes = exclude_name_prefixes
 
         # To also include the index field
         df = self.df()
@@ -131,6 +121,177 @@ class Bionty:
         self._download_ontology_file()
         return Ontology(handle=self._local_ontology_path)
 
+    def _fetch_sources(self) -> None:
+        from ._display_sources import (
+            display_available_sources,
+            display_currently_used_sources,
+        )
+
+        def _subset_to_entity(df: pd.DataFrame, key: str):
+            return df.loc[[key]] if isinstance(df.loc[key], pd.Series) else df.loc[key]
+
+        self._default_sources = _subset_to_entity(
+            display_currently_used_sources(), self.__class__.__name__
+        )
+
+        self._all_sources = _subset_to_entity(
+            display_available_sources(), self.__class__.__name__
+        )
+
+    def _match_all_sources(
+        self,
+        source: Optional[str] = None,
+        version: Optional[str] = None,
+        species: Optional[str] = None,
+    ) -> Dict[str, str]:
+        """TODO."""
+        lc = locals()
+
+        # kwargs that are not None
+        kwargs = {
+            k: lc.get(k)
+            for k in ["source", "version", "species"]
+            if lc.get(k) is not None
+        }
+        keys = list(kwargs.keys())
+
+        if (len(kwargs) == 1) or (len(kwargs) == 2):
+            cond = self._all_sources[keys[0]] == kwargs.get(keys[0])
+            if len(kwargs) == 1:
+                row = self._all_sources[cond].head(1)
+            else:
+                # len(kwargs) == 2
+                cond = getattr(cond, "__and__")(
+                    self._all_sources[keys[1]] == kwargs.get(keys[1])
+                )
+                row = self._all_sources[cond].head(1)
+        else:
+            if len(keys) == 0:
+                curr = self._default_sources.head(1).to_dict(orient="records")[0]
+                kwargs = {
+                    k: v
+                    for k, v in curr.items()
+                    if k in ["species", "source", "version"]
+                }
+            row = self._all_sources[
+                (self._all_sources["species"] == kwargs["species"])
+                & (self._all_sources["source"] == kwargs["source"])
+                & (self._all_sources["version"] == kwargs["version"])
+            ].head(1)
+
+        if row.shape[0] == 0:
+            raise ValueError(
+                f"No source is available with {kwargs}\nCheck"
+                " `bionty.display_available_sources()`"
+            )
+        return row.to_dict(orient="records")[0]
+
+    def _download_ontology_file(self) -> None:
+        """Download ontology file to _local_ontology_path."""
+        if not self._local_ontology_path.exists():
+            logger.download(f"Downloading {self.__class__.__name__} ontology file...")
+            try:
+                self._url_download(self._url)
+            finally:
+                # Only verify md5 if it's actually available from the sources.yaml file
+                if len(self._md5) > 0:  # type: ignore
+                    if not verify_md5(self._local_ontology_path, self._md5):  # type: ignore
+                        logger.warning(
+                            f"MD5 sum for {self._local_ontology_path} did not match"
+                            f" {self._md5}! Redownloading..."
+                        )
+                        os.remove(self._local_ontology_path)
+                        self._url_download(self._url)
+
+    def _ontology_to_df(self, ontology: Ontology):
+        """Convert pronto.Ontology to a DataFrame with columns id, name, children."""
+        df_values = []
+        for term in ontology.terms():
+            # skip terms without id or name and obsolete terms
+            if (not term.id) or (not term.name) or term.obsolete:
+                continue
+
+            # term definition text
+            definition = None if term.definition is None else term.definition.title()
+
+            # concatenate synonyms into a string
+            synonyms = "|".join(
+                [i.description for i in term.synonyms if i.scope == "EXACT"]
+            )
+            if len(synonyms) == 0:
+                synonyms = None  # type:ignore
+
+            # get 1st degree children as a list
+            subclasses = [
+                s.id for s in term.subclasses(distance=1, with_self=False).to_set()
+            ]
+
+            df_values.append((term.id, term.name, definition, synonyms, subclasses))
+
+        if self.include_id_prefixes and self.source in list(
+            self.include_id_prefixes.keys()
+        ):
+            flat_include_id_prefixes = {
+                prefix1 for values in self.include_id_prefixes.values() for prefix1 in values  # type: ignore
+            }
+            df_values = list(
+                filter(
+                    lambda val: any(
+                        val[0].startswith(prefix) for prefix in flat_include_id_prefixes
+                    ),
+                    df_values,
+                )
+            )
+
+        df = pd.DataFrame(
+            df_values,
+            columns=["ontology_id", "name", "definition", "synonyms", "children"],
+        ).set_index("ontology_id")
+
+        # needed to avoid erroring in .lookup()
+        df["name"].fillna("", inplace=True)
+
+        return df
+
+    @check_dynamicdir_exists
+    def _url_download(self, url: str) -> str:
+        """Download file from url to dynamicdir _local_ontology_path."""
+        # Try to download from s3://bionty-assets
+        s3_bionty_assets(
+            filename=self._ontology_filename,
+            assets_base_url="s3://bionty-assets",
+            localpath=self._local_ontology_path,
+        )
+
+        # If the file is not available, download from the url
+        if not self._local_ontology_path.exists():
+            logger.download(
+                f"Downloading {self.__class__.__name__} ontology file from: {url}"
+            )
+            url_download(url, self._local_ontology_path)
+
+        return self._local_ontology_path
+
+    @check_datasetdir_exists
+    def _set_file_paths(self) -> None:
+        """Sets version, database and URL attributes for passed database and requested version.
+
+        Args:
+            source: The database to find the URL and version for.
+            version: The requested version of the database.
+        """
+        self._url = self._source_record.get("url")
+        self._md5 = self._source_record.get("md5")
+
+        self._parquet_filename = f"{self.species}_{self.source}_{self.version}_{self.__class__.__name__}_lookup.parquet"  # noqa: E501
+        self._local_parquet_path = (
+            settings.dynamicdir / self._parquet_filename
+        )  # noqa: W503,E501
+        self._ontology_filename = f"{self.species}___{self.source}___{self.version}___{self.__class__.__name__}".replace(
+            " ", "_"
+        )
+        self._local_ontology_path = settings.dynamicdir / self._ontology_filename
+
     def df(self) -> pd.DataFrame:
         """Pandas DataFrame of the ontology.
 
@@ -160,7 +321,7 @@ class Bionty:
         else:
             return df
 
-    def lookup(self, field: str = "name") -> tuple:
+    def lookup(self, field: str = "name") -> Tuple:
         """Return an auto-complete object for the bionty field.
 
         Args:
@@ -176,15 +337,15 @@ class Bionty:
             >>> gene_bionty_lookup.TEF
         """
 
-        def to_lookup_keys(x: list) -> list:
+        def to_lookup_keys(lst: List) -> List:
             """Convert a list of strings to tab-completion allowed formats."""
-            lookup = [re.sub("[^0-9a-zA-Z]+", "_", str(i)) for i in x]
+            lookup = [re.sub("[^0-9a-zA-Z]+", "_", str(val)) for val in lst]
             for i, value in enumerate(lookup):
                 if value == "" or (not value[0].isalpha()):
                     lookup[i] = f"{self.__class__.__name__}_{value}"
             return lookup
 
-        def uniquefy_duplicates(lst: Iterable) -> list:
+        def uniquefy_duplicates(lst: Iterable) -> List:
             """Uniquefy duplicated values in a list."""
             df = pd.DataFrame(lst)
             duplicated = df[df[0].duplicated(keep=False)]
@@ -194,7 +355,7 @@ class Bionty:
             return list(df[0].values)
 
         def namedtuple_from_df(df: pd.DataFrame, name: Optional[str] = None) -> tuple:
-            """Create a namedtuple from a dataframe to allow autocompletion."""
+            """Create a namedtuple from a DataFrame to enable autocompletion."""
             if name is None:
                 name = self._entity
 
@@ -217,7 +378,7 @@ class Bionty:
 
     def inspect(
         self, identifiers: Iterable, field: BiontyField, return_df: bool = False
-    ) -> Union[DataFrame, dict[str, list[str]]]:
+    ) -> Union[DataFrame, Dict[str, List[str]]]:
         """Inspect if a list of identifiers are mappable to the entity reference.
 
         Args:
@@ -239,7 +400,6 @@ class Bionty:
         """
         mapped_df = pd.DataFrame(index=identifiers)
 
-        # check if synonyms are present
         try:
             synonyms_mapper = self.map_synonyms(
                 identifiers=identifiers, field=field, return_mapper=True
@@ -274,7 +434,6 @@ class Bionty:
         frac_unmapped = round(n_unmapped / len(matches) * 100, 1)
         frac_mapped = 100 - frac_unmapped
 
-        # some stats for logging
         if n_empty > 0:
             logger.warning(
                 f"Received {n_unique_terms} unique terms, {n_empty} empty/duplicated"
@@ -358,7 +517,7 @@ class Bionty:
         case_sensitive: bool = True,
         return_ranked_results: bool = False,
     ) -> str:
-        """Fuzzy matching of a given string using RapidFuzz.
+        """Fuzzy matching of a given string against a Bionty field.
 
         Args:
             string: The input string to match against the field ontology values.
@@ -414,193 +573,6 @@ class Bionty:
             return df_scored.sort_values("__ratio__", ascending=False)
         else:
             return df_scored[df_scored["__ratio__"] == df_scored["__ratio__"].max()]
-
-    def _fetch_sources(self) -> None:
-        from ._display_sources import (
-            display_available_sources,
-            display_currently_used_sources,
-        )
-
-        def _subset_to_entity(df: pd.DataFrame, key: str):
-            return df.loc[[key]] if isinstance(df.loc[key], pd.Series) else df.loc[key]
-
-        self._default_sources = _subset_to_entity(
-            display_currently_used_sources(), self.__class__.__name__
-        )
-
-        self._all_sources = _subset_to_entity(
-            display_available_sources(), self.__class__.__name__
-        )
-
-    def _match_all_sources(
-        self,
-        source: Optional[str] = None,
-        version: Optional[str] = None,
-        species: Optional[str] = None,
-    ):
-        all = self._all_sources  # shorten variable
-        lc = locals()
-        # kwargs that are not None
-        kwargs = {
-            k: lc.get(k)
-            for k in ["source", "version", "species"]
-            if lc.get(k) is not None
-        }
-        keys = list(kwargs.keys())
-
-        if (len(kwargs) == 1) or (len(kwargs) == 2):
-            cond = all[keys[0]] == kwargs.get(keys[0])
-            if len(kwargs) == 1:
-                row = all[cond].head(1)
-            else:
-                # len(kwargs) == 2
-                cond = getattr(cond, "__and__")(all[keys[1]] == kwargs.get(keys[1]))
-                row = all[cond].head(1)
-        else:
-            if len(keys) == 0:
-                curr = self._default_sources.head(1).to_dict(orient="records")[0]
-                kwargs = {
-                    k: v
-                    for k, v in curr.items()
-                    if k in ["species", "source", "version"]
-                }
-            row = all[
-                (all["species"] == kwargs["species"])
-                & (all["source"] == kwargs["source"])
-                & (all["version"] == kwargs["version"])
-            ].head(1)
-
-        if row.shape[0] == 0:
-            raise ValueError(
-                f"No source is available with {kwargs}\nCheck"
-                " `bionty.display_available_sources()`"
-            )
-        return row.to_dict(orient="records")[0]
-
-    def _download_ontology_file(self) -> None:
-        """Download ontology file to _local_ontology_path."""
-        if not self._local_ontology_path.exists():
-            logger.download(f"Downloading {self.__class__.__name__} ontology file...")
-            try:
-                self._url_download(self._url)
-            finally:
-                # Only verify md5 if it's actually available from the sources.yaml file
-                if len(self._md5) > 0:
-                    if not verify_md5(self._local_ontology_path, self._md5):
-                        logger.warning(
-                            f"MD5 sum for {self._local_ontology_path} did not match"
-                            f" {self._md5}! Redownloading..."
-                        )
-                        os.remove(self._local_ontology_path)
-                        self._url_download(self._url)
-
-    def _ontology_to_df(self, ontology: Ontology):
-        """Convert pronto.Ontology to a DataFrame with columns id, name, children."""
-        df_values = []
-        for term in ontology.terms():
-            # skip terms without id or name
-            # skip obsolete terms
-            if (not term.id) or (not term.name) or term.obsolete:
-                continue
-
-            # term definition text
-            definition = None if term.definition is None else term.definition.title()
-
-            # concatenate synonyms into a string
-            synonyms = "|".join(
-                [i.description for i in term.synonyms if i.scope == "EXACT"]
-            )
-            if len(synonyms) == 0:
-                synonyms = None  # type:ignore
-
-            # get 1st degree children as a list
-            subclasses = [
-                s.id for s in term.subclasses(distance=1, with_self=False).to_set()
-            ]
-
-            df_values.append((term.id, term.name, definition, synonyms, subclasses))
-
-        def __flatten_prefixes(db_to_prefixes: Optional[Dict[str, List[str]]]) -> set:
-            flat_prefixes = {
-                prefix for values in db_to_prefixes.values() for prefix in values  # type: ignore
-            }
-
-            return flat_prefixes
-
-        prefixes_to_filter: List[str] = []
-        if self.include_id_prefixes and self.source in self.include_id_prefixes.keys():
-            prefixes_to_filter.extend(__flatten_prefixes(self.include_id_prefixes))
-
-        if (
-            self.include_name_prefixes
-            and self.source in self.include_name_prefixes.keys()
-        ):
-            prefixes_to_filter.extend(__flatten_prefixes(self.include_name_prefixes))
-
-        if self.exclude_id_prefixes and self.source in self.exclude_id_prefixes.keys():
-            prefixes_to_filter.extend(__flatten_prefixes(self.exclude_id_prefixes))
-
-        if (
-            self.exclude_name_prefixes
-            and self.source in self.exclude_name_prefixes.keys()
-        ):
-            prefixes_to_filter.extend(__flatten_prefixes(self.exclude_name_prefixes))
-
-        df_values = [
-            val
-            for val in df_values
-            if all(not val[0].startswith(prefix) for prefix in prefixes_to_filter)
-            or all(not val[1].startswith(prefix) for prefix in prefixes_to_filter)
-        ]
-
-        df = pd.DataFrame(
-            df_values,
-            columns=["ontology_id", "name", "definition", "synonyms", "children"],
-        ).set_index("ontology_id")
-
-        # needed to avoid erroring in .lookup()
-        df["name"].fillna("", inplace=True)
-
-        return df
-
-    @check_dynamicdir_exists
-    def _url_download(self, url: str) -> str:
-        """Download file from url to dynamicdir _local_ontology_path."""
-        # Try to download from s3://bionty-assets
-        s3_bionty_assets(
-            filename=self._ontology_filename,
-            assets_base_url="s3://bionty-assets",
-            localpath=self._local_ontology_path,
-        )
-
-        # If the file is not available, download from the url
-        if not self._local_ontology_path.exists():
-            logger.download(
-                f"Downloading {self.__class__.__name__} ontology file from: {url}"
-            )
-            url_download(url, self._local_ontology_path)
-
-        return self._local_ontology_path
-
-    @check_datasetdir_exists
-    def _set_file_paths(self) -> None:
-        """Sets version, database and URL attributes for passed database and requested version.
-
-        Args:
-            source: The database to find the URL and version for.
-            version: The requested version of the database.
-        """
-        self._url = self._source_record.get("url")
-        self._md5 = self._source_record.get("md5")
-
-        self._parquet_filename = f"{self.species}_{self.source}_{self.version}_{self.__class__.__name__}_lookup.parquet"  # noqa: E501
-        self._local_parquet_path = (
-            settings.dynamicdir / self._parquet_filename
-        )  # noqa: W503,E501
-        self._ontology_filename = f"{self.species}___{self.source}___{self.version}___{self.__class__.__name__}".replace(
-            " ", "_"
-        )
-        self._local_ontology_path = settings.dynamicdir / self._ontology_filename
 
 
 class BiontyField:
