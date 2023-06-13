@@ -23,6 +23,7 @@ dependencies = [
     "rich",
     "filelock",
     "rapidfuzz",
+    "requests"
 ]
 
 [project.urls]
