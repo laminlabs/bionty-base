@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+:sparkles: Renamed sources_local | [435](https://github.com/laminlabs/bionty/pull/435) | [Zethson](https://github.com/Zethson) | 2023-06-13 |
 Add fields | [433](https://github.com/laminlabs/bionty/pull/433) | [Zethson](https://github.com/Zethson) | 2023-06-13 |
 :bug: Fix filtering & remove bioregistry & refactoring | [430](https://github.com/laminlabs/bionty/pull/430) | [Zethson](https://github.com/Zethson) | 2023-06-13 |
 🐛 Fixed index bug in fuzzy_match | [429](https://github.com/laminlabs/bionty/pull/429) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-12 | 0.20.0

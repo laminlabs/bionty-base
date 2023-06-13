@@ -10,7 +10,7 @@ Cached sources files are stored at your local `bionty/bionty/_dynamic/` director
 
 ## Local bionty sources
 
-File `$home:/.lamin/bionty/sources.local.yaml` stores all locally available ontologies.
+File `$home:/.lamin/bionty/sources_local.yaml` stores all locally available ontologies.
 
 The content of this file is identical to the public `sources.yaml` for a freshly-installed Bionty.
 
@@ -34,7 +34,7 @@ entity: # Bionty entity class name, e.g. CellType
 
 ## Setting default ontologies and versions
 
-For each entity, the **first source** and its **maximum version** in `sources.local.yaml` is used as default.
+For each entity, the **first source** and its **maximum version** in `sources_local.yaml` is used as default.
 
 To set your own default ontology and version, shift the order of entries.
 
