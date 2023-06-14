@@ -37,7 +37,7 @@ class CellMarker(Bionty):
         df = pd.read_parquet(localpath)
 
         # TODO: remove after updating to new version
-        df = df.drop(columns=["id"], errors="ignore")
+        df = df.drop(columns=["id", "version"], errors="ignore")
 
         return df
 

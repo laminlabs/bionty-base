@@ -53,7 +53,7 @@ class Gene(Bionty):
         df = df[~df["ensembl_gene_id"].isnull()]
 
         # TODO: remove after updating to new version
-        df = df.drop(columns=["id"], errors="ignore")
+        df = df.drop(columns=["id", "version"], errors="ignore")
 
         return df
 
