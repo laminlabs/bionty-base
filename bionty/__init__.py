@@ -84,7 +84,7 @@ from .entities._readout import Readout
 from ._normalize import NormalizeColumns
 from ._bionty import Bionty
 from ._ontology import Ontology
-from ._lookup import Lookup
+from lamin_logger._lookup import Lookup
 from ._display_sources import display_currently_used_sources, display_available_sources
 
 # sources

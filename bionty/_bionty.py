@@ -6,11 +6,11 @@ from typing import Dict, Iterable, List, Optional, Set, Tuple, Union
 
 import pandas as pd
 from lamin_logger import logger
+from lamin_logger._lookup import Lookup
 from pandas import DataFrame
 
 from bionty._md5 import verify_md5
 
-from ._lookup import Lookup
 from ._ontology import Ontology
 from ._settings import check_datasetdir_exists, check_dynamicdir_exists, settings
 from .dev._fix_index import (
