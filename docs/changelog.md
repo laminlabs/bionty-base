@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🚚 Move lookup to logger | [442](https://github.com/laminlabs/bionty/pull/442) | [falexwolf](https://github.com/falexwolf) | 2023-06-14 |
 🧪 Properly test ontology_to_df | [441](https://github.com/laminlabs/bionty/pull/441) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-14 |
 🍱 Drop id, version columns | [440](https://github.com/laminlabs/bionty/pull/440) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-14 |
 ⚰️ Remove dead code | [439](https://github.com/laminlabs/bionty/pull/439) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-14 |
