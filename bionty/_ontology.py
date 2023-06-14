@@ -33,13 +33,6 @@ class Ontology(pronto.Ontology):
             handle=handle, import_depth=import_depth, timeout=timeout, threads=threads
         )
 
-    def write_obo(self):
-        """Write ontology to dynamicdir/{filename}.obo file."""
-        filepath = Path(self.path)
-        filename = filepath.name.replace(".owl", ".obo")
-        with open(filepath.parent / filename, "wb") as f:
-            self.dump(f, format="obo")
-
     def get_term(self, term):
         """Search an ontology by its id."""
         try:
