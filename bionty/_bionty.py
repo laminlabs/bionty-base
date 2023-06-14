@@ -351,7 +351,7 @@ class Bionty:
             >>> import bionty as bt
             >>> lookup = bt.Gene().lookup()
             >>> lookup.adgb_dt
-            >>> lookup_dict = lookup.todict()
+            >>> lookup_dict = lookup.dict()
             >>> lookup['ADGB-DT']
         """
         df = self._df

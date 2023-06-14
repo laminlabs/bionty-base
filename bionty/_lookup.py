@@ -83,12 +83,12 @@ class Lookup:
 
         return lkey_dict
 
-    def todict(self) -> Dict:
+    def dict(self) -> Dict:
         """Dictionary of the lookup."""
         return self._df_dict
 
     def lookup(self) -> Tuple:
         """Lookup records with dot access."""
-        keys: List = list(self._lookup_dict.keys()) + ["todict"]
+        keys: List = list(self._lookup_dict.keys()) + ["dict"]
         MyTuple = namedtuple("Lookup", keys)  # type:ignore
-        return MyTuple(**self._lookup_dict, todict=self.todict)  # type:ignore
+        return MyTuple(**self._lookup_dict, dict=self.dict)  # type:ignore
