@@ -1,9 +1,8 @@
-from typing import Literal, Optional, Union
+from typing import Literal, Optional, Tuple, Union
 
 import pandas as pd
 
 from .._bionty import Bionty, BiontyField
-from .._lookup import Lookup
 from .._normalize import NormalizeColumns
 from ..dev._io import s3_bionty_assets
 from ._shared_docstrings import _doc_params, doc_entites
@@ -55,7 +54,7 @@ class Gene(Bionty):
 
         return df
 
-    def lookup(self, field: Union[BiontyField, str] = "symbol") -> Lookup:
+    def lookup(self, field: Union[BiontyField, str] = "symbol") -> Tuple:
         """Return an auto-complete object for the bionty field.
 
         Args:

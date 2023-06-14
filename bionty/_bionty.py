@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import os
 from functools import cached_property
-from typing import Dict, Iterable, List, Optional, Set, Union
+from typing import Dict, Iterable, List, Optional, Set, Tuple, Union
 
 import pandas as pd
 from lamin_logger import logger
@@ -22,10 +22,7 @@ from .dev._io import s3_bionty_assets, url_download
 
 
 class Bionty:
-    """Biological entity as an Bionty.
-
-    See :doc:`guide/index` for background.
-    """
+    """Bionty base model."""
 
     def __init__(
         self,
@@ -67,8 +64,13 @@ class Bionty:
         self.include_id_prefixes = include_id_prefixes
 
         # df is only read into memory at the init to improve performance
-        self._df: pd.DataFrame = self._load_df()
+        df = self._load_df()
         # self._df has no index
+        if df.index.name is not None:
+            df = df.reset_index()
+        self._df = df
+
+        # set column names/fields as attributes
         for col_name in self._df.columns:
             try:
                 setattr(self, col_name, BiontyField(self, col_name))
@@ -279,8 +281,6 @@ class Bionty:
 
         # loads the df and reset index
         df = pd.read_parquet(self._local_parquet_path)
-        if df.index.name is not None:
-            df = df.reset_index()
         return df
 
     @check_dynamicdir_exists
@@ -337,7 +337,7 @@ class Bionty:
         else:
             return self._df
 
-    def lookup(self, field: Union[BiontyField, str] = "name") -> Lookup:
+    def lookup(self, field: Union[BiontyField, str] = "name") -> Tuple:
         """Return an auto-complete object for the bionty field.
 
         Args:
@@ -349,8 +349,10 @@ class Bionty:
 
         Examples:
             >>> import bionty as bt
-            >>> gene_bionty_lookup = bt.Gene().lookup()
-            >>> gene_bionty_lookup['ADGB-DT']
+            >>> lookup = bt.Gene().lookup()
+            >>> lookup.adgb_dt
+            >>> lookup_dict = lookup.todict()
+            >>> lookup['ADGB-DT']
         """
         df = self._df
 
@@ -358,15 +360,9 @@ class Bionty:
         if field not in df.columns:
             raise AssertionError(f"No {field} column exists!")
 
-        # This implementation only returns the last row if multiple rows
-        # match the same field value i
-        df_dict = {}
-        for i, row in enumerate(
-            df.itertuples(index=False, name=self.__class__.__name__)
-        ):
-            df_dict[df[field][i]] = row
-
-        return Lookup(df_dict)
+        return Lookup(
+            df=df, field=field, tuple_name=self.__class__.__name__, prefix="bt"
+        ).lookup()
 
     def inspect(
         self, identifiers: Iterable, field: BiontyField, return_df: bool = False
