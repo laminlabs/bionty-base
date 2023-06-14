@@ -41,8 +41,13 @@ pip install bionty
 ```python
 import bionty as bt
 
-gene_bionty_lookup = bt.Gene().lookup()
-gene_bionty_lookup.LNMA
+lookup = bt.Readout().lookup()
+# dot access of Pythonic keys
+lookup.single_cell_rna_sequencing
+
+# bracket access of free text dictionary keys
+lookup_dict = lookup.todict()
+lookup_dict["single-cell RNA sequencing"]
 ```
 
 ## Inspect & map identifiers
