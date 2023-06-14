@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🚚 Rename `.todict()` to `.dict()` | [438](https://github.com/laminlabs/bionty/pull/438) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-14 |
 ♻️ Lookup refactor to return multiple records | [436](https://github.com/laminlabs/bionty/pull/436) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-14 |
 :sparkles: Add prettier available_sources output | [437](https://github.com/laminlabs/bionty/pull/437) | [Zethson](https://github.com/Zethson) | 2023-06-14 |
 ♻️ New implementation of lookup | [434](https://github.com/laminlabs/bionty/pull/434) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-13 |
