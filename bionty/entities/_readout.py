@@ -55,8 +55,7 @@ class Readout(Bionty):
         self._download_ontology_file()
         return Ontology(handle=self._local_ontology_path, prefix=self._prefix)
 
-    def df(self) -> pd.DataFrame:
-        """Pandas DataFrame."""
+    def _load_df(self) -> pd.DataFrame:
         # Extra parsing steps for EFO ontology
         if self.source == "efo":
             # Download and sync from s3://bionty-assets
@@ -91,7 +90,7 @@ class Readout(Bionty):
             # loads the df and set index
             return pd.read_parquet(self._local_parquet_path)
         else:
-            return super().df()
+            return super()._load_df()
 
     def _parse(self, term_id: str) -> dict:
         """Parse readout attributes from EFO."""
