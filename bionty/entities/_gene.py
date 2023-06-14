@@ -52,6 +52,9 @@ class Gene(Bionty):
                 df = df.reset_index().copy()
         df = df[~df["ensembl_gene_id"].isnull()]
 
+        # TODO: remove after updating to new version
+        df = df.drop(columns=["id"], errors="ignore")
+
         return df
 
     def lookup(self, field: Union[BiontyField, str] = "symbol") -> Tuple:

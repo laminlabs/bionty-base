@@ -36,6 +36,9 @@ class CellMarker(Bionty):
         localpath = s3_bionty_assets(self._parquet_filename)
         df = pd.read_parquet(localpath)
 
+        # TODO: remove after updating to new version
+        df = df.drop(columns=["id"], errors="ignore")
+
         return df
 
     def df(self) -> pd.DataFrame:

@@ -46,6 +46,9 @@ class Protein(Bionty):
                 df = df.reset_index().copy()
         df = df[~df["uniprotkb_id"].isnull()]
 
+        # TODO: remove after updating to new version
+        df = df.drop(columns=["id"], errors="ignore")
+
         return df
 
 
