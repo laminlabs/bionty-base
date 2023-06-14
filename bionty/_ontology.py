@@ -1,7 +1,8 @@
 import warnings
 from pathlib import Path
-from typing import BinaryIO, Optional, Union
+from typing import BinaryIO, Dict, List, Optional, Union
 
+import pandas as pd
 import pronto
 
 
@@ -40,7 +41,54 @@ class Ontology(pronto.Ontology):
         except KeyError:
             return super().get_term(f"{self._prefix}{term.replace(':', '_')}")
 
-    def _list_subclasses(self, term, distance=1, with_self=False):
-        """Subclasses of a term."""
-        termclass = self.get_term(term)
-        return list(termclass.subclasses(distance=distance, with_self=with_self))
+    def to_df(
+        self,
+        source: Optional[str] = None,
+        include_id_prefixes: Optional[Dict[str, List[str]]] = None,
+    ):
+        """Convert pronto.Ontology to a DataFrame with columns id, name, children."""
+        df_values = []
+        for term in self.terms():
+            # skip terms without id or name and obsolete terms
+            if (not term.id) or (not term.name) or term.obsolete:
+                continue
+
+            # term definition text
+            definition = None if term.definition is None else term.definition.title()
+
+            # concatenate synonyms into a string
+            synonyms = "|".join(
+                [i.description for i in term.synonyms if i.scope == "EXACT"]
+            )
+            if len(synonyms) == 0:
+                synonyms = None  # type:ignore
+
+            # get 1st degree children as a list
+            subclasses = [
+                s.id for s in term.subclasses(distance=1, with_self=False).to_set()
+            ]
+
+            df_values.append((term.id, term.name, definition, synonyms, subclasses))
+
+        if include_id_prefixes and source in list(include_id_prefixes.keys()):
+            flat_include_id_prefixes = {
+                prefix1 for values in include_id_prefixes.values() for prefix1 in values  # type: ignore
+            }
+            df_values = list(
+                filter(
+                    lambda val: any(
+                        val[0].startswith(prefix) for prefix in flat_include_id_prefixes
+                    ),
+                    df_values,
+                )
+            )
+
+        df = pd.DataFrame(
+            df_values,
+            columns=["ontology_id", "name", "definition", "synonyms", "children"],
+        ).set_index("ontology_id")
+
+        # needed to avoid erroring in .lookup()
+        df["name"].fillna("", inplace=True)
+
+        return df

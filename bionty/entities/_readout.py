@@ -67,7 +67,9 @@ class Readout(Bionty):
             # If download is not possible, write a parquet file from ontology
             if not self._local_parquet_path.exists():
                 # write df to parquet file
-                df = self._ontology_to_df(self.ontology).reset_index()
+                df = self.ontology.to_df(
+                    source=self.source, include_id_prefixes=self.include_id_prefixes
+                ).reset_index()
                 # fix ontology_id before saving to parquet
                 df["ontology_id"] = [
                     i.replace(self._prefix, "").replace("_", ":")
@@ -103,21 +105,28 @@ class Readout(Bionty):
             else:
                 return ";".join([i.name for i in lst])
 
+        def _list_subclasses(ontology: Ontology, term, *, distance=1, with_self=False):
+            """Subclasses of a term."""
+            termclass = ontology.get_term(term)
+            return list(termclass.subclasses(distance=distance, with_self=with_self))
+
         term = self.ontology.get_term(term_id)
         superclasses = term.superclasses()
 
         # assay = self.ontology._list_subclasses(self._readout_terms["assay"])
-        assay_by_molecule = self.ontology._list_subclasses(
-            self._readout_terms["assay_by_molecule"]
+        assay_by_molecule = _list_subclasses(
+            self.ontology, self._readout_terms["assay_by_molecule"]
         )
-        assay_by_instrument = self.ontology._list_subclasses(
-            self._readout_terms["assay_by_instrument"]
+        assay_by_instrument = _list_subclasses(
+            self.ontology, self._readout_terms["assay_by_instrument"]
         )
 
-        assay_by_sequencer = self.ontology._list_subclasses(
-            self._readout_terms["assay_by_sequencer"]
+        assay_by_sequencer = _list_subclasses(
+            self.ontology, self._readout_terms["assay_by_sequencer"]
         )
-        measurement = self.ontology._list_subclasses(self._readout_terms["measurement"])
+        measurement = _list_subclasses(
+            self.ontology, self._readout_terms["measurement"]
+        )
 
         # get the molecule term
         molecules = [i for i in assay_by_molecule if i in superclasses]

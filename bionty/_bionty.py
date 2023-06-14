@@ -157,7 +157,7 @@ class Bionty:
         version: Optional[str] = None,
         species: Optional[str] = None,
     ) -> Dict[str, str]:
-        """TODO."""
+        """Match a source record base on passed species, source and version."""
         lc = locals()
 
         # kwargs that are not None
@@ -168,6 +168,7 @@ class Bionty:
         }
         keys = list(kwargs.keys())
 
+        # if 1 or 2 kwargs are specified, find the best match in all sources
         if (len(kwargs) == 1) or (len(kwargs) == 2):
             cond = self._all_sources[keys[0]] == kwargs.get(keys[0])
             if len(kwargs) == 1:
@@ -179,6 +180,7 @@ class Bionty:
                 )
                 row = self._all_sources[cond].head(1)
         else:
+            # if no kwargs are passed, take the currently used source record
             if len(keys) == 0:
                 curr = self._default_sources.head(1).to_dict(orient="records")[0]
                 kwargs = {
@@ -186,12 +188,15 @@ class Bionty:
                     for k, v in curr.items()
                     if k in ["species", "source", "version"]
                 }
+            # if all 3 kwargs are specified, match the record from all sources
+            # do the same for the kwargs that obtained from default source to obtain url
             row = self._all_sources[
                 (self._all_sources["species"] == kwargs["species"])
                 & (self._all_sources["source"] == kwargs["source"])
                 & (self._all_sources["version"] == kwargs["version"])
             ].head(1)
 
+        # if no records matched the passed kwargs, raise error
         if row.shape[0] == 0:
             raise ValueError(
                 f"No source is available with {kwargs}\nCheck"
@@ -216,56 +221,6 @@ class Bionty:
                         os.remove(self._local_ontology_path)
                         self._url_download(self._url)
 
-    def _ontology_to_df(self, ontology: Ontology):
-        """Convert pronto.Ontology to a DataFrame with columns id, name, children."""
-        df_values = []
-        for term in ontology.terms():
-            # skip terms without id or name and obsolete terms
-            if (not term.id) or (not term.name) or term.obsolete:
-                continue
-
-            # term definition text
-            definition = None if term.definition is None else term.definition.title()
-
-            # concatenate synonyms into a string
-            synonyms = "|".join(
-                [i.description for i in term.synonyms if i.scope == "EXACT"]
-            )
-            if len(synonyms) == 0:
-                synonyms = None  # type:ignore
-
-            # get 1st degree children as a list
-            subclasses = [
-                s.id for s in term.subclasses(distance=1, with_self=False).to_set()
-            ]
-
-            df_values.append((term.id, term.name, definition, synonyms, subclasses))
-
-        if self.include_id_prefixes and self.source in list(
-            self.include_id_prefixes.keys()
-        ):
-            flat_include_id_prefixes = {
-                prefix1 for values in self.include_id_prefixes.values() for prefix1 in values  # type: ignore
-            }
-            df_values = list(
-                filter(
-                    lambda val: any(
-                        val[0].startswith(prefix) for prefix in flat_include_id_prefixes
-                    ),
-                    df_values,
-                )
-            )
-
-        df = pd.DataFrame(
-            df_values,
-            columns=["ontology_id", "name", "definition", "synonyms", "children"],
-        ).set_index("ontology_id")
-
-        # needed to avoid erroring in .lookup()
-        df["name"].fillna("", inplace=True)
-
-        return df
-
     def _load_df(self) -> pd.DataFrame:
         # Download and sync from s3://bionty-assets
         s3_bionty_assets(
@@ -276,7 +231,9 @@ class Bionty:
         # If download is not possible, write a parquet file from ontology
         if not self._local_parquet_path.exists():
             # write df to parquet file
-            df = self._ontology_to_df(self.ontology)
+            df = self.ontology.to_df(
+                source=self.source, include_id_prefixes=self.include_id_prefixes
+            )
             df.to_parquet(self._local_parquet_path)
 
         # loads the df and reset index
