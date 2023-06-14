@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+:sparkles: Add prettier available_sources output | [437](https://github.com/laminlabs/bionty/pull/437) | [Zethson](https://github.com/Zethson) | 2023-06-14 |
 ♻️ New implementation of lookup | [434](https://github.com/laminlabs/bionty/pull/434) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-13 |
 :sparkles: Renamed sources_local | [435](https://github.com/laminlabs/bionty/pull/435) | [Zethson](https://github.com/Zethson) | 2023-06-13 |
 Add fields | [433](https://github.com/laminlabs/bionty/pull/433) | [Zethson](https://github.com/Zethson) | 2023-06-13 |

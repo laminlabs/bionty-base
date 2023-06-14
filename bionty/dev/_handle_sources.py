@@ -150,7 +150,7 @@ def create_currently_used_sources_yaml(
 
 def records_diff_btw_yamls(
     yamlpath1: Union[str, Path], yamlpath2: Union[str, Path]
-) -> List:
+) -> List[Dict[str, str]]:
     """Records in yaml1 but not yaml2."""
     public_df_records = parse_sources_yaml(yamlpath1).to_dict(orient="records")
     local_df_records = parse_sources_yaml(yamlpath2).to_dict(orient="records")
