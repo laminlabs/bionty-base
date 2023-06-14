@@ -64,8 +64,13 @@ class Bionty:
         self.include_id_prefixes = include_id_prefixes
 
         # df is only read into memory at the init to improve performance
-        self._df: pd.DataFrame = self._load_df()
+        df = self._load_df()
         # self._df has no index
+        if df.index.name is not None:
+            df = df.reset_index()
+        self._df = df
+
+        # set column names/fields as attributes
         for col_name in self._df.columns:
             try:
                 setattr(self, col_name, BiontyField(self, col_name))
@@ -276,8 +281,6 @@ class Bionty:
 
         # loads the df and reset index
         df = pd.read_parquet(self._local_parquet_path)
-        if df.index.name is not None:
-            df = df.reset_index()
         return df
 
     @check_dynamicdir_exists
