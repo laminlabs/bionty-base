@@ -17,11 +17,7 @@ from .dev._fix_index import (
     check_if_index_compliant,
     explode_aggregated_column_to_expand,
 )
-from .dev._handle_sources import (
-    LAMINDB_INSTANCE_LOADED,
-    LOCAL_SOURCES,
-    parse_sources_yaml,
-)
+from .dev._handle_sources import LAMINDB_INSTANCE_LOADED
 from .dev._io import s3_bionty_assets, url_download
 
 
@@ -139,7 +135,10 @@ class Bionty:
         return Ontology(handle=self._local_ontology_path)
 
     def _fetch_sources(self) -> None:
-        from ._display_sources import display_currently_used_sources
+        from ._display_sources import (
+            display_available_sources,
+            display_currently_used_sources,
+        )
 
         def _subset_to_entity(df: pd.DataFrame, key: str):
             return df.loc[[key]] if isinstance(df.loc[key], pd.Series) else df.loc[key]
@@ -148,9 +147,8 @@ class Bionty:
             display_currently_used_sources(), self.__class__.__name__
         )
 
-        available_sources = parse_sources_yaml(LOCAL_SOURCES).set_index("entity")
         self._all_sources = _subset_to_entity(
-            available_sources, self.__class__.__name__
+            display_available_sources(), self.__class__.__name__
         )
 
     def _match_all_sources(
