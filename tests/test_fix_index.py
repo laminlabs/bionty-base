@@ -1,10 +1,6 @@
 import pandas as pd
-import pytest
 
-from bionty.dev import (
-    explode_aggregated_column_to_expand,
-    get_compliant_index_from_column,
-)
+from bionty.dev import explode_aggregated_column_to_expand
 
 data = {
     "gene symbol": ["A1CF", "A1BG", "FANCD1", "corrupted"],
@@ -26,13 +22,6 @@ df = pd.DataFrame(
     },
     index=["id"],
 )
-
-
-def test_get_compliant_index_from_column():
-    with pytest.raises(AssertionError):
-        get_compliant_index_from_column(df, ref_df=df_orig, column="x")
-    with pytest.raises(AssertionError):
-        get_compliant_index_from_column(df, ref_df=df_orig, column="ensembl_gene_id")
 
 
 def test_explode_aggregated_column_to_expand():

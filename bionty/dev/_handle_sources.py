@@ -68,7 +68,6 @@ def create_or_update_sources_local_yaml(overwrite: bool = True) -> None:
         versions_header = {"version": load_yaml(PUBLIC_SOURCES).get("version")}
         versions_header.update(versions)
         write_yaml(versions_header, LOCAL_SOURCES)
-        logger.success(f"Created {LOCAL_SOURCES}!")
     else:
         update_local_from_public_sources_yaml()
 
