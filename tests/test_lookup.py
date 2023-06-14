@@ -16,12 +16,11 @@ def test_lookup():
 
     assert len(lookup.sample_1) == 3
     assert isinstance(lookup.sample_1, list)
-    assert lookup.sample_1[0]._asdict() == {"name": "Sample 1", "meta1": "metadata~1~1"}
-    assert lookup.sample_1[1]._asdict() == {"name": "Sample 1", "meta1": "metadata~1"}
-    assert lookup.sample_1[2]._asdict() == {
-        "name": "sample 1",
-        "meta1": "metadata~1~1~1",
-    }
+    lookup_sample_1_dicts = [i._asdict() for i in lookup.sample_1]
+    assert {"name": "Sample 1", "meta1": "metadata~1~1"} in lookup_sample_1_dicts
+    assert {"name": "Sample 1", "meta1": "metadata~1"} in lookup_sample_1_dicts
+    assert {"name": "sample 1", "meta1": "metadata~1~1~1"} in lookup_sample_1_dicts
+
     assert lookup.prefix_1_sample._asdict() == {
         "name": "1 sample",
         "meta1": "1 metadata",
