@@ -11,7 +11,7 @@ def test_lookup():
         }
     )
 
-    inst = Lookup(df=df, field="name", tuple_name="TestTuple", prefix="test")
+    inst = Lookup(df=df, field="name", tuple_name="TestTuple", prefix="prefix")
     lookup = inst.lookup()
 
     assert len(lookup.sample_1) == 3
@@ -22,7 +22,10 @@ def test_lookup():
         "name": "sample 1",
         "meta1": "metadata~1~1~1",
     }
-    assert lookup.test_1_sample._asdict() == {"name": "1 sample", "meta1": "1 metadata"}
+    assert lookup.prefix_1_sample._asdict() == {
+        "name": "1 sample",
+        "meta1": "1 metadata",
+    }
 
     lookup_dict = lookup.todict()
     assert len(lookup_dict) == 3
@@ -35,4 +38,4 @@ def test_lookup():
     }
 
     assert lookup.__class__.__name__ == "Lookup"
-    assert lookup.test_1_sample.__class__.__name__ == "TestTuple"
+    assert lookup.prefix_1_sample.__class__.__name__ == "TestTuple"
