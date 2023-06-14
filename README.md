@@ -46,7 +46,7 @@ lookup = bt.Readout().lookup()
 lookup.single_cell_rna_sequencing
 
 # bracket access of free text dictionary keys
-lookup_dict = lookup.todict()
+lookup_dict = lookup.dict()
 lookup_dict["single-cell RNA sequencing"]
 ```
 

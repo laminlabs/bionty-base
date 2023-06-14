@@ -26,7 +26,7 @@ def test_lookup():
         "meta1": "1 metadata",
     }
 
-    lookup_dict = lookup.todict()
+    lookup_dict = lookup.dict()
     assert len(lookup_dict) == 3
     assert isinstance(lookup_dict["Sample 1"], list)
     assert len(lookup_dict["Sample 1"]) == 2
