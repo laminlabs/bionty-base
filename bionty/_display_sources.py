@@ -17,25 +17,7 @@ def display_available_sources() -> pd.DataFrame:
     """
     from .dev._handle_sources import LOCAL_SOURCES, parse_sources_yaml
 
-    available_sources = parse_sources_yaml(LOCAL_SOURCES).set_index("entity")
-
-    df_grouped = (
-        available_sources.groupby("entity")
-        .agg(
-            {
-                "source": "first",
-                "species": lambda x: ", ".join(set(x)),
-                "version": lambda x: ", ".join(set(x)),
-                "md5": "first",
-                "source_name": "first",
-                "source_website": "first",
-            }
-        )
-        .reset_index()
-        .set_index("entity")
-    )
-
-    return df_grouped
+    return parse_sources_yaml(LOCAL_SOURCES).set_index("entity")  # type: ignore
 
 
 # This function naming is consistent with the `currently_used` field in BiontySource SQL table
@@ -43,7 +25,7 @@ def display_available_sources() -> pd.DataFrame:
 def display_currently_used_sources() -> pd.DataFrame:
     """Displays all currently used sources.
 
-    Active version is unique for entity and species.
+    Active version is unique for entity + species.
 
     Examples:
         >>> import bionty as bt
