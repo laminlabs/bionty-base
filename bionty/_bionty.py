@@ -157,7 +157,7 @@ class Bionty:
         version: Optional[str] = None,
         species: Optional[str] = None,
     ) -> Dict[str, str]:
-        """TODO."""
+        """Match a source record base on passed species, source and version."""
         lc = locals()
 
         # kwargs that are not None
@@ -168,6 +168,7 @@ class Bionty:
         }
         keys = list(kwargs.keys())
 
+        # if 1 or 2 kwargs are specified, find the best match in all sources
         if (len(kwargs) == 1) or (len(kwargs) == 2):
             cond = self._all_sources[keys[0]] == kwargs.get(keys[0])
             if len(kwargs) == 1:
@@ -179,6 +180,7 @@ class Bionty:
                 )
                 row = self._all_sources[cond].head(1)
         else:
+            # if no kwargs are passed, take the currently used source record
             if len(keys) == 0:
                 curr = self._default_sources.head(1).to_dict(orient="records")[0]
                 kwargs = {
@@ -186,12 +188,15 @@ class Bionty:
                     for k, v in curr.items()
                     if k in ["species", "source", "version"]
                 }
+            # if all 3 kwargs are specified, match the record from all sources
+            # do the same for the kwargs that obtained from default source to obtain url
             row = self._all_sources[
                 (self._all_sources["species"] == kwargs["species"])
                 & (self._all_sources["source"] == kwargs["source"])
                 & (self._all_sources["version"] == kwargs["version"])
             ].head(1)
 
+        # if no records matched the passed kwargs, raise error
         if row.shape[0] == 0:
             raise ValueError(
                 f"No source is available with {kwargs}\nCheck"
