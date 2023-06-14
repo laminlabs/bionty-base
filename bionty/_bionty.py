@@ -216,56 +216,6 @@ class Bionty:
                         os.remove(self._local_ontology_path)
                         self._url_download(self._url)
 
-    def _ontology_to_df(self, ontology: Ontology):
-        """Convert pronto.Ontology to a DataFrame with columns id, name, children."""
-        df_values = []
-        for term in ontology.terms():
-            # skip terms without id or name and obsolete terms
-            if (not term.id) or (not term.name) or term.obsolete:
-                continue
-
-            # term definition text
-            definition = None if term.definition is None else term.definition.title()
-
-            # concatenate synonyms into a string
-            synonyms = "|".join(
-                [i.description for i in term.synonyms if i.scope == "EXACT"]
-            )
-            if len(synonyms) == 0:
-                synonyms = None  # type:ignore
-
-            # get 1st degree children as a list
-            subclasses = [
-                s.id for s in term.subclasses(distance=1, with_self=False).to_set()
-            ]
-
-            df_values.append((term.id, term.name, definition, synonyms, subclasses))
-
-        if self.include_id_prefixes and self.source in list(
-            self.include_id_prefixes.keys()
-        ):
-            flat_include_id_prefixes = {
-                prefix1 for values in self.include_id_prefixes.values() for prefix1 in values  # type: ignore
-            }
-            df_values = list(
-                filter(
-                    lambda val: any(
-                        val[0].startswith(prefix) for prefix in flat_include_id_prefixes
-                    ),
-                    df_values,
-                )
-            )
-
-        df = pd.DataFrame(
-            df_values,
-            columns=["ontology_id", "name", "definition", "synonyms", "children"],
-        ).set_index("ontology_id")
-
-        # needed to avoid erroring in .lookup()
-        df["name"].fillna("", inplace=True)
-
-        return df
-
     def _load_df(self) -> pd.DataFrame:
         # Download and sync from s3://bionty-assets
         s3_bionty_assets(
@@ -276,7 +226,9 @@ class Bionty:
         # If download is not possible, write a parquet file from ontology
         if not self._local_parquet_path.exists():
             # write df to parquet file
-            df = self._ontology_to_df(self.ontology)
+            df = self.ontology.to_df(
+                source=self.source, include_id_prefixes=self.include_id_prefixes
+            )
             df.to_parquet(self._local_parquet_path)
 
         # loads the df and reset index
