@@ -15,7 +15,7 @@ Name | PR | User | Date | Patch
 :sparkles: Renamed sources_local | [435](https://github.com/laminlabs/bionty/pull/435) | [Zethson](https://github.com/Zethson) | 2023-06-13 |
 Add fields | [433](https://github.com/laminlabs/bionty/pull/433) | [Zethson](https://github.com/Zethson) | 2023-06-13 |
 :bug: Fix filtering & remove bioregistry & refactoring | [430](https://github.com/laminlabs/bionty/pull/430) | [Zethson](https://github.com/Zethson) | 2023-06-13 |
-🐛 Fixed index bug in fuzzy_match | [429](https://github.com/laminlabs/bionty/pull/429) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-12 | 0.20.0
+🐛 Fixed index bug in search | [429](https://github.com/laminlabs/bionty/pull/429) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-12 | 0.20.0
 🔊 Improved inspect logging | [428](https://github.com/laminlabs/bionty/pull/428) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-12 |
 ♻️ Removed curate, updated inspect guide <span class="badge badge-warning">Breaking</span> | [419](https://github.com/laminlabs/bionty/pull/419) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-12 |
 🚑 Fixed lamindb instance error and refactored source matching | [417](https://github.com/laminlabs/bionty/pull/417) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-11 | 0.19.1
@@ -44,7 +44,7 @@ Add fields | [433](https://github.com/laminlabs/bionty/pull/433) | [Zethson](htt
 🚸 Delete an incomplete file on an exception in s3_bionty_assets | [383](https://github.com/laminlabs/bionty/pull/383) | [Koncopd](https://github.com/Koncopd) | 2023-05-29 |
 ➖ Remove nbproject from production dependencies | [382](https://github.com/laminlabs/bionty/pull/382) | [Koncopd](https://github.com/Koncopd) | 2023-05-29 |
 🚑 Added `Entity=Bionty` backward compatibility | [381](https://github.com/laminlabs/bionty/pull/381) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-29 | 0.15.1
-✨ Implemented a first `fuzzy_match` method | [380](https://github.com/laminlabs/bionty/pull/380) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-29 |
+✨ Implemented a first `search` method | [380](https://github.com/laminlabs/bionty/pull/380) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-29 |
 🐛 Decrease refresh_per_second in the progress bar to 10 | [379](https://github.com/laminlabs/bionty/pull/379) | [Koncopd](https://github.com/Koncopd) | 2023-05-28 |
 ➖ Replace upath and fsspec with botocore | [376](https://github.com/laminlabs/bionty/pull/376) | [Koncopd](https://github.com/Koncopd) | 2023-05-28 |
 ➖ Removed unused dependencies | [377](https://github.com/laminlabs/bionty/pull/377) | [sunnyosun](https://github.com/sunnyosun) | 2023-05-28 |

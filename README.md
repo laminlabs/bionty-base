@@ -62,8 +62,8 @@ gene_bionty.inspect(["A1BG", "FANCD1"], gene_bionty.symbol)
 gene_bionty.map_synonyms(["A1BG", "FANCD1"], gene_bionty.symbol)
 
 celltype_bionty = bt.CellType()
-# Fuzzy string matching of a cell type name
-celltype_bionty.fuzzy_match("gamma delta T cell", celltype_bionty.name)
+# Free text search against a field
+celltype_bionty.search("gamma delta T cell", celltype_bionty.name)
 ```
 
 ## Reference tables of ontologies

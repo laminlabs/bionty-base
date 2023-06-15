@@ -13,10 +13,6 @@ from bionty._md5 import verify_md5
 
 from ._ontology import Ontology
 from ._settings import check_datasetdir_exists, check_dynamicdir_exists, settings
-from .dev._fix_index import (
-    check_if_index_compliant,
-    explode_aggregated_column_to_expand,
-)
 from .dev._handle_sources import LAMINDB_INSTANCE_LOADED
 from .dev._io import s3_bionty_assets, url_download
 
@@ -83,8 +79,8 @@ class Bionty:
             f"Species: {self.species}\n"
             f"Source: {self.source}, {self.version}\n\n"
             f"📖 {self.__class__.__name__}.df(): ontology reference table\n"
-            f"🔎 {self.__class__.__name__}.lookup(): autocompletion of ontology terms\n"
-            f"🎯 {self.__class__.__name__}.fuzzy_match(): fuzzy match against ontology terms\n"
+            f"🔎 {self.__class__.__name__}.lookup(): autocompletion of terms\n"
+            f"🎯 {self.__class__.__name__}.search(): free text search of terms\n"
             f"🧐 {self.__class__.__name__}.inspect(): check if identifiers are mappable\n"
             f"👽 {self.__class__.__name__}.map_synonyms(): map synonyms to standardized names\n"
             f"🔗 {self.__class__.__name__}.ontology: Pronto.Ontology object"
@@ -373,7 +369,8 @@ class Bionty:
         except Exception:
             pass
 
-        matches = check_if_index_compliant(mapped_df.index, self._df[str(field)])
+        # check if index is compliant
+        matches = mapped_df.index.isin(self._df[str(field)])
 
         # annotated what complies with the default ID
         mapped_df["__mapped__"] = matches
@@ -434,40 +431,17 @@ class Bionty:
             >>> gene_symbols = ["A1CF", "A1BG", "FANCD1", "FANCD20"]
             >>> mapping = gene_bionty.map_synonyms(gene_symbols, gn.symbol)
         """
-        field_str, synonyms_field_str = str(field), str(synonyms_field)
+        from lamin_logger._map_synonyms import map_synonyms
 
-        df = self._df
-        if field_str not in df.columns:
-            raise KeyError(
-                f"field '{field_str}' is invalid! Available fields are:"
-                f" {list(df.columns)}"
-            )
-        if synonyms_field_str not in df.columns:
-            raise KeyError(
-                f"synonyms_field '{synonyms_field_str}' is invalid! Available fields"
-                f" are: {list(df.columns)}"
-            )
-        if field_str == synonyms_field_str:
-            raise KeyError("synonyms_field must be different from field!")
+        return map_synonyms(
+            df=self._df,
+            identifiers=identifiers,
+            field=str(field),
+            synonyms_field=str(synonyms_field),
+            return_mapper=return_mapper,
+        )
 
-        alias_map = explode_aggregated_column_to_expand(
-            df,
-            aggregated_col=synonyms_field_str,
-            target_col=field_str,
-        )[field_str]
-
-        if return_mapper:
-            mapped_dict = {
-                item: alias_map.get(item)
-                for item in identifiers
-                if alias_map.get(item) is not None and alias_map.get(item) != item
-            }
-            return mapped_dict
-        else:
-            mapped_list = [alias_map.get(item, item) for item in identifiers]
-            return mapped_list
-
-    def fuzzy_match(
+    def search(
         self,
         string: str,
         field: Union[BiontyField, str] = "name",
@@ -475,7 +449,7 @@ class Bionty:
         case_sensitive: bool = True,
         return_ranked_results: bool = False,
     ) -> pd.DataFrame:
-        """Fuzzy matching of a given string against a Bionty field.
+        """Search a given string against a Bionty field.
 
         Args:
             string: The input string to match against the field ontology values.
@@ -485,55 +459,28 @@ class Bionty:
             return_ranked_results: Whether to return all entries ranked by matching ratios.
 
         Returns:
-            Best match of the input string.
+            Best match record of the input string.
 
         Examples:
             >>> import bionty as bt
             >>> celltype_bionty = bt.CellType()
-            >>> celltype_bionty.fuzzy_match("gamma delta T cell")
+            >>> celltype_bionty.search("gamma delta T cell")
         """
+        from lamin_logger._search import search
 
-        def _fuzz_ratio(string: str, iterable: pd.Series, case_sensitive: bool = True):
-            from rapidfuzz import fuzz, utils
-
-            if case_sensitive:
-                processor = None
-            else:
-                processor = utils.default_process
-            return iterable.apply(lambda x: fuzz.ratio(string, x, processor=processor))
-
-        df = self._df
-        field_str = str(field)
-        synonyms_field_str = str(synonyms_field)
-
-        if synonyms_field_str in df.columns:
-            df_exp = explode_aggregated_column_to_expand(
-                df,
-                aggregated_col=synonyms_field_str,
-                target_col=field_str,
-            ).reset_index()
-            target_column = synonyms_field_str
-        else:
-            df_exp = df.copy()
-            target_column = field_str
-
-        df_exp["__ratio__"] = _fuzz_ratio(
-            string=string, iterable=df_exp[target_column], case_sensitive=case_sensitive
+        return search(
+            df=self._df,
+            string=string,
+            field=str(field),
+            synonyms_field=str(synonyms_field),
+            case_sensitive=case_sensitive,
+            return_ranked_results=return_ranked_results,
         )
-        df_exp_grouped = (
-            df_exp.groupby(field_str).max().sort_values("__ratio__", ascending=False)
-        )
-        df_exp_grouped = df_exp_grouped[df_exp_grouped.index.isin(df[field_str])]
-        df_scored = df.set_index(field_str).loc[df_exp_grouped.index]
-        df_scored["__ratio__"] = df_exp_grouped["__ratio__"]
-
-        if return_ranked_results:
-            return df_scored.sort_values("__ratio__", ascending=False)
-        else:
-            return df_scored[df_scored["__ratio__"] == df_scored["__ratio__"].max()]
 
 
 class BiontyField:
+    """Field of a Bionty model."""
+
     def __init__(self, parent: Bionty, name: str):
         self.parent = parent
         self.name = name

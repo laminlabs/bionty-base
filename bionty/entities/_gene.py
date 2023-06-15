@@ -53,7 +53,7 @@ class Gene(Bionty):
         """
         return super().lookup(field=field)
 
-    def fuzzy_match(
+    def search(
         self,
         string: str,
         field: Union[BiontyField, str] = "symbol",
@@ -76,9 +76,9 @@ class Gene(Bionty):
         Examples:
             >>> import bionty as bt
             >>> celltype_bionty = bt.CellType()
-            >>> celltype_bionty.fuzzy_match("gamma delta T cell", celltype_bionty.name)
+            >>> celltype_bionty.search("gamma delta T cell", celltype_bionty.name)
         """
-        return super().fuzzy_match(
+        return super().search(
             string=string,
             field=field,
             synonyms_field=synonyms_field,

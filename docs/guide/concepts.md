@@ -4,18 +4,12 @@
 
 Let's define a biological entity (e.g., `Species`) to be a variable that takes values from a vocabulary of terms with biological meaning.
 
-1. There are different roughly equivalent vocabularies for the same entity.
-   For example, one can describe species with the vocabulary of the scientific
-   names, the vocabulary of the common names, or the vocabulary of ontology IDs
-   for the same species.
+1. There are different roughly equivalent vocabularies for the same entity. For example, one can describe species with the vocabulary of the scientific names, the vocabulary of the common names, or the vocabulary of ontology IDs for the same species.
 2. There are different versions & sources of these vocabularies.
 3. Terms in the vocabularies have different granularity, and are often hierarchical.
-4. Typically, vocabularies are based on a given version of a public reference ontology,
-   but contain additional “custom” terms corresponding to "new knowledge" absent
-   from reference ontologies. For example, new cell types or states, new
-   synthetic genes, etc.
+4. Typically, vocabularies are based on a given version of a public reference ontology, but contain additional “custom” terms corresponding to "new knowledge" absent from reference ontologies. For example, new cell types or states, new synthetic genes, etc.
 
-## Bionty
+## Bionty object
 
 The central class {class}`~bionty.Bionty` models 3 of the 4 above-mentioned properties of biological entities:
 
