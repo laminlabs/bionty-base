@@ -4,7 +4,7 @@ import pytest
 import bionty as bt
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="module")
 def genes():
     data = {
         "gene symbol": ["A1CF", "A1BG", "FANCD1", "corrupted"],
