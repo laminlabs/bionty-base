@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-🔥 Remove `ontology_info` and `NormalizeColumns` | [445](https://github.com/laminlabs/bionty/pull/445) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-15 |
+🔥 Remove `ontology_info` and `NormalizeColumns` | [445](https://github.com/laminlabs/bionty/pull/445) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-15 | 0.21.0
 🚚 Rename `fuzzy_match` to `search` | [444](https://github.com/laminlabs/bionty/pull/444) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-15 |
 ♻️ Harmonize code for Gene, Protein, CellMarker | [443](https://github.com/laminlabs/bionty/pull/443) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-15 |
 🚚 Move lookup to logger | [442](https://github.com/laminlabs/bionty/pull/442) | [falexwolf](https://github.com/falexwolf) | 2023-06-14 |
