@@ -33,7 +33,7 @@ def write_yaml(
         )
 
 
-def url_download(  # pragma: no cover
+def url_download(
     url: str, localpath: Union[str, Path, None] = None, block_size: int = 1024, **kwargs
 ) -> Union[str, Path, None]:
     """Downloads a file to a specified path.
