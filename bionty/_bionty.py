@@ -439,6 +439,7 @@ class Bionty:
             field=str(field),
             synonyms_field=str(synonyms_field),
             return_mapper=return_mapper,
+            sep="|",
         )
 
     def search(
@@ -475,6 +476,8 @@ class Bionty:
             synonyms_field=str(synonyms_field),
             case_sensitive=case_sensitive,
             return_ranked_results=return_ranked_results,
+            synonyms_sep="|",
+            tuple_name=self.__class__.__name__,
         )
 
 
