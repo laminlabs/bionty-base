@@ -14,7 +14,7 @@ def test_ensemble_species_inspect_name():
         ]
     )
 
-    sp = bt.Species(source="ensembl", version="release-108")
+    sp = bt.Species(source="ensembl", version="release-109")
     inspected_df = sp.inspect(df.index, field=sp.name, return_df=True)
 
     inspect = inspected_df["__mapped__"].reset_index(drop=True)
