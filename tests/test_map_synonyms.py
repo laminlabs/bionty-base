@@ -6,7 +6,7 @@ import bionty as bt
 @pytest.fixture(scope="session")
 def genes():
     gene_symbols = ["A1CF", "A1BG", "FANCD1", "FANCD20"]
-    gn = bt.Gene(source="ensembl", version="release-108")
+    gn = bt.Gene(source="ensembl", version="release-109")
 
     return gene_symbols, gn
 

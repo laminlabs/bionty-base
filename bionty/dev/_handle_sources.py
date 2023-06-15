@@ -1,8 +1,8 @@
 from pathlib import Path
 from typing import Dict, List, Literal, Union
 
+import pandas as pd
 from lamin_logger import logger
-from pandas import DataFrame
 
 from bionty._settings import settings
 from bionty.dev._io import load_yaml, write_yaml
@@ -72,7 +72,7 @@ def create_or_update_sources_local_yaml(overwrite: bool = True) -> None:
         update_local_from_public_sources_yaml()
 
 
-def parse_sources_yaml(filepath: Union[str, Path]) -> DataFrame:
+def parse_sources_yaml(filepath: Union[str, Path]) -> pd.DataFrame:
     """Parse values from sources yaml file into a DataFrame.
 
     Args:
@@ -89,8 +89,6 @@ def parse_sources_yaml(filepath: Union[str, Path]) -> DataFrame:
         - source_name
         - source_website
     """
-    import pandas as pd
-
     all_rows = []
     for entity, sources in load_yaml(filepath).items():
         if entity == "version":

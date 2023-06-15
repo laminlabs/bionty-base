@@ -2,11 +2,8 @@ import os
 from pathlib import Path
 from typing import Union
 
-import botocore.session as session
 import requests  # type:ignore
 import yaml  # type:ignore
-from botocore.config import Config
-from rich import print
 from rich.progress import Progress
 
 from bionty._settings import settings
@@ -34,16 +31,19 @@ def write_yaml(
         )
 
 
-def url_download(  # pragma: no cover
-    url: str, filename: Union[str, Path, None] = None, block_size: int = 1024, **kwargs
-) -> None:
+def url_download(
+    url: str, localpath: Union[str, Path, None] = None, block_size: int = 1024, **kwargs
+) -> Union[str, Path, None]:
     """Downloads a file to a specified path.
 
     Args:
         url: The URL to download.
-        filename: The path to download the file to.
+        localpath: The path to download the file to.
         block_size: Buffer size in bytes for sending a file-like message body.
         **kwargs: Keyword arguments are passed to 'requests'
+
+    Returns:
+        The localpath file is downloaded to
 
     Raises:
         HttpError: If the request response is not 200 and OK.
@@ -53,21 +53,23 @@ def url_download(  # pragma: no cover
         response.raise_for_status()
 
         total_content_length = int(response.headers.get("content-length", 0))
-        if filename is None:
-            filename = url.split("/")[-1]
+        if localpath is None:
+            localpath = url.split("/")[-1]
 
         with Progress(refresh_per_second=10) as progress:
             task = progress.add_task("[red]Downloading...", total=total_content_length)
 
-            with open(filename, "wb") as file:
+            with open(localpath, "wb") as file:
                 for data in response.iter_content(block_size):
                     file.write(data)
                     progress.update(task, advance=block_size)
             # force the progress bar to 100% at the end
             progress.update(task, completed=total_content_length, refresh=True)
 
+        return localpath
+
     except requests.exceptions.HTTPError as err:
-        print(err)
+        raise (err)
 
 
 def s3_bionty_assets(
@@ -86,6 +88,9 @@ def s3_bionty_assets(
     Returns:
         A Path object of the synchronized path.
     """
+    import botocore.session as session
+    from botocore.config import Config
+
     if localpath is None:
         localpath = settings.datasetdir / filename
     elif localpath.is_dir():

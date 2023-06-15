@@ -2,12 +2,12 @@ from __future__ import annotations
 
 import os
 from functools import cached_property
+from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Set, Tuple, Union
 
 import pandas as pd
 from lamin_logger import logger
 from lamin_logger._lookup import Lookup
-from pandas import DataFrame
 
 from bionty._md5 import verify_md5
 
@@ -48,14 +48,12 @@ class Bionty:
             and (self.species, self.source, self.version) not in default_sources
         ):
             logger.error(
-                "Only default sources below are allowed inside LaminDB"
-                f" instances!\n{self._default_sources}\n"
+                f"Only default sources below are allowed inside LaminDB instances!\n{self._default_sources}\n"  # noqa: E501
             )
             logger.hint(
                 "To use a different source, please either:\n    Close your instance"
                 " via `lamin close` \n    OR\n    Configure currently_used"
-                f" {self.__class__.__name__} source in"
-                " lnschema_bionty.BiontySource table"
+                f" {self.__class__.__name__} source in lnschema_bionty.BiontySource"
             )
             self._source = None  # type: ignore
             return
@@ -126,13 +124,37 @@ class Bionty:
         return fields - blacklist
 
     @cached_property
-    def ontology(self) -> Ontology:  # type:ignore
+    def ontology(self):
         """The Pronto Ontology object.
 
         See: https://pronto.readthedocs.io/en/stable/api/pronto.Ontology.html
         """
-        self._download_ontology_file()
-        return Ontology(handle=self._local_ontology_path)
+        if self._local_ontology_path is None:
+            logger.error(f"{self.__class__.__name__} has no Pronto Ontology object!")
+            return
+        else:
+            self._download_ontology_file(
+                localpath=self._local_ontology_path,
+                url=self._url,
+                md5=self._md5,
+            )
+            return Ontology(handle=self._local_ontology_path)
+
+    def _download_ontology_file(self, localpath: Path, url: str, md5: str = "") -> None:
+        """Download ontology file to _local_ontology_path."""
+        if not localpath.exists():
+            logger.download(f"Downloading {self.__class__.__name__} ontology file...")
+            try:
+                self._url_download(url, localpath)
+            finally:
+                # Only verify md5 if it's actually available from the sources.yaml file
+                if len(md5) > 0:
+                    if not verify_md5(localpath, md5):
+                        logger.warning(
+                            f"MD5 sum for {localpath} did not match {md5}. Redownloading..."  # noqa: E501
+                        )
+                        os.remove(localpath)
+                        self._url_download(url, localpath)
 
     def _fetch_sources(self) -> None:
         from ._display_sources import (
@@ -204,30 +226,62 @@ class Bionty:
             )
         return row.to_dict(orient="records")[0]
 
-    def _download_ontology_file(self) -> None:
-        """Download ontology file to _local_ontology_path."""
-        if not self._local_ontology_path.exists():
-            logger.download(f"Downloading {self.__class__.__name__} ontology file...")
-            try:
-                self._url_download(self._url)
-            finally:
-                # Only verify md5 if it's actually available from the sources.yaml file
-                if len(self._md5) > 0:  # type: ignore
-                    if not verify_md5(self._local_ontology_path, self._md5):  # type: ignore
-                        logger.warning(
-                            f"MD5 sum for {self._local_ontology_path} did not match"
-                            f" {self._md5}! Redownloading..."
-                        )
-                        os.remove(self._local_ontology_path)
-                        self._url_download(self._url)
+    @check_dynamicdir_exists
+    def _url_download(self, url: str, localpath: Path) -> None:
+        """Download file from url to dynamicdir _local_ontology_path."""
+        # Try to download from s3://bionty-assets
+        s3_bionty_assets(
+            filename=self._ontology_filename,
+            assets_base_url="s3://bionty-assets",
+            localpath=localpath,
+        )
+
+        # If the file is not available, download from the url
+        if not localpath.exists():
+            logger.download(
+                f"Downloading {self.__class__.__name__} ontology file from: {url}"
+            )
+            _ = url_download(url, localpath)
+
+    @check_datasetdir_exists
+    def _set_file_paths(self) -> None:
+        """Sets version, database and URL attributes for passed database and requested version.
+
+        Args:
+            source: The database to find the URL and version for.
+            version: The requested version of the database.
+        """
+        self._url = self._source_record.get("url", "")
+        self._md5 = self._source_record.get("md5", "")
+
+        # parquet file name
+        self._parquet_filename = f"{self.species}_{self.source}_{self.version}_{self.__class__.__name__}_lookup.parquet"  # noqa: E501
+        # parquet file local path
+        self._local_parquet_path = settings.dynamicdir / self._parquet_filename
+        # ontology file name
+        self._ontology_filename = f"{self.species}___{self.source}___{self.version}___{self.__class__.__name__}".replace(
+            " ", "_"
+        )
+
+        if self._url.endswith(".parquet"):  # user provide reference table as the url
+            # no local ontology file
+            self._local_ontology_path = None
+            if not self._url.startswith("s3://bionty-assets/"):
+                self._parquet_filename = None  # type:ignore
+        else:
+            self._local_ontology_path = settings.dynamicdir / self._ontology_filename
 
     def _load_df(self) -> pd.DataFrame:
         # Download and sync from s3://bionty-assets
-        s3_bionty_assets(
-            filename=self._parquet_filename,
-            assets_base_url="s3://bionty-assets",
-            localpath=self._local_parquet_path,
-        )
+        if self._parquet_filename is None:
+            # download url as the parquet file
+            self._url_download(self._url, self._local_parquet_path)
+        else:
+            s3_bionty_assets(
+                filename=self._parquet_filename,
+                assets_base_url="s3://bionty-assets",
+                localpath=self._local_parquet_path,
+            )
         # If download is not possible, write a parquet file from ontology
         if not self._local_parquet_path.exists():
             # write df to parquet file
@@ -239,45 +293,6 @@ class Bionty:
         # loads the df and reset index
         df = pd.read_parquet(self._local_parquet_path)
         return df
-
-    @check_dynamicdir_exists
-    def _url_download(self, url: str) -> str:
-        """Download file from url to dynamicdir _local_ontology_path."""
-        # Try to download from s3://bionty-assets
-        s3_bionty_assets(
-            filename=self._ontology_filename,
-            assets_base_url="s3://bionty-assets",
-            localpath=self._local_ontology_path,
-        )
-
-        # If the file is not available, download from the url
-        if not self._local_ontology_path.exists():
-            logger.download(
-                f"Downloading {self.__class__.__name__} ontology file from: {url}"
-            )
-            url_download(url, self._local_ontology_path)
-
-        return self._local_ontology_path
-
-    @check_datasetdir_exists
-    def _set_file_paths(self) -> None:
-        """Sets version, database and URL attributes for passed database and requested version.
-
-        Args:
-            source: The database to find the URL and version for.
-            version: The requested version of the database.
-        """
-        self._url = self._source_record.get("url")
-        self._md5 = self._source_record.get("md5")
-
-        self._parquet_filename = f"{self.species}_{self.source}_{self.version}_{self.__class__.__name__}_lookup.parquet"  # noqa: E501
-        self._local_parquet_path = (
-            settings.dynamicdir / self._parquet_filename
-        )  # noqa: W503,E501
-        self._ontology_filename = f"{self.species}___{self.source}___{self.version}___{self.__class__.__name__}".replace(
-            " ", "_"
-        )
-        self._local_ontology_path = settings.dynamicdir / self._ontology_filename
 
     def df(self) -> pd.DataFrame:
         """Pandas DataFrame of the ontology.
@@ -323,7 +338,7 @@ class Bionty:
 
     def inspect(
         self, identifiers: Iterable, field: BiontyField, return_df: bool = False
-    ) -> Union[DataFrame, Dict[str, List[str]]]:
+    ) -> Union[pd.DataFrame, Dict[str, List[str]]]:
         """Inspect if a list of identifiers are mappable to the entity reference.
 
         Args:

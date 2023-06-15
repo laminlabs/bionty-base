@@ -3,7 +3,6 @@ from typing import Literal, Optional
 import pandas as pd
 
 from .._bionty import Bionty
-from ..dev._io import s3_bionty_assets
 from ._shared_docstrings import _doc_params, doc_entites
 
 
@@ -33,8 +32,7 @@ class CellMarker(Bionty):
 
         See ingestion: https://lamin.ai/docs/bionty-assets/ingest/cell-marker-2.0
         """
-        localpath = s3_bionty_assets(self._parquet_filename)
-        df = pd.read_parquet(localpath)
+        df = super()._load_df()
 
         # TODO: remove after updating to new version
         df = df.drop(columns=["id", "version"], errors="ignore")
