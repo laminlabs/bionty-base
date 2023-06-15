@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🚚 Update tuple name of search result | [447](https://github.com/laminlabs/bionty/pull/447) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-15 |
 🚚 Change species to vertebrte for ensembl | [446](https://github.com/laminlabs/bionty/pull/446) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-15 | 0.21.1
 🔥 Remove `ontology_info` and `NormalizeColumns` | [445](https://github.com/laminlabs/bionty/pull/445) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-15 | 0.21.0
 🚚 Rename `fuzzy_match` to `search` <span class="badge badge-warning">Breaking</span> | [444](https://github.com/laminlabs/bionty/pull/444) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-15 |
