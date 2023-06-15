@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🚚 Rename `fuzzy_match` to `search` | [444](https://github.com/laminlabs/bionty/pull/444) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-15 |
 ♻️ Harmonize code for Gene, Protein, CellMarker | [443](https://github.com/laminlabs/bionty/pull/443) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-15 |
 🚚 Move lookup to logger | [442](https://github.com/laminlabs/bionty/pull/442) | [falexwolf](https://github.com/falexwolf) | 2023-06-14 |
 🧪 Properly test ontology_to_df | [441](https://github.com/laminlabs/bionty/pull/441) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-14 |
