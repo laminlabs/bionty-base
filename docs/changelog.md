@@ -3,21 +3,20 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-🚚 Change species to vertebrte for ensembl | [446](https://github.com/laminlabs/bionty/pull/446) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-15 |
+🚚 Change species to vertebrte for ensembl | [446](https://github.com/laminlabs/bionty/pull/446) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-15 | 0.21.1
 🔥 Remove `ontology_info` and `NormalizeColumns` | [445](https://github.com/laminlabs/bionty/pull/445) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-15 | 0.21.0
-🚚 Rename `fuzzy_match` to `search` | [444](https://github.com/laminlabs/bionty/pull/444) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-15 |
+🚚 Rename `fuzzy_match` to `search` <span class="badge badge-warning">Breaking</span> | [444](https://github.com/laminlabs/bionty/pull/444) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-15 |
 ♻️ Harmonize code for Gene, Protein, CellMarker | [443](https://github.com/laminlabs/bionty/pull/443) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-15 |
 🚚 Move lookup to logger | [442](https://github.com/laminlabs/bionty/pull/442) | [falexwolf](https://github.com/falexwolf) | 2023-06-14 |
 🧪 Properly test ontology_to_df | [441](https://github.com/laminlabs/bionty/pull/441) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-14 |
 🍱 Drop id, version columns | [440](https://github.com/laminlabs/bionty/pull/440) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-14 |
 ⚰️ Remove dead code | [439](https://github.com/laminlabs/bionty/pull/439) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-14 |
 🚚 Rename `.todict()` to `.dict()` | [438](https://github.com/laminlabs/bionty/pull/438) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-14 |
-♻️ Lookup refactor to return multiple records | [436](https://github.com/laminlabs/bionty/pull/436) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-14 |
-:sparkles: Add prettier available_sources output | [437](https://github.com/laminlabs/bionty/pull/437) | [Zethson](https://github.com/Zethson) | 2023-06-14 |
-♻️ New implementation of lookup | [434](https://github.com/laminlabs/bionty/pull/434) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-13 |
-:sparkles: Renamed sources_local | [435](https://github.com/laminlabs/bionty/pull/435) | [Zethson](https://github.com/Zethson) | 2023-06-13 |
-Add fields | [433](https://github.com/laminlabs/bionty/pull/433) | [Zethson](https://github.com/Zethson) | 2023-06-13 |
-:bug: Fix filtering & remove bioregistry & refactoring | [430](https://github.com/laminlabs/bionty/pull/430) | [Zethson](https://github.com/Zethson) | 2023-06-13 |
+✨ Lookup refactor to return multiple records <span class="badge badge-warning">Breaking</span> | [436](https://github.com/laminlabs/bionty/pull/436) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-14 |
+✨ New implementation of lookup | [434](https://github.com/laminlabs/bionty/pull/434) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-13 |
+🚚 Renamed sources_local | [435](https://github.com/laminlabs/bionty/pull/435) | [Zethson](https://github.com/Zethson) | 2023-06-13 |
+✨ Add fields | [433](https://github.com/laminlabs/bionty/pull/433) | [Zethson](https://github.com/Zethson) | 2023-06-13 |
+🐛 Fix filtering & remove bioregistry & refactoring | [430](https://github.com/laminlabs/bionty/pull/430) | [Zethson](https://github.com/Zethson) | 2023-06-13 |
 🐛 Fixed index bug in search | [429](https://github.com/laminlabs/bionty/pull/429) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-12 | 0.20.0
 🔊 Improved inspect logging | [428](https://github.com/laminlabs/bionty/pull/428) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-12 |
 ♻️ Removed curate, updated inspect guide <span class="badge badge-warning">Breaking</span> | [419](https://github.com/laminlabs/bionty/pull/419) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-12 |
