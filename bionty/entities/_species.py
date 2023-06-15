@@ -28,22 +28,23 @@ class Species(Bionty):
         super().__init__(source=source, version=version, **kwargs)
 
     def _load_df(self) -> pd.DataFrame:
-        url = f"https://ftp.ensembl.org/pub/{self._version}/species_EnsemblVertebrates.txt"  # noqa
-        self._filepath = self._url_download(url)
-
-        df = pd.read_csv(self._filepath, sep="\t", index_col=False)
-        df.rename(
-            columns={
-                "#name": "name",
-                "species": "scientific_name",
-                "taxonomy_id": "taxon_id",
-            },
-            inplace=True,
-        )
-        df["name"] = df["name"].str.lower()
-        df.insert(0, "id", "NCBI_" + df["taxon_id"].astype(str))
-
-        return df
+        if not self._local_parquet_path.exists():
+            self._url_download(self._url, self._local_ontology_path)
+            df = pd.read_csv(self._local_ontology_path, sep="\t", index_col=False)
+            df.rename(
+                columns={
+                    "#name": "name",
+                    "species": "scientific_name",
+                    "taxonomy_id": "taxon_id",
+                },
+                inplace=True,
+            )
+            df["name"] = df["name"].str.lower()
+            df.insert(0, "id", "NCBI_" + df["taxon_id"].astype(str))
+            df.to_parquet(self._local_parquet_path)
+            return df
+        else:
+            return pd.read_parquet(self._local_parquet_path)
 
     def df(self) -> pd.DataFrame:
         """Pandas DataFrame of the ontology.

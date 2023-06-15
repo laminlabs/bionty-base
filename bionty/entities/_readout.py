@@ -52,7 +52,11 @@ class Readout(Bionty):
 
         See: https://pronto.readthedocs.io/en/stable/api/pronto.Ontology.html
         """
-        self._download_ontology_file()
+        self._download_ontology_file(
+            localpath=self._local_ontology_path,  # type:ignore
+            url=self._url,
+            md5=self._md5,
+        )
         return Ontology(handle=self._local_ontology_path, prefix=self._prefix)
 
     def _load_df(self) -> pd.DataFrame:

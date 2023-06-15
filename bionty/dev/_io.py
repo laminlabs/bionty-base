@@ -35,13 +35,13 @@ def write_yaml(
 
 
 def url_download(  # pragma: no cover
-    url: str, filename: Union[str, Path, None] = None, block_size: int = 1024, **kwargs
+    url: str, localpath: Union[str, Path, None] = None, block_size: int = 1024, **kwargs
 ) -> None:
     """Downloads a file to a specified path.
 
     Args:
         url: The URL to download.
-        filename: The path to download the file to.
+        localpath: The path to download the file to.
         block_size: Buffer size in bytes for sending a file-like message body.
         **kwargs: Keyword arguments are passed to 'requests'
 
@@ -53,13 +53,13 @@ def url_download(  # pragma: no cover
         response.raise_for_status()
 
         total_content_length = int(response.headers.get("content-length", 0))
-        if filename is None:
-            filename = url.split("/")[-1]
+        if localpath is None:
+            localpath = url.split("/")[-1]
 
         with Progress(refresh_per_second=10) as progress:
             task = progress.add_task("[red]Downloading...", total=total_content_length)
 
-            with open(filename, "wb") as file:
+            with open(localpath, "wb") as file:
                 for data in response.iter_content(block_size):
                     file.write(data)
                     progress.update(task, advance=block_size)

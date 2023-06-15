@@ -3,8 +3,6 @@ from typing import Literal, Optional, Tuple, Union
 import pandas as pd
 
 from .._bionty import Bionty, BiontyField
-from .._normalize import NormalizeColumns
-from ..dev._io import s3_bionty_assets
 from ._shared_docstrings import _doc_params, doc_entites
 
 
@@ -37,25 +35,6 @@ class Gene(Bionty):
             species=species,
             **kwargs,
         )
-
-    def _load_df(self) -> pd.DataFrame:
-        self._filepath = s3_bionty_assets(self._parquet_filename)
-
-        df = pd.read_parquet(self._filepath)
-        NormalizeColumns.gene(df, species=self.species)
-        try:
-            # for pandas > 2.0
-            if not pd.api.types.is_any_real_numeric_dtype(df.index):
-                df = df.reset_index().copy()
-        except AttributeError:
-            if not df.index.is_numeric():
-                df = df.reset_index().copy()
-        df = df[~df["ensembl_gene_id"].isnull()]
-
-        # TODO: remove after updating to new version
-        df = df.drop(columns=["id", "version"], errors="ignore")
-
-        return df
 
     def lookup(self, field: Union[BiontyField, str] = "symbol") -> Tuple:
         """Return an auto-complete object for the bionty field.
