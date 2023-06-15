@@ -79,8 +79,8 @@ class Bionty:
             f"Species: {self.species}\n"
             f"Source: {self.source}, {self.version}\n\n"
             f"📖 {self.__class__.__name__}.df(): ontology reference table\n"
-            f"🔎 {self.__class__.__name__}.lookup(): autocompletion of ontology terms\n"
-            f"🎯 {self.__class__.__name__}.search(): fuzzy match against ontology terms\n"
+            f"🔎 {self.__class__.__name__}.lookup(): autocompletion of terms\n"
+            f"🎯 {self.__class__.__name__}.search(): free text search of terms\n"
             f"🧐 {self.__class__.__name__}.inspect(): check if identifiers are mappable\n"
             f"👽 {self.__class__.__name__}.map_synonyms(): map synonyms to standardized names\n"
             f"🔗 {self.__class__.__name__}.ontology: Pronto.Ontology object"
@@ -449,7 +449,7 @@ class Bionty:
         case_sensitive: bool = True,
         return_ranked_results: bool = False,
     ) -> pd.DataFrame:
-        """Fuzzy matching of a given string against a Bionty field.
+        """Search a given string against a Bionty field.
 
         Args:
             string: The input string to match against the field ontology values.
@@ -479,6 +479,8 @@ class Bionty:
 
 
 class BiontyField:
+    """Field of a Bionty model."""
+
     def __init__(self, parent: Bionty, name: str):
         self.parent = parent
         self.name = name
