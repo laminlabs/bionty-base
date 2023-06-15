@@ -1,6 +1,6 @@
 import pandas as pd
 
-from bionty.dev import explode_aggregated_column_to_expand
+from bionty.dev._fix_index import explode_aggregated_column_to_expand
 
 data = {
     "gene symbol": ["A1CF", "A1BG", "FANCD1", "corrupted"],
