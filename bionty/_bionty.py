@@ -434,6 +434,7 @@ class Bionty:
         from lamin_logger._map_synonyms import map_synonyms
 
         return map_synonyms(
+            df=self._df,
             identifiers=identifiers,
             field=str(field),
             synonyms_field=str(synonyms_field),
@@ -468,6 +469,7 @@ class Bionty:
         from lamin_logger._search import search
 
         return search(
+            df=self._df,
             string=string,
             field=str(field),
             synonyms_field=str(synonyms_field),
