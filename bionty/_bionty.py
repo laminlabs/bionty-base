@@ -8,7 +8,6 @@ from typing import Dict, Iterable, List, Optional, Set, Tuple, Union
 import pandas as pd
 from lamin_logger import logger
 from lamin_logger._lookup import Lookup
-from pandas import DataFrame
 
 from bionty._md5 import verify_md5
 
@@ -339,7 +338,7 @@ class Bionty:
 
     def inspect(
         self, identifiers: Iterable, field: BiontyField, return_df: bool = False
-    ) -> Union[DataFrame, Dict[str, List[str]]]:
+    ) -> Union[pd.DataFrame, Dict[str, List[str]]]:
         """Inspect if a list of identifiers are mappable to the entity reference.
 
         Args:
