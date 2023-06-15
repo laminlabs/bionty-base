@@ -15,7 +15,7 @@ classifiers = [
 ]
 dependencies = [
     "pronto>=2.5.4",
-    "lamin_logger>=0.3.4",
+    "lamin_logger>=0.4.0",
     "pyyaml",
     "pandas",
     "pyarrow",
