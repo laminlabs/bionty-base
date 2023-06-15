@@ -1,7 +1,7 @@
 version: "0.2.0"
 Species:
   ensembl:
-    all:
+    vertebrate:
       release-109:
         url: https://ftp.ensembl.org/pub/release-109/species_EnsemblVertebrates.txt
       release-108:
