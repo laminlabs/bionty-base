@@ -2,10 +2,8 @@ import os
 from pathlib import Path
 from typing import Union
 
-import botocore.session as session
 import requests  # type:ignore
 import yaml  # type:ignore
-from botocore.config import Config
 from rich.progress import Progress
 
 from bionty._settings import settings
@@ -90,6 +88,9 @@ def s3_bionty_assets(
     Returns:
         A Path object of the synchronized path.
     """
+    import botocore.session as session
+    from botocore.config import Config
+
     if localpath is None:
         localpath = settings.datasetdir / filename
     elif localpath.is_dir():
