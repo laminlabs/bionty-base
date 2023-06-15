@@ -242,7 +242,7 @@ class Bionty:
             logger.download(
                 f"Downloading {self.__class__.__name__} ontology file from: {url}"
             )
-            url_download(url, localpath)
+            _ = url_download(url, localpath)
 
     @check_datasetdir_exists
     def _set_file_paths(self) -> None:

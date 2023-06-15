@@ -6,7 +6,6 @@ import botocore.session as session
 import requests  # type:ignore
 import yaml  # type:ignore
 from botocore.config import Config
-from rich import print
 from rich.progress import Progress
 
 from bionty._settings import settings
@@ -36,7 +35,7 @@ def write_yaml(
 
 def url_download(  # pragma: no cover
     url: str, localpath: Union[str, Path, None] = None, block_size: int = 1024, **kwargs
-) -> None:
+) -> Union[str, Path, None]:
     """Downloads a file to a specified path.
 
     Args:
@@ -44,6 +43,9 @@ def url_download(  # pragma: no cover
         localpath: The path to download the file to.
         block_size: Buffer size in bytes for sending a file-like message body.
         **kwargs: Keyword arguments are passed to 'requests'
+
+    Returns:
+        The localpath file is downloaded to
 
     Raises:
         HttpError: If the request response is not 200 and OK.
@@ -66,8 +68,10 @@ def url_download(  # pragma: no cover
             # force the progress bar to 100% at the end
             progress.update(task, completed=total_content_length, refresh=True)
 
+        return localpath
+
     except requests.exceptions.HTTPError as err:
-        print(err)
+        raise (err)
 
 
 def s3_bionty_assets(
