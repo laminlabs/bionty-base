@@ -215,8 +215,8 @@ def test_add_records_to_existing_dict(new_versions_yaml_replica, versions_yaml_r
 def test_update_local_from_public_sources_yaml():
     import shutil
 
-    shutil.copyfile(new_versions_yaml_replica, PUBLIC_SOURCES)
-    shutil.copyfile(versions_yaml_replica, LOCAL_SOURCES)
+    shutil.copyfile(new_versions_yaml_replica, PUBLIC_SOURCES.as_posix())
+    shutil.copyfile(versions_yaml_replica, LOCAL_SOURCES.as_posix())
     update_local_from_public_sources_yaml()
 
 
@@ -224,5 +224,5 @@ def test_reset_sources():
     assert reset_sources() is None
     import shutil
 
-    shutil.copyfile(CURRENT_SOURCES, LAMINDB_SOURCES)
+    shutil.copyfile(CURRENT_SOURCES.as_posix(), LAMINDB_SOURCES.as_posix())
     reset_sources(confirm=True)
