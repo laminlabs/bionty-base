@@ -224,9 +224,5 @@ def test_reset_sources():
     assert reset_sources() is None
     import shutil
 
-    shutil.copyfile(LOCAL_SOURCES, LAMINDB_SOURCES)
-    reset_sources(confirm=True)
-    os.remove(LOCAL_SOURCES)
-    os.remove(CURRENT_SOURCES)
-    os.remove(LAMINDB_SOURCES)
+    shutil.copyfile(CURRENT_SOURCES, LAMINDB_SOURCES)
     reset_sources(confirm=True)
