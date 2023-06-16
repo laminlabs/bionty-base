@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🚀 Fix coverage of unit tests | [449](https://github.com/laminlabs/bionty/pull/449) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-16 |
 🎨 Default to name field for map_synonyms | [448](https://github.com/laminlabs/bionty/pull/448) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-16 |
 🚚 Update tuple name of search result | [447](https://github.com/laminlabs/bionty/pull/447) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-15 | 0.21.2
 🚚 Change species to vertebrte for ensembl | [446](https://github.com/laminlabs/bionty/pull/446) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-15 | 0.21.1
