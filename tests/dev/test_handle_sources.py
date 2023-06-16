@@ -214,7 +214,7 @@ def test_add_records_to_existing_dict(new_versions_yaml_replica, versions_yaml_r
 def test_update_local_from_public_sources_yaml():
     local_dict = load_yaml(LOCAL_SOURCES)
     local_dict.pop("Species")
-    write_yaml(load_yaml, LOCAL_SOURCES)
+    write_yaml(local_dict, LOCAL_SOURCES)
     update_local_from_public_sources_yaml()
 
 
