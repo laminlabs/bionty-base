@@ -229,3 +229,4 @@ def test_reset_sources():
     os.remove(LOCAL_SOURCES)
     os.remove(CURRENT_SOURCES)
     os.remove(LAMINDB_SOURCES)
+    reset_sources(confirm=True)
