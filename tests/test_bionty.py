@@ -14,7 +14,8 @@ def test_reset_sources():
 
     shutil.copyfile(CURRENT_SOURCES.as_posix(), LAMINDB_SOURCES.as_posix())
     bt.reset_sources()
+    bt.reset_sources(confirm=True)
 
     CURRENT_SOURCES.unlink()
     LOCAL_SOURCES.unlink()
-    bt.reset_sources()
+    bt.reset_sources(confirm=True)
