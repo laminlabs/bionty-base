@@ -24,11 +24,11 @@ def LAMINDB_INSTANCE_LOADED():
 
 def reset_sources(confirm: bool = False):
     """Reset local bionty sources file."""
+    from importlib import reload
+
+    import bionty
+
     if confirm:
-        from importlib import reload
-
-        import bionty
-
         try:
             LOCAL_SOURCES.unlink()
             logger.success(f"Removed file: {LOCAL_SOURCES}.")
@@ -46,7 +46,7 @@ def reset_sources(confirm: bool = False):
             pass
 
         reload(bionty)
-        logger.info("Reloaded bionty")
+        logger.info("Reloaded bionty!")
 
     else:
         logger.warning(
