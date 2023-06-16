@@ -5,21 +5,21 @@ import bionty as bt
 
 def test_cellmarker_cellmarker_inspect_name_human():
     df = pd.DataFrame(
-        index=["CCR7", "CD69", "CD8A", "CD45RA", "This protein does not exist"]
+        index=["CCR7", "CD69", "CD8", "CD45RA", "This protein does not exist"]
     )
 
     cm = bt.CellMarker(source="cellmarker", version="2.0")
     curated = cm.inspect(df.index, field=cm.name)
 
     assert curated == {
-        "mapped": ["CCR7", "CD69", "CD8A", "CD45RA"],
+        "mapped": ["CCR7", "CD69", "CD8", "CD45RA"],
         "not_mapped": ["This protein does not exist"],
     }
 
 
 def test_cellmarker_cellmarker_inspect_name_mouse():
     df = pd.DataFrame(
-        index=["Tcf4", "Cd36", "Cd34", "Cd45", "This protein does not exist"]
+        index=["Tcf4", "Cd36", "Cd34", "Lgr6", "This protein does not exist"]
     )
 
     cm = bt.CellMarker(source="cellmarker", version="2.0", species="mouse")
