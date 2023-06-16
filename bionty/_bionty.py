@@ -46,11 +46,14 @@ class Bionty:
             logger.error(
                 f"Only default sources below are allowed inside LaminDB instances!\n{self._default_sources}\n"  # noqa: E501
             )
+            # fmt: off
             logger.hint(
-                "To use a different source, please either:\n    Close your instance"
-                " via `lamin close` \n    OR\n    Configure currently_used"
-                f" {self.__class__.__name__} source in lnschema_bionty.BiontySource"
+                f"To use a different source, please either:\n"
+                f"    Close your instance via `lamin close`\n"
+                f"    OR\n"
+                f"    Configure currently_used {self.__class__.__name__} source in `lnschema_bionty.BiontySource`"
             )
+            # fmt: on
             self._source = None  # type: ignore
             return
 
@@ -327,21 +330,22 @@ class Bionty:
         """Inspect if a list of identifiers are mappable to the entity reference.
 
         Args:
-            identifiers: Identifiers that will be checked against the Ontology.
+            identifiers: Identifiers that will be checked against the field.
             field: The BiontyField of the ontology to compare against.
                           Examples are 'ontology_id' to map against the ontology ID
                           or 'name' to map against the ontologies field names.
             return_df: Whether to return a Pandas DataFrame.
 
         Returns:
-            - A Dictionary that maps the input ontology (keys) to the ontology field (values)
-            - If specified A Pandas DataFrame with the curated index and a boolean `__mapped__`
-              column that indicates compliance with the default identifier.
+            - A Dictionary of "mapped" and "unmapped" identifiers
+            - If `return_df`: A DataFrame indexed by identifiers with a boolean `__mapped__`
+              column that indicates compliance with the identifiers.
 
         Examples:
             >>> import bionty as bt
-            >>> celltype_bionty = bt.CellType()
-            >>> celltype_bionty.inspect(["Boettcher cell", "bone marrow cell"], field=celltype_bionty.name)
+            >>> gene_bionty = bt.Gene()
+            >>> gene_symbols = ["A1CF", "A1BG", "FANCD1", "FANCD20"]
+            >>> gene_bionty.inspect(gene_symbols, field=gene_bionty.symbol)
         """
         mapped_df = pd.DataFrame(index=identifiers)
 
@@ -402,7 +406,7 @@ class Bionty:
         synonyms_sep: str = "|",
         field: Optional[Union[BiontyField, str]] = None,
     ) -> Union[Dict[str, str], List[str]]:
-        """Maps input identifiers against Ontology synonyms.
+        """Maps input identifiers against synonyms.
 
         Args:
             identifiers: Identifiers that will be mapped against an Ontology field (BiontyField).
@@ -420,7 +424,7 @@ class Bionty:
             >>> import bionty as bt
             >>> gene_bionty = bt.Gene()
             >>> gene_symbols = ["A1CF", "A1BG", "FANCD1", "FANCD20"]
-            >>> mapping = gene_bionty.map_synonyms(gene_symbols, gn.symbol)
+            >>> standardized_symbols = gene_bionty.map_synonyms(gene_symbols, gn.symbol)
         """
         from lamin_logger._map_synonyms import map_synonyms
 
@@ -434,7 +438,7 @@ class Bionty:
         )
 
     def lookup(self, field: Optional[Union[BiontyField, str]] = None) -> Tuple:
-        """Return an auto-complete object for the Bionty field.
+        """An auto-complete object for a Bionty field.
 
         Args:
             field: The field to lookup the values for.
@@ -445,10 +449,10 @@ class Bionty:
 
         Examples:
             >>> import bionty as bt
-            >>> lookup = bt.Gene().lookup()
-            >>> lookup.adgb_dt
+            >>> lookup = bt.CellType().lookup()
+            >>> lookup.cd103_positive_dendritic_cell
             >>> lookup_dict = lookup.dict()
-            >>> lookup['ADGB-DT']
+            >>> lookup['CD103-positive dendritic cell']
         """
         return Lookup(
             df=self._df,
