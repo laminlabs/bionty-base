@@ -50,7 +50,17 @@ lookup_dict = lookup.dict()
 lookup_dict["single-cell RNA sequencing"]
 ```
 
-## Inspect & map identifiers
+## Search ontology terms
+
+```python
+import bionty as bt
+
+celltype_bionty = bt.CellType()
+# Free text search against a field
+celltype_bionty.search("gamma delta T cell")
+```
+
+## Inspect & standardize identifiers
 
 ```python
 import bionty as bt
@@ -59,11 +69,7 @@ gene_bionty = bt.Gene()
 # Inspect if the gene symbols are mappable onto the reference
 gene_bionty.inspect(["A1BG", "FANCD1"], gene_bionty.symbol)
 # Map synonyms of gene symbols
-gene_bionty.map_synonyms(["A1BG", "FANCD1"], gene_bionty.symbol)
-
-celltype_bionty = bt.CellType()
-# Free text search against a field
-celltype_bionty.search("gamma delta T cell", celltype_bionty.name)
+gene_bionty.map_synonyms(["A1BG", "FANCD1"])
 ```
 
 ## Reference tables of ontologies

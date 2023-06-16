@@ -1,6 +1,7 @@
 import pandas as pd
 
 import bionty as bt
+from bionty.entities._readout import _parse_efo_term
 
 
 def test_efo_readout_inspect_ontology_id():
@@ -23,10 +24,12 @@ def test_efo_readout_inspect_ontology_id():
     assert inspect.equals(expected_series)
 
 
-def test_readout_parse():
+def test_parse_efo_term():
     ro = bt.Readout(source="efo", version="3.48.0")
+    ontology = ro.ontology
+    res = _parse_efo_term(term_id="EFO:0008913", ontology=ontology)
 
-    assert ro._parse("EFO:0008913") == {
+    assert res == {
         "ontology_id": "EFO:0008913",
         "name": "single-cell RNA sequencing",
         "molecule": "RNA assay",
