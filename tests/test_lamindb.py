@@ -10,8 +10,10 @@ def test_loaded_lamindb():
     shutil.copyfile(CURRENT_SOURCES.as_posix(), LAMINDB_SOURCES.as_posix())
 
     lnenv = Path.home() / ".lamin/current_instance.env"
-    open(lnenv, "a").close()
+    open(lnenv.as_posix(), "a").close()
 
     ct = bt.CellType(version="2022-08-16")
     assert ct.source is None
     assert str(ct) == "invalid Bionty object"
+
+    lnenv.unlink()
