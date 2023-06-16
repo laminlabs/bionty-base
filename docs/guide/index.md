@@ -11,6 +11,7 @@ search
 ontology
 inspect
 sources
+config
 extend
 concepts
 ```
