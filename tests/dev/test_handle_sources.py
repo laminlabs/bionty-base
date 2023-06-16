@@ -212,7 +212,9 @@ def test_add_records_to_existing_dict(new_versions_yaml_replica, versions_yaml_r
     }
 
 
-def test_update_local_from_public_sources_yaml():
+def test_update_local_from_public_sources_yaml(
+    new_versions_yaml_replica, versions_yaml_replica
+):
     import shutil
 
     shutil.copyfile(new_versions_yaml_replica, PUBLIC_SOURCES.as_posix())
