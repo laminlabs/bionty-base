@@ -6,14 +6,11 @@ import pytest
 from bionty.dev._handle_sources import (
     CURRENT_SOURCES,
     LAMINDB_SOURCES,
-    LOCAL_SOURCES,
-    PUBLIC_SOURCES,
     add_records_to_existing_dict,
     parse_currently_used_sources,
     parse_sources_yaml,
     records_diff_btw_yamls,
     reset_sources,
-    update_local_from_public_sources_yaml,
 )
 from bionty.dev._io import load_yaml
 
@@ -210,16 +207,6 @@ def test_add_records_to_existing_dict(new_versions_yaml_replica, versions_yaml_r
         "url": "new-cell-type-source",
         "md5": "new-md5",
     }
-
-
-def test_update_local_from_public_sources_yaml(
-    new_versions_yaml_replica, versions_yaml_replica
-):
-    import shutil
-
-    shutil.copyfile(new_versions_yaml_replica, PUBLIC_SOURCES.as_posix())
-    shutil.copyfile(versions_yaml_replica, LOCAL_SOURCES.as_posix())
-    update_local_from_public_sources_yaml()
 
 
 def test_reset_sources():
