@@ -267,6 +267,22 @@ class Bionty:
         else:
             self._local_ontology_path = settings.dynamicdir / self._ontology_filename
 
+    def _get_default_field(
+        self, field: Optional[Union[BiontyField, str]] = None
+    ) -> str:
+        """Default to name field."""
+        if field is None:
+            if "name" in self._df.columns:
+                field = "name"
+            elif "symbol" in self._df.columns:
+                field = "symbol"
+            else:
+                raise ValueError("Please specify a field!")
+        field = str(field)
+        if field not in self._df.columns:
+            raise AssertionError(f"No {field} column exists!")
+        return field
+
     def _load_df(self) -> pd.DataFrame:
         # Download and sync from s3://bionty-assets
         if self._parquet_filename is None:
@@ -305,33 +321,6 @@ class Bionty:
         else:
             return self._df
 
-    def lookup(self, field: Union[BiontyField, str] = "name") -> Tuple:
-        """Return an auto-complete object for the bionty field.
-
-        Args:
-            field: The field to lookup the values for.
-                   Defaults to 'name'.
-
-        Returns:
-            A NamedTuple of lookup information of the field values.
-
-        Examples:
-            >>> import bionty as bt
-            >>> lookup = bt.Gene().lookup()
-            >>> lookup.adgb_dt
-            >>> lookup_dict = lookup.dict()
-            >>> lookup['ADGB-DT']
-        """
-        df = self._df
-
-        field = str(field)
-        if field not in df.columns:
-            raise AssertionError(f"No {field} column exists!")
-
-        return Lookup(
-            df=df, field=field, tuple_name=self.__class__.__name__, prefix="bt"
-        ).lookup()
-
     def inspect(
         self, identifiers: Iterable, field: BiontyField, return_df: bool = False
     ) -> Union[pd.DataFrame, Dict[str, List[str]]]:
@@ -361,10 +350,9 @@ class Bionty:
                 identifiers=identifiers, field=field, return_mapper=True
             )
             if len(synonyms_mapper) > 0:
-                logger.warning("The identifiers contain synonyms!")
-                logger.hint(
-                    "To increase mappability, convert them into standardized"
-                    " names/symbols using '.map_synonyms()'"
+                logger.warning(
+                    "The identifiers contain synonyms!\n   To increase mappability,"
+                    " standardize them via '.map_synonyms()'"
                 )
         except Exception:
             pass
@@ -408,17 +396,20 @@ class Bionty:
     def map_synonyms(
         self,
         identifiers: Iterable,
-        field: BiontyField,
         *,
-        synonyms_field: Union[BiontyField, str] = "synonyms",
         return_mapper: bool = False,
+        synonyms_field: Union[BiontyField, str] = "synonyms",
+        synonyms_sep: str = "|",
+        field: Optional[Union[BiontyField, str]] = None,
     ) -> Union[Dict[str, str], List[str]]:
         """Maps input identifiers against Ontology synonyms.
 
         Args:
             identifiers: Identifiers that will be mapped against an Ontology field (BiontyField).
-            field: The BiontyField of ontology representing the identifiers.
             return_mapper: Whether to return a dictionary of {identifiers : <mapped field values>}.
+            synonyms_field: The BiontyField representing the concatenated synonyms.
+            synonyms_sep: Which separator is used to separate synonyms.
+            field: The BiontyField representing the identifiers.
 
         Returns:
             - A list of mapped field values if return_mapper is False.
@@ -427,7 +418,7 @@ class Bionty:
 
         Examples:
             >>> import bionty as bt
-            >>> gene_bionty = bt.Gene(source="ensembl", version="release-108")
+            >>> gene_bionty = bt.Gene()
             >>> gene_symbols = ["A1CF", "A1BG", "FANCD1", "FANCD20"]
             >>> mapping = gene_bionty.map_synonyms(gene_symbols, gn.symbol)
         """
@@ -436,31 +427,58 @@ class Bionty:
         return map_synonyms(
             df=self._df,
             identifiers=identifiers,
-            field=str(field),
-            synonyms_field=str(synonyms_field),
+            field=self._get_default_field(field),
             return_mapper=return_mapper,
-            sep="|",
+            synonyms_field=str(synonyms_field),
+            sep=synonyms_sep,
         )
+
+    def lookup(self, field: Optional[Union[BiontyField, str]] = None) -> Tuple:
+        """Return an auto-complete object for the Bionty field.
+
+        Args:
+            field: The field to lookup the values for.
+                   Defaults to 'name'.
+
+        Returns:
+            A NamedTuple of lookup information of the field values.
+
+        Examples:
+            >>> import bionty as bt
+            >>> lookup = bt.Gene().lookup()
+            >>> lookup.adgb_dt
+            >>> lookup_dict = lookup.dict()
+            >>> lookup['ADGB-DT']
+        """
+        return Lookup(
+            df=self._df,
+            field=self._get_default_field(field),
+            tuple_name=self.__class__.__name__,
+            prefix="bt",
+        ).lookup()
 
     def search(
         self,
         string: str,
-        field: Union[BiontyField, str] = "name",
-        synonyms_field: Union[BiontyField, str, None] = "synonyms",
+        field: Optional[Union[BiontyField, str]] = None,
+        top_hit: bool = False,
         case_sensitive: bool = True,
-        return_ranked_results: bool = False,
+        synonyms_field: Union[BiontyField, str, None] = "synonyms",
+        synonyms_sep: str = "|",
     ) -> pd.DataFrame:
         """Search a given string against a Bionty field.
 
         Args:
-            string: The input string to match against the field ontology values.
+            string: The input string to match against the field values.
             field: The BiontyField of ontology the input string is matching against.
-            synonyms_field: Also map against in the synonyms (If None, no mapping against synonyms).
+            top_hit: Default is False, return all entries ranked by matching ratios.
+                If True, only return the top match.
             case_sensitive: Whether the match is case sensitive.
-            return_ranked_results: Whether to return all entries ranked by matching ratios.
+            synonyms_field: By default also search against the synonyms (If None, skips search).
+            synonyms_sep: Which separator is used to separate synonyms.
 
         Returns:
-            Best match record of the input string.
+            Ranked search results.
 
         Examples:
             >>> import bionty as bt
@@ -472,11 +490,11 @@ class Bionty:
         return search(
             df=self._df,
             string=string,
-            field=str(field),
-            synonyms_field=str(synonyms_field),
+            field=self._get_default_field(field),
+            return_ranked_results=not top_hit,
             case_sensitive=case_sensitive,
-            return_ranked_results=return_ranked_results,
-            synonyms_sep="|",
+            synonyms_field=str(synonyms_field),
+            synonyms_sep=synonyms_sep,
             tuple_name=self.__class__.__name__,
         )
 

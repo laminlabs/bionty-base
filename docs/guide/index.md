@@ -7,7 +7,7 @@
 :maxdepth: 2
 :hidden:
 
-lookup
+search
 ontology
 inspect
 sources
