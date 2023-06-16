@@ -18,7 +18,7 @@ def build(session, group):
     session.run(*"pip install -e .[dev]".split())
     coverage_args = "--cov=bionty --cov-append --cov-report=term-missing"  # noqa
     if group == "bionty-unit":
-        session.run(*f"pytest -s {coverage_args} ./tests".split())
+        session.run(*f"pytest {coverage_args} ./tests".split())
     elif group == "bionty-docs":
         session.run(*f"pytest -s {coverage_args} ./docs/guide".split())
         shutil.copy("README.md", "docs/README.md")
