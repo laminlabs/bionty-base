@@ -15,7 +15,7 @@ def lint(session: nox.Session) -> None:
 @nox.session
 @nox.parametrize("group", ["bionty-unit", "bionty-docs"])
 def build(session, group):
-    session.run(*"pip install .[dev,test]".split())
+    session.run(*"pip install -e .[dev]".split())
     coverage_args = "--cov=bionty --cov-append --cov-report=term-missing"  # noqa
     if group == "bionty-unit":
         session.run(*f"pytest -s {coverage_args} ./tests".split())

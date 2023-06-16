@@ -15,7 +15,7 @@ classifiers = [
 ]
 dependencies = [
     "pronto>=2.5.4",
-    "lamin_logger>=0.4.0",
+    "lamin_logger==0.5.2",
     "pyyaml",
     "pandas",
     "pyarrow",
@@ -30,7 +30,7 @@ dependencies = [
 Home = "https://github.com/laminlabs/bionty"
 
 [project.optional-dependencies]
-test = [
+dev = [
     "pre-commit",
     "pytest>=6.0",
     "pytest-cov",
@@ -44,4 +44,9 @@ preview = true
 [tool.pytest.ini_options]
 testpaths = [
     "tests",
+]
+
+[tool.coverage.run]
+omit = [
+    "bionty/*",
 ]

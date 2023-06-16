@@ -116,6 +116,7 @@ _dynamic/
 *.ipynb_checkpoints/
 _docs_tmp*
 *.lock
+*/bfxpipelines.json
 
 # legacy local versions
 **/versions/_current.yaml
