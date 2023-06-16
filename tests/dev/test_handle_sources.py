@@ -4,12 +4,17 @@ import tempfile
 import pytest
 
 from bionty.dev._handle_sources import (
+    CURRENT_SOURCES,
+    LAMINDB_SOURCES,
+    LOCAL_SOURCES,
     add_records_to_existing_dict,
     parse_currently_used_sources,
     parse_sources_yaml,
     records_diff_btw_yamls,
+    reset_sources,
+    update_local_from_public_sources_yaml,
 )
-from bionty.dev._io import load_yaml
+from bionty.dev._io import load_yaml, write_yaml
 
 
 @pytest.fixture(scope="function")
@@ -204,3 +209,18 @@ def test_add_records_to_existing_dict(new_versions_yaml_replica, versions_yaml_r
         "url": "new-cell-type-source",
         "md5": "new-md5",
     }
+
+
+def test_update_local_from_public_sources_yaml():
+    local_dict = load_yaml(LOCAL_SOURCES)
+    local_dict.pop("Species")
+    write_yaml(local_dict, LOCAL_SOURCES)
+    update_local_from_public_sources_yaml()
+
+
+def test_reset_sources():
+    assert reset_sources() is None
+    import shutil
+
+    shutil.copyfile(CURRENT_SOURCES.as_posix(), LAMINDB_SOURCES.as_posix())
+    reset_sources(confirm=True)
