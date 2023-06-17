@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-🐛 Fix passing empty strings to map_synonyms | [451](https://github.com/laminlabs/bionty/pull/451) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-17 |
+🐛 Fix passing empty strings to map_synonyms | [451](https://github.com/laminlabs/bionty/pull/451) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-17 | 0.21.4
 🧪 More tests for handle sources | [450](https://github.com/laminlabs/bionty/pull/450) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-16 | 0.21.3
 🚀 Fix coverage of unit tests | [449](https://github.com/laminlabs/bionty/pull/449) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-16 |
 🎨 Default to name field for map_synonyms | [448](https://github.com/laminlabs/bionty/pull/448) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-16 |
