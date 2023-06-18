@@ -72,7 +72,7 @@ def create_or_update_sources_local_yaml(overwrite: bool = True) -> None:
         update_local_from_public_sources_yaml()
 
 
-def parse_sources_yaml(filepath: Union[str, Path]) -> pd.DataFrame:
+def parse_sources_yaml(filepath: Union[str, Path] = PUBLIC_SOURCES) -> pd.DataFrame:
     """Parse values from sources yaml file into a DataFrame.
 
     Args:
