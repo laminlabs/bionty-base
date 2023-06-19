@@ -3,7 +3,7 @@ from __future__ import annotations
 import os
 from functools import cached_property
 from pathlib import Path
-from typing import Dict, Iterable, List, Optional, Set, Tuple, Union
+from typing import Dict, Iterable, List, Literal, Optional, Set, Tuple, Union
 
 import pandas as pd
 from lamin_logger import logger
@@ -86,7 +86,7 @@ class Bionty:
             f"🎯 {self.__class__.__name__}.search(): free text search of terms\n"
             f"🧐 {self.__class__.__name__}.inspect(): check if identifiers are mappable\n"
             f"👽 {self.__class__.__name__}.map_synonyms(): map synonyms to standardized names\n"
-            f"🔗 {self.__class__.__name__}.source: Pronto.Ontology object"
+            f"🔗 {self.__class__.__name__}.ontology: Pronto.Ontology object"
         )
         # fmt: on
         if self._source is not None:
@@ -325,7 +325,13 @@ class Bionty:
             return self._df
 
     def inspect(
-        self, identifiers: Iterable, field: BiontyField, return_df: bool = False
+        self,
+        identifiers: Iterable,
+        field: BiontyField,
+        *,
+        case_sensitive: bool = False,
+        inspect_synonyms: bool = True,
+        return_df: bool = False,
     ) -> Union[pd.DataFrame, Dict[str, List[str]]]:
         """Inspect if a list of identifiers are mappable to the entity reference.
 
@@ -334,6 +340,8 @@ class Bionty:
             field: The BiontyField of the source to compare against.
                           Examples are 'ontology_id' to map against the source ID
                           or 'name' to map against the ontologies field names.
+            case_sensitive: Whether the identifier inspection is case sensitive.
+            inspect_synonyms: Whether to inspect synonyms.
             return_df: Whether to return a Pandas DataFrame.
 
         Returns:
@@ -347,25 +355,30 @@ class Bionty:
             >>> gene_symbols = ["A1CF", "A1BG", "FANCD1", "FANCD20"]
             >>> gene_bionty.inspect(gene_symbols, field=gene_bionty.symbol)
         """
-        mapped_df = pd.DataFrame(index=identifiers)
+        from lamin_logger._map_synonyms import check_if_ids_in_field_values
 
-        try:
-            synonyms_mapper = self.map_synonyms(
-                identifiers=identifiers, field=field, return_mapper=True
-            )
-            if len(synonyms_mapper) > 0:
-                logger.warning(
-                    "The identifiers contain synonyms!\n   To increase mappability,"
-                    " standardize them via '.map_synonyms()'"
+        if inspect_synonyms:
+            try:
+                synonyms_mapper = self.map_synonyms(
+                    identifiers=identifiers,
+                    field=field,
+                    return_mapper=True,
+                    case_sensitive=case_sensitive,
                 )
-        except Exception:
-            pass
+                if len(synonyms_mapper) > 0:
+                    logger.warning(
+                        "The identifiers contain synonyms!\n   To increase mappability,"
+                        " standardize them via '.map_synonyms()'"
+                    )
+            except Exception:
+                pass
 
         # check if index is compliant
-        matches = mapped_df.index.isin(self._df[str(field)])
-
-        # annotated what complies with the default ID
-        mapped_df["__mapped__"] = matches
+        mapped_df = check_if_ids_in_field_values(
+            identifiers=identifiers,
+            field_values=self._df[str(field)],
+            case_sensitive=case_sensitive,
+        )
 
         def unique_rm_empty(idx: pd.Index):
             idx = idx.unique()
@@ -374,11 +387,12 @@ class Bionty:
         mapped = unique_rm_empty(mapped_df.index[mapped_df["__mapped__"]]).tolist()
         unmapped = unique_rm_empty(mapped_df.index[~mapped_df["__mapped__"]]).tolist()
 
-        n_mapped = len(mapped)
-        n_unmapped = len(unmapped)
+        n_uniq_mapped = len(mapped)
+        n_uniq_unmapped = len(unmapped)
         n_unique_terms = len(mapped) + len(unmapped)
-        n_empty = len(matches) - n_unique_terms
-        frac_unmapped = round(n_unmapped / len(matches) * 100, 1)
+        n_matches = mapped_df["__mapped__"].sum()
+        n_empty = n_matches - n_unique_terms
+        frac_unmapped = round(n_uniq_unmapped / n_matches * 100, 1)
         frac_mapped = 100 - frac_unmapped
 
         if n_empty > 0:
@@ -386,8 +400,8 @@ class Bionty:
                 f"Received {n_unique_terms} unique terms, {n_empty} empty/duplicated"
                 " terms are ignored."
             )
-        logger.success(f"{n_mapped} terms ({frac_mapped}%) are mapped.")
-        logger.warning(f"{n_unmapped} terms ({frac_unmapped}%) are not mapped.")
+        logger.success(f"{n_uniq_mapped} terms ({frac_mapped}%) are mapped.")
+        logger.warning(f"{n_uniq_unmapped} terms ({frac_unmapped}%) are not mapped.")
 
         if return_df:
             return mapped_df
@@ -402,6 +416,8 @@ class Bionty:
         identifiers: Iterable,
         *,
         return_mapper: bool = False,
+        case_sensitive: bool = False,
+        keep: Literal["first", "last", False] = "first",
         synonyms_field: Union[BiontyField, str] = "synonyms",
         synonyms_sep: str = "|",
         field: Optional[Union[BiontyField, str]] = None,
@@ -410,15 +426,22 @@ class Bionty:
 
         Args:
             identifiers: Identifiers that will be mapped against an Ontology field (BiontyField).
-            return_mapper: Whether to return a dictionary of {identifiers : <mapped field values>}.
+            return_mapper: If True, returns {input synonyms : standardized field name}.
+            case_sensitive: Whether the mapping is case sensitive.
+            keep : {'first', 'last', False}, default 'first'
+                When a synonym maps to multiple standardized values, determines
+                which duplicates to mark as `pandas.DataFrame.duplicated`
+                - "first": returns the first mapped standardized value
+                - "last": returns the last mapped standardized value
+                - False: returns all mapped standardized value
             synonyms_field: The BiontyField representing the concatenated synonyms.
             synonyms_sep: Which separator is used to separate synonyms.
             field: The BiontyField representing the identifiers.
 
         Returns:
-            - A list of mapped field values if return_mapper is False.
-            - A dictionary of mapped values with mappable identifiers as keys
-              and values mapped to field as values if return_mapper is True.
+            - If return_mapper is False: a list of mapped field values.
+            - If return_mapper is True: a dictionary of mapped values with mappable identifiers
+                as keys and values mapped to field as values.
 
         Examples:
             >>> import bionty as bt
@@ -433,6 +456,8 @@ class Bionty:
             identifiers=identifiers,
             field=self._get_default_field(field),
             return_mapper=return_mapper,
+            case_sensitive=case_sensitive,
+            keep=keep,
             synonyms_field=str(synonyms_field),
             sep=synonyms_sep,
         )
@@ -464,6 +489,7 @@ class Bionty:
     def search(
         self,
         string: str,
+        *,
         field: Optional[Union[BiontyField, str]] = None,
         top_hit: bool = False,
         case_sensitive: bool = True,

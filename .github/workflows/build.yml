@@ -87,10 +87,6 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
-      - name: Update version URLs
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push' && matrix.group == 'bionty-unit'
-        run: python ./scripts/upload_new_ontologies.py
-
   coverage:
     needs: test
     runs-on: ubuntu-latest
