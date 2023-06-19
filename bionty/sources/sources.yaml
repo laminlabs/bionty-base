@@ -101,9 +101,6 @@ Disease:
 Readout:
   efo:
     all:
-      3.53.0:
-        url: http://www.ebi.ac.uk/efo/releases/v3.53.0/efo.owl
-        md5: ""
       3.48.0:
         url: http://www.ebi.ac.uk/efo/releases/v3.48.0/efo.owl
         md5: 3367e9a9ae3dee9113024e5108c49091

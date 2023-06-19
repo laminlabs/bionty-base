@@ -24,4 +24,4 @@ jobs:
         run: pip install .[dev]
 
       - name: check URLs
-        run: python ./scripts/check_ontologies_reachable.py
+        run: python ./scripts/update_new_ontologies.py
