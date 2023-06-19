@@ -84,7 +84,7 @@ def _parse_efo_term(
     term = ontology.get_term(term_id)
     superclasses = term.superclasses()
 
-    # assay = self.ontology._list_subclasses(self._readout_terms["assay"])
+    # assay = self.source._list_subclasses(self._readout_terms["assay"])
     assay_by_molecule = _list_subclasses(ontology, readout_terms["assay_by_molecule"])
     assay_by_instrument = _list_subclasses(
         ontology, readout_terms["assay_by_instrument"]

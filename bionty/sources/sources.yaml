@@ -49,6 +49,9 @@ CellLine:
 CellType:
   cl:
     all:
+      2023-04-20:
+        url: http://purl.obolibrary.org/obo/cl/releases/2023-04-20/cl-base.owl
+        md5: ""
       2023-02-15:
         url: http://purl.obolibrary.org/obo/cl/releases/2023-02-15/cl-base.owl
         md5: 9331a6a029cb1863bd0584ab41508df7
@@ -56,21 +59,27 @@ CellType:
         url: http://purl.obolibrary.org/obo/cl/releases/2022-08-16/cl.owl
         md5: d0655766574e63f3fe5ed56d3c030880
     name: Cell Ontology
-    website: https://obophenotype.github.io/cell-ontology
+    website: https://obophenotype.github.io/cell-source
 Tissue:
   uberon:
     all:
+      2023-04-19:
+        url: http://purl.obolibrary.org/obo/uberon/releases/2023-04-19/uberon.owl
+        md5: ""
       2023-02-14:
         url: http://purl.obolibrary.org/obo/uberon/releases/2023-02-14/uberon.owl
         md5: 3f94e22fae4cdde88a555c5cd59c47da
       2022-08-19:
         url: http://purl.obolibrary.org/obo/uberon/releases/2022-08-19/uberon.owl
         md5: c7c958a1ee48fdce146f2c1763eed27e
-    name: Uberon multi-species anatomy ontology
+    name: Uberon multi-species anatomy source
     website: http://obophenotype.github.io/uberon
 Disease:
   mondo:
     all:
+      2023-04-04:
+        url: http://purl.obolibrary.org/obo/mondo/releases/2023-04-04/mondo.owl
+        md5: ""
       2023-02-06:
         url: http://purl.obolibrary.org/obo/mondo/releases/2023-02-06/mondo.owl
         md5: 2b7d479d4bd02a94eab47d1c9e64c5db
@@ -81,11 +90,14 @@ Disease:
     website: https://mondo.monarchinitiative.org
   doid:
     human:
+      2023-03-31:
+        url: http://purl.obolibrary.org/obo/doid/releases/2023-03-31/doid.obo
+        md5: ""
       2023-01-30:
         url: http://purl.obolibrary.org/obo/doid/releases/2023-01-30/doid.obo
         md5: 9f0c92ad2896dda82195e9226a06dc36
     name: Human Disease Ontology
-    website: https://disease-ontology.org
+    website: https://disease-source.org
 Readout:
   efo:
     all:
@@ -97,8 +109,14 @@ Readout:
 Phenotype:
   hp:
     human:
+      2023-06-17:
+        url: https://github.com/obophenotype/human-phenotype-ontology/releases/download/v2023-06-17/hp.owl
+        md5: ""
+      2023-04-05:
+        url: https://github.com/obophenotype/human-phenotype-ontology/releases/download/v2023-04-05/hp.owl
+        md5: ""
       2023-01-27:
-        url: https://github.com/obophenotype/human-phenotype-ontology/releases/download/v2023-01-27/hp.owl
+        url: https://github.com/obophenotype/human-phenotype-source/releases/download/v2023-01-27/hp.owl
         md5: ceeb3ada771908deef620d74cd8e6b0f
     name: Human Phenotype Ontology
     website: https://hpo.jax.org

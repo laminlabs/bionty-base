@@ -7,10 +7,10 @@ from bionty.entities._readout import _parse_efo_term
 def test_efo_readout_inspect_ontology_id():
     df = pd.DataFrame(
         index=[
-            "EFO:0000001",
+            "EFO:0011021",
             "EFO:1002050",
             "EFO:1002047",
-            "EFO:0000005",
+            "EFO:1002049",
             "This readout does not exist",
         ]
     )

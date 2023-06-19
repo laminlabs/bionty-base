@@ -35,7 +35,7 @@ Disease:
         source: http://purl.obolibrary.org/obo/doid/releases/2023-01-30/doid.obo
         md5: 9f0c92ad2896dda82195e9226a06dc36
     name: Human Disease Ontology
-    website: https://disease-ontology.org/
+    website: https://disease-source.org/
   inhouse_diseases:
     human:
       2000-01-01:

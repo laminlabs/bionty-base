@@ -11,7 +11,7 @@ from .._bionty import Bionty
 class Species(Bionty):
     """Species.
 
-    1. Species ontology
+    1. Species source
     Edits of terms are coordinated and reviewed on:
     https://www.ensembl.org/index.html
 
@@ -47,10 +47,10 @@ class Species(Bionty):
             return pd.read_parquet(self._local_parquet_path)
 
     def df(self) -> pd.DataFrame:
-        """Pandas DataFrame of the ontology.
+        """Pandas DataFrame of the source.
 
         Returns:
-            A Pandas DataFrame of the ontology.
+            A Pandas DataFrame of the source.
 
         Examples:
             >>> import bionty as bt
