@@ -26,7 +26,7 @@ doc_entites = """\
 species: `name` of `Species` entity.
         source: The key of the source in the local.yml versions file.
                   Get all available databases with `bionty.display_available_sources`.
-        version: The version of the ontology. Typically a date or an actual version.
+        version: The version of the source. Typically a date or an actual version.
                   Get available versions with `bionty.display_available_sources`.
 """
 species_removed_tmp = "\n".join(doc_entites.split("\n")[1:]).split("\n")

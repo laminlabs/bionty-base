@@ -37,10 +37,10 @@ class BFXPipeline(Bionty):
         return df.reset_index()
 
     def df(self) -> pd.DataFrame:
-        """Pandas DataFrame of the ontology.
+        """Pandas DataFrame of the source.
 
         Returns:
-            A Pandas DataFrame of the ontology.
+            A Pandas DataFrame of the source.
 
         Examples:
             >>> import bionty as bt

@@ -35,7 +35,8 @@ dev = [
     "pytest>=6.0",
     "pytest-cov",
     "laminci",
-    "nbproject-test"
+    "nbproject-test",
+    "bioregistry"
 ]
 
 [tool.black]
