@@ -5,12 +5,6 @@ from rich import print
 
 from bionty.dev._handle_sources import parse_sources_yaml
 
-"""
-2. If source is reachable -> get latest version
-3. Compare -> create some result -> throw error if some found
-4. Create CI job that runs this script
-"""
-
 sources = parse_sources_yaml()
 latest_versions = (
     sources.groupby("source")["version"]
