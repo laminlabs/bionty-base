@@ -1,4 +1,4 @@
-name: Check ontology URLs
+name: Check source URLs
 
 on:
   pull_request:

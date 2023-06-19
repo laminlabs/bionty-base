@@ -14,7 +14,7 @@ def test_cl_celltype_inspect_name():
         ]
     )
 
-    ct = bt.CellType(source="cl", version="2022-08-16")
+    ct = bt.CellType(source="cl", version="2023-04-20")
     inspected_df = ct.inspect(df.index, field=ct.name, return_df=True)
 
     inspect = inspected_df["__mapped__"].reset_index(drop=True)

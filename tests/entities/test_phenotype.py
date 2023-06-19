@@ -14,7 +14,7 @@ def test_hp_phenotype_inspect_name():
         ]
     )
 
-    pt = bt.Phenotype(source="hp", version="2023-01-27")
+    pt = bt.Phenotype(source="hp", version="2023-06-06")
     inspected_df = pt.inspect(df.index, field=pt.name, return_df=True)
 
     inspect = inspected_df["__mapped__"].reset_index(drop=True)

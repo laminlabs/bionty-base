@@ -1,7 +1,12 @@
+from typing import Dict
+
+import bioregistry
+from rich import print
+
 from bionty.dev._handle_sources import parse_sources_yaml
 
 """
-2. If ontology is reachable -> get latest version
+2. If source is reachable -> get latest version
 3. Compare -> create some result -> throw error if some found
 4. Create CI job that runs this script
 """
@@ -18,19 +23,19 @@ latest_versions = (
 )
 latest_versions_dict = latest_versions.set_index("source")["version"].to_dict()
 
-for ontology, version in latest_versions_dict.items():
-    pass
+new_latest_versions: Dict[str, str] = {}
+for source, current_latest_version in latest_versions_dict.items():
+    bioregistry_version = bioregistry.get_version(source)
+    if bioregistry_version:
+        if bioregistry_version > current_latest_version:
+            new_latest_versions[source] = bioregistry_version
 
-# def check_mondo_ontology_version():
-#     # Retrieve the MONDO ontology entry from BioRegistry
-#     mondo_version = bioregistry.get_version("mondo")
-#     if     mondo_version:
-#         if mondo_version:
-#             print(f"Latest version of MONDO ontology: {mondo_version}")
-#         else:
-#             print("Version information not found for MONDO ontology.")
-#     else:
-#         print("Failed to retrieve MONDO ontology entry from BioRegistry.")
-#
-# # Call the function to check the MONDO ontology version
-# check_mondo_ontology_version()
+if len(new_latest_versions) != 0:
+    for source, version in new_latest_versions.items():
+        print(
+            f"[bold blue]Source: [green]{source}[blue] has the most recent version:"
+            f" [green]{version}"
+        )
+    raise AssertionError(
+        f"{len(new_latest_versions.keys())} databases have more recent versions."
+    )
