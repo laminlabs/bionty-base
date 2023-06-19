@@ -1,8 +1,6 @@
 name: Update ontologies
 
 on:
-  pull_request:
-    branches: [main]
   schedule:
     - cron: "0 0 * * 1" # runs at 00:00 UTC every Monday
   workflow_dispatch:
