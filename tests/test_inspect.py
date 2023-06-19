@@ -54,3 +54,15 @@ def test_inspect_return_df(genes):
     )
 
     assert mapping.equals(expected_df)
+
+
+def test_inspect_case_sensitive(genes):
+    _, gn = genes
+
+    mapping = gn.inspect(["A1CF", "A1BG", "a1cf"], gn.symbol)
+
+    assert {"mapped": ["A1CF", "A1BG", "a1cf"], "not_mapped": []}
+
+    mapping = gn.inspect(["A1CF", "A1BG", "a1cf"], gn.symbol, case_sensitive=True)
+
+    assert mapping == {"mapped": ["A1CF", "A1BG"], "not_mapped": ["a1cf"]}
