@@ -18,7 +18,7 @@ To manage in-house bioregistries along with ontologies, see [lnschema_bionty](ht
 - `CellMarker` - [CellMarker](http://xteam.xbio.top/CellMarker)
 - `Tissue` - [Uberon](http://obophenotype.github.io/uberon/)
 - `Disease` - [Mondo](https://mondo.monarchinitiative.org/), [Human Disease](https://disease-ontology.org/)
-- `Phenotype` - [Human Phenotype](https://hpo.jax.org/app/)
+- `Phenotype` - [Human Phenotype](https://hpo.jax.org/app/), [Mammalian Phenotype](http://obofoundry.org/ontology/mp.html), [Zebrafish Phenotype](http://obofoundry.org/ontology/zp.html)
 - `Pathway` - [Gene Ontology](https://bioportal.bioontology.org/ontologies/GO), [Pathway Ontology](https://bioportal.bioontology.org/ontologies/PW)
 - `Readout` - [Experimental Factor Ontology](https://www.ebi.ac.uk/ols/ontologies/efo)
 - `Drug` - [Drug Ontology](https://bioportal.bioontology.org/ontologies/DRON)

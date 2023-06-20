@@ -12,14 +12,22 @@ class Phenotype(Bionty):
     Edits of terms are coordinated and reviewed on:
     https://hpo.jax.org/app/
 
+    2. Mammalian Phenotype Ontology
+    Edits of terms are coordinated and reviewed on:
+    https://github.com/mgijax/mammalian-phenotype-ontology
+
+    3. Zebrafish Phenotype Ontology
+    Edits of terms are coordinated and reviewed on:
+    https://github.com/obophenotype/zebrafish-phenotype-ontology
+
     Args:
         {doc_entities}
     """
 
     def __init__(
         self,
-        species: str = "human",
-        source: Optional[Literal["hp"]] = None,
+        species: str = None,
+        source: Optional[Literal["hp", "mp", "zp"]] = None,
         version: Optional[str] = None,
         **kwargs
     ) -> None:
@@ -27,6 +35,10 @@ class Phenotype(Bionty):
             source=source,
             version=version,
             species=species,
-            include_id_prefixes={"hp": ["HP"]},
+            include_id_prefixes={
+                "hp": ["HP"],
+                "mp": ["MP"],  # mp might require an exclusion prefix for mpath
+                "zp": ["ZP"],
+            },
             **kwargs
         )
