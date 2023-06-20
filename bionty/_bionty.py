@@ -71,7 +71,7 @@ class Bionty:
         for col_name in self._df.columns:
             try:
                 setattr(self, col_name, BiontyField(self, col_name))
-            # Some fields of an source (e.g. Gene) are not Bionty class attributes and must be skipped.
+            # Some fields of an ontology (e.g. Gene) are not Bionty class attributes and must be skipped.
             except AttributeError:
                 pass
 
@@ -81,7 +81,7 @@ class Bionty:
             f"{self.__class__.__name__}\n"
             f"Species: {self.species}\n"
             f"Source: {self.source}, {self.version}\n\n"
-            f"📖 {self.__class__.__name__}.df(): source reference table\n"
+            f"📖 {self.__class__.__name__}.df(): ontology reference table\n"
             f"🔎 {self.__class__.__name__}.lookup(): autocompletion of terms\n"
             f"🎯 {self.__class__.__name__}.search(): free text search of terms\n"
             f"🧐 {self.__class__.__name__}.inspect(): check if identifiers are mappable\n"
@@ -140,9 +140,11 @@ class Bionty:
             return Ontology(handle=self._local_ontology_path)
 
     def _download_ontology_file(self, localpath: Path, url: str, md5: str = "") -> None:
-        """Download source file to _local_ontology_path."""
+        """Download ontology source file to _local_ontology_path."""
         if not localpath.exists():
-            logger.download(f"Downloading {self.__class__.__name__} source file...")
+            logger.download(
+                f"Downloading {self.__class__.__name__} ontology source file..."
+            )
             try:
                 self._url_download(url, localpath)
             finally:
@@ -257,13 +259,13 @@ class Bionty:
         self._parquet_filename = f"{self.species}_{self.source}_{self.version}_{self.__class__.__name__}_lookup.parquet"  # noqa: E501
         # parquet file local path
         self._local_parquet_path = settings.dynamicdir / self._parquet_filename
-        # source file name
+        # ontology source file name
         self._ontology_filename = f"{self.species}___{self.source}___{self.version}___{self.__class__.__name__}".replace(
             " ", "_"
         )
 
         if self._url.endswith(".parquet"):  # user provide reference table as the url
-            # no local source file
+            # no local ontology source file
             self._local_ontology_path = None
             if not self._url.startswith("s3://bionty-assets/"):
                 self._parquet_filename = None  # type:ignore
@@ -297,7 +299,7 @@ class Bionty:
                 assets_base_url="s3://bionty-assets",
                 localpath=self._local_parquet_path,
             )
-        # If download is not possible, write a parquet file from source
+        # If download is not possible, write a parquet file of the ontology source file
         if not self._local_parquet_path.exists():
             # write df to parquet file
             df = self.ontology.to_df(
@@ -310,10 +312,10 @@ class Bionty:
         return df
 
     def df(self) -> pd.DataFrame:
-        """Pandas DataFrame of the source.
+        """Pandas DataFrame of the ontology.
 
         Returns:
-            A Pandas DataFrame of the source.
+            A Pandas DataFrame of the ontology.
 
         Examples:
             >>> import bionty as bt
@@ -337,9 +339,9 @@ class Bionty:
 
         Args:
             identifiers: Identifiers that will be checked against the field.
-            field: The BiontyField of the source to compare against.
-                          Examples are 'ontology_id' to map against the source ID
-                          or 'name' to map against the ontologies field names.
+            field: The BiontyField of the ontology to compare against.
+                   Examples are 'ontology_id' to map against the source ID
+                   or 'name' to map against the ontologies field names.
             case_sensitive: Whether the identifier inspection is case sensitive.
             inspect_synonyms: Whether to inspect synonyms.
             return_df: Whether to return a Pandas DataFrame.
@@ -500,7 +502,7 @@ class Bionty:
 
         Args:
             string: The input string to match against the field values.
-            field: The BiontyField of source the input string is matching against.
+            field: The BiontyField of the ontology the input string is matching against.
             top_hit: Default is False, return all entries ranked by matching ratios.
                 If True, only return the top match.
             case_sensitive: Whether the match is case sensitive.

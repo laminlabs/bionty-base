@@ -8,7 +8,7 @@ from ._shared_docstrings import _doc_params, doc_entites
 class CellType(Bionty):
     """Cell type ontologies.
 
-    1. Cell source
+    1. Cell ontology
     Edits of terms are coordinated and reviewed on:
     https://github.com/obophenotype/cell-ontology
 

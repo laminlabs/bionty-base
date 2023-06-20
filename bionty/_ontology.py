@@ -12,11 +12,11 @@ class Ontology(pronto.Ontology):
     Also see: https://pronto.readthedocs.io/en/stable/api/pronto.Ontology.html
 
     Args:
-        handle: Path to an source file.
-        import_depth: The maximum depth of imports to resolve in the source tree.
+        handle: Path to an ontology source file.
+        import_depth: The maximum depth of imports to resolve in the ontology tree.
         timeout: The timeout in seconds to use when performing network I/O.
         threads: The number of threads to use when parsing.
-        url: The url of source.
+        url: The url of the ontology.
         prefix: Dev only -> prefix for get_term.
     """
 
@@ -35,7 +35,7 @@ class Ontology(pronto.Ontology):
         )
 
     def get_term(self, term):
-        """Search an source by its id."""
+        """Search an ontology by its id."""
         try:
             return super().get_term(term)
         except KeyError:

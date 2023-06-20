@@ -93,10 +93,10 @@ bt.display_available_sources()
 # Local yaml file specifying all managed sources
 bt.LOCAL_SOURCES
 
-# Access to the Mondo source
+# Access to the Mondo ontology
 disease = bt.Disease(source="mondo")
 
-# Access to the Human Disease source
+# Access to the Human Disease ontology
 disease = bt.Disease(source="doid", version="2023-01-30")
 ```
 

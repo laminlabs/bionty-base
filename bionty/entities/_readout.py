@@ -1,5 +1,5 @@
 from functools import cached_property
-from typing import Literal, Optional
+from typing import Dict, Literal, Optional
 
 import pandas as pd
 from lamin_logger import logger
@@ -58,7 +58,7 @@ class Readout(Bionty):
 def _parse_efo_term(
     term_id: str,
     ontology: Ontology,
-) -> dict:
+) -> Dict:
     """Parse readout attributes from EFO."""
     readout_terms = {
         "assay": "OBI:0000070",
@@ -136,4 +136,5 @@ def efo_to_df(
         parsed_results.append(_parse_efo_term(term, ontology))
     df_parsed = pd.DataFrame.from_records(parsed_results)
     df = df.merge(df_parsed).set_index("ontology_id")
+
     return df
