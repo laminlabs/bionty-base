@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+:sparkles: Add more phenotype ontologies | [456](https://github.com/laminlabs/bionty/pull/456) | [Zethson](https://github.com/Zethson) | 2023-06-20 |
 ✨ Add case_sensitive to inspect and search | [455](https://github.com/laminlabs/bionty/pull/455) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-19 | 0.22.0
 :sparkles: Fetch latest ontology versions | [452](https://github.com/laminlabs/bionty/pull/452) | [Zethson](https://github.com/Zethson) | 2023-06-19 |
 🐛 Fix passing empty strings to map_synonyms | [451](https://github.com/laminlabs/bionty/pull/451) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-17 | 0.21.4
