@@ -127,6 +127,13 @@ Phenotype:
         md5: ""
     name: Mammalian Phenotype Ontology
     website: https://github.com/mgijax/mammalian-phenotype-ontology
+  zp:
+    zebrafish:
+      2022-12-17:
+        url: https://github.com/obophenotype/zebrafish-phenotype-ontology/releases/download/v2022-12-17/zp.owl
+        md5: ""
+    name: Zebrafish Phenotype Ontology
+    website: https://github.com/obophenotype/zebrafish-phenotype-ontology
 Pathway:
   go:
     all:

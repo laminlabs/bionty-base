@@ -71,13 +71,11 @@ class Ontology(pronto.Ontology):
             df_values.append((term.id, term.name, definition, synonyms, subclasses))
 
         if include_id_prefixes and source in list(include_id_prefixes.keys()):
-            flat_include_id_prefixes = {
-                prefix1 for values in include_id_prefixes.values() for prefix1 in values  # type: ignore
-            }
             df_values = list(
                 filter(
                     lambda val: any(
-                        val[0].startswith(prefix) for prefix in flat_include_id_prefixes
+                        val[0].startswith(prefix)
+                        for prefix in include_id_prefixes[source]  # type: ignore
                     ),
                     df_values,
                 )

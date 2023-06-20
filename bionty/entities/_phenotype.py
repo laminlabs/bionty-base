@@ -16,6 +16,10 @@ class Phenotype(Bionty):
     Edits of terms are coordinated and reviewed on:
     https://github.com/mgijax/mammalian-phenotype-ontology
 
+    3. Zebrafish Phenotype Ontology
+    Edits of terms are coordinated and reviewed on:
+    https://github.com/obophenotype/zebrafish-phenotype-ontology
+
     Args:
         {doc_entities}
     """
@@ -23,7 +27,7 @@ class Phenotype(Bionty):
     def __init__(
         self,
         species: str = None,
-        source: Optional[Literal["hp", "mp"]] = None,
+        source: Optional[Literal["hp", "mp", "zp"]] = None,
         version: Optional[str] = None,
         **kwargs
     ) -> None:
@@ -34,6 +38,7 @@ class Phenotype(Bionty):
             include_id_prefixes={
                 "hp": ["HP"],
                 "mp": ["MP"],  # mp might require an exclusion prefix for mpath
+                "zp": ["ZP"],
             },
             **kwargs
         )

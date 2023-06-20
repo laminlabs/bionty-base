@@ -41,3 +41,23 @@ def test_mp_phenotype_inspect_name():
     expected_series = pd.Series([True, True, True, True, False])
 
     assert inspect.equals(expected_series)
+
+
+def test_zp_phenotype_inspect_name():
+    df = pd.DataFrame(
+        index=[
+            "somitogenesis disrupted, abnormal",
+            "somite specification disrupted, abnormal",
+            "liver has extra parts of type collagen trimer liver, abnormal",
+            "neuromast hair cell normal process quality apoptotic process, abnormal",
+            "This phenotype does not exist",
+        ]
+    )
+
+    pt = bt.Phenotype(source="zp", version="2022-12-17")
+    inspected_df = pt.inspect(df.index, field=pt.name, return_df=True)
+
+    inspect = inspected_df["__mapped__"].reset_index(drop=True)
+    expected_series = pd.Series([True, True, True, True, False])
+
+    assert inspect.equals(expected_series)
