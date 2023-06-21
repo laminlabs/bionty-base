@@ -357,61 +357,17 @@ class Bionty:
             >>> gene_symbols = ["A1CF", "A1BG", "FANCD1", "FANCD20"]
             >>> gene_bionty.inspect(gene_symbols, field=gene_bionty.symbol)
         """
-        from lamin_logger._map_synonyms import check_if_ids_in_field_values
+        from lamin_logger._inspect import inspect
 
-        if inspect_synonyms:
-            try:
-                synonyms_mapper = self.map_synonyms(
-                    identifiers=identifiers,
-                    field=field,
-                    return_mapper=True,
-                    case_sensitive=case_sensitive,
-                )
-                if len(synonyms_mapper) > 0:
-                    logger.warning(
-                        "The identifiers contain synonyms!\n   To increase mappability,"
-                        " standardize them via '.map_synonyms()'"
-                    )
-            except Exception:
-                pass
-
-        # check if index is compliant
-        mapped_df = check_if_ids_in_field_values(
+        return inspect(
+            df=self._df,
             identifiers=identifiers,
-            field_values=self._df[str(field)],
+            field=str(field),
             case_sensitive=case_sensitive,
+            inspect_synonyms=inspect_synonyms,
+            return_df=return_df,
+            logging=True,
         )
-
-        def unique_rm_empty(idx: pd.Index):
-            idx = idx.unique()
-            return idx[(idx != "") & (~idx.isnull())]
-
-        mapped = unique_rm_empty(mapped_df.index[mapped_df["__mapped__"]]).tolist()
-        unmapped = unique_rm_empty(mapped_df.index[~mapped_df["__mapped__"]]).tolist()
-
-        n_uniq_mapped = len(mapped)
-        n_uniq_unmapped = len(unmapped)
-        n_unique_terms = len(mapped) + len(unmapped)
-        n_matches = mapped_df["__mapped__"].sum()
-        n_empty = n_matches - n_unique_terms
-        frac_unmapped = round(n_uniq_unmapped / n_matches * 100, 1)
-        frac_mapped = 100 - frac_unmapped
-
-        if n_empty > 0:
-            logger.warning(
-                f"Received {n_unique_terms} unique terms, {n_empty} empty/duplicated"
-                " terms are ignored."
-            )
-        logger.success(f"{n_uniq_mapped} terms ({frac_mapped}%) are mapped.")
-        logger.warning(f"{n_uniq_unmapped} terms ({frac_unmapped}%) are not mapped.")
-
-        if return_df:
-            return mapped_df
-        else:
-            mapping: Dict[str, List[str]] = {}
-            mapping["mapped"] = mapped
-            mapping["not_mapped"] = unmapped
-            return mapping
 
     def map_synonyms(
         self,
