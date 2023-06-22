@@ -334,6 +334,7 @@ class Bionty:
         case_sensitive: bool = False,
         inspect_synonyms: bool = True,
         return_df: bool = False,
+        logging: bool = True,
     ) -> Union[pd.DataFrame, Dict[str, List[str]]]:
         """Inspect if a list of identifiers are mappable to the entity reference.
 
@@ -366,7 +367,7 @@ class Bionty:
             case_sensitive=case_sensitive,
             inspect_synonyms=inspect_synonyms,
             return_df=return_df,
-            logging=True,
+            logging=logging,
         )
 
     def map_synonyms(
