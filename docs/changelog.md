@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🎨 Log=False to turn off logging in inspect | [459](https://github.com/laminlabs/bionty/pull/459) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-22 |
 🔈 Fixed logging of inspect, added casing check | [457](https://github.com/laminlabs/bionty/pull/457) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-21 |
 🍱 Add more phenotype ontologies | [456](https://github.com/laminlabs/bionty/pull/456) | [Zethson](https://github.com/Zethson) | 2023-06-20 | 0.23.0
 ✨ Add case_sensitive to inspect and search | [455](https://github.com/laminlabs/bionty/pull/455) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-19 | 0.22.0
