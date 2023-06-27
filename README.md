@@ -6,7 +6,7 @@
 
 Access public & custom ontologies with auto-complete. Map synonyms with ease.
 
-To manage in-house bioregistries along with ontologies, see [lnschema_bionty](https://lamin.ai/docs/lnschema-bionty).
+To manage in-house bio-registries along with ontologies, see [lnschema_bionty](https://lamin.ai/docs/lnschema-bionty).
 
 ## Out-of-the-box ontologies
 
@@ -42,10 +42,10 @@ pip install bionty
 import bionty as bt
 
 lookup = bt.Readout().lookup()
-# dot access of Pythonic keys
+# access via Python-friendly keys
 lookup.single_cell_rna_sequencing
 
-# bracket access of free text dictionary keys
+# access via dictionary
 lookup_dict = lookup.dict()
 lookup_dict["single-cell RNA sequencing"]
 ```
