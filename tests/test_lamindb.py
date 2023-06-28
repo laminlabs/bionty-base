@@ -10,7 +10,8 @@ def test_loaded_lamindb():
     shutil.copyfile(CURRENT_SOURCES.as_posix(), LAMINDB_SOURCES.as_posix())
 
     lnenv = Path.home() / ".lamin/current_instance.env"
-    open(lnenv.as_posix(), "a").close()
+    with open(lnenv.as_posix(), "w") as f:
+        f.write("schema_str=bionty")
 
     ct = bt.CellType(version="2022-08-16")
     assert ct.source is None
