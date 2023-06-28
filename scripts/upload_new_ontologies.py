@@ -6,7 +6,7 @@ def _upload_ontology_artifacts(instance: str, lamindb_user: str, lamindb_passwor
     from bionty._settings import settings
 
     ln.setup.login(lamindb_user, password=lamindb_password)
-    ln.setup.load(instance, migrate=True)
+    ln.setup.load(instance)
 
     queryset = ln.File.select().all()
 
