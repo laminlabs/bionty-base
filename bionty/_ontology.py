@@ -46,9 +46,27 @@ class Ontology(pronto.Ontology):
         source: Optional[str] = None,
         include_id_prefixes: Optional[Dict[str, List[str]]] = None,
     ):
-        """Convert pronto.Ontology to a DataFrame with columns id, name, children."""
+        """Convert pronto.Ontology to a DataFrame with columns id, name, parents."""
+
+        def filter_include_id_prefixes(terms: pronto.ontology._OntologyTerms):
+            if include_id_prefixes and source in list(include_id_prefixes.keys()):
+                return list(
+                    filter(
+                        lambda val: any(
+                            val.id.startswith(prefix)
+                            for prefix in include_id_prefixes[source]  # type: ignore
+                        ),
+                        terms,
+                    )
+                )
+            else:
+                return terms
+
+        filtered_terms = filter_include_id_prefixes(self.terms())
+        all_ids = [i.id for i in filtered_terms]
+
         df_values = []
-        for term in self.terms():
+        for term in filtered_terms:
             # skip terms without id or name and obsolete terms
             if (not term.id) or (not term.name) or term.obsolete:
                 continue
@@ -63,27 +81,18 @@ class Ontology(pronto.Ontology):
             if len(synonyms) == 0:
                 synonyms = None  # type:ignore
 
-            # get 1st degree children as a list
-            subclasses = [
-                s.id for s in term.subclasses(distance=1, with_self=False).to_set()
+            # get 1st degree parents as a list
+            superclasses = [
+                s.id
+                for s in term.superclasses(distance=1, with_self=False).to_set()
+                if s.id in all_ids
             ]
 
-            df_values.append((term.id, term.name, definition, synonyms, subclasses))
-
-        if include_id_prefixes and source in list(include_id_prefixes.keys()):
-            df_values = list(
-                filter(
-                    lambda val: any(
-                        val[0].startswith(prefix)
-                        for prefix in include_id_prefixes[source]  # type: ignore
-                    ),
-                    df_values,
-                )
-            )
+            df_values.append((term.id, term.name, definition, synonyms, superclasses))
 
         df = pd.DataFrame(
             df_values,
-            columns=["ontology_id", "name", "definition", "synonyms", "children"],
+            columns=["ontology_id", "name", "definition", "synonyms", "parents"],
         ).set_index("ontology_id")
 
         # needed to avoid erroring in .lookup()

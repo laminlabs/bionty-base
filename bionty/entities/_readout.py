@@ -51,6 +51,7 @@ class Readout(Bionty):
         onto = Ontology(
             handle=self._local_ontology_path, prefix="http://www.ebi.ac.uk/efo/"
         )
+        # TODO: fix
         onto.__setattr__("efo_to_df", efo_to_df)
         return onto
 
@@ -126,8 +127,8 @@ def efo_to_df(
     df["ontology_id"] = [
         i.replace(prefix, "").replace("_", ":") for i in df["ontology_id"]
     ]
-    df["children"] = [
-        [j.replace(prefix, "").replace("_", ":") for j in i] for i in df["children"]
+    df["parents"] = [
+        [j.replace(prefix, "").replace("_", ":") for j in i] for i in df["parents"]
     ]
     # parse terms
     logger.info("Parsing EFO terms for the first time will take 6-10min...")

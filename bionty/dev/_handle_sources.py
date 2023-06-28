@@ -19,7 +19,12 @@ LOCAL_SOURCES = settings.versionsdir / "sources_local.yaml"
 
 
 def LAMINDB_INSTANCE_LOADED():
-    return (Path.home() / ".lamin/current_instance.env").exists()
+    is_loaded = False
+    lnenv_filepath = Path.home() / ".lamin/current_instance.env"
+    if lnenv_filepath.exists():
+        with open(lnenv_filepath.as_posix(), "r") as f:
+            is_loaded = "bionty" in f.read().split("schema_str=")[-1]
+    return is_loaded
 
 
 def reset_sources(confirm: bool = False):
