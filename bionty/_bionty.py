@@ -17,6 +17,22 @@ from .dev._handle_sources import LAMINDB_INSTANCE_LOADED
 from .dev._io import s3_bionty_assets, url_download
 
 
+def encode_filenames(
+    species: str, source: str, version: str, entity: Union[Bionty, str]
+) -> Tuple[str, str]:
+    """Encode names of the cached files."""
+    if isinstance(entity, Bionty):
+        entity_name = entity.__class__.__name__
+    else:
+        entity_name = entity
+    parquet_filename = f"df_{species}__{source}__{version}__{entity_name}.parquet"
+    ontology_filename = (
+        f"ontology_{species}__{source}__{version}__{entity_name}".replace(" ", "_")
+    )
+
+    return parquet_filename, ontology_filename
+
+
 class Bionty:
     """Bionty base model."""
 
@@ -255,14 +271,14 @@ class Bionty:
         self._url = self._source_record.get("url", "")
         self._md5 = self._source_record.get("md5", "")
 
-        # parquet file name
-        self._parquet_filename = f"{self.species}_{self.source}_{self.version}_{self.__class__.__name__}_lookup.parquet"  # noqa: E501
-        # parquet file local path
-        self._local_parquet_path = settings.dynamicdir / self._parquet_filename
-        # ontology source file name
-        self._ontology_filename = f"{self.species}___{self.source}___{self.version}___{self.__class__.__name__}".replace(
-            " ", "_"
+        # parquet file name, ontology source file name
+        self._parquet_filename, self._ontology_filename = encode_filenames(
+            species=self.species,
+            source=self.source,
+            version=self.version,
+            entity=self,
         )
+        self._local_parquet_path = settings.dynamicdir / self._parquet_filename
 
         if self._url.endswith(".parquet"):  # user provide reference table as the url
             # no local ontology source file
