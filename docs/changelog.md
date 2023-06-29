@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-🏗️ Replace children with parents, migrate assets to django instance | [460](https://github.com/laminlabs/bionty/pull/460) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-28 |
+🏗️ Replace children with parents, migrate assets to django instance | [460](https://github.com/laminlabs/bionty/pull/460) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-28 | 0.24.0
 🎨 Log=False to turn off logging in inspect | [459](https://github.com/laminlabs/bionty/pull/459) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-22 | 0.23.1
 🔈 Fixed logging of inspect, added casing check | [457](https://github.com/laminlabs/bionty/pull/457) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-21 |
 🍱 Add more phenotype ontologies | [456](https://github.com/laminlabs/bionty/pull/456) | [Zethson](https://github.com/Zethson) | 2023-06-20 | 0.23.0
