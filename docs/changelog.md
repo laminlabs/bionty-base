@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-⬆️ No longer pinning lamin-logger | [461](https://github.com/laminlabs/bionty/pull/461) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-30 |
+⬆️ No longer pinning lamin-logger | [461](https://github.com/laminlabs/bionty/pull/461) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-30 | 0.24.1
 🏗️ Replace children with parents, migrate assets to django instance | [460](https://github.com/laminlabs/bionty/pull/460) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-28 | 0.24.0
 🎨 Log=False to turn off logging in inspect | [459](https://github.com/laminlabs/bionty/pull/459) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-22 | 0.23.1
 🔈 Fixed logging of inspect, added casing check | [457](https://github.com/laminlabs/bionty/pull/457) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-21 |
