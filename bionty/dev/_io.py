@@ -69,7 +69,7 @@ def url_download(
         return localpath
 
     except requests.exceptions.HTTPError as err:
-        raise (err)
+        raise err
 
 
 def s3_bionty_assets(

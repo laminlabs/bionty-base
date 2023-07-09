@@ -315,15 +315,14 @@ class Bionty:
                 assets_base_url="s3://bionty-assets",
                 localpath=self._local_parquet_path,
             )
-        # If download is not possible, write a parquet file of the ontology source file
+        # If download is not possible, write a parquet file of the ontology df
         if not self._local_parquet_path.exists():
-            # write df to parquet file
             df = self.ontology.to_df(
                 source=self.source, include_id_prefixes=self.include_id_prefixes
             )
             df.to_parquet(self._local_parquet_path)
 
-        # loads the df and reset index
+        # Loading the parquet file resets the index
         df = pd.read_parquet(self._local_parquet_path)
         return df
 
@@ -370,9 +369,9 @@ class Bionty:
 
         Examples:
             >>> import bionty as bt
-            >>> gene_bionty = bt.Gene()
+            >>> gene_bt = bt.Gene()
             >>> gene_symbols = ["A1CF", "A1BG", "FANCD1", "FANCD20"]
-            >>> gene_bionty.inspect(gene_symbols, field=gene_bionty.symbol)
+            >>> gene_bt.inspect(gene_symbols, field=gene_bt.symbol)
         """
         from lamin_logger._inspect import inspect
 
@@ -420,9 +419,9 @@ class Bionty:
 
         Examples:
             >>> import bionty as bt
-            >>> gene_bionty = bt.Gene()
+            >>> gene_bt = bt.Gene()
             >>> gene_symbols = ["A1CF", "A1BG", "FANCD1", "FANCD20"]
-            >>> standardized_symbols = gene_bionty.map_synonyms(gene_symbols, gn.symbol)
+            >>> standardized_symbols = gene_bt.map_synonyms(gene_symbols, gene_bt.symbol)
         """
         from lamin_logger._map_synonyms import map_synonyms
 
@@ -487,8 +486,8 @@ class Bionty:
 
         Examples:
             >>> import bionty as bt
-            >>> celltype_bionty = bt.CellType()
-            >>> celltype_bionty.search("gamma delta T cell")
+            >>> celltype_bt = bt.CellType()
+            >>> celltype_bt.search("gamma delta T cell")
         """
         from lamin_logger._search import search
 
