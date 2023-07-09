@@ -385,6 +385,7 @@ class Bionty:
             logging=logging,
         )
 
+    # unfortunately, the doc string here is duplicated with ORM.map_synonyms
     def map_synonyms(
         self,
         identifiers: Iterable,
@@ -396,26 +397,29 @@ class Bionty:
         synonyms_sep: str = "|",
         field: Optional[Union[BiontyField, str]] = None,
     ) -> Union[Dict[str, str], List[str]]:
-        """Maps input identifiers against synonyms.
+        """Maps input synonyms to standardized names.
 
         Args:
-            identifiers: Identifiers that will be mapped against an Ontology field (BiontyField).
-            return_mapper: If True, returns {input synonyms : standardized field name}.
-            case_sensitive: Whether the mapping is case sensitive.
-            keep : {'first', 'last', False}, default 'first'
-                When a synonym maps to multiple standardized values, determines
-                which duplicates to mark as `pandas.DataFrame.duplicated`
-                - "first": returns the first mapped standardized value
-                - "last": returns the last mapped standardized value
-                - False: returns all mapped standardized value
-            synonyms_field: The BiontyField representing the concatenated synonyms.
-            synonyms_sep: Which separator is used to separate synonyms.
-            field: The BiontyField representing the identifiers.
+            synonyms: `Iterable` Synonyms that will be standardized.
+            return_mapper: `bool = False` If `True`, returns `{input_synonym1:
+                standardized_name1}`.
+            case_sensitive: `bool = False` Whether the mapping is case sensitive.
+            species: `Optional[str]` Map only against this species related entries.
+            keep: `Literal["first", "last", False] = "first"` When a synonym maps to
+                multiple names, determines which duplicates to mark as
+                `pd.DataFrame.duplicated`
+
+                    - "first": returns the first mapped standardized name
+                    - "last": returns the last mapped standardized name
+                    - `False`: returns all mapped standardized name
+            synonyms_field: `str = "synonyms"` A field containing the concatenated synonyms.
+            synonyms_sep: `str = "|"` Which separator is used to separate synonyms.
+            field: `Optional[str]` The field representing the standardized names.
 
         Returns:
-            - If return_mapper is False: a list of mapped field values.
-            - If return_mapper is True: a dictionary of mapped values with mappable identifiers
-                as keys and values mapped to field as values.
+            If `return_mapper` is `False`: a list of standardized names. Otherwise,
+            a dictionary of mapped values with mappable synonyms as keys and
+            standardized names as values.
 
         Examples:
             >>> import bionty as bt
