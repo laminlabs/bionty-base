@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+:sparkles: Use _bt suffix instead of _bionty for Bionty objects in docs | [464](https://github.com/laminlabs/bionty/pull/464) | [Zethson](https://github.com/Zethson) | 2023-07-09 |
 ⬆️ No longer pinning lamin-logger | [461](https://github.com/laminlabs/bionty/pull/461) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-30 | 0.24.1
 🏗️ Replace children with parents, migrate assets to django instance | [460](https://github.com/laminlabs/bionty/pull/460) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-28 | 0.24.0
 🎨 Log=False to turn off logging in inspect | [459](https://github.com/laminlabs/bionty/pull/459) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-22 | 0.23.1
