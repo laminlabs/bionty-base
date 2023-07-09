@@ -4,9 +4,9 @@
 
 # Bionty
 
-Biological ontologies for data scientists: look up, search, inspect & map terms.
+Biological ontologies for data scientists: look up, search, inspect, and map terms.
 
-To manage custom bio-registries along with public ontologies, see this `lamindb` guide: {doc}`docs:biology/registries`.
+To manage custom bio-registries along with public ontologies, see this LaminDB guide: {doc}`docs:biology/registries`.
 
 ## Entities
 
