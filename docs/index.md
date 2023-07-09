@@ -1,6 +1,7 @@
-# Bionty
-
-<meta http-equiv="Refresh" content="0; url=./guide/" />
+```{include} ../README.md
+:start-line: 0
+:end-line: -4
+```
 
 ```{toctree}
 :maxdepth: 1

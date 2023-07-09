@@ -1,11 +1,7 @@
-```{include} ../README.md
-:start-line: 0
-:end-line: -4
-```
+# Guide
 
 ```{toctree}
 :maxdepth: 2
-:hidden:
 
 search
 ontology
