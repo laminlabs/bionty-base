@@ -2,13 +2,13 @@
 [![Coverage](https://codecov.io/gh/laminlabs/bionty/branch/main/graph/badge.svg?token=8292E0S0Z7)](https://codecov.io/gh/laminlabs/bionty)
 [![pypi](https://img.shields.io/pypi/v/bionty?color=blue&label=pypi%20package)](https://pypi.org/project/bionty)
 
-# Bionty: Basic biological entities
+# Bionty: Biological ontologies for data scientists
 
-Access public & custom ontologies with auto-complete. Map synonyms with ease.
+Leverage public ontologies for data curation: look up, search, inspect & map terms.
 
-To manage in-house bio-registries along with ontologies, see [lnschema_bionty](https://lamin.ai/docs/lnschema-bionty).
+To manage in-house bio-registries along with ontologies, see {doc}`docs:biology/registries`.
 
-## Out-of-the-box ontologies
+## Ontologies
 
 - `Gene` - [Ensembl](https://ensembl.org/), [NCBI Gene](https://www.ncbi.nlm.nih.gov/gene/), [HGNC](https://www.genenames.org/), [MGI](http://www.informatics.jax.org/)
 - `Protein` - [Uniprot](https://www.uniprot.org/)
@@ -36,11 +36,15 @@ Bionty is a Python package available for ![pyversions](https://img.shields.io/py
 pip install bionty
 ```
 
-## Look up ontology records with auto-complete
+## Usage overview & quickstart
 
 ```python
 import bionty as bt
+```
 
+### Look up terms with auto-complete
+
+```python
 lookup = bt.Readout().lookup()
 # access via Python-friendly keys
 lookup.single_cell_rna_sequencing
@@ -50,21 +54,17 @@ lookup_dict = lookup.dict()
 lookup_dict["single-cell RNA sequencing"]
 ```
 
-## Search ontology terms
+### Search ontology terms
 
 ```python
-import bionty as bt
-
 celltype_bionty = bt.CellType()
 # Free text search against a field
 celltype_bionty.search("gamma delta T cell")
 ```
 
-## Inspect & standardize identifiers
+### Inspect & map terms
 
 ```python
-import bionty as bt
-
 gene_bionty = bt.Gene()
 # Inspect if the gene symbols are mappable onto the reference
 gene_bionty.inspect(["A1BG", "FANCD1"], gene_bionty.symbol)
@@ -72,16 +72,14 @@ gene_bionty.inspect(["A1BG", "FANCD1"], gene_bionty.symbol)
 gene_bionty.map_synonyms(["A1BG", "FANCD1"])
 ```
 
-## Reference tables of ontologies
+### Access a reference DataFrame
 
 ```python
-import bionty as bt
-
 # Reference table of the human genes
 df = bt.Gene(species="human").df()
 ```
 
-## Track ontology sources
+### Track ontology sources
 
 ```python
 # Display currently used sources
