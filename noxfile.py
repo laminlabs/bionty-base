@@ -11,6 +11,11 @@ def lint(session: nox.Session) -> None:
 
 
 @nox.session
+def docs(session):
+    build_docs(session, strict=True)
+
+
+@nox.session
 @nox.parametrize("group", ["bionty-unit", "bionty-docs"])
 def build(session, group):
     session.run(*"pip install -e .[dev]".split())
@@ -19,5 +24,5 @@ def build(session, group):
         session.run(*f"pytest {coverage_args} ./tests".split())
     elif group == "bionty-docs":
         session.run(*f"pytest -s {coverage_args} ./docs/guide".split())
-        build_docs(session)
+        docs()
         move_built_docs_to_docs_slash_project_slug()
