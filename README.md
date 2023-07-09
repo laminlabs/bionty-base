@@ -2,13 +2,13 @@
 [![Coverage](https://codecov.io/gh/laminlabs/bionty/branch/main/graph/badge.svg?token=8292E0S0Z7)](https://codecov.io/gh/laminlabs/bionty)
 [![pypi](https://img.shields.io/pypi/v/bionty?color=blue&label=pypi%20package)](https://pypi.org/project/bionty)
 
-# Bionty: Biological ontologies for data scientists
+# Bionty
 
-Leverage public ontologies for data curation: look up, search, inspect & map terms.
+Biological ontologies for data scientists: look up, search, inspect & map terms.
 
-To manage in-house bio-registries along with ontologies, see {doc}`docs:biology/registries`.
+To manage custom bio-registries along with public ontologies, see this `lamindb` guide: {doc}`docs:biology/registries`.
 
-## Ontologies
+## Entities
 
 - `Gene` - [Ensembl](https://ensembl.org/), [NCBI Gene](https://www.ncbi.nlm.nih.gov/gene/), [HGNC](https://www.genenames.org/), [MGI](http://www.informatics.jax.org/)
 - `Protein` - [Uniprot](https://www.uniprot.org/)

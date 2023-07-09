@@ -1,4 +1,4 @@
-"""Bionty: Data model generator for biology.
+"""Bionty.
 
 Import the package::
 
