@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-🚸 Case insensitive search | [466](https://github.com/laminlabs/bionty/pull/466) | [falexwolf](https://github.com/falexwolf) | 2023-07-10 |
+🚸 Case insensitive search | [466](https://github.com/laminlabs/bionty/pull/466) | [falexwolf](https://github.com/falexwolf) | 2023-07-10 | 0.24.2
 📝 Build docs standalone again | [465](https://github.com/laminlabs/bionty/pull/465) | [falexwolf](https://github.com/falexwolf) | 2023-07-09 |
 :sparkles: Use _bt suffix instead of _bionty for Bionty objects in docs | [464](https://github.com/laminlabs/bionty/pull/464) | [Zethson](https://github.com/Zethson) | 2023-07-09 |
 ⬆️ No longer pinning lamin-logger | [461](https://github.com/laminlabs/bionty/pull/461) | [sunnyosun](https://github.com/sunnyosun) | 2023-06-30 | 0.24.1

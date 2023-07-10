@@ -15,7 +15,7 @@ classifiers = [
 ]
 dependencies = [
     "pronto>=2.5.4",
-    "lamin_logger>=0.7.3", # don't pin here as it's pinned in lamindb
+    "lamin_logger>=0.7.6", # don't pin here as it's pinned in lamindb
     "pyyaml",
     "pandas",
     "pyarrow",
