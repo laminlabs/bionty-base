@@ -394,7 +394,6 @@ class Bionty:
         case_sensitive: bool = False,
         keep: Literal["first", "last", False] = "first",
         synonyms_field: Union[BiontyField, str] = "synonyms",
-        synonyms_sep: str = "|",
         field: Optional[Union[BiontyField, str]] = None,
     ) -> Union[Dict[str, str], List[str]]:
         """Maps input synonyms to standardized names.
@@ -413,7 +412,6 @@ class Bionty:
                     - "last": returns the last mapped standardized name
                     - `False`: returns all mapped standardized name
             synonyms_field: `str = "synonyms"` A field containing the concatenated synonyms.
-            synonyms_sep: `str = "|"` Which separator is used to separate synonyms.
             field: `Optional[str]` The field representing the standardized names.
 
         Returns:
@@ -437,7 +435,6 @@ class Bionty:
             case_sensitive=case_sensitive,
             keep=keep,
             synonyms_field=str(synonyms_field),
-            sep=synonyms_sep,
         )
 
     def lookup(self, field: Optional[Union[BiontyField, str]] = None) -> Tuple:
@@ -470,9 +467,8 @@ class Bionty:
         *,
         field: Optional[Union[BiontyField, str]] = None,
         top_hit: bool = False,
-        case_sensitive: bool = True,
+        case_sensitive: bool = False,
         synonyms_field: Union[BiontyField, str, None] = "synonyms",
-        synonyms_sep: str = "|",
     ) -> pd.DataFrame:
         """Search a given string against a Bionty field.
 
@@ -483,7 +479,6 @@ class Bionty:
                 If True, only return the top match.
             case_sensitive: Whether the match is case sensitive.
             synonyms_field: By default also search against the synonyms (If None, skips search).
-            synonyms_sep: Which separator is used to separate synonyms.
 
         Returns:
             Ranked search results.
@@ -502,7 +497,6 @@ class Bionty:
             return_ranked_results=not top_hit,
             case_sensitive=case_sensitive,
             synonyms_field=str(synonyms_field),
-            synonyms_sep=synonyms_sep,
             tuple_name=self.__class__.__name__,
         )
 
