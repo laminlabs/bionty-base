@@ -5,6 +5,7 @@ from functools import cached_property
 from pathlib import Path
 from typing import Dict, Iterable, List, Literal, Optional, Set, Tuple, Union
 
+import numpy as np
 import pandas as pd
 from lamin_logger import logger
 from lamin_logger._lookup import Lookup
@@ -499,6 +500,50 @@ class Bionty:
             synonyms_field=str(synonyms_field),
             tuple_name=self.__class__.__name__,
         )
+
+    def diff(self, compare_to: Bionty, **kwargs) -> pd.DataFrame:
+        """Determines a diff between two Bionty objects' ontologies.
+
+        Args:
+            compare_to: Bionty object that must be of the same class as the calling object.
+            kwargs: Are passed to pd.DataFrame.compare()
+
+        Returns:
+            A Pandas DataFrames of the diff.
+
+        Examples:
+            >>> import bionty as bt
+            >>> disease_bt_1 = bt.Disease(source="mondo", version="2023-04-04")
+            >>> disease_bt_2 = bt.Disease(source="mondo", version="2023-04-04")
+            >>> disease_bt_1.diff(disease_bt_2)
+        """
+        if not type(self) is type(compare_to):
+            raise ValueError("Both Bionty objects must be of the same class.")
+
+        if not self.source == compare_to.source:
+            raise ValueError("Both Bionty objects must use the same source.")
+
+        if self.version == compare_to.version:
+            raise ValueError("The versions of the Bionty objects must differ.")
+
+        # The 'parents' column (among potentially others) contain Numpy array values.
+        # We transform them to tuples to determine the diff.
+        def _convert_arrays_to_tuples(arr):
+            if isinstance(arr, np.ndarray):
+                return tuple(arr)
+            else:
+                return arr
+
+        for bt_obj in [self, compare_to]:
+            for column in bt_obj.df().columns:
+                if any(isinstance(val, np.ndarray) for val in bt_obj.df()[column]):
+                    bt_obj._df[column] = bt_obj.df()[column].apply(
+                        _convert_arrays_to_tuples
+                    )
+
+        diff = pd.concat([self.df(), compare_to.df()]).drop_duplicates(keep=False)
+
+        return diff
 
 
 class BiontyField:

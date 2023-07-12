@@ -20,3 +20,9 @@ def test_reset_sources(monkeypatch):
     CURRENT_SOURCES.unlink()
     LOCAL_SOURCES.unlink()
     bt.reset_sources()
+
+
+def test_diff():
+    disease_bt_1 = bt.Disease(source="mondo", version="2023-04-04")
+    disease_bt_2 = bt.Disease(source="mondo", version="2023-02-06")
+    assert len(disease_bt_1.diff(disease_bt_2)) == 776
