@@ -528,7 +528,7 @@ class Bionty:
 
         # The 'parents' column (among potentially others) contain Numpy array values.
         # We transform them to tuples to determine the diff.
-        def _convert_arrays_to_tuples(arr):
+        def _convert_arrays_to_tuples(arr):  # pragma: no cover
             if isinstance(arr, np.ndarray):
                 return tuple(arr)
             else:
