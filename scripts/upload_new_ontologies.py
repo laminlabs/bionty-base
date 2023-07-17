@@ -21,9 +21,12 @@ def _upload_ontology_artifacts(instance: str, lamindb_user: str, lamindb_passwor
         if not queryset.filter(key=parquet_filename).exists():
             local_parquet_filename = settings.dynamicdir / parquet_filename
             if not local_parquet_filename.exists():
-                getattr(bt, entity)(
-                    species=row.species, source=row.source, version=row.version
-                )
+                try:
+                    getattr(bt, entity)(
+                        species=row.species, source=row.source, version=row.version
+                    )
+                except Exception:  # for renamed classes
+                    continue
             file = ln.File(local_parquet_filename, key=parquet_filename)
             files.append(file)
 
