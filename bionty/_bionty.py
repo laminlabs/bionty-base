@@ -97,7 +97,7 @@ class Bionty:
             f"{self.__class__.__name__}\n"
             f"Species: {self.species}\n"
             f"Source: {self.source}, {self.version}\n"
-            f"#terms: {self._df.shape[0]}\n\n"
+            f"#terms: {self.df().shape[0]}\n\n"
             f"📖 {self.__class__.__name__}.df(): ontology reference table\n"
             f"🔎 {self.__class__.__name__}.lookup(): autocompletion of terms\n"
             f"🎯 {self.__class__.__name__}.search(): free text search of terms\n"
