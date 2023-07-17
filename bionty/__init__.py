@@ -84,3 +84,4 @@ from .dev._handle_sources import LOCAL_SOURCES, reset_sources
 
 # backward compat
 Entity = Bionty
+Readout = ExperimentalFactor
