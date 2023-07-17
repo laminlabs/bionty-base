@@ -20,7 +20,7 @@ To manage custom bio-registries along with public ontologies, see this LaminDB g
 - `Disease` - [Mondo](https://mondo.monarchinitiative.org/), [Human Disease](https://disease-ontology.org/)
 - `Phenotype` - [Human Phenotype](https://hpo.jax.org/app/), [Mammalian Phenotype](http://obofoundry.org/ontology/mp.html), [Zebrafish Phenotype](http://obofoundry.org/ontology/zp.html)
 - `Pathway` - [Gene Ontology](https://bioportal.bioontology.org/ontologies/GO), [Pathway Ontology](https://bioportal.bioontology.org/ontologies/PW)
-- `Readout` - [Experimental Factor Ontology](https://www.ebi.ac.uk/ols/ontologies/efo)
+- `ExperimentalFactor` - [Experimental Factor Ontology](https://www.ebi.ac.uk/ols/ontologies/efo)
 - `Drug` - [Drug Ontology](https://bioportal.bioontology.org/ontologies/DRON)
 - `BFXPipeline` - largely based on [nf-core](https://nf-co.re/)
 
@@ -45,7 +45,7 @@ import bionty as bt
 ### Look up terms with auto-complete
 
 ```python
-lookup = bt.Readout().lookup()
+lookup = bt.ExperimentalFactor().lookup()
 # access via Python-friendly keys
 lookup.single_cell_rna_sequencing
 

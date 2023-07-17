@@ -11,7 +11,7 @@ from .._ontology import Ontology
 
 
 @_doc_params(doc_entities=species_removed)
-class Readout(Bionty):
+class ExperimentalFactor(Bionty):
     """Experimental Factor.
 
     1. Experimental Factor Ontology

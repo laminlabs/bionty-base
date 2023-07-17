@@ -98,7 +98,7 @@ Disease:
         md5: 9f0c92ad2896dda82195e9226a06dc36
     name: Human Disease Ontology
     website: https://disease-ontology.org
-Readout:
+ExperimentalFactor:
   efo:
     all:
       3.48.0:
