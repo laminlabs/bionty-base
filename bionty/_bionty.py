@@ -467,7 +467,7 @@ class Bionty:
         string: str,
         *,
         field: Optional[Union[BiontyField, str]] = None,
-        top_hit: bool = False,
+        limit: Optional[int] = None,
         case_sensitive: bool = False,
         synonyms_field: Union[BiontyField, str, None] = "synonyms",
     ) -> pd.DataFrame:
@@ -495,10 +495,9 @@ class Bionty:
             df=self._df,
             string=string,
             field=self._get_default_field(field),
-            return_ranked_results=not top_hit,
+            limit=limit,
             case_sensitive=case_sensitive,
             synonyms_field=str(synonyms_field),
-            tuple_name=self.__class__.__name__,
         )
 
 
