@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🔖 Staging 0.25 | [475](https://github.com/laminlabs/bionty/pull/475) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-17 |
 🚸 Case insensitive search | [466](https://github.com/laminlabs/bionty/pull/466) | [falexwolf](https://github.com/falexwolf) | 2023-07-10 | 0.24.2
 📝 Build docs standalone again | [465](https://github.com/laminlabs/bionty/pull/465) | [falexwolf](https://github.com/falexwolf) | 2023-07-09 |
 :sparkles: Use _bt suffix instead of _bionty for Bionty objects in docs | [464](https://github.com/laminlabs/bionty/pull/464) | [Zethson](https://github.com/Zethson) | 2023-07-09 |
