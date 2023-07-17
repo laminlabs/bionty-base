@@ -20,7 +20,7 @@ Entities:
    Phenotype
    Pathway
    Drug
-   Readout
+   ExperimentalFactor
    BFXPipeline
 
 Base model of entity classes:
@@ -72,7 +72,7 @@ from .entities._tissue import Tissue
 from .entities._disease import Disease
 from .entities._phenotype import Phenotype
 from .entities._pathway import Pathway
-from .entities._readout import Readout
+from .entities._experimentalfactor import ExperimentalFactor
 
 # tools
 from ._bionty import Bionty
@@ -84,3 +84,4 @@ from .dev._handle_sources import LOCAL_SOURCES, reset_sources
 
 # backward compat
 Entity = Bionty
+Readout = ExperimentalFactor

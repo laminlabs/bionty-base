@@ -218,9 +218,9 @@ def test_update_local_from_public_sources_yaml():
     update_local_from_public_sources_yaml()
 
 
-def test_reset_sources():
-    assert reset_sources() is None
+def test_reset_sources(monkeypatch):
+    monkeypatch.setattr("builtins.input", lambda _: "y")
     import shutil
 
     shutil.copyfile(CURRENT_SOURCES.as_posix(), LAMINDB_SOURCES.as_posix())
-    reset_sources(confirm=True)
+    reset_sources()

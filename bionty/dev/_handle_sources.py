@@ -27,13 +27,26 @@ def LAMINDB_INSTANCE_LOADED():
     return is_loaded
 
 
-def reset_sources(confirm: bool = False):
+def reset_sources():
     """Reset local bionty sources file."""
     from importlib import reload
 
     import bionty
 
-    if confirm:
+    def _confirm() -> bool:
+        """Ask user to enter Y or N (case-insensitive).
+
+        Returns:
+            True if the answer is Y/y.
+        """
+        answer = ""
+        while answer not in ["y", "n"]:
+            answer = input(
+                "Are you sure that you want to reset your local bionty sources? [Y/N]? "
+            ).lower()
+        return answer == "y"
+
+    if _confirm():
         try:
             LOCAL_SOURCES.unlink()
             logger.success(f"Removed file: {LOCAL_SOURCES}.")
@@ -52,11 +65,6 @@ def reset_sources(confirm: bool = False):
 
         reload(bionty)
         logger.info("Reloaded bionty!")
-
-    else:
-        logger.warning(
-            "Are you sure to reset your local bionty sources? Pass 'confirm=True'"
-        )
 
 
 def create_or_update_sources_local_yaml(overwrite: bool = True) -> None:
