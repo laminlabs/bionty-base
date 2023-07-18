@@ -20,7 +20,7 @@ Entities:
    Phenotype
    Pathway
    Drug
-   Readout
+   ExperimentalFactor
    BFXPipeline
 
 Base model of entity classes:
@@ -48,7 +48,7 @@ External API:
    Ontology
 """
 
-__version__ = "0.24.2"  # denote release candidate for 0.1.0 with 0.1rc1
+__version__ = "0.25.1"  # denote release candidate for 0.1.0 with 0.1rc1
 
 # prints warning of python versions
 from lamin_logger import py_version_warning
@@ -72,7 +72,7 @@ from .entities._tissue import Tissue
 from .entities._disease import Disease
 from .entities._phenotype import Phenotype
 from .entities._pathway import Pathway
-from .entities._readout import Readout
+from .entities._experimentalfactor import ExperimentalFactor
 
 # tools
 from ._bionty import Bionty
@@ -84,3 +84,4 @@ from .dev._handle_sources import LOCAL_SOURCES, reset_sources
 
 # backward compat
 Entity = Bionty
+Readout = ExperimentalFactor
