@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🍱 Added uniprot 2023-03 | [477](https://github.com/laminlabs/bionty/pull/477) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-18 |
 🔥 Remove top_hit from search | [476](https://github.com/laminlabs/bionty/pull/476) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-17 | 0.25.1
 🚚 Rename `Readout` to `ExperimentalFactor` | [474](https://github.com/laminlabs/bionty/pull/474) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-17 | 0.25.0
 🚸 Case insensitive search | [466](https://github.com/laminlabs/bionty/pull/466) | [falexwolf](https://github.com/falexwolf) | 2023-07-10 | 0.24.2
