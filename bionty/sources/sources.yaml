@@ -1,4 +1,4 @@
-version: "0.2.0"
+version: "0.2.1"
 Species:
   ensembl:
     vertebrate:
@@ -21,9 +21,13 @@ Gene:
 Protein:
   uniprot:
     human:
+      2023-03:
+        url: s3://bionty-assets/human_uniprot_2023-03_Protein_lookup.parquet
       2023-02:
         url: s3://bionty-assets/human_uniprot_2023-02_Protein_lookup.parquet
     mouse:
+      2023-03:
+        url: s3://bionty-assets/mouse_uniprot_2023-03_Protein_lookup.parquet
       2023-02:
         url: s3://bionty-assets/mouse_uniprot_2023-02_Protein_lookup.parquet
     name: Uniprot

@@ -10,11 +10,11 @@ def test_uniprot_protein_inspect_uniprotkb_id():
             "X6RLV5",
             "X6RM24",
             "A0A024QZQ1",
-            "This cell line does not exist",
+            "This protein does not exist",
         ]
     )
 
-    pr = bt.Protein(source="uniprot", version="2023-02")
+    pr = bt.Protein(source="uniprot", version="2023-03")
     inspected_df = pr.inspect(df.index, pr.uniprotkb_id, return_df=True)
 
     inspect = inspected_df["__mapped__"].reset_index(drop=True)
