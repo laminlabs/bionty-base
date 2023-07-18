@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import os
 from functools import cached_property
 from pathlib import Path
@@ -501,7 +502,7 @@ class Bionty:
             tuple_name=self.__class__.__name__,
         )
 
-    def diff(self, compare_to: Bionty, **kwargs) -> pd.DataFrame:
+    def diff(self, compare_to: Bionty, **kwargs) -> Tuple[pd.DataFrame, pd.DataFrame]:
         """Determines a diff between two Bionty objects' ontologies.
 
         Args:
@@ -509,13 +510,17 @@ class Bionty:
             kwargs: Are passed to pd.DataFrame.compare()
 
         Returns:
-            A Pandas DataFrames of the diff.
+            A tuple of two DataFrames:
+            1. New entries.
+            2. A pd.DataFrame.compare result which denotes all changes in `self` and `other`.
 
         Examples:
             >>> import bionty as bt
             >>> disease_bt_1 = bt.Disease(source="mondo", version="2023-04-04")
             >>> disease_bt_2 = bt.Disease(source="mondo", version="2023-04-04")
-            >>> disease_bt_1.diff(disease_bt_2)
+            >>> new_entries, modified_entries = disease_bt_1.diff(disease_bt_2)
+            >>> print(new_entries.head())
+            >>> print(modified_entries.head())
         """
         if not type(self) is type(compare_to):
             raise ValueError("Both Bionty objects must be of the same class.")
@@ -541,9 +546,21 @@ class Bionty:
                         _convert_arrays_to_tuples
                     )
 
-        diff = pd.concat([self.df(), compare_to.df()]).drop_duplicates(keep=False)
+        # New entries
+        new_entries = pd.concat([self.df(), compare_to.df()]).drop_duplicates(
+            keep=False
+        )
 
-        return diff
+        # Changes in existing entries
+        common_index = self.df().index.intersection(compare_to.df().index)
+        self_df_common = self.df().loc[common_index]
+        compare_to_df_common = compare_to.df().loc[common_index]
+        modified_entries = self_df_common.compare(compare_to_df_common, **kwargs)
+
+        logging.info(f"{len(new_entries)} new entries were added.")
+        logging.info(f"{len(modified_entries)} entries were modified.")
+
+        return new_entries, modified_entries
 
 
 class BiontyField:
