@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+import logging
 import os
 from functools import cached_property
 from pathlib import Path
 from typing import Dict, Iterable, List, Literal, Optional, Set, Tuple, Union
 
+import numpy as np
 import pandas as pd
 from lamin_logger import logger
 from lamin_logger._lookup import Lookup
@@ -103,6 +105,7 @@ class Bionty:
             f"🎯 {self.__class__.__name__}.search(): free text search of terms\n"
             f"🧐 {self.__class__.__name__}.inspect(): check if identifiers are mappable\n"
             f"👽 {self.__class__.__name__}.map_synonyms(): map synonyms to standardized names\n"
+            f"⚖ {self.__class__.__name__}.diff(): difference between two versions\n"
             f"🔗 {self.__class__.__name__}.ontology: Pronto.Ontology object"
         )
         # fmt: on
@@ -499,6 +502,66 @@ class Bionty:
             case_sensitive=case_sensitive,
             synonyms_field=str(synonyms_field),
         )
+
+    def diff(self, compare_to: Bionty, **kwargs) -> Tuple[pd.DataFrame, pd.DataFrame]:
+        """Determines a diff between two Bionty objects' ontologies.
+
+        Args:
+            compare_to: Bionty object that must be of the same class as the calling object.
+            kwargs: Are passed to pd.DataFrame.compare()
+
+        Returns:
+            A tuple of two DataFrames:
+            1. New entries.
+            2. A pd.DataFrame.compare result which denotes all changes in `self` and `other`.
+
+        Examples:
+            >>> import bionty as bt
+            >>> disease_bt_1 = bt.Disease(source="mondo", version="2023-04-04")
+            >>> disease_bt_2 = bt.Disease(source="mondo", version="2023-04-04")
+            >>> new_entries, modified_entries = disease_bt_1.diff(disease_bt_2)
+            >>> print(new_entries.head())
+            >>> print(modified_entries.head())
+        """
+        if not type(self) is type(compare_to):
+            raise ValueError("Both Bionty objects must be of the same class.")
+
+        if not self.source == compare_to.source:
+            raise ValueError("Both Bionty objects must use the same source.")
+
+        if self.version == compare_to.version:
+            raise ValueError("The versions of the Bionty objects must differ.")
+
+        # The 'parents' column (among potentially others) contain Numpy array values.
+        # We transform them to tuples to determine the diff.
+        def _convert_arrays_to_tuples(arr):  # pragma: no cover
+            if isinstance(arr, np.ndarray):
+                return tuple(arr)
+            else:
+                return arr
+
+        for bt_obj in [self, compare_to]:
+            for column in bt_obj.df().columns:
+                if any(isinstance(val, np.ndarray) for val in bt_obj.df()[column]):
+                    bt_obj._df[column] = bt_obj.df()[column].apply(
+                        _convert_arrays_to_tuples
+                    )
+
+        # New entries
+        new_entries = pd.concat([self.df(), compare_to.df()]).drop_duplicates(
+            keep=False
+        )
+
+        # Changes in existing entries
+        common_index = self.df().index.intersection(compare_to.df().index)
+        self_df_common = self.df().loc[common_index]
+        compare_to_df_common = compare_to.df().loc[common_index]
+        modified_entries = self_df_common.compare(compare_to_df_common, **kwargs)
+
+        logging.info(f"{len(new_entries)} new entries were added.")
+        logging.info(f"{len(modified_entries)} entries were modified.")
+
+        return new_entries, modified_entries
 
 
 class BiontyField:

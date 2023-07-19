@@ -90,7 +90,6 @@ def parse_sources_yaml(filepath: Union[str, Path] = PUBLIC_SOURCES) -> pd.DataFr
 
     Args:
         filepath: Path to the versions yaml file.
-        return_df: Whether to return a Pandas DataFrame
 
     Returns:
         - entity

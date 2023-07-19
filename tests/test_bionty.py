@@ -20,3 +20,32 @@ def test_reset_sources(monkeypatch):
     CURRENT_SOURCES.unlink()
     LOCAL_SOURCES.unlink()
     bt.reset_sources()
+
+
+def test_diff_successful():
+    disease_bt_1 = bt.Disease(source="mondo", version="2023-04-04")
+    disease_bt_2 = bt.Disease(source="mondo", version="2023-02-06")
+
+    new_entries, modified_entries = disease_bt_1.diff(disease_bt_2)
+    assert len(new_entries) == 776
+    assert len(modified_entries) == 210
+
+
+def test_diff_value_errors():
+    # Two different Bionty object types
+    disease_bt = bt.Disease()
+    phenotype_bt = bt.Phenotype()
+    with pytest.raises(ValueError):
+        disease_bt.diff(phenotype_bt)
+
+    # Different sources
+    disease_bt_1 = bt.Disease(source="mondo")
+    disease_bt_2 = bt.Disease(source="doid")
+    with pytest.raises(ValueError):
+        disease_bt_1.diff(disease_bt_2)
+
+    # Same version
+    disease_bt_3 = bt.Disease(source="mondo", version="2023-04-04")
+    disease_bt_4 = bt.Disease(source="mondo", version="2023-04-04")
+    with pytest.raises(ValueError):
+        disease_bt_3.diff(disease_bt_4)
