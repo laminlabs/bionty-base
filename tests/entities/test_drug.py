@@ -10,7 +10,7 @@ def test_dron_drug_inspect_name():
             "citrus bioflavonoids",
             "Ornithine, (L)-Isomer",
             "Hyoscyamus extract",
-            "This disease does not exist",
+            "This drug does not exist",
         ]
     )
 
