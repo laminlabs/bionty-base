@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Dict, List, Literal, Union
 
 import pandas as pd
-from lamin_logger import logger
+from lamin_utils import logger
 
 from bionty._settings import settings
 from bionty.dev._io import load_yaml, write_yaml
