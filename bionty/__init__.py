@@ -51,7 +51,7 @@ External API:
 __version__ = "0.25.2"  # denote release candidate for 0.1.0 with 0.1rc1
 
 # prints warning of python versions
-from lamin_logger import py_version_warning
+from lamin_utils import py_version_warning
 
 py_version_warning("3.8", "3.10")
 

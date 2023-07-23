@@ -8,8 +8,8 @@ from typing import Dict, Iterable, List, Literal, Optional, Set, Tuple, Union
 
 import numpy as np
 import pandas as pd
-from lamin_logger import logger
-from lamin_logger._lookup import Lookup
+from lamin_utils import logger
+from lamin_utils._lookup import Lookup
 
 from bionty._md5 import verify_md5
 
@@ -377,7 +377,7 @@ class Bionty:
             >>> gene_symbols = ["A1CF", "A1BG", "FANCD1", "FANCD20"]
             >>> gene_bt.inspect(gene_symbols, field=gene_bt.symbol)
         """
-        from lamin_logger._inspect import inspect
+        from lamin_utils._inspect import inspect
 
         return inspect(
             df=self._df,
@@ -429,7 +429,7 @@ class Bionty:
             >>> gene_symbols = ["A1CF", "A1BG", "FANCD1", "FANCD20"]
             >>> standardized_symbols = gene_bt.map_synonyms(gene_symbols, gene_bt.symbol)
         """
-        from lamin_logger._map_synonyms import map_synonyms
+        from lamin_utils._map_synonyms import map_synonyms
 
         return map_synonyms(
             df=self._df,
@@ -492,7 +492,7 @@ class Bionty:
             >>> celltype_bt = bt.CellType()
             >>> celltype_bt.search("gamma delta T cell")
         """
-        from lamin_logger._search import search
+        from lamin_utils._search import search
 
         return search(
             df=self._df,

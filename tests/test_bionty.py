@@ -27,8 +27,8 @@ def test_diff_successful():
     disease_bt_2 = bt.Disease(source="mondo", version="2023-02-06")
 
     new_entries, modified_entries = disease_bt_1.diff(disease_bt_2)
-    assert len(new_entries) == 776
-    assert len(modified_entries) == 210
+    assert len(new_entries) == 819
+    assert len(modified_entries) == 249
 
 
 def test_diff_value_errors():

@@ -2,7 +2,7 @@ from functools import cached_property
 from typing import Dict, Literal, Optional
 
 import pandas as pd
-from lamin_logger import logger
+from lamin_utils import logger
 
 from bionty.entities._shared_docstrings import _doc_params, species_removed
 
