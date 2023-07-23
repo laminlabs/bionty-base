@@ -67,8 +67,8 @@ class Ontology(pronto.Ontology):
 
         df_values = []
         for term in filtered_terms:
-            # skip terms without id or name and obsolete terms
-            if (not term.id) or (not term.name) or term.obsolete:
+            # skip terms without id or name
+            if (not term.id) or (not term.name):
                 continue
 
             # term definition text
