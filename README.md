@@ -10,7 +10,7 @@ To manage custom bio-registries along with public ontologies, see this LaminDB g
 
 ## Entities
 
-- `Gene` - [Ensembl](https://ensembl.org/), [NCBI Gene](https://www.ncbi.nlm.nih.gov/gene/), [HGNC](https://www.genenames.org/), [MGI](http://www.informatics.jax.org/)
+- `Gene` - [Ensembl](https://ensembl.org/), [NCBI Gene](https://www.ncbi.nlm.nih.gov/gene/)
 - `Protein` - [Uniprot](https://www.uniprot.org/)
 - `Species` - [NCBI Taxonomy](https://www.ncbi.nlm.nih.gov/taxonomy/), [Ensembl Species](https://useast.ensembl.org/info/about/species.html)
 - `CellLine` - [Cell Line Ontology](https://github.com/CLO-ontology/CLO)
