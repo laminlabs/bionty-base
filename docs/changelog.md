@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🍱 Update to ensembl-110 | [485](https://github.com/laminlabs/bionty/pull/485) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-31 |
 🍱 Include obsolete terms in .df | [481](https://github.com/laminlabs/bionty/pull/481) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-23 | 0.26.0
 ✨ Added `.diff` method | [468](https://github.com/laminlabs/bionty/pull/468) | [Zethson](https://github.com/Zethson) | 2023-07-20 |
 🍱 Added uniprot 2023-03 | [477](https://github.com/laminlabs/bionty/pull/477) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-18 | 0.25.2
