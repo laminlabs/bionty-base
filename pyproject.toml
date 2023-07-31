@@ -39,6 +39,7 @@ dev = [
     "bioregistry",
     "sqlalchemy",
     "mysqlclient",
+    "mysql-connector-python",
 ]
 
 [tool.black]
