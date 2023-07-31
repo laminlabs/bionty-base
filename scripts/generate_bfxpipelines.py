@@ -10,7 +10,7 @@ from typing import Dict, Optional
 from github import Github
 from rich.progress import track
 
-BASE_BFX_PIPELINES_PATH = "./scripts/pipelines_info"
+BASE_BFX_PIPELINES_PATH = "./scripts/bfxpipelines_info"
 
 
 def base62(n_char: int) -> str:
@@ -69,7 +69,7 @@ def generate_nf_core_pipelines_info() -> None:
                     "reference": repo.url,
                 }
 
-    with open(f"{BASE_BFX_PIPELINES_PATH}/nf_core_pipelines_info.json", "w") as f:
+    with open(f"{BASE_BFX_PIPELINES_PATH}/nf_core_pipelines.json", "w") as f:
         json_data = json.dumps(nf_core_pipelines, indent=4)
         f.write(json_data)
 

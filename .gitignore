@@ -128,3 +128,7 @@ _docs_tmp*
 **/versions/.lamindb_setup.yaml
 **/sources/.current_sources.yaml
 **/sources/.lamindb_current_sources.yaml
+
+# bfxpipelines
+scripts/bfxpipelines_info/bfxpipelines.json
+scripts/bfxpipelines_info/nf_core_pipelines.json
