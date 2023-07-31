@@ -37,11 +37,7 @@ def test_gene_ensembl_inspect_hgnc_id(genes):
 def test_ensemblgene_download():
     from bionty.entities._gene import EnsemblGene
 
-    species = bt.Species(
-        version="release-108",
-    ).lookup()
-
-    ensembl_gene = EnsemblGene(species=species.human)
+    ensembl_gene = EnsemblGene(species="human", version="release-108")
     assert ensembl_gene._species.name == "human"
 
     external_df = ensembl_gene.external_dbs()
