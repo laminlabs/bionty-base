@@ -1,7 +1,9 @@
-version: "0.2.1"
+version: "0.2.2"
 Species:
   ensembl:
     vertebrate:
+      release-110:
+        url: https://ftp.ensembl.org/pub/release-110/species_EnsemblVertebrates.txt
       release-109:
         url: https://ftp.ensembl.org/pub/release-109/species_EnsemblVertebrates.txt
       release-108:
@@ -11,11 +13,18 @@ Species:
 Gene:
   ensembl:
     human:
+      release-110:
+        url: s3://bionty-assets/human_ensembl_release-110_Gene_lookup.parquet
       release-109:
         url: s3://bionty-assets/human_ensembl_release-109_Gene_lookup.parquet
     mouse:
+      release-110:
+        url: s3://bionty-assets/mouse_ensembl_release-110_Gene_lookup.parquet
       release-109:
         url: s3://bionty-assets/mouse_ensembl_release-109_Gene_lookup.parquet
+    saccharomyces cerevisiae:
+      release-110:
+        url: s3://bionty-assets/df_saccharomyces cerevisiae__ensembl__release-110__Gene.parquet
     name: Ensembl
     website: https://www.ensembl.org
 Protein:
