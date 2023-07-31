@@ -18,7 +18,7 @@ def genes():
     }
     df = pd.DataFrame(data).set_index("ensembl_gene_id")
 
-    gn = bt.Gene(source="ensembl", version="release-109")
+    gn = bt.Gene(source="ensembl", version="release-110")
 
     return df, gn
 
