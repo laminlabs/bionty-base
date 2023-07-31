@@ -10,7 +10,7 @@ from typing import Dict, Optional
 from github import Github
 from rich.progress import track
 
-BASE_BFX_PIPELINES_PATH = "bionty/versions/bfxpipelines_data"
+BASE_BFX_PIPELINES_PATH = "./scripts/pipelines_info"
 
 
 def base62(n_char: int) -> str:

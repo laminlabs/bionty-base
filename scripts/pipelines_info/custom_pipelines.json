@@ -1,0 +1,20 @@
+{
+  "cell_ranger_v7_1_0": {
+    "id": "V2RbClSNDq4H",
+    "name": "Cell Ranger v7.1.0",
+    "versions": "7.1.0",
+    "reference": "https://support.10xgenomics.com/single-cell-gene-expression/software/downloads/latest"
+  },
+  "cell_ranger_v7_0_1": {
+    "id": "T3r0zDQQJ97p",
+    "name": "Cell Ranger v7.0.1",
+    "versions": "7.0.1",
+    "reference": "https://support.10xgenomics.com/single-cell-gene-expression/software/downloads/latest"
+  },
+  "cell_ranger_v7_0_0": {
+    "id": "t28U9XvyjCEw",
+    "name": "Cell Ranger v7.0.0",
+    "versions": "7.0.0",
+    "reference": "https://support.10xgenomics.com/single-cell-gene-expression/software/downloads/latest"
+  }
+}
