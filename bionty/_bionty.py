@@ -105,7 +105,7 @@ class Bionty:
             f"🎯 {self.__class__.__name__}.search(): free text search of terms\n"
             f"🧐 {self.__class__.__name__}.inspect(): check if identifiers are mappable\n"
             f"👽 {self.__class__.__name__}.map_synonyms(): map synonyms to standardized names\n"
-            f"⚖ {self.__class__.__name__}.diff(): difference between two versions\n"
+            f"🪜 {self.__class__.__name__}.diff(): difference between two versions\n"
             f"🔗 {self.__class__.__name__}.ontology: Pronto.Ontology object"
         )
         # fmt: on
