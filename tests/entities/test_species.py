@@ -3,7 +3,7 @@ import pandas as pd
 import bionty as bt
 
 
-def test_ensemble_species_inspect_name():
+def test_ensembl_species_inspect_name():
     df = pd.DataFrame(
         index=[
             "spiny chromis",
@@ -21,3 +21,9 @@ def test_ensemble_species_inspect_name():
     expected_series = pd.Series([True, True, True, True, False])
 
     assert inspect.equals(expected_series)
+
+
+def test_ensembl_species_species():
+    for sp in ["bacteria", "plants", "fungi", "metazoa"]:
+        df = bt.Species(species=sp).df()
+        assert df.shape[0] > 10
