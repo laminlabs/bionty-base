@@ -1,13 +1,25 @@
-version: "0.2.2"
+version: "0.2.3"
 Species:
   ensembl:
-    vertebrate:
+    vertebrates:
       release-110:
         url: https://ftp.ensembl.org/pub/release-110/species_EnsemblVertebrates.txt
       release-109:
         url: https://ftp.ensembl.org/pub/release-109/species_EnsemblVertebrates.txt
       release-108:
         url: https://ftp.ensembl.org/pub/release-108/species_EnsemblVertebrates.txt
+    bacteria:
+      release-57:
+        url: https://ftp.ensemblgenomes.ebi.ac.uk/pub/bacteria/release-57/species_EnsemblBacteria.txt
+    fungi:
+      release-57:
+        url: http://ftp.ensemblgenomes.org/pub/fungi/release-57/species_EnsemblFungi.txt
+    metazoa:
+      release-57:
+        url: http://ftp.ensemblgenomes.org/pub/metazoa/release-57/species_EnsemblMetazoa.txt
+    plants:
+      release-57:
+        url: https://ftp.ensemblgenomes.ebi.ac.uk/pub/plants/release-57/species_EnsemblPlants.txt
     name: Ensembl
     website: https://www.ensembl.org
 Gene:
