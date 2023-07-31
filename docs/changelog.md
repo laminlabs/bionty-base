@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+✨ Added EnsemblGene class | [488](https://github.com/laminlabs/bionty/pull/488) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-31 |
 🍱 Added all ensembl species DBs | [487](https://github.com/laminlabs/bionty/pull/487) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-31 |
 🍱 Update to ensembl-110 | [485](https://github.com/laminlabs/bionty/pull/485) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-31 | 0.27.0
 🍱 Include obsolete terms in .df | [481](https://github.com/laminlabs/bionty/pull/481) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-23 | 0.26.0
