@@ -25,5 +25,5 @@ def test_ensembl_species_inspect_name():
 
 def test_ensembl_species_species():
     for sp in ["bacteria", "plants", "fungi", "metazoa"]:
-        df = bt.Species(species=sp)
+        df = bt.Species(species=sp).df()
         assert df.shape[0] > 10
