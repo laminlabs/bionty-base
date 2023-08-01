@@ -36,7 +36,10 @@ dev = [
     "pytest-cov",
     "laminci",
     "nbproject-test",
-    "bioregistry"
+    "bioregistry",
+    "sqlalchemy",
+    "mysqlclient",
+    "mysql-connector-python",
 ]
 
 [tool.black]

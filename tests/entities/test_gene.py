@@ -32,3 +32,17 @@ def test_gene_ensembl_inspect_hgnc_id(genes):
     expected_series = pd.Series([True, True, True, False])
 
     assert inspect.equals(expected_series)
+
+
+def test_ensemblgene_download():
+    from bionty.entities._gene import EnsemblGene
+
+    ensembl_gene = EnsemblGene(species="human", version="release-108")
+    assert ensembl_gene._species.name == "human"
+
+    external_df = ensembl_gene.external_dbs()
+    assert external_df.shape[0] > 1
+
+    df = ensembl_gene.download_df(external_db_names={"HGNC": "hgnc_id"})
+    assert df.shape[0] > 6000
+    assert "hgnc_id" in df.columns
