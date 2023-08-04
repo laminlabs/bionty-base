@@ -1,3 +1,6 @@
+bionty/sources/.currently_used_sources.yaml
+bionty/versions/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
