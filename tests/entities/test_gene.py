@@ -28,7 +28,7 @@ def test_gene_ensembl_inspect_hgnc_id(genes):
 
     inspected_df = gn.inspect(df["ncbi id"], field=gn.ncbi_gene_id, return_df=True)
 
-    inspect = inspected_df["__mapped__"].reset_index(drop=True)
+    inspect = inspected_df["__validated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, False])
 
     assert inspect.equals(expected_series)

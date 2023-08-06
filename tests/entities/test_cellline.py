@@ -17,7 +17,7 @@ def test_clo_cellline_inspect_name():
     cl = bt.CellLine(source="clo", version="2022-03-21")
     inspected_df = cl.inspect(df.index, field=cl.name, return_df=True)
 
-    inspect = inspected_df["__mapped__"].reset_index(drop=True)
+    inspect = inspected_df["__validated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
 
     assert inspect.equals(expected_series)

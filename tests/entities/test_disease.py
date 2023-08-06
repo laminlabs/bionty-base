@@ -17,7 +17,7 @@ def test_mondo_disease_inspect_name():
     ds = bt.Disease(source="mondo", version="2023-04-04")
     inspected_df = ds.inspect(df.index, field=ds.name, return_df=True)
 
-    inspect = inspected_df["__mapped__"].reset_index(drop=True)
+    inspect = inspected_df["__validated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
 
     assert inspect.equals(expected_series)
@@ -37,7 +37,7 @@ def test_doid_disease_inspect_ontology_id():
     ds = bt.Disease(source="doid", version="2023-03-31")
     inspected_df = ds.inspect(df.index, field=ds.ontology_id, return_df=True)
 
-    inspect = inspected_df["__mapped__"].reset_index(drop=True)
+    inspect = inspected_df["__validated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
 
     assert inspect.equals(expected_series)

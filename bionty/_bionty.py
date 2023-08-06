@@ -103,7 +103,8 @@ class Bionty:
             f"📖 {self.__class__.__name__}.df(): ontology reference table\n"
             f"🔎 {self.__class__.__name__}.lookup(): autocompletion of terms\n"
             f"🎯 {self.__class__.__name__}.search(): free text search of terms\n"
-            f"🧐 {self.__class__.__name__}.inspect(): check if identifiers are mappable\n"
+            f"✅ {self.__class__.__name__}.validate(): strictly validate values\n"
+            f"🧐 {self.__class__.__name__}.inspect(): full inspection of values\n"
             f"👽 {self.__class__.__name__}.map_synonyms(): map synonyms to standardized names\n"
             f"🪜 {self.__class__.__name__}.diff(): difference between two versions\n"
             f"🔗 {self.__class__.__name__}.ontology: Pronto.Ontology object"
@@ -345,31 +346,42 @@ class Bionty:
         else:
             return self._df
 
+    def validate(self, values: Iterable, field: BiontyField) -> np.ndarray[bool]:
+        """Validate a list of values against a field of entity reference."""
+        from lamin_utils._inspect import validate
+
+        if isinstance(values, str):
+            values = [values]
+
+        field_values = self._df[str(field)]
+        return validate(
+            identifiers=values,
+            field_values=field_values,
+            case_sensitive=True,
+            return_df=False,
+        )
+
     def inspect(
         self,
-        identifiers: Iterable,
+        values: Iterable,
         field: BiontyField,
         *,
-        case_sensitive: bool = False,
-        inspect_synonyms: bool = True,
         return_df: bool = False,
-        logging: bool = True,
+        mute: bool = False,
     ) -> Union[pd.DataFrame, Dict[str, List[str]]]:
-        """Inspect if a list of identifiers are mappable to the entity reference.
+        """Inspect a list of values against a field of entity reference.
 
         Args:
-            identifiers: Identifiers that will be checked against the field.
+            values: Identifiers that will be checked against the field.
             field: The BiontyField of the ontology to compare against.
                    Examples are 'ontology_id' to map against the source ID
                    or 'name' to map against the ontologies field names.
-            case_sensitive: Whether the identifier inspection is case sensitive.
-            inspect_synonyms: Whether to inspect synonyms.
             return_df: Whether to return a Pandas DataFrame.
 
         Returns:
-            - A Dictionary of "mapped" and "unmapped" identifiers
-            - If `return_df`: A DataFrame indexed by identifiers with a boolean `__mapped__`
-              column that indicates compliance with the identifiers.
+            - A Dictionary of "validated" and "not_validated" identifiers
+            - If `return_df`: A DataFrame indexed by identifiers with a boolean
+                `__validated__` column indicating compliance validation.
 
         Examples:
             >>> import bionty as bt
@@ -379,20 +391,22 @@ class Bionty:
         """
         from lamin_utils._inspect import inspect
 
+        if isinstance(values, str):
+            values = [values]
+
         return inspect(
             df=self._df,
-            identifiers=identifiers,
+            identifiers=values,
             field=str(field),
-            case_sensitive=case_sensitive,
-            inspect_synonyms=inspect_synonyms,
+            inspect_synonyms=True,
             return_df=return_df,
-            logging=logging,
+            logging=not mute,
         )
 
     # unfortunately, the doc string here is duplicated with ORM.map_synonyms
     def map_synonyms(
         self,
-        identifiers: Iterable,
+        values: Iterable,
         *,
         return_mapper: bool = False,
         case_sensitive: bool = False,
@@ -431,9 +445,12 @@ class Bionty:
         """
         from lamin_utils._map_synonyms import map_synonyms
 
+        if isinstance(values, str):
+            values = [values]
+
         return map_synonyms(
             df=self._df,
-            identifiers=identifiers,
+            identifiers=values,
             field=self._get_default_field(field),
             return_mapper=return_mapper,
             case_sensitive=case_sensitive,

@@ -62,13 +62,15 @@ celltype_bionty = bt.CellType()
 celltype_bionty.search("gamma delta T cell")
 ```
 
-### Inspect & map terms
+### Validate, inspect & standardize terms
 
 ```python
 gene_bionty = bt.Gene()
-# Inspect if the gene symbols are mappable onto the reference
+# Validate against a field of reference
+gene_bionty.validate(["A1BG", "FANCD1"], gene_bionty.symbol)
+# Run full inspection on the gene symbols
 gene_bionty.inspect(["A1BG", "FANCD1"], gene_bionty.symbol)
-# Map synonyms of gene symbols
+# Map synonyms of standardized gene symbols
 gene_bionty.map_synonyms(["A1BG", "FANCD1"])
 ```
 

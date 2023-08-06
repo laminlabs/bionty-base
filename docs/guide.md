@@ -5,7 +5,7 @@
 
 ./guide/search
 ./guide/ontology
-./guide/inspect
+./guide/validate
 ./guide/sources
 ./guide/config
 ./guide/extend
