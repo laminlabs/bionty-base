@@ -18,7 +18,7 @@ def test_efo_experimental_factor_inspect_ontology_id():
     ro = bt.ExperimentalFactor(source="efo", version="3.48.0")
     inspected_df = ro.inspect(df.index, ro.ontology_id, return_df=True)
 
-    inspect = inspected_df["__mapped__"].reset_index(drop=True)
+    inspect = inspected_df["__validated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
 
     assert inspect.equals(expected_series)

@@ -17,7 +17,7 @@ def test_cl_celltype_inspect_name():
     ct = bt.CellType(source="cl", version="2023-04-20")
     inspected_df = ct.inspect(df.index, field=ct.name, return_df=True)
 
-    inspect = inspected_df["__mapped__"].reset_index(drop=True)
+    inspect = inspected_df["__validated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
 
     assert inspect.equals(expected_series)

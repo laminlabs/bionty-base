@@ -17,7 +17,7 @@ def test_uniprot_protein_inspect_uniprotkb_id():
     pr = bt.Protein(source="uniprot", version="2023-03")
     inspected_df = pr.inspect(df.index, pr.uniprotkb_id, return_df=True)
 
-    inspect = inspected_df["__mapped__"].reset_index(drop=True)
+    inspect = inspected_df["__validated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
 
     assert inspect.equals(expected_series)

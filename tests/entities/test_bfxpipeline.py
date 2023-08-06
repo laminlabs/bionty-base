@@ -15,7 +15,7 @@ def test_lamin_bfxpipeline_inspect_name():
     bfxp = bt.BFXPipeline(source="lamin", version="1.0.0")
     inspected_df = bfxp.inspect(df.index, field=bfxp.name, return_df=True)
 
-    inspect = inspected_df["__mapped__"].reset_index(drop=True)
+    inspect = inspected_df["__validated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, False])
 
     assert inspect.equals(expected_series)

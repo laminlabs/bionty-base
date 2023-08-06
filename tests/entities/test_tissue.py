@@ -17,7 +17,7 @@ def test_uberon_tissue_inspect_ontology_id():
     ts = bt.Tissue(source="uberon", version="2023-02-14")
     inspected_df = ts.inspect(df.index, ts.ontology_id, return_df=True)
 
-    inspect = inspected_df["__mapped__"].reset_index(drop=True)
+    inspect = inspected_df["__validated__"].reset_index(drop=True)
     expected_series = pd.Series([True, True, True, True, False])
 
     assert inspect.equals(expected_series)
