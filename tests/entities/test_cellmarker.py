@@ -12,8 +12,8 @@ def test_cellmarker_cellmarker_inspect_name_human():
     curated = cm.inspect(df.index, field=cm.name)
 
     assert curated == {
-        "mapped": ["CCR7", "CD69", "CD8", "CD45RA"],
-        "not_mapped": ["This protein does not exist"],
+        "validated": ["CCR7", "CD69", "CD8", "CD45RA"],
+        "not_validated": ["This protein does not exist"],
     }
 
 
