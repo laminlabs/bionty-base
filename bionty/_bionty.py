@@ -4,7 +4,17 @@ import logging
 import os
 from functools import cached_property
 from pathlib import Path
-from typing import Dict, Iterable, List, Literal, Optional, Set, Tuple, Union
+from typing import (
+    TYPE_CHECKING,
+    Dict,
+    Iterable,
+    List,
+    Literal,
+    Optional,
+    Set,
+    Tuple,
+    Union,
+)
 
 import numpy as np
 import pandas as pd
@@ -17,6 +27,9 @@ from ._ontology import Ontology
 from ._settings import check_datasetdir_exists, check_dynamicdir_exists, settings
 from .dev._handle_sources import LAMINDB_INSTANCE_LOADED
 from .dev._io import s3_bionty_assets, url_download
+
+if TYPE_CHECKING:
+    from .dev import InspectResult
 
 
 def encode_filenames(
@@ -346,7 +359,14 @@ class Bionty:
         else:
             return self._df
 
-    def validate(self, values: Iterable, field: BiontyField) -> np.ndarray[bool]:
+    def validate(
+        self,
+        values: Iterable,
+        field: BiontyField,
+        *,
+        mute: bool = False,
+        **kwargs,
+    ) -> np.ndarray:
         """Validate a list of values against a field of entity reference."""
         from lamin_utils._inspect import validate
 
@@ -358,7 +378,8 @@ class Bionty:
             identifiers=values,
             field_values=field_values,
             case_sensitive=True,
-            return_df=False,
+            mute=mute,
+            **kwargs,
         )
 
     def inspect(
@@ -366,9 +387,9 @@ class Bionty:
         values: Iterable,
         field: BiontyField,
         *,
-        return_df: bool = False,
         mute: bool = False,
-    ) -> Union[pd.DataFrame, Dict[str, List[str]]]:
+        **kwargs,
+    ) -> "InspectResult":
         """Inspect a list of values against a field of entity reference.
 
         Args:
@@ -399,8 +420,8 @@ class Bionty:
             identifiers=values,
             field=str(field),
             inspect_synonyms=True,
-            return_df=return_df,
-            logging=not mute,
+            mute=mute,
+            **kwargs,
         )
 
     # unfortunately, the doc string here is duplicated with ORM.map_synonyms
