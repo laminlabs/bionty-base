@@ -11,10 +11,8 @@ def test_cellmarker_cellmarker_inspect_name_human():
     cm = bt.CellMarker(source="cellmarker")
     curated = cm.inspect(df.index, field=cm.name)
 
-    assert curated == {
-        "validated": ["CD69", "CD8", "CD45RA"],
-        "not_validated": ["CCR7", "This protein does not exist"],
-    }
+    assert curated["validated"] == ["CD69", "CD8", "CD45RA"]
+    assert curated["non_validated"] == ["CCR7", "This protein does not exist"]
 
 
 def test_cellmarker_cellmarker_inspect_name_mouse():

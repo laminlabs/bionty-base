@@ -29,6 +29,7 @@ Base model of entity classes:
    :toctree: .
 
    Bionty
+   BiontyField
 
 Bionty sources:
 
@@ -75,12 +76,13 @@ from .entities._pathway import Pathway
 from .entities._experimentalfactor import ExperimentalFactor
 
 # tools
-from ._bionty import Bionty
+from ._bionty import Bionty, BiontyField
 from ._ontology import Ontology
 from ._display_sources import display_currently_used_sources, display_available_sources
 
 # sources
 from .dev._handle_sources import LOCAL_SOURCES, reset_sources
+from . import dev  # noqa
 
 # backward compat
 Entity = Bionty

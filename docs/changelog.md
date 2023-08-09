@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+💚 Fixed tests | [493](https://github.com/laminlabs/bionty/pull/493) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-09 |
 ✨ Introduce validate | [491](https://github.com/laminlabs/bionty/pull/491) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-06 | 0.29.0
 📝 Fix docs | [490](https://github.com/laminlabs/bionty/pull/490) | [falexwolf](https://github.com/falexwolf) | 2023-08-04 |
 ✨ Added EnsemblGene class | [488](https://github.com/laminlabs/bionty/pull/488) | [sunnyosun](https://github.com/sunnyosun) | 2023-07-31 | 0.28.0
