@@ -82,6 +82,7 @@ from ._display_sources import display_currently_used_sources, display_available_
 
 # sources
 from .dev._handle_sources import LOCAL_SOURCES, reset_sources
+from . import dev  # noqa
 
 # backward compat
 Entity = Bionty
