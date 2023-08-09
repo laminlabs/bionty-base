@@ -15,7 +15,7 @@ def test_efo_experimental_factor_inspect_ontology_id():
         ]
     )
 
-    ro = bt.ExperimentalFactor(source="efo", version="3.48.0")
+    ro = bt.ExperimentalFactor(source="efo")
     inspected_df = ro.inspect(df.index, ro.ontology_id, return_df=True)
 
     inspect = inspected_df["__validated__"].reset_index(drop=True)
@@ -25,7 +25,7 @@ def test_efo_experimental_factor_inspect_ontology_id():
 
 
 def test_parse_efo_term():
-    ro = bt.ExperimentalFactor(source="efo", version="3.48.0")
+    ro = bt.ExperimentalFactor(source="efo")
     ontology = ro.ontology
     res = _parse_efo_term(term_id="EFO:0008913", ontology=ontology)
 

@@ -8,7 +8,7 @@ def test_cellmarker_cellmarker_inspect_name_human():
         index=["CCR7", "CD69", "CD8", "CD45RA", "This protein does not exist"]
     )
 
-    cm = bt.CellMarker(source="cellmarker", version="2.0")
+    cm = bt.CellMarker(source="cellmarker")
     curated = cm.inspect(df.index, field=cm.name)
 
     assert curated == {
@@ -22,7 +22,7 @@ def test_cellmarker_cellmarker_inspect_name_mouse():
         index=["Tcf4", "Cd36", "Cd34", "Lgr6", "This protein does not exist"]
     )
 
-    cm = bt.CellMarker(source="cellmarker", version="2.0", species="mouse")
+    cm = bt.CellMarker(source="cellmarker", species="mouse")
     inspected_df = cm.inspect(df.index, field=cm.name, return_df=True)
 
     inspect = inspected_df["__validated__"].reset_index(drop=True)

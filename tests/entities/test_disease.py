@@ -14,7 +14,7 @@ def test_mondo_disease_inspect_name():
         ]
     )
 
-    ds = bt.Disease(source="mondo", version="2023-04-04")
+    ds = bt.Disease(source="mondo")
     inspected_df = ds.inspect(df.index, field=ds.name, return_df=True)
 
     inspect = inspected_df["__validated__"].reset_index(drop=True)
@@ -34,7 +34,7 @@ def test_doid_disease_inspect_ontology_id():
         ]
     )
 
-    ds = bt.Disease(source="doid", version="2023-03-31")
+    ds = bt.Disease(source="doid")
     inspected_df = ds.inspect(df.index, field=ds.ontology_id, return_df=True)
 
     inspect = inspected_df["__validated__"].reset_index(drop=True)

@@ -14,7 +14,7 @@ def test_hp_phenotype_inspect_name():
         ]
     )
 
-    pt = bt.Phenotype(source="hp", version="2023-06-17")
+    pt = bt.Phenotype(source="hp")
     inspected_df = pt.inspect(df.index, field=pt.name, return_df=True)
 
     inspect = inspected_df["__validated__"].reset_index(drop=True)
@@ -34,7 +34,7 @@ def test_mp_phenotype_inspect_name():
         ]
     )
 
-    pt = bt.Phenotype(source="mp", version="2023-05-31")
+    pt = bt.Phenotype(source="mp")
     inspected_df = pt.inspect(df.index, field=pt.name, return_df=True)
 
     inspect = inspected_df["__validated__"].reset_index(drop=True)
@@ -54,7 +54,7 @@ def test_zp_phenotype_inspect_name():
         ]
     )
 
-    pt = bt.Phenotype(source="zp", version="2022-12-17")
+    pt = bt.Phenotype(source="zp")
     inspected_df = pt.inspect(df.index, field=pt.name, return_df=True)
 
     inspect = inspected_df["__validated__"].reset_index(drop=True)

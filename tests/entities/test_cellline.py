@@ -14,7 +14,7 @@ def test_clo_cellline_inspect_name():
         ]
     )
 
-    cl = bt.CellLine(source="clo", version="2022-03-21")
+    cl = bt.CellLine(source="clo")
     inspected_df = cl.inspect(df.index, field=cl.name, return_df=True)
 
     inspect = inspected_df["__validated__"].reset_index(drop=True)
