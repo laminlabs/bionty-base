@@ -64,7 +64,7 @@ def generate_nf_core_pipelines_info() -> None:
 
                 nf_core_pipelines[underscore_pipeline_name] = {
                     "id": hash_id(pipeline_name, n_char=12),
-                    "name": pipeline_name,
+                    "name": f"nf-core {pipeline_name}",
                     "versions": actual_version,
                     "reference": repo.url,
                 }
