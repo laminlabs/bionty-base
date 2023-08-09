@@ -29,7 +29,7 @@ from .dev._handle_sources import LAMINDB_INSTANCE_LOADED
 from .dev._io import s3_bionty_assets, url_download
 
 if TYPE_CHECKING:
-    from lamin_utils._inspect import InspectResult
+    from .dev import InspectResult
 
 
 def encode_filenames(
