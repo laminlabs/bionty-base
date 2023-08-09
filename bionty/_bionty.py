@@ -21,12 +21,11 @@ import pandas as pd
 from lamin_utils import logger
 from lamin_utils._lookup import Lookup
 
-from bionty._md5 import verify_md5
-
 from ._ontology import Ontology
 from ._settings import check_datasetdir_exists, check_dynamicdir_exists, settings
 from .dev._handle_sources import LAMINDB_INSTANCE_LOADED
 from .dev._io import s3_bionty_assets, url_download
+from .dev._md5 import verify_md5
 
 if TYPE_CHECKING:
     from .dev import InspectResult

@@ -15,5 +15,7 @@ Here we document the steps to required steps to take when updating the `source.y
    Ensure that your pull request contains a summary of the diff.
 3. Specify the new entity or the latest version in your local `.current_source.yaml`. Run the tests.
    Upload the corresponding `.parquet` file to our S3.
-4. Merge your PR to main. Ensure that the parquet file got automatically uploaded to our S3.
-5. Make a new release based on our release process.
+4. Get the corresponding md5 sum by running the `determine_md5s.py` script in the scripts folder.
+   Add it to the md5 field in the `source.yaml`.
+5. Merge your PR to main. Ensure that the parquet file got automatically uploaded to our S3.
+6. Make a new release based on our release process.
