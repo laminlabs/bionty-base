@@ -1,3 +1,5 @@
+:orphan:
+
 # Updating `source.yaml`
 
 Here we document the steps to required steps to take when updating the `source.yaml` file.
