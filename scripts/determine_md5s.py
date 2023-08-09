@@ -24,7 +24,11 @@ for index, row in df.iterrows():
             s3_bionty_assets(
                 file_name, localpath=local_path, assets_base_url="s3://bionty-assets"
             )
-            md5 = calculate_md5(local_path)
+            try:
+                md5 = calculate_md5(local_path)
+            except FileNotFoundError:
+                print(f"[bold red]URL {url} could not be downloaded. Is it on S3?")
+                continue
         else:
             raise ValueError(f"URL type for: {url} not recognized")
 
