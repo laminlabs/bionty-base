@@ -34,12 +34,14 @@ Gene:
     human:
       release-110:
         url: s3://bionty-assets/df_human__ensembl__release-110__Gene.parquet
+        md5: 832f3947e83664588d419608a469b528
       release-109:
         url: s3://bionty-assets/human_ensembl_release-109_Gene_lookup.parquet
         md5: 72da9968c74e96d136a489a6102a4546
     mouse:
       release-110:
-        url: s3://bionty-assets/mouse_ensembl_release-110_Gene_lookup.parquet
+        url: s3://bionty-assets/df_mouse__ensembl__release-110__Gene.parquet
+        md5: fa4ce130f2929aefd7ac3bc8eaf0c4de
       release-109:
         url: s3://bionty-assets/mouse_ensembl_release-109_Gene_lookup.parquet
         md5: 08a1165061151b270b985317322bd2ed
@@ -53,13 +55,15 @@ Protein:
   uniprot:
     human:
       2023-03:
-        url: s3://bionty-assets/human_uniprot_2023-03_Protein_lookup.parquet
+        url: s3://bionty-assets/df_human__uniprot__2023-03__Protein.parquet
+        md5: 1c46e85c6faf5eff3de5b4e1e4edc4d3
       2023-02:
         url: s3://bionty-assets/human_uniprot_2023-02_Protein_lookup.parquet
         md5: 0cb7264eb43f91bd04dac792dd879241
     mouse:
       2023-03:
-        url: s3://bionty-assets/mouse_uniprot_2023-03_Protein_lookup.parquet
+        url: s3://bionty-assets/df_mouse__uniprot__2023-03__Protein.parquet
+        md5: 9d5e9a8225011d3218e10f9bbb96a46c
       2023-02:
         url: s3://bionty-assets/mouse_uniprot_2023-02_Protein_lookup.parquet
         md5: dcae4f62f5df145a5c15163fce7e9135
@@ -70,7 +74,7 @@ CellMarker:
     human:
       2.0:
         url: s3://bionty-assets/human_cellmarker_2.0_CellMarker_lookup.parquet
-        mouse: d565d4a542a5c7e7a06255975358e4f4
+        md5: d565d4a542a5c7e7a06255975358e4f4
     mouse:
       2.0:
         url: s3://bionty-assets/mouse_cellmarker_2.0_CellMarker_lookup.parquet
