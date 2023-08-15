@@ -418,7 +418,6 @@ class Bionty:
             df=self._df,
             identifiers=values,
             field=str(field),
-            inspect_synonyms=True,
             mute=mute,
             **kwargs,
         )
