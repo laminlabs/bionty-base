@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🚑️ Updated inspect params | [496](https://github.com/laminlabs/bionty/pull/496) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-15 |
 :sparkles: Add md5 for normal URLs | [495](https://github.com/laminlabs/bionty/pull/495) | [Zethson](https://github.com/Zethson) | 2023-08-09 |
 :sparkles: Use latest versions of tests & add updating sources | [494](https://github.com/laminlabs/bionty/pull/494) | [Zethson](https://github.com/Zethson) | 2023-08-09 |
 💚 Fixed tests | [493](https://github.com/laminlabs/bionty/pull/493) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-09 |
