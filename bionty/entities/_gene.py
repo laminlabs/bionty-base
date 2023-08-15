@@ -48,7 +48,9 @@ class EnsemblGene:
             version: name of the ensembl DB version, e.g. "release-110"
         """
         self._import()
-        self._species = Species(version=version).lookup().__getattribute__(species)
+        self._species = (
+            Species(version=version).lookup().dict().get(species)  # type:ignore
+        )
         self._url = (
             f"mysql+mysqldb://anonymous:@ensembldb.ensembl.org/{self._species.core_db}"
         )
@@ -181,10 +183,11 @@ class EnsemblGene:
         if not any(df_res["ensembl_gene_id"].str.startswith("ENS")):
             logger.warning("No ensembl_gene_id found, writing to table_id column.")
             df_res.insert(0, "stable_id", df_res.pop("ensembl_gene_id"))
+            df_res = df_res.sort_values("stable_id").reset_index(drop=True)
         else:
             df_res = df_res[df_res["ensembl_gene_id"].str.startswith("ENS")]
+            df_res = df_res.sort_values("ensembl_gene_id").reset_index(drop=True)
 
-        df_res = df_res.sort_values("ensembl_gene_id").reset_index(drop=True)
         logger.success(f"Downloaded Gene table containing {df_res.shape[0]} entries.")
 
         return df_res
