@@ -59,33 +59,38 @@ class Bionty:
         include_id_prefixes: Optional[Dict[str, List[str]]] = None,
     ):
         self._fetch_sources()
-        # match user input species, source and version with yaml
-        self._source_record = self._match_current_sources(
-            source=source, version=version, species=species
-        )
+        try:
+            # match user input species, source and version with currently used sources
+            self._source_record = self._match_sources(
+                self._current_sources, source=source, version=version, species=species
+            )
+        except ValueError:
+            if LAMINDB_INSTANCE_LOADED():
+                logger.error(
+                    f"Only default sources below are allowed inside LaminDB instances!\n{self._current_sources}\n"  # noqa: E501
+                )
+                # fmt: off
+                logger.hint(
+                    f"To use a different source, please either:\n"
+                    f"    Close your instance via `lamin close`\n"
+                    f"    OR\n"
+                    f"    Configure currently_used {self.__class__.__name__} source in `lnschema_bionty.BiontySource`"
+                )
+                # fmt: on
+                self._source = None  # type: ignore
+                return
+            else:
+                # search in all available sources
+                self._source_record = self._match_sources(
+                    self._all_sources,
+                    source=source,
+                    version=version,
+                    species=species,
+                )
+
         self._species = self._source_record["species"]
         self._source = self._source_record["source"]
         self._version = self._source_record["version"]
-
-        # only currently_used sources are allowed inside lamindb instances
-        default_sources = list(self._current_sources.itertuples(index=False, name=None))
-        if (
-            LAMINDB_INSTANCE_LOADED()
-            and (self.species, self.source, self.version) not in default_sources
-        ):
-            logger.error(
-                f"Only default sources below are allowed inside LaminDB instances!\n{self._current_sources}\n"  # noqa: E501
-            )
-            # fmt: off
-            logger.hint(
-                f"To use a different source, please either:\n"
-                f"    Close your instance via `lamin close`\n"
-                f"    OR\n"
-                f"    Configure currently_used {self.__class__.__name__} source in `lnschema_bionty.BiontySource`"
-            )
-            # fmt: on
-            self._source = None  # type: ignore
-            return
 
         self._set_file_paths()
         self.include_id_prefixes = include_id_prefixes
@@ -191,7 +196,10 @@ class Bionty:
                         self._url_download(url, localpath)
 
     def _fetch_sources(self) -> None:
-        from ._display_sources import display_currently_used_sources
+        from ._display_sources import (
+            display_available_sources,
+            display_currently_used_sources,
+        )
 
         def _subset_to_entity(df: pd.DataFrame, key: str):
             return df.loc[[key]] if isinstance(df.loc[key], pd.Series) else df.loc[key]
@@ -200,8 +208,13 @@ class Bionty:
             display_currently_used_sources(), self.__class__.__name__
         )
 
-    def _match_current_sources(
+        self._all_sources = _subset_to_entity(
+            display_available_sources(), self.__class__.__name__
+        )
+
+    def _match_sources(
         self,
+        ref_sources: pd.DataFrame,
         source: Optional[str] = None,
         version: Optional[str] = None,
         species: Optional[str] = None,
@@ -258,7 +271,7 @@ class Bionty:
         """Download file from url to dynamicdir _local_ontology_path."""
         # Try to download from s3://bionty-assets
         s3_bionty_assets(
-            filename=self._ontology_filename,
+            filename=self._ontology_filename,  # type: ignore
             assets_base_url="s3://bionty-assets",
             localpath=localpath,
         )
