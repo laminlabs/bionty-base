@@ -60,7 +60,7 @@ class Bionty:
     ):
         self._fetch_sources()
         # match user input species, source and version with yaml
-        self._source_record = self._match_all_sources(
+        self._source_record = self._match_current_sources(
             source=source, version=version, species=species
         )
         self._species = self._source_record["species"]
@@ -68,13 +68,13 @@ class Bionty:
         self._version = self._source_record["version"]
 
         # only currently_used sources are allowed inside lamindb instances
-        default_sources = list(self._default_sources.itertuples(index=False, name=None))
+        default_sources = list(self._current_sources.itertuples(index=False, name=None))
         if (
             LAMINDB_INSTANCE_LOADED()
             and (self.species, self.source, self.version) not in default_sources
         ):
             logger.error(
-                f"Only default sources below are allowed inside LaminDB instances!\n{self._default_sources}\n"  # noqa: E501
+                f"Only default sources below are allowed inside LaminDB instances!\n{self._current_sources}\n"  # noqa: E501
             )
             # fmt: off
             logger.hint(
@@ -191,23 +191,16 @@ class Bionty:
                         self._url_download(url, localpath)
 
     def _fetch_sources(self) -> None:
-        from ._display_sources import (
-            display_available_sources,
-            display_currently_used_sources,
-        )
+        from ._display_sources import display_currently_used_sources
 
         def _subset_to_entity(df: pd.DataFrame, key: str):
             return df.loc[[key]] if isinstance(df.loc[key], pd.Series) else df.loc[key]
 
-        self._default_sources = _subset_to_entity(
+        self._current_sources = _subset_to_entity(
             display_currently_used_sources(), self.__class__.__name__
         )
 
-        self._all_sources = _subset_to_entity(
-            display_available_sources(), self.__class__.__name__
-        )
-
-    def _match_all_sources(
+    def _match_current_sources(
         self,
         source: Optional[str] = None,
         version: Optional[str] = None,
@@ -224,32 +217,32 @@ class Bionty:
         }
         keys = list(kwargs.keys())
 
-        # if 1 or 2 kwargs are specified, find the best match in all sources
+        # if 1 or 2 kwargs are specified, find the best match in currently used sources
         if (len(kwargs) == 1) or (len(kwargs) == 2):
-            cond = self._all_sources[keys[0]] == kwargs.get(keys[0])
+            cond = self._current_sources[keys[0]] == kwargs.get(keys[0])
             if len(kwargs) == 1:
-                row = self._all_sources[cond].head(1)
+                row = self._current_sources[cond].head(1)
             else:
                 # len(kwargs) == 2
                 cond = getattr(cond, "__and__")(
-                    self._all_sources[keys[1]] == kwargs.get(keys[1])
+                    self._current_sources[keys[1]] == kwargs.get(keys[1])
                 )
-                row = self._all_sources[cond].head(1)
+                row = self._current_sources[cond].head(1)
         else:
             # if no kwargs are passed, take the currently used source record
             if len(keys) == 0:
-                curr = self._default_sources.head(1).to_dict(orient="records")[0]
+                curr = self._current_sources.head(1).to_dict(orient="records")[0]
                 kwargs = {
                     k: v
                     for k, v in curr.items()
                     if k in ["species", "source", "version"]
                 }
-            # if all 3 kwargs are specified, match the record from all sources
+            # if all 3 kwargs are specified, match the record from currently used sources
             # do the same for the kwargs that obtained from default source to obtain url
-            row = self._all_sources[
-                (self._all_sources["species"] == kwargs["species"])
-                & (self._all_sources["source"] == kwargs["source"])
-                & (self._all_sources["version"] == kwargs["version"])
+            row = self._current_sources[
+                (self._current_sources["species"] == kwargs["species"])
+                & (self._current_sources["source"] == kwargs["source"])
+                & (self._current_sources["version"] == kwargs["version"])
             ].head(1)
 
         # if no records matched the passed kwargs, raise error
