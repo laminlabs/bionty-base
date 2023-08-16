@@ -78,6 +78,8 @@ class Bionty:
                 )
                 # fmt: on
                 self._source = None  # type: ignore
+                self._species = species
+                self._version = version
                 return
             else:
                 # search in all available sources
