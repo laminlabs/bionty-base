@@ -61,7 +61,7 @@ class Bionty:
         self._fetch_sources()
         try:
             # match user input species, source and version with currently used sources
-            self._source_record = self._match_sources(
+            self._match_sources(
                 self._current_sources, source=source, version=version, species=species
             )
         except ValueError:
@@ -81,14 +81,14 @@ class Bionty:
                 self._species = species
                 self._version = version
                 return
-            else:
-                # search in all available sources
-                self._source_record = self._match_sources(
-                    self._all_sources,
-                    source=source,
-                    version=version,
-                    species=species,
-                )
+
+        # search in all available sources
+        self._source_record = self._match_sources(
+            self._all_sources,
+            source=source,
+            version=version,
+            species=species,
+        )
 
         self._species = self._source_record["species"]
         self._source = self._source_record["source"]
