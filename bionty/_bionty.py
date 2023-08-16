@@ -232,19 +232,19 @@ class Bionty:
 
         # if 1 or 2 kwargs are specified, find the best match in currently used sources
         if (len(kwargs) == 1) or (len(kwargs) == 2):
-            cond = self._current_sources[keys[0]] == kwargs.get(keys[0])
+            cond = ref_sources[keys[0]] == kwargs.get(keys[0])
             if len(kwargs) == 1:
-                row = self._current_sources[cond].head(1)
+                row = ref_sources[cond].head(1)
             else:
                 # len(kwargs) == 2
                 cond = getattr(cond, "__and__")(
-                    self._current_sources[keys[1]] == kwargs.get(keys[1])
+                    ref_sources[keys[1]] == kwargs.get(keys[1])
                 )
-                row = self._current_sources[cond].head(1)
+                row = ref_sources[cond].head(1)
         else:
             # if no kwargs are passed, take the currently used source record
             if len(keys) == 0:
-                curr = self._current_sources.head(1).to_dict(orient="records")[0]
+                curr = ref_sources.head(1).to_dict(orient="records")[0]
                 kwargs = {
                     k: v
                     for k, v in curr.items()
@@ -252,10 +252,10 @@ class Bionty:
                 }
             # if all 3 kwargs are specified, match the record from currently used sources
             # do the same for the kwargs that obtained from default source to obtain url
-            row = self._current_sources[
-                (self._current_sources["species"] == kwargs["species"])
-                & (self._current_sources["source"] == kwargs["source"])
-                & (self._current_sources["version"] == kwargs["version"])
+            row = ref_sources[
+                (ref_sources["species"] == kwargs["species"])
+                & (ref_sources["source"] == kwargs["source"])
+                & (ref_sources["version"] == kwargs["version"])
             ].head(1)
 
         # if no records matched the passed kwargs, raise error
