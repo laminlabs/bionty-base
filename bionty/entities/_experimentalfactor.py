@@ -45,11 +45,12 @@ class ExperimentalFactor(Bionty):
         """
         self._download_ontology_file(
             localpath=self._local_ontology_path,  # type:ignore
-            url=self._url,
-            md5=self._md5,
+            url=self._url,  # type:ignore
+            md5=self._md5,  # type:ignore
         )
         onto = Ontology(
-            handle=self._local_ontology_path, prefix="http://www.ebi.ac.uk/efo/"
+            handle=self._local_ontology_path,  # type:ignore
+            prefix="http://www.ebi.ac.uk/efo/",
         )
         # TODO: fix
         onto.__setattr__("efo_to_df", efo_to_df)

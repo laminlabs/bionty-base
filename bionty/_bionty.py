@@ -16,11 +16,13 @@ from typing import (
     Union,
 )
 
+import deprecation
 import numpy as np
 import pandas as pd
 from lamin_utils import logger
 from lamin_utils._lookup import Lookup
 
+from . import __version__
 from ._ontology import Ontology
 from ._settings import check_datasetdir_exists, check_dynamicdir_exists, settings
 from .dev._handle_sources import LAMINDB_INSTANCE_LOADED
@@ -102,7 +104,7 @@ class Bionty:
         # self._df has no index
         if df.index.name is not None:
             df = df.reset_index()
-        self._df = df
+        self._df: pd.DataFrame = df
 
         # set column names/fields as attributes
         for col_name in self._df.columns:
@@ -124,7 +126,7 @@ class Bionty:
             f"🎯 {self.__class__.__name__}.search(): free text search of terms\n"
             f"✅ {self.__class__.__name__}.validate(): strictly validate values\n"
             f"🧐 {self.__class__.__name__}.inspect(): full inspection of values\n"
-            f"👽 {self.__class__.__name__}.map_synonyms(): map synonyms to standardized names\n"
+            f"👽 {self.__class__.__name__}.standardize(): convert to standardized names\n"
             f"🪜 {self.__class__.__name__}.diff(): difference between two versions\n"
             f"🔗 {self.__class__.__name__}.ontology: Pronto.Ontology object"
         )
@@ -293,8 +295,8 @@ class Bionty:
             source: The database to find the URL and version for.
             version: The requested version of the database.
         """
-        self._url = self._source_record.get("url", "")
-        self._md5 = self._source_record.get("md5", "")
+        self._url: str = self._source_record.get("url", "")
+        self._md5: str = self._source_record.get("md5", "")
 
         # parquet file name, ontology source file name
         self._parquet_filename, self._ontology_filename = encode_filenames(
@@ -303,11 +305,11 @@ class Bionty:
             version=self.version,
             entity=self,
         )
-        self._local_parquet_path = settings.dynamicdir / self._parquet_filename
+        self._local_parquet_path: Path = settings.dynamicdir / self._parquet_filename
 
         if self._url.endswith(".parquet"):  # user provide reference table as the url
             # no local ontology source file
-            self._local_ontology_path = None
+            self._local_ontology_path = None  # type:ignore
             if not self._url.startswith("s3://bionty-assets/"):
                 self._parquet_filename = None  # type:ignore
         else:
@@ -430,8 +432,8 @@ class Bionty:
             **kwargs,
         )
 
-    # unfortunately, the doc string here is duplicated with ORM.map_synonyms
-    def map_synonyms(
+    # unfortunately, the doc string here is duplicated with ORM.standardize
+    def standardize(
         self,
         values: Iterable,
         *,
@@ -441,7 +443,7 @@ class Bionty:
         synonyms_field: Union[BiontyField, str] = "synonyms",
         field: Optional[Union[BiontyField, str]] = None,
     ) -> Union[Dict[str, str], List[str]]:
-        """Maps input synonyms to standardized names.
+        """Convert into standardized names.
 
         Args:
             synonyms: `Iterable` Synonyms that will be standardized.
@@ -468,7 +470,7 @@ class Bionty:
             >>> import bionty as bt
             >>> gene_bt = bt.Gene()
             >>> gene_symbols = ["A1CF", "A1BG", "FANCD1", "FANCD20"]
-            >>> standardized_symbols = gene_bt.map_synonyms(gene_symbols, gene_bt.symbol)
+            >>> standardized_symbols = gene_bt.standardize(gene_symbols, gene_bt.symbol)
         """
         from lamin_utils._map_synonyms import map_synonyms
 
@@ -483,6 +485,31 @@ class Bionty:
             case_sensitive=case_sensitive,
             keep=keep,
             synonyms_field=str(synonyms_field),
+        )
+
+    @deprecation.deprecated(
+        deprecated_in="0.30",
+        current_version=__version__,
+        details="Use `standardize` instead",
+    )
+    def map_synonyms(
+        self,
+        values: Iterable,
+        *,
+        return_mapper: bool = False,
+        case_sensitive: bool = False,
+        keep: Literal["first", "last", False] = "first",
+        synonyms_field: Union[BiontyField, str] = "synonyms",
+        field: Optional[Union[BiontyField, str]] = None,
+    ) -> Union[Dict[str, str], List[str]]:
+        """Maps input synonyms to standardized names."""
+        return self.standardize(
+            values=values,
+            return_mapper=return_mapper,
+            case_sensitive=case_sensitive,
+            keep=keep,
+            synonyms_field=synonyms_field,
+            field=field,
         )
 
     def lookup(self, field: Optional[Union[BiontyField, str]] = None) -> Tuple:
