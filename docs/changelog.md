@@ -3,10 +3,10 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-🚚 Rename `map_synonyms` to `standardize` | [497](https://github.com/laminlabs/bionty/pull/497) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-16 |
+🚚 Rename `map_synonyms` to `standardize` | [497](https://github.com/laminlabs/bionty/pull/497) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-16 | 0.30.0
 🚑️ Updated inspect params | [496](https://github.com/laminlabs/bionty/pull/496) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-15 |
-:sparkles: Add md5 for normal URLs | [495](https://github.com/laminlabs/bionty/pull/495) | [Zethson](https://github.com/Zethson) | 2023-08-09 |
-:sparkles: Use latest versions of tests & add updating sources | [494](https://github.com/laminlabs/bionty/pull/494) | [Zethson](https://github.com/Zethson) | 2023-08-09 |
+✨ Add md5 for normal URLs | [495](https://github.com/laminlabs/bionty/pull/495) | [Zethson](https://github.com/Zethson) | 2023-08-09 |
+✨ Use latest versions of tests & add updating sources | [494](https://github.com/laminlabs/bionty/pull/494) | [Zethson](https://github.com/Zethson) | 2023-08-09 |
 💚 Fixed tests | [493](https://github.com/laminlabs/bionty/pull/493) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-09 |
 ✨ Introduce validate | [491](https://github.com/laminlabs/bionty/pull/491) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-06 | 0.29.0
 📝 Fix docs | [490](https://github.com/laminlabs/bionty/pull/490) | [falexwolf](https://github.com/falexwolf) | 2023-08-04 |
