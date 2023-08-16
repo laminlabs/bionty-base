@@ -27,7 +27,9 @@ class BFXPipeline(Bionty):
         super().__init__(source=source, version=version, species=species, **kwargs)
 
     def _load_df(self) -> pd.DataFrame:
-        localpath = self._local_parquet_path.as_posix().replace(".parquet", ".json")
+        localpath = self._local_parquet_path.as_posix().replace(  # type:ignore
+            ".parquet", ".json"
+        )
         s3_bionty_assets("bfxpipelines.json", Path(localpath))
         with open(localpath, "r") as f:
             data = json.load(f)

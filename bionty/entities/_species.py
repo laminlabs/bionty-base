@@ -29,8 +29,10 @@ class Species(Bionty):
 
     def _load_df(self) -> pd.DataFrame:
         if not self._local_parquet_path.exists():
-            self._url_download(self._url, self._local_ontology_path)
-            df = pd.read_csv(self._local_ontology_path, sep="\t", index_col=False)
+            self._url_download(self._url, self._local_ontology_path)  # type:ignore
+            df = pd.read_csv(
+                self._local_ontology_path, sep="\t", index_col=False  # type:ignore
+            )
             df.rename(
                 columns={
                     "#name": "name",

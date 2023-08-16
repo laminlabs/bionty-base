@@ -70,8 +70,8 @@ gene_bionty = bt.Gene()
 gene_bionty.validate(["A1BG", "FANCD1"], gene_bionty.symbol)
 # Run full inspection on the gene symbols
 gene_bionty.inspect(["A1BG", "FANCD1"], gene_bionty.symbol)
-# Map synonyms of standardized gene symbols
-gene_bionty.map_synonyms(["A1BG", "FANCD1"])
+# Convert synonyms to standardized gene symbols
+gene_bionty.standardize(["A1BG", "FANCD1"])
 ```
 
 ### Access a reference DataFrame

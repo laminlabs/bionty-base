@@ -59,33 +59,40 @@ class Bionty:
         include_id_prefixes: Optional[Dict[str, List[str]]] = None,
     ):
         self._fetch_sources()
-        # match user input species, source and version with yaml
-        self._source_record = self._match_all_sources(
-            source=source, version=version, species=species
+        try:
+            # match user input species, source and version with currently used sources
+            self._match_sources(
+                self._current_sources, source=source, version=version, species=species
+            )
+        except ValueError:
+            if LAMINDB_INSTANCE_LOADED():
+                logger.error(
+                    f"Only default sources below are allowed inside LaminDB instances!\n{self._current_sources}\n"  # noqa: E501
+                )
+                # fmt: off
+                logger.hint(
+                    f"To use a different source, please either:\n"
+                    f"    Close your instance via `lamin close`\n"
+                    f"    OR\n"
+                    f"    Configure currently_used {self.__class__.__name__} source in `lnschema_bionty.BiontySource`"
+                )
+                # fmt: on
+                self._source = None  # type: ignore
+                self._species = species
+                self._version = version
+                return
+
+        # search in all available sources
+        self._source_record = self._match_sources(
+            self._all_sources,
+            source=source,
+            version=version,
+            species=species,
         )
+
         self._species = self._source_record["species"]
         self._source = self._source_record["source"]
         self._version = self._source_record["version"]
-
-        # only currently_used sources are allowed inside lamindb instances
-        default_sources = list(self._default_sources.itertuples(index=False, name=None))
-        if (
-            LAMINDB_INSTANCE_LOADED()
-            and (self.species, self.source, self.version) not in default_sources
-        ):
-            logger.error(
-                f"Only default sources below are allowed inside LaminDB instances!\n{self._default_sources}\n"  # noqa: E501
-            )
-            # fmt: off
-            logger.hint(
-                f"To use a different source, please either:\n"
-                f"    Close your instance via `lamin close`\n"
-                f"    OR\n"
-                f"    Configure currently_used {self.__class__.__name__} source in `lnschema_bionty.BiontySource`"
-            )
-            # fmt: on
-            self._source = None  # type: ignore
-            return
 
         self._set_file_paths()
         self.include_id_prefixes = include_id_prefixes
@@ -95,7 +102,7 @@ class Bionty:
         # self._df has no index
         if df.index.name is not None:
             df = df.reset_index()
-        self._df = df
+        self._df: pd.DataFrame = df
 
         # set column names/fields as attributes
         for col_name in self._df.columns:
@@ -117,7 +124,7 @@ class Bionty:
             f"🎯 {self.__class__.__name__}.search(): free text search of terms\n"
             f"✅ {self.__class__.__name__}.validate(): strictly validate values\n"
             f"🧐 {self.__class__.__name__}.inspect(): full inspection of values\n"
-            f"👽 {self.__class__.__name__}.map_synonyms(): map synonyms to standardized names\n"
+            f"👽 {self.__class__.__name__}.standardize(): convert to standardized names\n"
             f"🪜 {self.__class__.__name__}.diff(): difference between two versions\n"
             f"🔗 {self.__class__.__name__}.ontology: Pronto.Ontology object"
         )
@@ -199,7 +206,7 @@ class Bionty:
         def _subset_to_entity(df: pd.DataFrame, key: str):
             return df.loc[[key]] if isinstance(df.loc[key], pd.Series) else df.loc[key]
 
-        self._default_sources = _subset_to_entity(
+        self._current_sources = _subset_to_entity(
             display_currently_used_sources(), self.__class__.__name__
         )
 
@@ -207,8 +214,9 @@ class Bionty:
             display_available_sources(), self.__class__.__name__
         )
 
-    def _match_all_sources(
+    def _match_sources(
         self,
+        ref_sources: pd.DataFrame,
         source: Optional[str] = None,
         version: Optional[str] = None,
         species: Optional[str] = None,
@@ -224,32 +232,32 @@ class Bionty:
         }
         keys = list(kwargs.keys())
 
-        # if 1 or 2 kwargs are specified, find the best match in all sources
+        # if 1 or 2 kwargs are specified, find the best match in currently used sources
         if (len(kwargs) == 1) or (len(kwargs) == 2):
-            cond = self._all_sources[keys[0]] == kwargs.get(keys[0])
+            cond = ref_sources[keys[0]] == kwargs.get(keys[0])
             if len(kwargs) == 1:
-                row = self._all_sources[cond].head(1)
+                row = ref_sources[cond].head(1)
             else:
                 # len(kwargs) == 2
                 cond = getattr(cond, "__and__")(
-                    self._all_sources[keys[1]] == kwargs.get(keys[1])
+                    ref_sources[keys[1]] == kwargs.get(keys[1])
                 )
-                row = self._all_sources[cond].head(1)
+                row = ref_sources[cond].head(1)
         else:
             # if no kwargs are passed, take the currently used source record
             if len(keys) == 0:
-                curr = self._default_sources.head(1).to_dict(orient="records")[0]
+                curr = ref_sources.head(1).to_dict(orient="records")[0]
                 kwargs = {
                     k: v
                     for k, v in curr.items()
                     if k in ["species", "source", "version"]
                 }
-            # if all 3 kwargs are specified, match the record from all sources
+            # if all 3 kwargs are specified, match the record from currently used sources
             # do the same for the kwargs that obtained from default source to obtain url
-            row = self._all_sources[
-                (self._all_sources["species"] == kwargs["species"])
-                & (self._all_sources["source"] == kwargs["source"])
-                & (self._all_sources["version"] == kwargs["version"])
+            row = ref_sources[
+                (ref_sources["species"] == kwargs["species"])
+                & (ref_sources["source"] == kwargs["source"])
+                & (ref_sources["version"] == kwargs["version"])
             ].head(1)
 
         # if no records matched the passed kwargs, raise error
@@ -265,7 +273,7 @@ class Bionty:
         """Download file from url to dynamicdir _local_ontology_path."""
         # Try to download from s3://bionty-assets
         s3_bionty_assets(
-            filename=self._ontology_filename,
+            filename=self._ontology_filename,  # type: ignore
             assets_base_url="s3://bionty-assets",
             localpath=localpath,
         )
@@ -285,8 +293,8 @@ class Bionty:
             source: The database to find the URL and version for.
             version: The requested version of the database.
         """
-        self._url = self._source_record.get("url", "")
-        self._md5 = self._source_record.get("md5", "")
+        self._url: str = self._source_record.get("url", "")
+        self._md5: str = self._source_record.get("md5", "")
 
         # parquet file name, ontology source file name
         self._parquet_filename, self._ontology_filename = encode_filenames(
@@ -295,11 +303,11 @@ class Bionty:
             version=self.version,
             entity=self,
         )
-        self._local_parquet_path = settings.dynamicdir / self._parquet_filename
+        self._local_parquet_path: Path = settings.dynamicdir / self._parquet_filename
 
         if self._url.endswith(".parquet"):  # user provide reference table as the url
             # no local ontology source file
-            self._local_ontology_path = None
+            self._local_ontology_path = None  # type:ignore
             if not self._url.startswith("s3://bionty-assets/"):
                 self._parquet_filename = None  # type:ignore
         else:
@@ -422,8 +430,8 @@ class Bionty:
             **kwargs,
         )
 
-    # unfortunately, the doc string here is duplicated with ORM.map_synonyms
-    def map_synonyms(
+    # unfortunately, the doc string here is duplicated with ORM.standardize
+    def standardize(
         self,
         values: Iterable,
         *,
@@ -433,7 +441,7 @@ class Bionty:
         synonyms_field: Union[BiontyField, str] = "synonyms",
         field: Optional[Union[BiontyField, str]] = None,
     ) -> Union[Dict[str, str], List[str]]:
-        """Maps input synonyms to standardized names.
+        """Convert into standardized names.
 
         Args:
             synonyms: `Iterable` Synonyms that will be standardized.
@@ -460,7 +468,7 @@ class Bionty:
             >>> import bionty as bt
             >>> gene_bt = bt.Gene()
             >>> gene_symbols = ["A1CF", "A1BG", "FANCD1", "FANCD20"]
-            >>> standardized_symbols = gene_bt.map_synonyms(gene_symbols, gene_bt.symbol)
+            >>> standardized_symbols = gene_bt.standardize(gene_symbols, gene_bt.symbol)
         """
         from lamin_utils._map_synonyms import map_synonyms
 
@@ -475,6 +483,27 @@ class Bionty:
             case_sensitive=case_sensitive,
             keep=keep,
             synonyms_field=str(synonyms_field),
+        )
+
+    def map_synonyms(
+        self,
+        values: Iterable,
+        *,
+        return_mapper: bool = False,
+        case_sensitive: bool = False,
+        keep: Literal["first", "last", False] = "first",
+        synonyms_field: Union[BiontyField, str] = "synonyms",
+        field: Optional[Union[BiontyField, str]] = None,
+    ) -> Union[Dict[str, str], List[str]]:
+        """Maps input synonyms to standardized names."""
+        logger.warning("`map_synonyms()` is deprecated, use `.standardize()`!'")
+        return self.standardize(
+            values=values,
+            return_mapper=return_mapper,
+            case_sensitive=case_sensitive,
+            keep=keep,
+            synonyms_field=synonyms_field,
+            field=field,
         )
 
     def lookup(self, field: Optional[Union[BiontyField, str]] = None) -> Tuple:
