@@ -16,13 +16,11 @@ from typing import (
     Union,
 )
 
-import deprecation
 import numpy as np
 import pandas as pd
 from lamin_utils import logger
 from lamin_utils._lookup import Lookup
 
-from . import __version__
 from ._ontology import Ontology
 from ._settings import check_datasetdir_exists, check_dynamicdir_exists, settings
 from .dev._handle_sources import LAMINDB_INSTANCE_LOADED
@@ -487,11 +485,6 @@ class Bionty:
             synonyms_field=str(synonyms_field),
         )
 
-    @deprecation.deprecated(
-        deprecated_in="0.30",
-        current_version=__version__,
-        details="Use `standardize` instead",
-    )
     def map_synonyms(
         self,
         values: Iterable,
@@ -503,6 +496,7 @@ class Bionty:
         field: Optional[Union[BiontyField, str]] = None,
     ) -> Union[Dict[str, str], List[str]]:
         """Maps input synonyms to standardized names."""
+        logger.warning("`map_synonyms()` is deprecated, use `.standardize()`!'")
         return self.standardize(
             values=values,
             return_mapper=return_mapper,
