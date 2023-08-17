@@ -61,9 +61,15 @@ class Bionty:
         self._fetch_sources()
         try:
             # match user input species, source and version with currently used sources
-            self._match_sources(
-                self._current_sources, source=source, version=version, species=species
+            current = self._match_sources(
+                self._current_sources,
+                source=source,
+                version=version,
+                species=species,
             )
+            source = current.get("source")
+            version = current.get("version")
+            species = current.get("species")
         except ValueError:
             if LAMINDB_INSTANCE_LOADED():
                 logger.error(
@@ -82,7 +88,7 @@ class Bionty:
                 self._version = version
                 return
 
-        # search in all available sources
+        # search in all available sources to get url and md5
         self._source_record = self._match_sources(
             self._all_sources,
             source=source,
