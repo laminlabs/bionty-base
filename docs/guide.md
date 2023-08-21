@@ -10,4 +10,5 @@
 ./guide/config
 ./guide/extend
 ./guide/concepts
+./guide/comparison
 ```
