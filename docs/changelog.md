@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+Add phecodes  | [502](https://github.com/laminlabs/bionty/pull/502) | [Zethson](https://github.com/Zethson) | 2023-08-22 |
 🎨 Added `mute` to `.standardize` | [501](https://github.com/laminlabs/bionty/pull/501) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-22 | 0.30.2
 ✨ Relating Bionty to other tools | [500](https://github.com/laminlabs/bionty/pull/500) | [Zethson](https://github.com/Zethson) | 2023-08-21 |
 🚑️ Fix version recognition in lamindb | [498](https://github.com/laminlabs/bionty/pull/498) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-17 | 0.30.1
