@@ -443,6 +443,7 @@ class Bionty:
         *,
         return_mapper: bool = False,
         case_sensitive: bool = False,
+        mute: bool = False,
         keep: Literal["first", "last", False] = "first",
         synonyms_field: Union[BiontyField, str] = "synonyms",
         field: Optional[Union[BiontyField, str]] = None,
@@ -487,6 +488,7 @@ class Bionty:
             field=self._get_default_field(field),
             return_mapper=return_mapper,
             case_sensitive=case_sensitive,
+            mute=mute,
             keep=keep,
             synonyms_field=str(synonyms_field),
         )
