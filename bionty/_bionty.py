@@ -333,15 +333,12 @@ class Bionty:
     def _load_df(self) -> pd.DataFrame:
         if self._parquet_filename is None:
             self._url_download(self._url, self._local_parquet_path)
-        # The else statement is the issue!
-        # self._parquet_filename is NOT None and therefore the download does not kick in.
-        # self._parquet_filename is clearly defined above because it's an S3 URL
-        # else:
-        s3_bionty_assets(
-            filename=self._parquet_filename,
-            assets_base_url="s3://bionty-assets",
-            localpath=self._local_parquet_path,
-        )
+        else:
+            s3_bionty_assets(
+                filename=self._parquet_filename,
+                assets_base_url="s3://bionty-assets",
+                localpath=self._local_parquet_path,
+            )
         # If download is not possible, write a parquet file of the ontology df
         if not self._url.endswith("parquet"):
             if not self._local_parquet_path.exists():
