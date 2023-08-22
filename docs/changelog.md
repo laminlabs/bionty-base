@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🎨 Added `mute` to `.standardize` | [501](https://github.com/laminlabs/bionty/pull/501) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-22 |
 :sparkles: Relating Bionty to other tools | [500](https://github.com/laminlabs/bionty/pull/500) | [Zethson](https://github.com/Zethson) | 2023-08-21 |
 🚑️ Fix version recognition in lamindb | [498](https://github.com/laminlabs/bionty/pull/498) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-17 | 0.30.1
 🚚 Rename `map_synonyms` to `standardize` | [497](https://github.com/laminlabs/bionty/pull/497) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-16 | 0.30.0
