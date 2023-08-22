@@ -177,6 +177,13 @@ Phenotype:
         md5: 03430b567bf153216c0fa4c3440b3b24
     name: Zebrafish Phenotype Ontology
     website: https://github.com/obophenotype/zebrafish-phenotype-ontology
+  phe:
+    human:
+      1.2:
+        url: s3://bionty-assets/df_human__phecode__1.2__Phenotype.parquet
+        md5: ""
+    name: Phecodes ICD10 map
+    website: https://phewascatalog.org/phecodes_icd10
 Pathway:
   go:
     all:

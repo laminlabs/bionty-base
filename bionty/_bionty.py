@@ -293,12 +293,7 @@ class Bionty:
 
     @check_datasetdir_exists
     def _set_file_paths(self) -> None:
-        """Sets version, database and URL attributes for passed database and requested version.
-
-        Args:
-            source: The database to find the URL and version for.
-            version: The requested version of the database.
-        """
+        """Sets version, database and URL attributes for passed database and requested version."""
         self._url: str = self._source_record.get("url", "")
         self._md5: str = self._source_record.get("md5", "")
 
@@ -336,22 +331,24 @@ class Bionty:
         return field
 
     def _load_df(self) -> pd.DataFrame:
-        # Download and sync from s3://bionty-assets
         if self._parquet_filename is None:
-            # download url as the parquet file
             self._url_download(self._url, self._local_parquet_path)
-        else:
-            s3_bionty_assets(
-                filename=self._parquet_filename,
-                assets_base_url="s3://bionty-assets",
-                localpath=self._local_parquet_path,
-            )
+        # The else statement is the issue!
+        # self._parquet_filename is NOT None and therefore the download does not kick in.
+        # self._parquet_filename is clearly defined above because it's an S3 URL
+        # else:
+        s3_bionty_assets(
+            filename=self._parquet_filename,
+            assets_base_url="s3://bionty-assets",
+            localpath=self._local_parquet_path,
+        )
         # If download is not possible, write a parquet file of the ontology df
-        if not self._local_parquet_path.exists():
-            df = self.ontology.to_df(
-                source=self.source, include_id_prefixes=self.include_id_prefixes
-            )
-            df.to_parquet(self._local_parquet_path)
+        if not self._url.endswith("parquet"):
+            if not self._local_parquet_path.exists():
+                df = self.ontology.to_df(
+                    source=self.source, include_id_prefixes=self.include_id_prefixes
+                )
+                df.to_parquet(self._local_parquet_path)
 
         # Loading the parquet file resets the index
         df = pd.read_parquet(self._local_parquet_path)
