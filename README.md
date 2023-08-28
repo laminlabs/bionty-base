@@ -6,7 +6,7 @@
 
 Biological ontologies for data scientists: look up, search, inspect, and map terms.
 
-To manage custom bio-registries along with public ontologies, see this [LaminDB guide](https://lamin.ai/docs/biology/registries).
+To manage custom bio-registries along with public ontologies, see this [LaminDB guide](https://lamin.ai/docs/bio-registries).
 
 ## Entities
 
