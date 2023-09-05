@@ -56,7 +56,7 @@ def url_download(
         if localpath is None:
             localpath = url.split("/")[-1]
 
-        with Progress(refresh_per_second=10) as progress:
+        with Progress(refresh_per_second=10, transient=True) as progress:
             task = progress.add_task("[red]Downloading...", total=total_content_length)
 
             with open(localpath, "wb") as file:
@@ -113,7 +113,7 @@ def s3_bionty_assets(
     if not localpath.exists() or cloud_mts > localpath.stat().st_mtime:  # type: ignore
         localpath.parent.mkdir(parents=True, exist_ok=True)
         stream = s3_object["Body"]
-        with Progress(refresh_per_second=10) as progress:
+        with Progress(refresh_per_second=10, transient=True) as progress:
             task = progress.add_task("[red]Downloading...", total=total_content_length)
             try:
                 with localpath.open(mode="wb") as f:
