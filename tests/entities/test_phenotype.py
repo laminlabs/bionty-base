@@ -81,3 +81,22 @@ def test_phe_phenotype_inspect_name():
     expected_series = pd.Series([True, True, True, True, False])
 
     assert inspect.equals(expected_series)
+
+
+def test_path_phenotype():
+    df = pd.DataFrame(
+        index=[
+            "nocturnal",
+            "male",
+            "female",
+            "mobility",
+            "This phenotype does not exist",
+        ]
+    )
+
+    pt = bt.Phenotype(source="pato")
+    inspected_df = pt.inspect(df.index, field=pt.name, return_df=True)
+    inspect = inspected_df["__validated__"].reset_index(drop=True)
+    expected_series = pd.Series([True, True, True, True, False])
+
+    assert inspect.equals(expected_series)
