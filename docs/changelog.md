@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+✨ Add pato to Phenotype | [505](https://github.com/laminlabs/bionty/pull/505) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-05 |
 💄 Transient download bar | [504](https://github.com/laminlabs/bionty/pull/504) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-05 | 0.30.3
 Add phecodes  | [502](https://github.com/laminlabs/bionty/pull/502) | [Zethson](https://github.com/Zethson) | 2023-08-22 |
 🎨 Added `mute` to `.standardize` | [501](https://github.com/laminlabs/bionty/pull/501) | [sunnyosun](https://github.com/sunnyosun) | 2023-08-22 | 0.30.2
