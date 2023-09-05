@@ -20,6 +20,10 @@ class Phenotype(Bionty):
     Edits of terms are coordinated and reviewed on:
     https://github.com/obophenotype/zebrafish-phenotype-ontology
 
+    4.Phecodes ICD10 map
+    Website:
+    https://phewascatalog.org/phecodes_icd10
+
     Args:
         {doc_entities}
     """
@@ -27,7 +31,7 @@ class Phenotype(Bionty):
     def __init__(
         self,
         species: str = None,
-        source: Optional[Literal["hp", "mp", "zp", "phe"]] = None,
+        source: Optional[Literal["hp", "pato", "phe", "mp", "zp"]] = None,
         version: Optional[str] = None,
         **kwargs
     ) -> None:
@@ -39,6 +43,7 @@ class Phenotype(Bionty):
                 "hp": ["HP"],
                 "mp": ["MP"],  # mp might require an exclusion prefix for mpath
                 "zp": ["ZP"],
+                "pato": ["PATO"],
             },
             **kwargs
         )
