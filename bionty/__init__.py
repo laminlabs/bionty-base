@@ -22,6 +22,7 @@ Entities:
    ExperimentalFactor
    DevelopmentalStage
    Drug
+   Ethnicity
    BFXPipeline
 
 Base model of entity classes:
@@ -76,6 +77,7 @@ from .entities._phenotype import Phenotype
 from .entities._pathway import Pathway
 from .entities._experimentalfactor import ExperimentalFactor
 from .entities._developmentalstage import DevelopmentalStage
+from .entities._ethnicity import Ethnicity
 
 # tools
 from ._bionty import Bionty, BiontyField
