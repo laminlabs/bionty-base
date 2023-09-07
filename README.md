@@ -23,6 +23,7 @@ To manage custom bio-registries along with public ontologies, see this [LaminDB 
 - `ExperimentalFactor` - [Experimental Factor Ontology](https://www.ebi.ac.uk/ols/ontologies/efo)
 - `DevelopmentalStage` - [Human Developmental Stages](https://github.com/obophenotype/developmental-stage-ontologies/wiki/HsapDv), [Mouse Developmental Stages](https://github.com/obophenotype/developmental-stage-ontologies/wiki/MmusDv)
 - `Drug` - [Drug Ontology](https://bioportal.bioontology.org/ontologies/DRON)
+- `Ethnicity` - [Human Ancestry Ontology](https://github.com/EBISPOT/hancestro)
 - `BFXPipeline` - largely based on [nf-core](https://nf-co.re)
 
 Check out [sources.yaml](https://github.com/laminlabs/bionty/blob/main/bionty/sources/sources.yaml) for details.
