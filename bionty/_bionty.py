@@ -72,21 +72,15 @@ class Bionty:
             species = current.get("species")
         except ValueError:
             if LAMINDB_INSTANCE_LOADED():
-                logger.error(
-                    f"Only default sources below are allowed inside LaminDB instances!\n{self._current_sources}\n"  # noqa: E501
-                )
+                logger.warning("loading non-default source inside a LaminDB instance")
                 # fmt: off
                 logger.hint(
-                    f"To use a different source, please either:\n"
-                    f"    Close your instance via `lamin close`\n"
+                    f"please consider:\n"
+                    f"    close your instance via `lamin close` and use Bionty stand alone\n"
                     f"    OR\n"
-                    f"    Configure currently_used {self.__class__.__name__} source in `lnschema_bionty.BiontySource`"
+                    f"    modify currently_used {self.__class__.__name__} source in `lnschema_bionty.BiontySource`"
                 )
                 # fmt: on
-                self._source = None  # type: ignore
-                self._species = species
-                self._version = version
-                return
 
         # search in all available sources to get url and md5
         self._source_record = self._match_sources(
@@ -135,10 +129,7 @@ class Bionty:
             f"🔗 {self.__class__.__name__}.ontology: Pronto.Ontology object"
         )
         # fmt: on
-        if self._source is not None:
-            return representation
-        else:
-            return "invalid Bionty object"
+        return representation
 
     @property
     def species(self):
