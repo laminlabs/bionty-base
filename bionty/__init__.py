@@ -19,8 +19,9 @@ Entities:
    Disease
    Phenotype
    Pathway
-   Drug
    ExperimentalFactor
+   DevelopmentalStage
+   Drug
    BFXPipeline
 
 Base model of entity classes:
@@ -74,6 +75,7 @@ from .entities._disease import Disease
 from .entities._phenotype import Phenotype
 from .entities._pathway import Pathway
 from .entities._experimentalfactor import ExperimentalFactor
+from .entities._developmentalstage import DevelopmentalStage
 
 # tools
 from ._bionty import Bionty, BiontyField

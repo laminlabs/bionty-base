@@ -222,3 +222,18 @@ Drug:
         md5: 75e86011158fae76bb46d96662a33ba3
     name: Drug Ontology
     website: https://bioportal.bioontology.org/ontologies/DRON
+DevelopmentalStage:
+  hsapdv:
+    human:
+      2020-03-10:
+        url: http://purl.obolibrary.org/obo/hsapdv.owl
+        md5: 0423f338c50161880df4d5d1523d24ed
+    name: Human Developmental Stages
+    website: https://github.com/obophenotype/developmental-stage-ontologies/wiki/HsapDv
+  mmusdv:
+    mouse:
+      2020-03-10:
+        url: http://purl.obolibrary.org/obo/mmusdv.owl
+        md5: 6342b59cf3082b10c54f90a8c3336b72
+    name: Mouse Developmental Stages
+    website: https://github.com/obophenotype/developmental-stage-ontologies/wiki/MmusDv
