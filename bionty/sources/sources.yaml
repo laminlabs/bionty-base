@@ -237,3 +237,11 @@ DevelopmentalStage:
         md5: 6342b59cf3082b10c54f90a8c3336b72
     name: Mouse Developmental Stages
     website: https://github.com/obophenotype/developmental-stage-ontologies/wiki/MmusDv
+Ethnicity:
+  hancestro:
+    human:
+      2023-07-313.0:
+        url: http://purl.obolibrary.org/obo/hancestro.owl
+        md5: af731447e95b4ca341a91b018edd4885
+    name: Human Ancestry Ontology
+    website: https://github.com/EBISPOT/hancestro
