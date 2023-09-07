@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
-✨ Add DevelopmentalStage ontologies | [508](https://github.com/laminlabs/bionty/pull/508) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-07 |
+✨ Add DevelopmentalStage ontologies | [508](https://github.com/laminlabs/bionty/pull/508) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-07 | 0.31.0
 ✨ Allow non-default bionty sources in LaminDB | [506](https://github.com/laminlabs/bionty/pull/506) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-07 |
 ✨ Add pato to Phenotype | [505](https://github.com/laminlabs/bionty/pull/505) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-05 |
 💄 Transient download bar | [504](https://github.com/laminlabs/bionty/pull/504) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-05 | 0.30.3
