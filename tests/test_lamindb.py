@@ -20,8 +20,7 @@ def test_loaded_lamindb():
     assert LAMINDB_INSTANCE_LOADED()
 
     ct = bt.CellType(version="2022-08-16")
-    assert ct.source is None
-    assert str(ct) == "invalid Bionty object"
+    assert ct.source == "cl"
 
     lnenv.unlink()
     assert not LAMINDB_INSTANCE_LOADED()
