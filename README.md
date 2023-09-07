@@ -10,19 +10,20 @@ To manage custom bio-registries along with public ontologies, see this [LaminDB 
 
 ## Entities
 
-- `Gene` - [Ensembl](https://ensembl.org/), [NCBI Gene](https://www.ncbi.nlm.nih.gov/gene/)
+- `Gene` - [Ensembl](https://ensembl.org), [NCBI Gene](https://www.ncbi.nlm.nih.gov/gene)
 - `Protein` - [Uniprot](https://www.uniprot.org/)
-- `Species` - [NCBI Taxonomy](https://www.ncbi.nlm.nih.gov/taxonomy/), [Ensembl Species](https://useast.ensembl.org/info/about/species.html)
+- `Species` - [NCBI Taxonomy](https://www.ncbi.nlm.nih.gov/taxonomy), [Ensembl Species](https://useast.ensembl.org/info/about/species.html)
 - `CellLine` - [Cell Line Ontology](https://github.com/CLO-ontology/CLO)
-- `CellType` - [Cell Ontology](https://obophenotype.github.io/cell-ontology/)
+- `CellType` - [Cell Ontology](https://obophenotype.github.io/cell-ontology)
 - `CellMarker` - [CellMarker](http://xteam.xbio.top/CellMarker)
-- `Tissue` - [Uberon](http://obophenotype.github.io/uberon/)
-- `Disease` - [Mondo](https://mondo.monarchinitiative.org/), [Human Disease](https://disease-ontology.org/)
-- `Phenotype` - [Human Phenotype](https://hpo.jax.org/app/), [Phecodes](https://phewascatalog.org/phecodes_icd10), [PATO](https://github.com/pato-ontology/pato), [Mammalian Phenotype](http://obofoundry.org/ontology/mp.html), [Zebrafish Phenotype](http://obofoundry.org/ontology/zp.html)
+- `Tissue` - [Uberon](http://obophenotype.github.io/uberon)
+- `Disease` - [Mondo](https://mondo.monarchinitiative.org), [Human Disease](https://disease-ontology.org)
+- `Phenotype` - [Human Phenotype](https://hpo.jax.org/app), [Phecodes](https://phewascatalog.org/phecodes_icd10), [PATO](https://github.com/pato-ontology/pato), [Mammalian Phenotype](http://obofoundry.org/ontology/mp.html), [Zebrafish Phenotype](http://obofoundry.org/ontology/zp.html)
 - `Pathway` - [Gene Ontology](https://bioportal.bioontology.org/ontologies/GO), [Pathway Ontology](https://bioportal.bioontology.org/ontologies/PW)
 - `ExperimentalFactor` - [Experimental Factor Ontology](https://www.ebi.ac.uk/ols/ontologies/efo)
+- `DevelopmentalStage` - [Human Developmental Stages](https://github.com/obophenotype/developmental-stage-ontologies/wiki/HsapDv), [Mouse Developmental Stages](https://github.com/obophenotype/developmental-stage-ontologies/wiki/MmusDv)
 - `Drug` - [Drug Ontology](https://bioportal.bioontology.org/ontologies/DRON)
-- `BFXPipeline` - largely based on [nf-core](https://nf-co.re/)
+- `BFXPipeline` - largely based on [nf-core](https://nf-co.re)
 
 Check out [sources.yaml](https://github.com/laminlabs/bionty/blob/main/bionty/sources/sources.yaml) for details.
 
