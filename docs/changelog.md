@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🔇 Silence download bar for <5MB files | [511](https://github.com/laminlabs/bionty/pull/511) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-08 |
 ✨ Add `Ethnicity` entity | [510](https://github.com/laminlabs/bionty/pull/510) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-07 | 0.31.1
 ✨ Add DevelopmentalStage ontologies | [508](https://github.com/laminlabs/bionty/pull/508) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-07 | 0.31.0
 ✨ Allow non-default bionty sources in LaminDB | [506](https://github.com/laminlabs/bionty/pull/506) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-07 |
