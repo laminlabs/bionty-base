@@ -189,7 +189,7 @@ class Bionty:
                 if len(md5) > 0:
                     if not verify_md5(localpath, md5):
                         logger.warning(
-                            f"MD5 sum for {localpath} did not match {md5}. Redownloading..."  # noqa: E501
+                            f"MD5 sum for {localpath} did not match {md5}. re-downloading..."  # noqa: E501
                         )
                         os.remove(localpath)
                         self._url_download(url, localpath)
