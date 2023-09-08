@@ -56,15 +56,22 @@ def url_download(
         if localpath is None:
             localpath = url.split("/")[-1]
 
-        with Progress(refresh_per_second=10, transient=True) as progress:
-            task = progress.add_task("[red]Downloading...", total=total_content_length)
+        if total_content_length > 5000000:
+            with Progress(refresh_per_second=10, transient=True) as progress:
+                task = progress.add_task(
+                    "[red]downloading...", total=total_content_length
+                )
 
+                with open(localpath, "wb") as file:
+                    for data in response.iter_content(block_size):
+                        file.write(data)
+                        progress.update(task, advance=block_size)
+                # force the progress bar to 100% at the end
+                progress.update(task, completed=total_content_length, refresh=True)
+        else:
             with open(localpath, "wb") as file:
                 for data in response.iter_content(block_size):
                     file.write(data)
-                    progress.update(task, advance=block_size)
-            # force the progress bar to 100% at the end
-            progress.update(task, completed=total_content_length, refresh=True)
 
         return localpath
 
@@ -113,20 +120,31 @@ def s3_bionty_assets(
     if not localpath.exists() or cloud_mts > localpath.stat().st_mtime:  # type: ignore
         localpath.parent.mkdir(parents=True, exist_ok=True)
         stream = s3_object["Body"]
-        with Progress(refresh_per_second=10, transient=True) as progress:
-            task = progress.add_task("[red]Downloading...", total=total_content_length)
+        if total_content_length > 5000000:
+            with Progress(refresh_per_second=10, transient=True) as progress:
+                task = progress.add_task(
+                    "[red]downloading...", total=total_content_length
+                )
+                try:
+                    with localpath.open(mode="wb") as f:
+                        for chunk in iter(lambda: stream.read(CHUNK_SIZE), b""):
+                            f.write(chunk)
+                            progress.update(task, advance=CHUNK_SIZE)
+                except Exception as e:
+                    if localpath.exists():
+                        localpath.unlink()
+                    raise e
+                # force the progress bar to 100% at the end
+                progress.update(task, completed=total_content_length, refresh=True)
+        else:
             try:
                 with localpath.open(mode="wb") as f:
                     for chunk in iter(lambda: stream.read(CHUNK_SIZE), b""):
                         f.write(chunk)
-                        progress.update(task, advance=CHUNK_SIZE)
             except Exception as e:
                 if localpath.exists():
                     localpath.unlink()
                 raise e
-            # force the progress bar to 100% at the end
-            progress.update(task, completed=total_content_length, refresh=True)
-
         os.utime(localpath, times=(cloud_mts, cloud_mts))
 
     return localpath
