@@ -132,7 +132,7 @@ def efo_to_df(
         [j.replace(prefix, "").replace("_", ":") for j in i] for i in df["parents"]
     ]
     # parse terms
-    logger.info("Parsing EFO terms for the first time will take 6-10min...")
+    logger.info("parsing EFO terms for the first time will take 6-10min...")
     parsed_results = []
     for term in df["ontology_id"]:
         parsed_results.append(_parse_efo_term(term, ontology))

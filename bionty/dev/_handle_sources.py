@@ -49,22 +49,22 @@ def reset_sources():
     if _confirm():
         try:
             LOCAL_SOURCES.unlink()
-            logger.success(f"Removed file: {LOCAL_SOURCES}.")
+            logger.success(f"removed file: {LOCAL_SOURCES}.")
         except FileNotFoundError:
             pass
         try:
             CURRENT_SOURCES.unlink()
-            logger.success(f"Removed file: {CURRENT_SOURCES}.")
+            logger.success(f"removed file: {CURRENT_SOURCES}.")
         except FileNotFoundError:
             pass
         try:
             LAMINDB_SOURCES.unlink()
-            logger.success(f"Removed file: {LAMINDB_SOURCES}.")
+            logger.success(f"removed file: {LAMINDB_SOURCES}.")
         except FileNotFoundError:
             pass
 
         reload(bionty)
-        logger.info("Reloaded bionty!")
+        logger.info("reloaded bionty!")
 
 
 def create_or_update_sources_local_yaml(overwrite: bool = True) -> None:
@@ -179,7 +179,7 @@ def update_local_from_public_sources_yaml() -> None:
         )
         write_yaml(updated_local_versions, LOCAL_SOURCES)
         logger.success(
-            f"New records found in the public sources.yaml, updated {LOCAL_SOURCES}!"
+            f"new records found in the public sources.yaml, updated {LOCAL_SOURCES}!"
         )
 
 

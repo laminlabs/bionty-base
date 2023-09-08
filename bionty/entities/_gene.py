@@ -111,7 +111,7 @@ class EnsemblGene:
 
         # Query for the basic gene annotations:
         results_core = pd.read_sql(query_core, con=engine)
-        logger.info("Fetching records from the core DB...")
+        logger.info("fetching records from the core DB...")
 
         # aggregate metadata based on ensembl stable_id
         results_core_group = results_core.groupby("stable_id").agg(
@@ -125,7 +125,7 @@ class EnsemblGene:
 
         # Query for external ids:
         results_external = pd.read_sql(query_external, con=engine)
-        logger.info("Fetching records from the external DBs...")
+        logger.info("fetching records from the external DBs...")
 
         def add_external_db_column(df: pd.DataFrame, ext_db: str, df_col: str):
             # ncbi_gene_id
@@ -139,7 +139,7 @@ class EnsemblGene:
             dup = ext[ext.index.duplicated(keep=False)]
             if dup.shape[0] > 0:
                 logger.warning(
-                    f"Duplicated #rows ensembl_gene_id with {df_col}: {dup.shape[0]}"
+                    f"duplicated #rows ensembl_gene_id with {df_col}: {dup.shape[0]}"
                 )
             df_merge = df.merge(ext, left_index=True, right_index=True, how="outer")
             return df_merge
@@ -181,13 +181,13 @@ class EnsemblGene:
 
         # if stable_id is not ensembl_gene_id, keep a stable_id column
         if not any(df_res["ensembl_gene_id"].str.startswith("ENS")):
-            logger.warning("No ensembl_gene_id found, writing to table_id column.")
+            logger.warning("no ensembl_gene_id found, writing to table_id column.")
             df_res.insert(0, "stable_id", df_res.pop("ensembl_gene_id"))
             df_res = df_res.sort_values("stable_id").reset_index(drop=True)
         else:
             df_res = df_res[df_res["ensembl_gene_id"].str.startswith("ENS")]
             df_res = df_res.sort_values("ensembl_gene_id").reset_index(drop=True)
 
-        logger.success(f"Downloaded Gene table containing {df_res.shape[0]} entries.")
+        logger.success(f"downloaded Gene table containing {df_res.shape[0]} entries.")
 
         return df_res

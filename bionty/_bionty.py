@@ -179,8 +179,8 @@ class Bionty:
     def _download_ontology_file(self, localpath: Path, url: str, md5: str = "") -> None:
         """Download ontology source file to _local_ontology_path."""
         if not localpath.exists():
-            logger.download(
-                f"Downloading {self.__class__.__name__} ontology source file..."
+            logger.info(
+                f"downloading {self.__class__.__name__} ontology source file..."
             )
             try:
                 self._url_download(url, localpath)
@@ -277,8 +277,8 @@ class Bionty:
 
         # If the file is not available, download from the url
         if not localpath.exists():
-            logger.download(
-                f"Downloading {self.__class__.__name__} source file from: {url}"
+            logger.info(
+                f"downloading {self.__class__.__name__} source file from: {url}"
             )
             _ = url_download(url, localpath)
 
