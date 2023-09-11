@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+✨ Add convert_legacy_ids for ensembl genes | [512](https://github.com/laminlabs/bionty/pull/512) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-11 |
 🔇 Silence download bar for <5MB files | [511](https://github.com/laminlabs/bionty/pull/511) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-08 | 0.31.2
 ✨ Add `Ethnicity` entity | [510](https://github.com/laminlabs/bionty/pull/510) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-07 | 0.31.1
 ✨ Add DevelopmentalStage ontologies | [508](https://github.com/laminlabs/bionty/pull/508) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-07 | 0.31.0
