@@ -1,4 +1,4 @@
-from typing import Dict, Literal, Optional
+from typing import Dict, Iterable, Literal, Optional
 
 import pandas as pd
 from lamin_utils import logger
@@ -38,6 +38,13 @@ class Gene(Bionty):
             **kwargs,
         )
 
+    def convert_legacy_ids(self, values: Iterable):
+        """Convert legacy ids to current ids."""
+        if self.source != "ensembl":
+            raise NotImplementedError
+        ensembl = EnsemblGene(species=self.species, version=self.version)
+        return ensembl.convert_legacy_ids(values=values, df=self.df())
+
 
 class EnsemblGene:
     def __init__(self, species: str, version: str) -> None:
@@ -48,12 +55,16 @@ class EnsemblGene:
             version: name of the ensembl DB version, e.g. "release-110"
         """
         self._import()
+        import mysql.connector as sql  # noqa
+        from sqlalchemy import create_engine
+
         self._species = (
             Species(version=version).lookup().dict().get(species)  # type:ignore
         )
         self._url = (
             f"mysql+mysqldb://anonymous:@ensembldb.ensembl.org/{self._species.core_db}"
         )
+        self._engine = create_engine(url=self._url)
 
     def _import(self):
         try:
@@ -61,16 +72,12 @@ class EnsemblGene:
             from sqlalchemy import create_engine  # noqa
         except ModuleNotFoundError:
             raise ModuleNotFoundError(
-                "To download Gene table from Ensembl, please run `pip install"
+                "To query from the Ensembl database, please run `pip install"
                 " sqlalchemy,mysqlclient`"
             )
 
     def external_dbs(self):
-        import mysql.connector as sql  # noqa
-        from sqlalchemy import create_engine
-
-        engine = create_engine(url=self._url)
-        return pd.read_sql("SELECT * FROM external_db", con=engine)
+        return pd.read_sql("SELECT * FROM external_db", con=self._engine)
 
     def download_df(self, external_db_names: Optional[Dict] = None) -> pd.DataFrame:
         """Fetch gene table from Ensembl mysql database.
@@ -79,9 +86,6 @@ class EnsemblGene:
             external_db_names: {external database name : df column name}, see `.external_dbs()`
                 Default is {"EntrezGene": "ensembl_gene_id"}.
         """
-        import mysql.connector as sql  # noqa
-        from sqlalchemy import create_engine
-
         query_core = """
         SELECT gene.stable_id, xref.display_label, gene.biotype, gene.description, external_synonym.synonym
         FROM gene
@@ -107,10 +111,8 @@ class EnsemblGene:
         WHERE object_xref.ensembl_object_type = 'Gene' AND external_db.db_name IN ({external_db_names_str}) # noqa
         """
 
-        engine = create_engine(url=self._url)
-
         # Query for the basic gene annotations:
-        results_core = pd.read_sql(query_core, con=engine)
+        results_core = pd.read_sql(query_core, con=self._engine)
         logger.info("fetching records from the core DB...")
 
         # aggregate metadata based on ensembl stable_id
@@ -124,7 +126,7 @@ class EnsemblGene:
         )
 
         # Query for external ids:
-        results_external = pd.read_sql(query_external, con=engine)
+        results_external = pd.read_sql(query_external, con=self._engine)
         logger.info("fetching records from the external DBs...")
 
         def add_external_db_column(df: pd.DataFrame, ext_db: str, df_col: str):
@@ -191,3 +193,44 @@ class EnsemblGene:
         logger.success(f"downloaded Gene table containing {df_res.shape[0]} entries.")
 
         return df_res
+
+    def convert_legacy_ids(self, values: Iterable, df: pd.DataFrame):
+        if isinstance(values, str):
+            legacy_genes = f"('{values}')"
+            values = [values]
+        else:
+            legacy_genes = tuple(values)  # type:ignore
+        if len(legacy_genes) == 1:
+            legacy_genes = f"('{legacy_genes[0]}')"
+
+        # query the ensembl mysql db
+        results = pd.read_sql(
+            "SELECT * FROM stable_id_event JOIN mapping_session USING"
+            " (mapping_session_id) WHERE type = 'gene' AND old_stable_id IN"
+            f" {legacy_genes} AND new_stable_id !='None'",  # noqa
+            con=self._engine,
+        )
+        # filter results
+        mapping_df = results[
+            (results["old_stable_id"] != results["new_stable_id"])
+            & (results["new_stable_id"].isin(df["ensembl_gene_id"]))
+        ]
+
+        # unique mappings
+        mapper = (
+            mapping_df.drop_duplicates(["old_stable_id"], keep=False)
+            .set_index("old_stable_id")["new_stable_id"]
+            .to_dict()
+        )
+        # ambiguous mappings
+        ambiguous = (
+            mapping_df[~mapping_df["old_stable_id"].isin(mapper)][
+                ["old_stable_id", "new_stable_id"]
+            ]
+            .groupby("old_stable_id", group_keys=False)["new_stable_id"]
+            .apply(list)
+            .to_dict()
+        )
+        # unmappables
+        unmapped = set(values).difference(mapping_df["old_stable_id"])
+        return {"mapper": mapper, "ambiguous": ambiguous, "unmapped": list(unmapped)}
