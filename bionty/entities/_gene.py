@@ -4,6 +4,8 @@ import pandas as pd
 from lamin_utils import logger
 
 from .._bionty import Bionty
+from .._settings import settings
+from ..dev._io import s3_bionty_assets
 from ._shared_docstrings import _doc_params, doc_entites
 from ._species import Species
 
@@ -42,8 +44,22 @@ class Gene(Bionty):
         """Convert legacy ids to current ids."""
         if self.source != "ensembl":
             raise NotImplementedError
+        if isinstance(values, str):
+            values = [values]
         ensembl = EnsemblGene(species=self.species, version=self.version)
-        return ensembl.convert_legacy_ids(values=values, df=self.df())
+        legacy_df_filename = f"df-legacy_{self.species}__{self.source}__{self.version}__{self.__class__.__name__}.parquet"  # noqa
+        legacy_df_localpath = settings.dynamicdir / legacy_df_filename
+        s3_bionty_assets(
+            filename=legacy_df_filename,
+            assets_base_url="s3://bionty-assets",
+            localpath=legacy_df_localpath,
+        )
+        try:
+            results = pd.read_parquet(legacy_df_localpath)
+        except FileNotFoundError:
+            raise NotImplementedError
+        results = results[results.old_stable_id.isin(values)].copy()
+        return ensembl._process_convert_result(results, values=values)
 
 
 class EnsemblGene:
@@ -194,6 +210,41 @@ class EnsemblGene:
 
         return df_res
 
+    def download_legacy_ids_df(self, df: pd.DataFrame, col: Optional[str] = None):
+        col = "ensembl_gene_id" if col is None else col
+        current_ids = tuple(df[col])
+        results = pd.read_sql(
+            "SELECT * FROM stable_id_event JOIN mapping_session USING"
+            " (mapping_session_id) WHERE type = 'gene' AND new_stable_id IN"
+            f" {current_ids} AND score > 0 AND old_stable_id != new_stable_id",  # noqa
+            con=self._engine,
+        )
+        return results
+
+    def _process_convert_result(
+        self,
+        results: pd.DataFrame,
+        values: Iterable,
+    ):
+        # unique mappings
+        mapper = (
+            results.drop_duplicates(["old_stable_id"], keep=False)
+            .set_index("old_stable_id")["new_stable_id"]
+            .to_dict()
+        )
+        # ambiguous mappings
+        ambiguous = (
+            results[~results["old_stable_id"].isin(mapper)][
+                ["old_stable_id", "new_stable_id"]
+            ]
+            .groupby("old_stable_id", group_keys=False)["new_stable_id"]
+            .apply(list)
+            .to_dict()
+        )
+        # unmappables
+        unmapped = set(values).difference(results["old_stable_id"])
+        return {"mapper": mapper, "ambiguous": ambiguous, "unmapped": list(unmapped)}
+
     def convert_legacy_ids(self, values: Iterable, df: pd.DataFrame):
         if isinstance(values, str):
             legacy_genes = f"('{values}')"
@@ -203,34 +254,13 @@ class EnsemblGene:
         if len(legacy_genes) == 1:
             legacy_genes = f"('{legacy_genes[0]}')"
 
+        current_ids = tuple(df.ensembl_gene_id)
         # query the ensembl mysql db
         results = pd.read_sql(
             "SELECT * FROM stable_id_event JOIN mapping_session USING"
             " (mapping_session_id) WHERE type = 'gene' AND old_stable_id IN"
-            f" {legacy_genes} AND new_stable_id !='None'",  # noqa
+            f" {legacy_genes} AND new_stable_id IN {current_ids} AND old_stable_id !="
+            " new_stable_id",  # noqa
             con=self._engine,
         )
-        # filter results
-        mapping_df = results[
-            (results["old_stable_id"] != results["new_stable_id"])
-            & (results["new_stable_id"].isin(df["ensembl_gene_id"]))
-        ]
-
-        # unique mappings
-        mapper = (
-            mapping_df.drop_duplicates(["old_stable_id"], keep=False)
-            .set_index("old_stable_id")["new_stable_id"]
-            .to_dict()
-        )
-        # ambiguous mappings
-        ambiguous = (
-            mapping_df[~mapping_df["old_stable_id"].isin(mapper)][
-                ["old_stable_id", "new_stable_id"]
-            ]
-            .groupby("old_stable_id", group_keys=False)["new_stable_id"]
-            .apply(list)
-            .to_dict()
-        )
-        # unmappables
-        unmapped = set(values).difference(mapping_df["old_stable_id"])
-        return {"mapper": mapper, "ambiguous": ambiguous, "unmapped": list(unmapped)}
+        return self._process_convert_result(results, values)
