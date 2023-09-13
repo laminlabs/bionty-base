@@ -48,7 +48,7 @@ def test_ensemblgene_download():
     assert "hgnc_id" in df.columns
 
 
-def test_ensemblgene_convert_legacy_ids():
+def test_ensemblgene_map_legacy_ids():
     gn = bt.Gene(species="human", version="release-110")
     legacy_genes = [
         "ENSG00000280710",
@@ -57,9 +57,9 @@ def test_ensemblgene_convert_legacy_ids():
         "ENSG00000204092",
         "ENSG00000215271",
     ]
-    result = gn.convert_legacy_ids(legacy_genes)
+    result = gn.map_legacy_ids(legacy_genes)
     assert result == {
-        "mapper": {
+        "mapped": {
             "ENSG00000204092": "ENSG00000226070",
             "ENSG00000215271": "ENSG00000290292",
             "ENSG00000261490": "ENSG00000071127",
@@ -69,16 +69,16 @@ def test_ensemblgene_convert_legacy_ids():
         "unmapped": [],
     }
 
-    result = gn.convert_legacy_ids("ENSG00000280710")
+    result = gn.map_legacy_ids("ENSG00000280710")
     assert result == {
-        "mapper": {"ENSG00000280710": "ENSG00000125304"},
+        "mapped": {"ENSG00000280710": "ENSG00000125304"},
         "ambiguous": {},
         "unmapped": [],
     }
 
-    result = gn.convert_legacy_ids(["ENSG00000280710"])
+    result = gn.map_legacy_ids(["ENSG00000280710"])
     assert result == {
-        "mapper": {"ENSG00000280710": "ENSG00000125304"},
+        "mapped": {"ENSG00000280710": "ENSG00000125304"},
         "ambiguous": {},
         "unmapped": [],
     }
