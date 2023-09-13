@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | User | Date | Patch
 --- | --- | --- | --- | ---
+🚚 Rename `convert_legacy_ids` to `map_legacy_ids` | [514](https://github.com/laminlabs/bionty/pull/514) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-13 |
 🍱 Cached legacy df for genes | [513](https://github.com/laminlabs/bionty/pull/513) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-12 |
 ✨ Add convert_legacy_ids for ensembl genes | [512](https://github.com/laminlabs/bionty/pull/512) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-11 |
 🔇 Silence download bar for <5MB files | [511](https://github.com/laminlabs/bionty/pull/511) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-08 | 0.31.2
