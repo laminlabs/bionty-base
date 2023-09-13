@@ -40,7 +40,7 @@ class Gene(Bionty):
             **kwargs,
         )
 
-    def convert_legacy_ids(self, values: Iterable):
+    def map_legacy_ids(self, values: Iterable):
         """Convert legacy ids to current ids."""
         if self.source != "ensembl":
             raise NotImplementedError
@@ -243,9 +243,9 @@ class EnsemblGene:
         )
         # unmappables
         unmapped = set(values).difference(results["old_stable_id"])
-        return {"mapper": mapper, "ambiguous": ambiguous, "unmapped": list(unmapped)}
+        return {"mapped": mapper, "ambiguous": ambiguous, "unmapped": list(unmapped)}
 
-    def convert_legacy_ids(self, values: Iterable, df: pd.DataFrame):
+    def map_legacy_ids(self, values: Iterable, df: pd.DataFrame):
         if isinstance(values, str):
             legacy_genes = f"('{values}')"
             values = [values]
