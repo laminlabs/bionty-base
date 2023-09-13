@@ -24,6 +24,7 @@ Entities:
    Drug
    Ethnicity
    BFXPipeline
+   BioSample
 
 Base model of entity classes:
 
@@ -78,6 +79,7 @@ from .entities._pathway import Pathway
 from .entities._experimentalfactor import ExperimentalFactor
 from .entities._developmentalstage import DevelopmentalStage
 from .entities._ethnicity import Ethnicity
+from .entities._biosample import BioSample
 
 # tools
 from ._bionty import Bionty, BiontyField
