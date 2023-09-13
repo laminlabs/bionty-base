@@ -25,6 +25,7 @@ To manage custom bio-registries along with public ontologies, see this [LaminDB 
 - `Drug` - [Drug Ontology](https://bioportal.bioontology.org/ontologies/DRON)
 - `Ethnicity` - [Human Ancestry Ontology](https://github.com/EBISPOT/hancestro)
 - `BFXPipeline` - largely based on [nf-core](https://nf-co.re)
+- `BioSample` - [NCBI BioSample attributes](https://www.ncbi.nlm.nih.gov/biosample/docs/attributes)
 
 Check out [sources.yaml](https://github.com/laminlabs/bionty/blob/main/bionty/sources/sources.yaml) for details.
 
