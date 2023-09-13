@@ -251,3 +251,5 @@ BioSample:
       2023-09:
         url: s3://bionty-assets/df_all__ncbi__2023-09__BioSample.parquet
         md5: 918db9bd1734b97c596c67d9654a4126
+    name: NCBI BioSample attributes
+    website: https://www.ncbi.nlm.nih.gov/biosample/docs/attributes
