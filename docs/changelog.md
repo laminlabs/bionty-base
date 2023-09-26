@@ -1,7 +1,7 @@
 # Changelog
 
 <!-- prettier-ignore -->
-Name | PR | User | Date | Patch
+Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
 ✨ Add `BioSample` entity | [515](https://github.com/laminlabs/bionty/pull/515) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-13 |
 🚚 Rename `convert_legacy_ids` to `map_legacy_ids` | [514](https://github.com/laminlabs/bionty/pull/514) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-13 |
