@@ -4,9 +4,9 @@
 
 # Bionty
 
-Biological ontologies for data scientists: look up, search, inspect, and map terms.
+Public biological ontologies for data scientists: look up, search, inspect, validate, and standardize terms.
 
-To manage custom bio-registries along with public ontologies, see this [LaminDB guide](https://lamin.ai/docs/bio-registries).
+To make it easy to customize and extend ontologies in a simple database backend, Bionty plugs into LaminDB: see this [guide](https://lamin.ai/docs/bio-registries).
 
 ## Entities
 
