@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+:memo: Clarify definition in readme | [517](https://github.com/laminlabs/bionty/pull/517) | [falexwolf](https://github.com/falexwolf) | 2023-09-27 |
 :lipstick: Prettify changelog header | [516](https://github.com/laminlabs/bionty/pull/516) | [falexwolf](https://github.com/falexwolf) | 2023-09-27 |
 ✨ Add `BioSample` entity | [515](https://github.com/laminlabs/bionty/pull/515) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-13 |
 🚚 Rename `convert_legacy_ids` to `map_legacy_ids` | [514](https://github.com/laminlabs/bionty/pull/514) | [sunnyosun](https://github.com/sunnyosun) | 2023-09-13 |
