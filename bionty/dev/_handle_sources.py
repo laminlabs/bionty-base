@@ -179,7 +179,7 @@ def update_local_from_public_sources_yaml() -> None:
         )
         write_yaml(updated_local_versions, LOCAL_SOURCES)
         logger.success(
-            f"new records found in the public sources.yaml, updated {LOCAL_SOURCES}!"
+            f"wrote new records from public sources.yaml to {LOCAL_SOURCES}!\n\nif you see this message repeatedly, run: bt.reset_sources()"  # noqa
         )
 
 
