@@ -29,7 +29,7 @@ To make it easy to customize and extend ontologies in a simple database backend,
 
 Check out [sources.yaml](https://github.com/laminlabs/bionty/blob/main/bionty/sources/sources.yaml) for details.
 
-Didn't see your favorite source or version? Bionty is [extendable](https://lamin.ai/docs/bionty/extend)!
+Didn't see your favorite source or version? Bionty is [extendable](https://lamin.ai/docs/bionty/guide/extend)!
 
 ## Installation
 
