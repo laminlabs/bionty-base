@@ -2,16 +2,16 @@ from typing import Literal, Optional
 
 import pandas as pd
 
-from bionty.entities._shared_docstrings import _doc_params, species_removed
+from bionty.entities._shared_docstrings import _doc_params, organism_removed
 
 from .._bionty import Bionty
 
 
-@_doc_params(doc_entities=species_removed)
-class Species(Bionty):
-    """Species.
+@_doc_params(doc_entities=organism_removed)
+class Organism(Bionty):
+    """Organism.
 
-    1. Species ontology
+    1. Organism ontology
     Edits of terms are coordinated and reviewed on:
     https://www.ensembl.org/index.html
 
@@ -56,6 +56,6 @@ class Species(Bionty):
 
         Examples:
             >>> import bionty as bt
-            >>> bt.Species().df()
+            >>> bt.Organism().df()
         """
         return self._df.set_index("name")

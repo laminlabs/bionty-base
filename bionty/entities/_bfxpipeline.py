@@ -19,12 +19,12 @@ class BFXPipeline(Bionty):
 
     def __init__(
         self,
-        species: str = "all",
+        organism: str = "all",
         source: Optional[Literal["lamin"]] = None,
         version: Optional[str] = None,
         **kwargs
     ) -> None:
-        super().__init__(source=source, version=version, species=species, **kwargs)
+        super().__init__(source=source, version=version, organism=organism, **kwargs)
 
     def _load_df(self) -> pd.DataFrame:
         localpath = self._local_parquet_path.as_posix().replace(  # type:ignore

@@ -45,7 +45,7 @@ Disease:
     website: http://my-website.com
 ```
 
-Use "all" if species doesn't apply or unknown.
+Use "all" if organism doesn't apply or unknown.
 
 The md5 sum is optional (leave out if not available) and can be calculated with for example:
 
@@ -74,7 +74,7 @@ Adding new entities to Bionty requires subclassing the {class}`bionty.Bionty` an
 The {class}`bionty.Bionty` requires several properties to be defined:
 
 ```python
-species: str,
+organism: str,
 source: str,
 version: str,
 ```
@@ -92,7 +92,7 @@ class MyEntity(Bionty):
 
     def __init__(
         self,
-        species: Optional[str] = None,
+        organism: Optional[str] = None,
         source: Optional[Literal["mydatabase_1", "mydatabase_2"]] = None,
         version: Optional[str] = None,
         **kwargs
@@ -100,7 +100,7 @@ class MyEntity(Bionty):
         super().__init__(
             source=source,
             version=version,
-            species=species,
+            organism=organism,
             **kwargs
         )
 ```

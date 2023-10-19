@@ -4,7 +4,7 @@
 
 Let's define a biological entity (e.g., `Species`) to be a variable that takes values from a vocabulary of terms with biological meaning.
 
-1. There are different roughly equivalent vocabularies for the same entity. For example, one can describe species with the vocabulary of the scientific names, the vocabulary of the common names, or the vocabulary of ontology IDs for the same species.
+1. There are different roughly equivalent vocabularies for the same entity. For example, one can describe organism with the vocabulary of the scientific names, the vocabulary of the common names, or the vocabulary of ontology IDs for the same organism.
 2. There are different versions & sources of these vocabularies.
 3. Terms in the vocabularies have different granularity, and are often hierarchical.
 4. Typically, vocabularies are based on a given version of a public reference ontology, but contain additional “custom” terms corresponding to "new knowledge" absent from reference ontologies. For example, new cell types or states, new synthetic genes, etc.

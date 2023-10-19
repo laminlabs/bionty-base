@@ -94,7 +94,7 @@ def parse_sources_yaml(filepath: Union[str, Path] = PUBLIC_SOURCES) -> pd.DataFr
     Returns:
         - entity
         - source
-        - species
+        - organism
         - version
         - url
         - md5
@@ -105,17 +105,17 @@ def parse_sources_yaml(filepath: Union[str, Path] = PUBLIC_SOURCES) -> pd.DataFr
     for entity, sources in load_yaml(filepath).items():
         if entity == "version":
             continue
-        for source, species_source in sources.items():
-            name = species_source.get("name", "")
-            website = species_source.get("website", "")
-            for species, versions in species_source.items():
-                if species in ["name", "website"]:
+        for source, organism_source in sources.items():
+            name = organism_source.get("name", "")
+            website = organism_source.get("website", "")
+            for organism, versions in organism_source.items():
+                if organism in ["name", "website"]:
                     continue
                 for version_key, version_meta in versions.items():
                     row = (
                         entity,
                         source,
-                        species,
+                        organism,
                         str(version_key),
                         version_meta.get("url"),
                         version_meta.get("md5", ""),
@@ -129,7 +129,7 @@ def parse_sources_yaml(filepath: Union[str, Path] = PUBLIC_SOURCES) -> pd.DataFr
         columns=[
             "entity",
             "source",
-            "species",
+            "organism",
             "version",
             "url",
             "md5",
@@ -188,9 +188,9 @@ def parse_currently_used_sources(yaml: Union[str, Path, List[Dict]]) -> Dict:
     if isinstance(yaml, (str, Path)):
         df = parse_sources_yaml(yaml)
         df_current = (
-            df[["entity", "source", "species", "version"]]  # type: ignore
-            .drop_duplicates(["entity", "species", "source"], keep="first")
-            .groupby(["entity", "species", "source"], sort=False)
+            df[["entity", "source", "organism", "version"]]  # type: ignore
+            .drop_duplicates(["entity", "organism", "source"], keep="first")
+            .groupby(["entity", "organism", "source"], sort=False)
             .max()
         )
         records = df_current.reset_index().to_dict(orient="records")
@@ -199,43 +199,43 @@ def parse_currently_used_sources(yaml: Union[str, Path, List[Dict]]) -> Dict:
 
     current_dict: Dict = {}
     for kwargs in records:
-        entity, species, source, version = (
+        entity, organism, source, version = (
             kwargs["entity"],
-            kwargs["species"],
+            kwargs["organism"],
             kwargs["source"],
             kwargs["version"],
         )
         if entity not in current_dict:
             current_dict[entity] = {}
-        if species not in current_dict[entity]:
-            current_dict[entity][species] = {source: version}
+        if organism not in current_dict[entity]:
+            current_dict[entity][organism] = {source: version}
     return current_dict
 
 
 def add_records_to_existing_dict(records: List[Dict], target_dict: Dict) -> Dict:
     """Add records to a versions yaml file."""
     for kwargs in records:
-        entity, source, species, version = (
+        entity, source, organism, version = (
             kwargs["entity"],
             kwargs["source"],
-            kwargs["species"],
+            kwargs["organism"],
             kwargs["version"],
         )
         if entity not in target_dict:
             target_dict[entity] = {}
         if source not in target_dict[entity]:
             target_dict[entity][source] = {
-                species: {version: {"url": kwargs["url"], "md5": kwargs["md5"]}}
+                organism: {version: {"url": kwargs["url"], "md5": kwargs["md5"]}}
             }
             target_dict[entity][source].update(
                 {"name": kwargs["source_name"], "website": kwargs["source_website"]}
             )
-        if species not in target_dict[entity][source]:
-            target_dict[entity][source][species] = {
+        if organism not in target_dict[entity][source]:
+            target_dict[entity][source][organism] = {
                 version: {"url": kwargs["url"], "md5": kwargs["md5"]}
             }
-        if version not in target_dict[entity][source][species]:
-            target_dict[entity][source][species][version] = {
+        if version not in target_dict[entity][source][organism]:
+            target_dict[entity][source][organism][version] = {
                 "url": kwargs["url"],
                 "md5": kwargs["md5"],
             }

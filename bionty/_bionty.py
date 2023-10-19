@@ -32,16 +32,16 @@ if TYPE_CHECKING:
 
 
 def encode_filenames(
-    species: str, source: str, version: str, entity: Union[Bionty, str]
+    organism: str, source: str, version: str, entity: Union[Bionty, str]
 ) -> Tuple[str, str]:
     """Encode names of the cached files."""
     if isinstance(entity, Bionty):
         entity_name = entity.__class__.__name__
     else:
         entity_name = entity
-    parquet_filename = f"df_{species}__{source}__{version}__{entity_name}.parquet"
+    parquet_filename = f"df_{organism}__{source}__{version}__{entity_name}.parquet"
     ontology_filename = (
-        f"ontology_{species}__{source}__{version}__{entity_name}".replace(" ", "_")
+        f"ontology_{organism}__{source}__{version}__{entity_name}".replace(" ", "_")
     )
 
     return parquet_filename, ontology_filename
@@ -54,22 +54,26 @@ class Bionty:
         self,
         source: Optional[str] = None,
         version: Optional[str] = None,
-        species: Optional[str] = None,
+        organism: Optional[str] = None,
         *,
         include_id_prefixes: Optional[Dict[str, List[str]]] = None,
+        **kwargs,
     ):
+        # backward compat for species -> organism
+        if organism is None and kwargs.get("species") is not None:
+            organism = kwargs.get("species")
         self._fetch_sources()
         try:
-            # match user input species, source and version with currently used sources
+            # match user input organism, source and version with currently used sources
             current = self._match_sources(
                 self._current_sources,
                 source=source,
                 version=version,
-                species=species,
+                organism=organism,
             )
             source = current.get("source")
             version = current.get("version")
-            species = current.get("species")
+            organism = current.get("organism")
         except ValueError:
             if LAMINDB_INSTANCE_LOADED():
                 logger.warning("loading non-default source inside a LaminDB instance")
@@ -87,10 +91,10 @@ class Bionty:
             self._all_sources,
             source=source,
             version=version,
-            species=species,
+            organism=organism,
         )
 
-        self._species = self._source_record["species"]
+        self._organism = self._source_record["organism"]
         self._source = self._source_record["source"]
         self._version = self._source_record["version"]
 
@@ -116,7 +120,7 @@ class Bionty:
         # fmt: off
         representation = (
             f"{self.__class__.__name__}\n"
-            f"Species: {self.species}\n"
+            f"Organism: {self.organism}\n"
             f"Source: {self.source}, {self.version}\n"
             f"#terms: {self._df.shape[0] if hasattr(self, '_df') else ''}\n\n"
             f"📖 {self.__class__.__name__}.df(): ontology reference table\n"
@@ -132,9 +136,9 @@ class Bionty:
         return representation
 
     @property
-    def species(self):
-        """The `name` of `Species` Bionty."""
-        return self._species
+    def organism(self):
+        """The `name` of `Organism` Bionty."""
+        return self._organism
 
     @property
     def source(self):
@@ -216,15 +220,15 @@ class Bionty:
         ref_sources: pd.DataFrame,
         source: Optional[str] = None,
         version: Optional[str] = None,
-        species: Optional[str] = None,
+        organism: Optional[str] = None,
     ) -> Dict[str, str]:
-        """Match a source record base on passed species, source and version."""
+        """Match a source record base on passed organism, source and version."""
         lc = locals()
 
         # kwargs that are not None
         kwargs = {
             k: lc.get(k)
-            for k in ["source", "version", "species"]
+            for k in ["source", "version", "organism"]
             if lc.get(k) is not None
         }
         keys = list(kwargs.keys())
@@ -247,12 +251,12 @@ class Bionty:
                 kwargs = {
                     k: v
                     for k, v in curr.items()
-                    if k in ["species", "source", "version"]
+                    if k in ["organism", "source", "version"]
                 }
             # if all 3 kwargs are specified, match the record from currently used sources
             # do the same for the kwargs that obtained from default source to obtain url
             row = ref_sources[
-                (ref_sources["species"] == kwargs["species"])
+                (ref_sources["organism"] == kwargs["organism"])
                 & (ref_sources["source"] == kwargs["source"])
                 & (ref_sources["version"] == kwargs["version"])
             ].head(1)
@@ -290,7 +294,7 @@ class Bionty:
 
         # parquet file name, ontology source file name
         self._parquet_filename, self._ontology_filename = encode_filenames(
-            species=self.species,
+            organism=self.organism,
             source=self.source,
             version=self.version,
             entity=self,
@@ -440,7 +444,7 @@ class Bionty:
             return_mapper: `bool = False` If `True`, returns `{input_synonym1:
                 standardized_name1}`.
             case_sensitive: `bool = False` Whether the mapping is case sensitive.
-            species: `Optional[str]` Map only against this species related entries.
+            organism: `Optional[str]` Map only against this organism related entries.
             keep: `Literal["first", "last", False] = "first"` When a synonym maps to
                 multiple names, determines which duplicates to mark as
                 `pd.DataFrame.duplicated`

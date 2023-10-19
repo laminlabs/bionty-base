@@ -1,5 +1,5 @@
 version: "0.2.3"
-Species:
+Organism:
   ensembl:
     vertebrates:
       release-110:

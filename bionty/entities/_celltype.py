@@ -18,7 +18,7 @@ class CellType(Bionty):
 
     def __init__(
         self,
-        species: Optional[str] = None,
+        organism: Optional[str] = None,
         source: Optional[Literal["cl"]] = None,
         version: Optional[str] = None,
         **kwargs
@@ -26,7 +26,7 @@ class CellType(Bionty):
         super().__init__(
             source=source,
             version=version,
-            species=species,
+            organism=organism,
             include_id_prefixes={"cl": ["CL"]},
             **kwargs
         )

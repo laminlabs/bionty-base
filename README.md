@@ -81,7 +81,7 @@ gene_bionty.standardize(["A1BG", "FANCD1"])
 
 ```python
 # Reference table of the human genes
-df = bt.Gene(species="human").df()
+df = bt.Gene(organism="human").df()
 ```
 
 ### Track ontology sources

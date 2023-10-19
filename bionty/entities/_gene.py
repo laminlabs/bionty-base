@@ -6,8 +6,8 @@ from lamin_utils import logger
 from .._bionty import Bionty
 from .._settings import settings
 from ..dev._io import s3_bionty_assets
+from ._organism import Organism
 from ._shared_docstrings import _doc_params, doc_entites
-from ._species import Species
 
 
 @_doc_params(doc_entities=doc_entites)
@@ -28,7 +28,7 @@ class Gene(Bionty):
 
     def __init__(
         self,
-        species: str = "human",
+        organism: str = "human",
         source: Optional[Literal["ensembl"]] = None,
         version: Optional[str] = None,
         **kwargs,
@@ -36,7 +36,7 @@ class Gene(Bionty):
         super().__init__(
             source=source,
             version=version,
-            species=species,
+            organism=organism,
             **kwargs,
         )
 
@@ -46,8 +46,8 @@ class Gene(Bionty):
             raise NotImplementedError
         if isinstance(values, str):
             values = [values]
-        ensembl = EnsemblGene(species=self.species, version=self.version)
-        legacy_df_filename = f"df-legacy_{self.species}__{self.source}__{self.version}__{self.__class__.__name__}.parquet"  # noqa
+        ensembl = EnsemblGene(organism=self.organism, version=self.version)
+        legacy_df_filename = f"df-legacy_{self.organism}__{self.source}__{self.version}__{self.__class__.__name__}.parquet"  # noqa
         legacy_df_localpath = settings.dynamicdir / legacy_df_filename
         s3_bionty_assets(
             filename=legacy_df_filename,
@@ -63,22 +63,22 @@ class Gene(Bionty):
 
 
 class EnsemblGene:
-    def __init__(self, species: str, version: str) -> None:
+    def __init__(self, organism: str, version: str) -> None:
         """Ensembl Gene mysql.
 
         Args:
-            species: a bionty.Species object
+            organism: a bionty.Organism object
             version: name of the ensembl DB version, e.g. "release-110"
         """
         self._import()
         import mysql.connector as sql  # noqa
         from sqlalchemy import create_engine
 
-        self._species = (
-            Species(version=version).lookup().dict().get(species)  # type:ignore
+        self._organism = (
+            Organism(version=version).lookup().dict().get(organism)  # type:ignore
         )
         self._url = (
-            f"mysql+mysqldb://anonymous:@ensembldb.ensembl.org/{self._species.core_db}"
+            f"mysql+mysqldb://anonymous:@ensembldb.ensembl.org/{self._organism.core_db}"
         )
         self._engine = create_engine(url=self._url)
 

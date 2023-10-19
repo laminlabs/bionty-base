@@ -71,9 +71,9 @@ def new_versions_yaml_replica():
             url: https://ftp.ensembl.org/pub/release-108/species_EnsemblVertebrates.txt
         name: Ensembl
         website: https://www.ensembl.org/index.html
-        new-species:
+        new-organism:
           release-x:
-            url: new-species-source-link
+            url: new-organism-source-link
     Gene:
       ensembl:
         human:
@@ -136,7 +136,7 @@ def test_parse_versions_yaml(versions_yaml_replica):
         == ["Species", "Gene", "Gene", "Gene", "CellType", "CellType"]
     )
     assert all(
-        parsed_df["species"].values == ["all", "human", "human", "mouse", "all", "all"]
+        parsed_df["organism"].values == ["all", "human", "human", "mouse", "all", "all"]
     )
     assert all(
         parsed_df["source"].values
@@ -162,9 +162,9 @@ def test_add_records_to_existing_dict(new_versions_yaml_replica, versions_yaml_r
         {
             "entity": "Species",
             "source": "ensembl",
-            "species": "new-species",
+            "organism": "new-organism",
             "version": "release-x",
-            "url": "new-species-source-link",
+            "url": "new-organism-source-link",
             "md5": "",
             "source_name": "Ensembl",
             "source_website": "https://www.ensembl.org/index.html",
@@ -172,7 +172,7 @@ def test_add_records_to_existing_dict(new_versions_yaml_replica, versions_yaml_r
         {
             "entity": "Gene",
             "source": "new-source",
-            "species": "human",
+            "organism": "human",
             "version": "release-x",
             "url": "new-gene-source-link",
             "md5": "",
@@ -182,7 +182,7 @@ def test_add_records_to_existing_dict(new_versions_yaml_replica, versions_yaml_r
         {
             "entity": "CellType",
             "source": "cl",
-            "species": "all",
+            "organism": "all",
             "version": "new-version",
             "url": "new-cell-type-source",
             "md5": "new-md5",
@@ -198,9 +198,9 @@ def test_add_records_to_existing_dict(new_versions_yaml_replica, versions_yaml_r
     updated_dict = add_records_to_existing_dict(
         records, load_yaml(versions_yaml_replica)
     )
-    assert updated_dict.get("Species").get("ensembl").get("new-species").get(
+    assert updated_dict.get("Species").get("ensembl").get("new-organism").get(
         "release-x"
-    ) == {"url": "new-species-source-link", "md5": ""}
+    ) == {"url": "new-organism-source-link", "md5": ""}
     assert updated_dict.get("Gene").get("new-source").get("human").get("release-x") == {
         "url": "new-gene-source-link",
         "md5": "",

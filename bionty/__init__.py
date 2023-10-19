@@ -9,7 +9,7 @@ Entities:
 .. autosummary::
    :toctree: .
 
-   Species
+   Organism
    Gene
    Protein
    CellMarker
@@ -67,7 +67,7 @@ sync_sources()
 from .entities._bfxpipeline import BFXPipeline
 from .entities._drug import Drug
 from .entities._gene import Gene
-from .entities._species import Species
+from .entities._organism import Organism
 from .entities._protein import Protein
 from .entities._cellline import CellLine
 from .entities._celltype import CellType
@@ -93,3 +93,4 @@ from . import dev  # noqa
 # backward compat
 Entity = Bionty
 Readout = ExperimentalFactor
+Species = Organism

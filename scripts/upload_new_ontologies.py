@@ -13,7 +13,7 @@ def _upload_ontology_artifacts(instance: str, lamindb_user: str, lamindb_passwor
     files = []
     for entity, row in bt.display_available_sources().iterrows():
         parquet_filename, ontology_filename = encode_filenames(
-            species=row.species, source=row.source, version=row.version, entity=entity
+            organism=row.organism, source=row.source, version=row.version, entity=entity
         )
         if entity == "Species" or row.url.startswith("s3://bionty-assets"):
             continue
@@ -23,7 +23,7 @@ def _upload_ontology_artifacts(instance: str, lamindb_user: str, lamindb_passwor
             if not local_parquet_filename.exists():
                 try:
                     getattr(bt, entity)(
-                        species=row.species, source=row.source, version=row.version
+                        organism=row.organism, source=row.source, version=row.version
                     )
                 except Exception:  # for renamed classes
                     continue
@@ -34,7 +34,7 @@ def _upload_ontology_artifacts(instance: str, lamindb_user: str, lamindb_passwor
             local_ontology_filename = settings.dynamicdir / ontology_filename
             if not local_ontology_filename.exists():
                 getattr(bt, entity)(
-                    species=row.species, source=row.source, version=row.version
+                    organism=row.organism, source=row.source, version=row.version
                 ).ontology
             file = ln.File(local_ontology_filename, key=ontology_filename)
             files.append(file)

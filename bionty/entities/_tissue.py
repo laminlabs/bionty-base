@@ -18,7 +18,7 @@ class Tissue(Bionty):
 
     def __init__(
         self,
-        species: str = "all",
+        organism: str = "all",
         source: Optional[Literal["uberon"]] = None,
         version: Optional[str] = None,
         **kwargs
@@ -26,7 +26,7 @@ class Tissue(Bionty):
         super().__init__(
             source=source,
             version=version,
-            species=species,
+            organism=organism,
             include_id_prefixes={"uberon": ["UBERON"]},
             **kwargs
         )

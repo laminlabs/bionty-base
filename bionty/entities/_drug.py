@@ -18,7 +18,7 @@ class Drug(Bionty):
 
     def __init__(
         self,
-        species: str = "all",
+        organism: str = "all",
         source: Optional[Literal["dron"]] = None,
         version: Optional[str] = None,
         **kwargs
@@ -26,7 +26,7 @@ class Drug(Bionty):
         super().__init__(
             source=source,
             version=version,
-            species=species,
+            organism=organism,
             include_id_prefixes={"dron": ["DRON"]},
             **kwargs
         )
