@@ -21,7 +21,7 @@ from bionty.dev._io import load_yaml, write_yaml
 def versions_yaml_replica():
     input_file_content = """
     version: "0.2.0"
-    Species:
+    Organism:
       ensembl:
         all:
           release-108:
@@ -64,16 +64,16 @@ def versions_yaml_replica():
 def new_versions_yaml_replica():
     input_file_content = """
     version: "0.2.0"
-    Species:
+    Organism:
       ensembl:
         all:
           release-108:
             url: https://ftp.ensembl.org/pub/release-108/species_EnsemblVertebrates.txt
         name: Ensembl
         website: https://www.ensembl.org/index.html
-        new-species:
+        new-organism:
           release-x:
-            url: new-species-source-link
+            url: new-organism-source-link
     Gene:
       ensembl:
         human:
@@ -116,7 +116,7 @@ def new_versions_yaml_replica():
 @pytest.fixture(scope="function")
 def current_yaml_replica():
     input_file_content = """
-    Species:
+    Organism:
       all:
         ensembl: release-108
     """
@@ -133,10 +133,10 @@ def test_parse_versions_yaml(versions_yaml_replica):
     assert parsed_df.shape == (6, 8)
     assert all(
         parsed_df["entity"].values
-        == ["Species", "Gene", "Gene", "Gene", "CellType", "CellType"]
+        == ["Organism", "Gene", "Gene", "Gene", "CellType", "CellType"]
     )
     assert all(
-        parsed_df["species"].values == ["all", "human", "human", "mouse", "all", "all"]
+        parsed_df["organism"].values == ["all", "human", "human", "mouse", "all", "all"]
     )
     assert all(
         parsed_df["source"].values
@@ -146,7 +146,7 @@ def test_parse_versions_yaml(versions_yaml_replica):
 
 def test_parse_current_versions(versions_yaml_replica):
     expected = {
-        "Species": {"all": {"ensembl": "release-108"}},
+        "Organism": {"all": {"ensembl": "release-108"}},
         "Gene": {
             "human": {"ensembl": "release-108"},
             "mouse": {"ensembl": "release-108"},
@@ -160,11 +160,11 @@ def test_parse_current_versions(versions_yaml_replica):
 def test_add_records_to_existing_dict(new_versions_yaml_replica, versions_yaml_replica):
     expected = [
         {
-            "entity": "Species",
+            "entity": "Organism",
             "source": "ensembl",
-            "species": "new-species",
+            "organism": "new-organism",
             "version": "release-x",
-            "url": "new-species-source-link",
+            "url": "new-organism-source-link",
             "md5": "",
             "source_name": "Ensembl",
             "source_website": "https://www.ensembl.org/index.html",
@@ -172,7 +172,7 @@ def test_add_records_to_existing_dict(new_versions_yaml_replica, versions_yaml_r
         {
             "entity": "Gene",
             "source": "new-source",
-            "species": "human",
+            "organism": "human",
             "version": "release-x",
             "url": "new-gene-source-link",
             "md5": "",
@@ -182,7 +182,7 @@ def test_add_records_to_existing_dict(new_versions_yaml_replica, versions_yaml_r
         {
             "entity": "CellType",
             "source": "cl",
-            "species": "all",
+            "organism": "all",
             "version": "new-version",
             "url": "new-cell-type-source",
             "md5": "new-md5",
@@ -198,9 +198,9 @@ def test_add_records_to_existing_dict(new_versions_yaml_replica, versions_yaml_r
     updated_dict = add_records_to_existing_dict(
         records, load_yaml(versions_yaml_replica)
     )
-    assert updated_dict.get("Species").get("ensembl").get("new-species").get(
+    assert updated_dict.get("Organism").get("ensembl").get("new-organism").get(
         "release-x"
-    ) == {"url": "new-species-source-link", "md5": ""}
+    ) == {"url": "new-organism-source-link", "md5": ""}
     assert updated_dict.get("Gene").get("new-source").get("human").get("release-x") == {
         "url": "new-gene-source-link",
         "md5": "",
@@ -213,7 +213,7 @@ def test_add_records_to_existing_dict(new_versions_yaml_replica, versions_yaml_r
 
 def test_update_local_from_public_sources_yaml():
     local_dict = load_yaml(LOCAL_SOURCES)
-    local_dict.pop("Species")
+    local_dict.pop("Organism")
     write_yaml(local_dict, LOCAL_SOURCES)
     update_local_from_public_sources_yaml()
 

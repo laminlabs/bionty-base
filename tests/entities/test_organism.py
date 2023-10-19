@@ -3,18 +3,18 @@ import pandas as pd
 import bionty as bt
 
 
-def test_ensembl_species_inspect_name():
+def test_ensembl_organism_inspect_name():
     df = pd.DataFrame(
         index=[
             "spiny chromis",
             "silver-eye",
             "platyfish",
             "california sea lion",
-            "This species does not exist",
+            "This organism does not exist",
         ]
     )
 
-    sp = bt.Species(source="ensembl")
+    sp = bt.Organism(source="ensembl")
     inspected_df = sp.inspect(df.index, field=sp.name, return_df=True)
 
     inspect = inspected_df["__validated__"].reset_index(drop=True)
@@ -23,7 +23,7 @@ def test_ensembl_species_inspect_name():
     assert inspect.equals(expected_series)
 
 
-def test_ensembl_species_species():
+def test_ensembl_organism_organism():
     for sp in ["bacteria", "plants", "fungi", "metazoa"]:
-        df = bt.Species(species=sp).df()
+        df = bt.Organism(organism=sp).df()
         assert df.shape[0] > 10

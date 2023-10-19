@@ -34,11 +34,15 @@ def test_gene_ensembl_inspect_hgnc_id(genes):
     assert inspect.equals(expected_series)
 
 
+def test_species_backward_compat():
+    bt.Gene(species="human")
+
+
 def test_ensemblgene_download():
     from bionty.entities._gene import EnsemblGene
 
-    ensembl_gene = EnsemblGene(species="human", version="release-110")
-    assert ensembl_gene._species.name == "human"
+    ensembl_gene = EnsemblGene(organism="human", version="release-110")
+    assert ensembl_gene._organism.name == "human"
 
     external_df = ensembl_gene.external_dbs()
     assert external_df.shape[0] > 1
@@ -49,7 +53,7 @@ def test_ensemblgene_download():
 
 
 def test_ensemblgene_map_legacy_ids():
-    gn = bt.Gene(species="human", version="release-110")
+    gn = bt.Gene(organism="human", version="release-110")
     legacy_genes = [
         "ENSG00000280710",
         "ENSG00000261490",

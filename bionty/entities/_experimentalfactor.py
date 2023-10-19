@@ -4,13 +4,13 @@ from typing import Dict, Literal, Optional
 import pandas as pd
 from lamin_utils import logger
 
-from bionty.entities._shared_docstrings import _doc_params, species_removed
+from bionty.entities._shared_docstrings import _doc_params, organism_removed
 
 from .._bionty import Bionty
 from .._ontology import Ontology
 
 
-@_doc_params(doc_entities=species_removed)
+@_doc_params(doc_entities=organism_removed)
 class ExperimentalFactor(Bionty):
     """Experimental Factor.
 

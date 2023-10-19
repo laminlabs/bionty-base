@@ -25,7 +25,7 @@ def display_available_sources() -> pd.DataFrame:
 def display_currently_used_sources() -> pd.DataFrame:
     """Displays all currently used sources.
 
-    Active version is unique for entity + species.
+    Active version is unique for entity + organism.
 
     Examples:
         >>> import bionty as bt
@@ -41,12 +41,12 @@ def display_currently_used_sources() -> pd.DataFrame:
 
     df_rows = []
     for bionty_class, bionty_class_data in versions.items():
-        for species, species_data in bionty_class_data.items():
-            for source, version in species_data.items():
+        for organism, organism_data in bionty_class_data.items():
+            for source, version in organism_data.items():
                 df_rows.append(
                     {
                         "entity": bionty_class,
-                        "species": species,
+                        "organism": organism,
                         "source": source,
                         "version": version,
                     }

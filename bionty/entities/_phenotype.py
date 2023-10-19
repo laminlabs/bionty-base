@@ -30,7 +30,7 @@ class Phenotype(Bionty):
 
     def __init__(
         self,
-        species: str = None,
+        organism: str = None,
         source: Optional[Literal["hp", "pato", "phe", "mp", "zp"]] = None,
         version: Optional[str] = None,
         **kwargs
@@ -38,7 +38,7 @@ class Phenotype(Bionty):
         super().__init__(
             source=source,
             version=version,
-            species=species,
+            organism=organism,
             include_id_prefixes={
                 "hp": ["HP"],
                 "mp": ["MP"],  # mp might require an exclusion prefix for mpath

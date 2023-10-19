@@ -26,7 +26,7 @@ The available and currently active ontologies can also be printed with
 ```yaml
 entity: # Bionty entity class name, e.g. CellType
   source: # short name of the source, (CURIE prefix for ontologies) e.g. cl
-    species: # species common name, (if none applied, use 'all') e.g. human
+    organism: # organism common name, (if none applied, use 'all') e.g. human
       version: # version of the source
         url: "link to the source file"
         md5: "md5 of the source file"
@@ -38,7 +38,7 @@ For each entity, the **first source** and its **maximum version** in `sources_lo
 
 To set your own default ontology and version, shift the order of entries.
 
-For example, in the following "doid" used when "species" is specified as "human":
+For example, in the following "doid" used when "organism" is specified as "human":
 
 (highlighted sources are considered the default)
 
@@ -75,7 +75,7 @@ Disease:
 
 <br>
 
-We may change the default to "inhouse_diseases" when "species" is specified as "human", by the following:
+We may change the default to "inhouse_diseases" when "organism" is specified as "human", by the following:
 
 Note: changing the order of versions won't have an effect, as most recent version is taken as default.
 
