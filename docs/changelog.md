@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-🚚 Rename `Species` to `Organism` | [519](https://github.com/laminlabs/bionty/pull/519) | [sunnyosun](https://github.com/sunnyosun) | 2023-10-19 |
+🚚 Rename `Species` to `Organism` | [519](https://github.com/laminlabs/bionty/pull/519) | [sunnyosun](https://github.com/sunnyosun) | 2023-10-19 | 0.33.0
 🚸 Suggest user to reset sources | [518](https://github.com/laminlabs/bionty/pull/518) | [sunnyosun](https://github.com/sunnyosun) | 2023-10-13 | 0.32.0
 :memo: Clarify definition in readme | [517](https://github.com/laminlabs/bionty/pull/517) | [falexwolf](https://github.com/falexwolf) | 2023-09-27 |
 :lipstick: Prettify changelog header | [516](https://github.com/laminlabs/bionty/pull/516) | [falexwolf](https://github.com/falexwolf) | 2023-09-27 |
