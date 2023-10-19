@@ -15,7 +15,7 @@ def _upload_ontology_artifacts(instance: str, lamindb_user: str, lamindb_passwor
         parquet_filename, ontology_filename = encode_filenames(
             organism=row.organism, source=row.source, version=row.version, entity=entity
         )
-        if entity == "Species" or row.url.startswith("s3://bionty-assets"):
+        if entity == "Organism" or row.url.startswith("s3://bionty-assets"):
             continue
 
         if not queryset.filter(key=parquet_filename).exists():
