@@ -34,11 +34,14 @@ def test_gene_ensembl_inspect_hgnc_id(genes):
     assert inspect.equals(expected_series)
 
 
+def test_species_backward_compat():
+    bt.Gene(species="human")
+
+
 def test_ensemblgene_download():
     from bionty.entities._gene import EnsemblGene
 
     ensembl_gene = EnsemblGene(organism="human", version="release-110")
-    ensembl_gene = EnsemblGene(species="human", version="release-110")
     assert ensembl_gene._organism.name == "human"
 
     external_df = ensembl_gene.external_dbs()
