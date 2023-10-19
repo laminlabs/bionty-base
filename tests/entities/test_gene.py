@@ -38,6 +38,7 @@ def test_ensemblgene_download():
     from bionty.entities._gene import EnsemblGene
 
     ensembl_gene = EnsemblGene(organism="human", version="release-110")
+    ensembl_gene = EnsemblGene(species="human", version="release-110")
     assert ensembl_gene._organism.name == "human"
 
     external_df = ensembl_gene.external_dbs()
