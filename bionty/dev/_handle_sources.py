@@ -185,31 +185,38 @@ def update_local_from_public_sources_yaml() -> None:
 
 def parse_currently_used_sources(yaml: Union[str, Path, List[Dict]]) -> Dict:
     """Parse out the most recent versions from yaml."""
-    if isinstance(yaml, (str, Path)):
-        df = parse_sources_yaml(yaml)
-        df_current = (
-            df[["entity", "source", "organism", "version"]]  # type: ignore
-            .drop_duplicates(["entity", "organism", "source"], keep="first")
-            .groupby(["entity", "organism", "source"], sort=False)
-            .max()
-        )
-        records = df_current.reset_index().to_dict(orient="records")
-    else:
-        records = yaml
 
-    current_dict: Dict = {}
-    for kwargs in records:
-        entity, organism, source, version = (
-            kwargs["entity"],
-            kwargs["organism"],
-            kwargs["source"],
-            kwargs["version"],
-        )
-        if entity not in current_dict:
-            current_dict[entity] = {}
-        if organism not in current_dict[entity]:
-            current_dict[entity][organism] = {source: version}
-    return current_dict
+    def _parse(key: str):
+        if isinstance(yaml, (str, Path)):
+            df = parse_sources_yaml(yaml)
+            df_current = (
+                df[["entity", "source", key, "version"]]  # type: ignore
+                .drop_duplicates(["entity", key, "source"], keep="first")
+                .groupby(["entity", key, "source"], sort=False)
+                .max()
+            )
+            records = df_current.reset_index().to_dict(orient="records")
+        else:
+            records = yaml
+
+        current_dict: Dict = {}
+        for kwargs in records:
+            entity, organism, source, version = (
+                kwargs["entity"],
+                kwargs[key],
+                kwargs["source"],
+                kwargs["version"],
+            )
+            if entity not in current_dict:
+                current_dict[entity] = {}
+            if organism not in current_dict[entity]:
+                current_dict[entity][organism] = {source: version}
+        return current_dict
+
+    try:
+        return _parse("organism")
+    except KeyError:
+        return _parse("species")
 
 
 def add_records_to_existing_dict(records: List[Dict], target_dict: Dict) -> Dict:
