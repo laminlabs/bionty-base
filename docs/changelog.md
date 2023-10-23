@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-✨ Add ncbitaxon, refactored organism | [521](https://github.com/laminlabs/bionty/pull/521) | [sunnyosun](https://github.com/sunnyosun) | 2023-10-23 |
+✨ Add ncbitaxon, refactored organism | [521](https://github.com/laminlabs/bionty/pull/521) | [sunnyosun](https://github.com/sunnyosun) | 2023-10-23 | 0.34.0
 🚸 Add a backward compat parser | [520](https://github.com/laminlabs/bionty/pull/520) | [sunnyosun](https://github.com/sunnyosun) | 2023-10-19 | 0.33.1
 🚚 Rename `Species` to `Organism` | [519](https://github.com/laminlabs/bionty/pull/519) | [sunnyosun](https://github.com/sunnyosun) | 2023-10-19 | 0.33.0
 🚸 Suggest user to reset sources | [518](https://github.com/laminlabs/bionty/pull/518) | [sunnyosun](https://github.com/sunnyosun) | 2023-10-13 | 0.32.0
