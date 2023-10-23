@@ -27,3 +27,8 @@ def test_ensembl_organism_organism():
     for sp in ["bacteria", "plants", "fungi", "metazoa"]:
         df = bt.Organism(organism=sp).df()
         assert df.shape[0] > 10
+
+
+def test_ncbitaxon_organism():
+    df = bt.Organism(source="ncbitaxon").df()
+    assert df.shape[0] > 10

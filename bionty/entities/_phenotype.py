@@ -30,8 +30,8 @@ class Phenotype(Bionty):
 
     def __init__(
         self,
-        organism: str = None,
-        source: Optional[Literal["hp", "pato", "phe", "mp", "zp"]] = None,
+        organism: Optional[Literal["human", "mammalian", "zebrafish", "all"]] = None,
+        source: Optional[Literal["hp", "phe", "mp", "zp", "pato"]] = None,
         version: Optional[str] = None,
         **kwargs
     ) -> None:

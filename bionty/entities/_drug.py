@@ -18,7 +18,7 @@ class Drug(Bionty):
 
     def __init__(
         self,
-        organism: str = "all",
+        organism: Optional[Literal["all"]] = None,
         source: Optional[Literal["dron"]] = None,
         version: Optional[str] = None,
         **kwargs

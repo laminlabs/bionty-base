@@ -62,8 +62,16 @@ class Ontology(pronto.Ontology):
             else:
                 return terms
 
+        if source is not None:
+            prefix_list = (
+                include_id_prefixes.get(source)
+                if include_id_prefixes is not None
+                else None
+            )
+        else:
+            prefix_list = None
+
         filtered_terms = filter_include_id_prefixes(self.terms())
-        all_ids = [i.id for i in filtered_terms]
 
         df_values = []
         for term in filtered_terms:
@@ -82,11 +90,17 @@ class Ontology(pronto.Ontology):
                 synonyms = None  # type:ignore
 
             # get 1st degree parents as a list
-            superclasses = [
-                s.id
-                for s in term.superclasses(distance=1, with_self=False).to_set()
-                if s.id in all_ids
-            ]
+            if prefix_list is not None:
+                superclasses = [
+                    s.id
+                    for s in term.superclasses(distance=1, with_self=False).to_set()
+                    if s.id.startswith(tuple(prefix_list))
+                ]
+            else:
+                superclasses = [
+                    s.id
+                    for s in term.superclasses(distance=1, with_self=False).to_set()
+                ]
 
             df_values.append((term.id, term.name, definition, synonyms, superclasses))
 

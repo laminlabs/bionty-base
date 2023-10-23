@@ -1,4 +1,4 @@
-version: "0.2.3"
+version: "0.2.4"
 Organism:
   ensembl:
     vertebrates:
@@ -29,6 +29,13 @@ Organism:
         md5: eadaa1f3e527e4c3940c90c7fa5c8bf4
     name: Ensembl
     website: https://www.ensembl.org
+  ncbitaxon:
+    all:
+      2023-06-20:
+        url: s3://bionty-assets/df_all__ncbitaxon__2023-06-20__Organism.parquet
+        md5: 00d97ba65627f1cd65636d2df22ea76c
+    name: NCBItaxon Ontology
+    website: https://github.com/obophenotype/ncbitaxon
 Gene:
   ensembl:
     human:

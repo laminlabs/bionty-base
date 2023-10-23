@@ -18,7 +18,7 @@ class CellMarker(Bionty):
 
     def __init__(
         self,
-        organism: Optional[str] = "human",
+        organism: Optional[Literal["human", "mouse"]] = None,
         source: Optional[Literal["cellmarker"]] = None,
         version: Optional[str] = None,
         **kwargs

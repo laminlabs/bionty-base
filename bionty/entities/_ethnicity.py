@@ -18,7 +18,7 @@ class Ethnicity(Bionty):
 
     def __init__(
         self,
-        organism: Optional[str] = None,
+        organism: Optional[Literal["human"]] = None,
         source: Optional[Literal["hancestro"]] = None,
         version: Optional[str] = None,
         **kwargs
