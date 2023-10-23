@@ -17,7 +17,7 @@ class BioSample(Bionty):
 
     def __init__(
         self,
-        organism: Optional[str] = None,
+        organism: Optional[Literal["all"]] = None,
         source: Optional[Literal["ncbi"]] = None,
         version: Optional[str] = None,
         **kwargs

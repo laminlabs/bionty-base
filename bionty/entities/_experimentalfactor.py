@@ -26,11 +26,13 @@ class ExperimentalFactor(Bionty):
 
     def __init__(
         self,
+        organism: Optional[Literal["all"]] = None,
         source: Optional[Literal["efo"]] = None,
         version: Optional[str] = None,
         **kwargs,
     ) -> None:
         super().__init__(
+            organism=organism,
             source=source,
             version=version,
             include_id_prefixes={"efo": ["EFO", "http://www.ebi.ac.uk/efo/"]},

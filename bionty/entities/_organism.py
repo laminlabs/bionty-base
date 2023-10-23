@@ -22,11 +22,14 @@ class Organism(Bionty):
 
     def __init__(
         self,
+        organism: Optional[
+            Literal["vertebrates", "bacteria", "fungi", "metazoa", "plants", "all"]
+        ] = None,
         source: Optional[Literal["ensembl", "ncbitaxon"]] = None,
         version: Optional[str] = None,
         **kwargs,
     ):
-        super().__init__(source=source, version=version, **kwargs)
+        super().__init__(organism=organism, source=source, version=version, **kwargs)
 
     def _load_df(self) -> pd.DataFrame:
         if self.source == "ensembl":

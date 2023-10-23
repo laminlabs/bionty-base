@@ -18,7 +18,7 @@ class DevelopmentalStage(Bionty):
 
     def __init__(
         self,
-        organism: Optional[str] = None,
+        organism: Optional[Literal["human", "mouse"]] = None,
         source: Optional[Literal["hsapdv", "mmusdv"]] = None,
         version: Optional[str] = None,
         **kwargs

@@ -22,7 +22,7 @@ class Disease(Bionty):
 
     def __init__(
         self,
-        organism: Optional[str] = None,
+        organism: Optional[Literal["all", "human"]] = None,
         source: Optional[Literal["mondo", "doid"]] = None,
         version: Optional[str] = None,
         **kwargs

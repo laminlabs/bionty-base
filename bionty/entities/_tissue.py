@@ -18,7 +18,7 @@ class Tissue(Bionty):
 
     def __init__(
         self,
-        organism: str = "all",
+        organism: Optional[Literal["all"]] = None,
         source: Optional[Literal["uberon"]] = None,
         version: Optional[str] = None,
         **kwargs

@@ -28,7 +28,9 @@ class Gene(Bionty):
 
     def __init__(
         self,
-        organism: str = "human",
+        organism: Optional[
+            Literal["human", "mouse", "saccharomyces cerevisiae"]
+        ] = None,
         source: Optional[Literal["ensembl"]] = None,
         version: Optional[str] = None,
         **kwargs,
