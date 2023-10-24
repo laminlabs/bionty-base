@@ -2,9 +2,9 @@
 
 This guide covers how to:
 
-1. Adding new terms & records, such as adding a new cell type to a cell type ontology
-2. Adding new ontologies, such as a new disease ontology
-3. Adding new entities that Bionty does not cover
+1. Add new terms & records, such as adding a new cell type to a cell type ontology
+2. Add new ontologies, such as a new disease ontology
+3. Add new entities that Bionty does not cover
 
 ## New terms and records
 
