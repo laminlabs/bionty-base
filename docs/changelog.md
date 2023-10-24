@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+📝 Streamline extend guide | [522](https://github.com/laminlabs/bionty/pull/522) | [falexwolf](https://github.com/falexwolf) | 2023-10-24 |
 ✨ Add ncbitaxon, refactored organism | [521](https://github.com/laminlabs/bionty/pull/521) | [sunnyosun](https://github.com/sunnyosun) | 2023-10-23 | 0.34.0
 🚸 Add a backward compat parser | [520](https://github.com/laminlabs/bionty/pull/520) | [sunnyosun](https://github.com/sunnyosun) | 2023-10-19 | 0.33.1
 🚚 Rename `Species` to `Organism` | [519](https://github.com/laminlabs/bionty/pull/519) | [sunnyosun](https://github.com/sunnyosun) | 2023-10-19 | 0.33.0
