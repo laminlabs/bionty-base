@@ -1,16 +1,14 @@
 # Extend Bionty
 
-Bionty is designed to be extendable in various ways. This guide covers how to:
+This guide covers how to:
 
-1. Extend existing ontologies such as adding a new cell type to a cell type ontology
-2. Adding new ontologies such as a new disease ontology
-3. Implementing new entities that Bionty does not cover
+1. Adding new terms & records, such as adding a new cell type to a cell type ontology
+2. Adding new ontologies, such as a new disease ontology
+3. Adding new entities that Bionty does not cover
 
 ## New terms and records
 
-If you'd like to add new terms to an existing ontology we recommend using [Lamin](https://lamin.ai/docs) to enable full knowledge management features.
-
-For use cases where Bionty is run standalone, we kindly ask users to be patience since support for it is currently work in progress.
+If you'd like to add new terms to an existing ontology: use [LaminDB](https://lamin.ai/docs).
 
 ## New ontologies
 
@@ -67,7 +65,7 @@ def calculate_md5(file_path: Path | str) -> str:
 
 If desired, the new ontology can be set as default. See {doc}`./config` for more details.
 
-## New entites
+## New entities
 
 Adding new entities to Bionty requires subclassing the {class}`bionty.Bionty` and modifying the `sources_local.yaml` file.
 
