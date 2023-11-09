@@ -64,6 +64,27 @@ class Settings:
     @versionsdir.setter
     def versionsdir(self, versionsdir: Union[str, Path]):
         self._versionsdir = Path(versionsdir).resolve()
+        self._versionsdir.mkdir(exist_ok=True, parents=True)  # type: ignore
+
+    @property
+    def sources_dir(self):
+        return ROOT_DIR / "sources"
+
+    @property
+    def local_sources(self):
+        return self.versionsdir / "sources_local.yaml"
+
+    @property
+    def public_sources(self):
+        return self.sources_dir / "sources.yaml"
+
+    @property
+    def current_sources(self):
+        return self.sources_dir / ".current_sources.yaml"
+
+    @property
+    def lamindb_sources(self):
+        return self.sources_dir / ".lamindb_current_sources.yaml"
 
 
 settings = Settings()

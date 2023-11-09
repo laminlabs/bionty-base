@@ -1,17 +1,16 @@
 from pathlib import Path
 
 import bionty as bt
-from bionty.dev._handle_sources import (
-    CURRENT_SOURCES,
-    LAMINDB_INSTANCE_LOADED,
-    LAMINDB_SOURCES,
-)
+from bionty._settings import settings
+from bionty.dev._handle_sources import LAMINDB_INSTANCE_LOADED
 
 
 def test_loaded_lamindb():
     import shutil
 
-    shutil.copyfile(CURRENT_SOURCES.as_posix(), LAMINDB_SOURCES.as_posix())
+    shutil.copyfile(
+        settings.current_sources.as_posix(), settings.lamindb_sources.as_posix()
+    )
 
     lnenv = Path.home() / ".lamin/current_instance.env"
     with open(lnenv.as_posix(), "w") as f:

@@ -41,8 +41,8 @@ Bionty sources:
 
     display_available_sources
     display_currently_used_sources
-    LOCAL_SOURCES
     reset_sources
+    settings
 
 External API:
 
@@ -87,8 +87,9 @@ from ._ontology import Ontology
 from ._display_sources import display_currently_used_sources, display_available_sources
 
 # sources
-from .dev._handle_sources import LOCAL_SOURCES, reset_sources
+from .dev._handle_sources import reset_sources
 from . import dev  # noqa
+from ._settings import settings
 
 # backward compat
 Entity = Bionty
