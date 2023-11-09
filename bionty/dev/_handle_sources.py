@@ -7,16 +7,6 @@ from lamin_utils import logger
 from bionty._settings import settings
 from bionty.dev._io import load_yaml, write_yaml
 
-ROOT = Path(__file__).parent.parent / "sources"
-PUBLIC_SOURCES = ROOT / "sources.yaml"
-
-# hidden from the users
-CURRENT_SOURCES = ROOT / ".current_sources.yaml"
-LAMINDB_SOURCES = ROOT / ".lamindb_current_sources.yaml"
-
-# Visible to the users and can be modified
-LOCAL_SOURCES = settings.versionsdir / "sources_local.yaml"
-
 
 def LAMINDB_INSTANCE_LOADED():
     is_loaded = False
@@ -27,7 +17,7 @@ def LAMINDB_INSTANCE_LOADED():
     return is_loaded
 
 
-def reset_sources():
+def reset_sources(confirm: bool = False) -> None:
     """Reset local bionty sources file."""
     from importlib import reload
 
@@ -39,27 +29,31 @@ def reset_sources():
         Returns:
             True if the answer is Y/y.
         """
-        answer = ""
-        while answer not in ["y", "n"]:
-            answer = input(
-                "Are you sure that you want to reset your local bionty sources? [Y/N]? "
-            ).lower()
+        if confirm:
+            answer = "y"
+        else:
+            answer = ""
+            while answer not in ["y", "n"]:
+                answer = input(
+                    "Are you sure that you want to reset your local bionty sources?"
+                    " [Y/N]? "
+                ).lower()
         return answer == "y"
 
     if _confirm():
         try:
-            LOCAL_SOURCES.unlink()
-            logger.success(f"removed file: {LOCAL_SOURCES}.")
+            settings.local_sources.unlink()
+            logger.success(f"removed file: {settings.local_sources}.")
         except FileNotFoundError:
             pass
         try:
-            CURRENT_SOURCES.unlink()
-            logger.success(f"removed file: {CURRENT_SOURCES}.")
+            settings.current_sources.unlink()
+            logger.success(f"removed file: {settings.current_sources}.")
         except FileNotFoundError:
             pass
         try:
-            LAMINDB_SOURCES.unlink()
-            logger.success(f"removed file: {LAMINDB_SOURCES}.")
+            settings.lamindb_sources.unlink()
+            logger.success(f"removed file: {settings.lamindb_sources}.")
         except FileNotFoundError:
             pass
 
@@ -68,24 +62,26 @@ def reset_sources():
 
 
 def create_or_update_sources_local_yaml(overwrite: bool = True) -> None:
-    """If LOCAL_SOURCES doesn't exist, copy from PUBLIC_SOURCES and create it.
+    """If settings.local_sources doesn't exist, copy from settings.public_sources and create it.
 
     Args:
-        overwrite: Whether to overwrite the current LOCAL_SOURCES.
+        overwrite: Whether to overwrite the current settings.local_sources.
     """
-    if not LOCAL_SOURCES.exists() or overwrite:
-        public_df_records = parse_sources_yaml(PUBLIC_SOURCES).to_dict(  # type: ignore
+    if not settings.local_sources.exists() or overwrite:
+        public_df_records = parse_sources_yaml(settings.public_sources).to_dict(  # type: ignore
             orient="records"
         )
         versions = add_records_to_existing_dict(public_df_records, {})
-        versions_header = {"version": load_yaml(PUBLIC_SOURCES).get("version")}
+        versions_header = {"version": load_yaml(settings.public_sources).get("version")}
         versions_header.update(versions)
-        write_yaml(versions_header, LOCAL_SOURCES)
+        write_yaml(versions_header, settings.local_sources)
     else:
         update_local_from_public_sources_yaml()
 
 
-def parse_sources_yaml(filepath: Union[str, Path] = PUBLIC_SOURCES) -> pd.DataFrame:
+def parse_sources_yaml(
+    filepath: Union[str, Path] = settings.public_sources
+) -> pd.DataFrame:
     """Parse values from sources yaml file into a DataFrame.
 
     Args:
@@ -142,19 +138,21 @@ def parse_sources_yaml(filepath: Union[str, Path] = PUBLIC_SOURCES) -> pd.DataFr
 def create_currently_used_sources_yaml(
     overwrite: bool = True, source: Literal["versions", "local"] = "local"
 ) -> None:
-    """Write the most recent version to the CURRENT_SOURCES .
+    """Write the most recent version to the settings.current_sources .
 
     Takes the 1st source defined in the source.
 
     Args:
-        overwrite: Whether to overwrite the CURRENT_SOURCES even if it exists already.
-        source: The yaml source to use to create the CURRENT_SOURCES.
+        overwrite: Whether to overwrite the settings.current_sources even if it exists already.
+        source: The yaml source to use to create the settings.current_sources.
                 Defaults to 'local'.
     """
-    if not CURRENT_SOURCES.exists() or overwrite:
-        source_path = PUBLIC_SOURCES if source == "versions" else LOCAL_SOURCES
+    if not settings.current_sources.exists() or overwrite:
+        source_path = (
+            settings.public_sources if source == "versions" else settings.local_sources
+        )
 
-        write_yaml(parse_currently_used_sources(source_path), CURRENT_SOURCES)
+        write_yaml(parse_currently_used_sources(source_path), settings.current_sources)
 
 
 def records_diff_btw_yamls(
@@ -171,15 +169,17 @@ def records_diff_btw_yamls(
 
 
 def update_local_from_public_sources_yaml() -> None:
-    """Update LOCAL_SOURCES to add additional entries from PUBLIC_SOURCES."""
-    additional_records = records_diff_btw_yamls(PUBLIC_SOURCES, LOCAL_SOURCES)
+    """Update settings.local_sources to add additional entries from settings.public_sources."""
+    additional_records = records_diff_btw_yamls(
+        settings.public_sources, settings.local_sources
+    )
     if len(additional_records) > 0:
         updated_local_versions = add_records_to_existing_dict(
-            additional_records, load_yaml(LOCAL_SOURCES)
+            additional_records, load_yaml(settings.local_sources)
         )
-        write_yaml(updated_local_versions, LOCAL_SOURCES)
+        write_yaml(updated_local_versions, settings.local_sources)
         logger.success(
-            f"wrote new records from public sources.yaml to {LOCAL_SOURCES}!\n\nif you see this message repeatedly, run: bt.reset_sources()"  # noqa
+            f"wrote new records from public sources.yaml to {settings.local_sources}!\n\nif you see this message repeatedly, run: bt.reset_sources()"  # noqa
         )
 
 
