@@ -3,10 +3,8 @@ import tempfile
 
 import pytest
 
+from bionty._settings import settings
 from bionty.dev._handle_sources import (
-    CURRENT_SOURCES,
-    LAMINDB_SOURCES,
-    LOCAL_SOURCES,
     add_records_to_existing_dict,
     parse_currently_used_sources,
     parse_sources_yaml,
@@ -212,9 +210,9 @@ def test_add_records_to_existing_dict(new_versions_yaml_replica, versions_yaml_r
 
 
 def test_update_local_from_public_sources_yaml():
-    local_dict = load_yaml(LOCAL_SOURCES)
+    local_dict = load_yaml(settings.local_sources)
     local_dict.pop("Organism")
-    write_yaml(local_dict, LOCAL_SOURCES)
+    write_yaml(local_dict, settings.local_sources)
     update_local_from_public_sources_yaml()
 
 
@@ -222,5 +220,7 @@ def test_reset_sources(monkeypatch):
     monkeypatch.setattr("builtins.input", lambda _: "y")
     import shutil
 
-    shutil.copyfile(CURRENT_SOURCES.as_posix(), LAMINDB_SOURCES.as_posix())
+    shutil.copyfile(
+        settings.current_sources.as_posix(), settings.lamindb_sources.as_posix()
+    )
     reset_sources()

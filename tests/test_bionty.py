@@ -1,7 +1,7 @@
 import pytest
 
 import bionty as bt
-from bionty.dev._handle_sources import CURRENT_SOURCES, LAMINDB_SOURCES, LOCAL_SOURCES
+from bionty._settings import settings
 
 
 def test_unavailable_sources():
@@ -14,11 +14,13 @@ def test_reset_sources(monkeypatch):
 
     monkeypatch.setattr("builtins.input", lambda _: "y")
 
-    shutil.copyfile(CURRENT_SOURCES.as_posix(), LAMINDB_SOURCES.as_posix())
+    shutil.copyfile(
+        settings.current_sources.as_posix(), settings.lamindb_sources.as_posix()
+    )
     bt.reset_sources()
 
-    CURRENT_SOURCES.unlink()
-    LOCAL_SOURCES.unlink()
+    settings.current_sources.unlink()
+    settings.local_sources.unlink()
     bt.reset_sources()
 
 
