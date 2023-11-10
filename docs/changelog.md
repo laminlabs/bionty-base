@@ -3,7 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
-🔧 Using env variables for versionsdir | [524](https://github.com/laminlabs/bionty/pull/524) | [sunnyosun](https://github.com/sunnyosun) | 2023-11-10 |
+🔧 Using env variables for versionsdir | [524](https://github.com/laminlabs/bionty/pull/524) | [sunnyosun](https://github.com/sunnyosun) | 2023-11-10 | 0.34.2
 🎨 Enable set versionsdir | [523](https://github.com/laminlabs/bionty/pull/523) | [sunnyosun](https://github.com/sunnyosun) | 2023-11-09 | 0.34.1
 📝 Streamline extend guide | [522](https://github.com/laminlabs/bionty/pull/522) | [falexwolf](https://github.com/falexwolf) | 2023-10-24 |
 ✨ Add ncbitaxon, refactored organism | [521](https://github.com/laminlabs/bionty/pull/521) | [sunnyosun](https://github.com/sunnyosun) | 2023-10-23 | 0.34.0
