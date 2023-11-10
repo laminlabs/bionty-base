@@ -1,3 +1,4 @@
+import os
 from functools import wraps
 from pathlib import Path
 from typing import Union
@@ -34,7 +35,14 @@ class Settings:
         # setters convert to Path and resolve:
         self.datasetdir = datasetdir
         self.dynamicdir = dynamicdir
-        self.versionsdir = versionsdir
+
+        # needed when running with AWS Lambda
+        if "LAMIN_SETTINGS_DIR" in os.environ:
+            self.versionsdir = Path(
+                f"{os.environ['LAMIN_SETTINGS_DIR']}/.lamin/bionty/versions"
+            )
+        else:
+            self.versionsdir = versionsdir
 
         self.versionsdir.mkdir(exist_ok=True, parents=True)  # type: ignore
 
@@ -80,11 +88,11 @@ class Settings:
 
     @property
     def current_sources(self):
-        return self.sources_dir / ".current_sources.yaml"
+        return self.versionsdir / ".current_sources.yaml"
 
     @property
     def lamindb_sources(self):
-        return self.sources_dir / ".lamindb_current_sources.yaml"
+        return self.versionsdir / ".lamindb_current_sources.yaml"
 
 
 settings = Settings()
