@@ -99,6 +99,9 @@ CellLine:
 CellType:
   cl:
     all:
+      2023-08-24:
+        url: http://purl.obolibrary.org/obo/cl/releases/2023-08-24/cl.owl
+        md5: 46e7dd89421f1255cf0191eca1548f73
       2023-04-20:
         url: http://purl.obolibrary.org/obo/cl/releases/2023-04-20/cl-base.owl
         md5: 58cdc1545f0d35e6fce76a65331b00fb
@@ -113,6 +116,9 @@ CellType:
 Tissue:
   uberon:
     all:
+      2023-09-05:
+        url: http://purl.obolibrary.org/obo/uberon/releases/2023-09-05/uberon.owl
+        md5: abcee3ede566d1311d758b853ccdf5aa
       2023-04-19:
         url: http://purl.obolibrary.org/obo/uberon/releases/2023-04-19/uberon.owl
         md5: 5611dd1375d5a95ac7d7de8e25e6016f
@@ -127,6 +133,9 @@ Tissue:
 Disease:
   mondo:
     all:
+      2023-08-02:
+        url: http://purl.obolibrary.org/obo/mondo/releases/2023-08-02/mondo.owl
+        md5: 7f33767422042eec29f08b501fc851db
       2023-04-04:
         url: http://purl.obolibrary.org/obo/mondo/releases/2023-04-04/mondo.owl
         md5: 700c43dd9ba51aecc7a8edfc3bc2dab1
@@ -233,23 +242,23 @@ DevelopmentalStage:
   hsapdv:
     human:
       2020-03-10:
-        url: http://purl.obolibrary.org/obo/hsapdv.owl
-        md5: 0423f338c50161880df4d5d1523d24ed
+        url: http://aber-owl.net/media/ontologies/HSAPDV/11/hsapdv.owl
+        md5: 52181d59df84578ed69214a5cb614036
     name: Human Developmental Stages
     website: https://github.com/obophenotype/developmental-stage-ontologies/wiki/HsapDv
   mmusdv:
     mouse:
       2020-03-10:
-        url: http://purl.obolibrary.org/obo/mmusdv.owl
-        md5: 6342b59cf3082b10c54f90a8c3336b72
+        url: http://aber-owl.net/media/ontologies/MMUSDV/9/mmusdv.owl
+        md5: 5bef72395d853c7f65450e6c2a1fc653
     name: Mouse Developmental Stages
     website: https://github.com/obophenotype/developmental-stage-ontologies/wiki/MmusDv
 Ethnicity:
   hancestro:
     human:
-      2023-07-313.0:
-        url: http://purl.obolibrary.org/obo/hancestro.owl
-        md5: af731447e95b4ca341a91b018edd4885
+      3.0:
+        url: https://github.com/EBISPOT/hancestro/raw/3.0/hancestro-base.owl
+        md5: 76dd9efda9c2abd4bc32fc57c0b755dd
     name: Human Ancestry Ontology
     website: https://github.com/EBISPOT/hancestro
 BioSample:
