@@ -1,4 +1,4 @@
-version: "0.2.4"
+version: "0.2.5"
 Organism:
   ensembl:
     vertebrates:
@@ -160,6 +160,9 @@ Disease:
 ExperimentalFactor:
   efo:
     all:
+      3.57.0:
+        url: http://www.ebi.ac.uk/efo/releases/v3.57.0/efo.owl
+        md5: 2ecafc69b3aba7bdb31ad99438505c05
       3.48.0:
         url: http://www.ebi.ac.uk/efo/releases/v3.48.0/efo.owl
         md5: 3367e9a9ae3dee9113024e5108c49091
