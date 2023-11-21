@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🍱 Update EFO to version 3.57.0 | [528](https://github.com/laminlabs/bionty/pull/528) | [sunnyosun](https://github.com/sunnyosun) | 2023-11-21 |
 🍱 Update a few sources | [526](https://github.com/laminlabs/bionty/pull/526) | [sunnyosun](https://github.com/sunnyosun) | 2023-11-16 | 0.35.0
 🚚 Relocate bionty.lock to versionsdir | [525](https://github.com/laminlabs/bionty/pull/525) | [sunnyosun](https://github.com/sunnyosun) | 2023-11-10 | 0.34.3
 🔧 Using env variables for versionsdir | [524](https://github.com/laminlabs/bionty/pull/524) | [sunnyosun](https://github.com/sunnyosun) | 2023-11-10 | 0.34.2
