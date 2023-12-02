@@ -429,22 +429,24 @@ class Bionty:
     def standardize(
         self,
         values: Iterable,
+        field: Optional[Union[BiontyField, str]] = None,
         *,
+        return_field: str = None,
         return_mapper: bool = False,
         case_sensitive: bool = False,
         mute: bool = False,
         keep: Literal["first", "last", False] = "first",
         synonyms_field: Union[BiontyField, str] = "synonyms",
-        field: Optional[Union[BiontyField, str]] = None,
     ) -> Union[Dict[str, str], List[str]]:
         """Convert into standardized names.
 
         Args:
-            synonyms: `Iterable` Synonyms that will be standardized.
+            values: `Iterable` Synonyms that will be standardized.
+            field: `Optional[str]` The field representing the standardized names.
+            return_field: `Optional[str]` The field to return. Defaults to field.
             return_mapper: `bool = False` If `True`, returns `{input_synonym1:
                 standardized_name1}`.
             case_sensitive: `bool = False` Whether the mapping is case sensitive.
-            organism: `Optional[str]` Map only against this organism related entries.
             keep: `Literal["first", "last", False] = "first"` When a synonym maps to
                 multiple names, determines which duplicates to mark as
                 `pd.DataFrame.duplicated`
@@ -453,7 +455,6 @@ class Bionty:
                     - "last": returns the last mapped standardized name
                     - `False`: returns all mapped standardized name
             synonyms_field: `str = "synonyms"` A field containing the concatenated synonyms.
-            field: `Optional[str]` The field representing the standardized names.
 
         Returns:
             If `return_mapper` is `False`: a list of standardized names. Otherwise,
@@ -466,7 +467,7 @@ class Bionty:
             >>> gene_symbols = ["A1CF", "A1BG", "FANCD1", "FANCD20"]
             >>> standardized_symbols = gene_bt.standardize(gene_symbols, gene_bt.symbol)
         """
-        from lamin_utils._map_synonyms import map_synonyms
+        from lamin_utils._standardize import standardize as map_synonyms
 
         if isinstance(values, str):
             values = [values]
@@ -475,6 +476,7 @@ class Bionty:
             df=self._df,
             identifiers=values,
             field=self._get_default_field(field),
+            return_field=self._get_default_field(return_field),
             return_mapper=return_mapper,
             case_sensitive=case_sensitive,
             mute=mute,
