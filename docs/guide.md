@@ -3,7 +3,6 @@
 ```{toctree}
 :maxdepth: 2
 
-./guide/search
 ./guide/ontology
 ./guide/validate
 ./guide/sources
