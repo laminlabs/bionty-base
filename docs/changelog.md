@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🚚 Move bionty search & lookup guide to lamindb | [532](https://github.com/laminlabs/bionty/pull/532) | [falexwolf](https://github.com/falexwolf) | 2023-12-04 |
 ✨ Enabled ID conversion via return_field | [530](https://github.com/laminlabs/bionty/pull/530) | [sunnyosun](https://github.com/sunnyosun) | 2023-12-02 | 0.35.2
 🍱 Update EFO to version 3.57.0 | [528](https://github.com/laminlabs/bionty/pull/528) | [sunnyosun](https://github.com/sunnyosun) | 2023-11-21 | 0.35.1
 🍱 Update a few sources | [526](https://github.com/laminlabs/bionty/pull/526) | [sunnyosun](https://github.com/sunnyosun) | 2023-11-16 | 0.35.0
