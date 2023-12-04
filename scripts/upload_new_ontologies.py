@@ -42,10 +42,3 @@ def _upload_ontology_artifacts(instance: str, lamindb_user: str, lamindb_passwor
         ln.save()
 
     ln.setup.close()
-
-
-_upload_ontology_artifacts(
-    instance="sunnyosun/bionty-assets",
-    lamindb_user="testuser2@lamin.ai",
-    lamindb_password="goeoNJKE61ygbz1vhaCVynGERaRrlviPBVQsjkhz",
-)
