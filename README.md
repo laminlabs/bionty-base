@@ -4,9 +4,18 @@
 
 # Bionty
 
-Public biological ontologies for data scientists: look up, search, inspect, validate, and standardize terms.
+Access public biological knowledge sources. Is the backend for LaminDB's basic biological entity schema.
 
-To make it easy to customize and extend ontologies in a simple database backend, Bionty plugs into LaminDB: see this [guide](https://lamin.ai/docs/bio-registries).
+- User docs: [here](https://lamin.ai/docs/public-ontologies)
+- Developer docs: [here](https://lamin.ai/docs/bionty)
+
+## Installation
+
+Bionty is a Python package available for ![pyversions](https://img.shields.io/pypi/pyversions/bionty)
+
+```shell
+pip install bionty
+```
 
 ## Entities
 
@@ -31,78 +40,23 @@ Check out [sources.yaml](https://github.com/laminlabs/bionty/blob/main/bionty/so
 
 Didn't see your favorite source or version? Bionty is [extendable](https://lamin.ai/docs/bionty/guide/extend)!
 
-## Installation
-
-Bionty is a Python package available for ![pyversions](https://img.shields.io/pypi/pyversions/bionty)
-
-```shell
-pip install bionty
-```
-
-## Usage overview & quickstart
+## Entity versions
 
 ```python
 import bionty as bt
-```
 
-### Look up terms with auto-complete
-
-```python
-lookup = bt.ExperimentalFactor().lookup()
-# access via Python-friendly keys
-lookup.single_cell_rna_sequencing
-
-# access via dictionary
-lookup_dict = lookup.dict()
-lookup_dict["single-cell RNA sequencing"]
-```
-
-### Search ontology terms
-
-```python
-celltype_bionty = bt.CellType()
-# Free text search against a field
-celltype_bionty.search("gamma delta T cell")
-```
-
-### Validate, inspect & standardize terms
-
-```python
-gene_bionty = bt.Gene()
-# Validate against a field of reference
-gene_bionty.validate(["A1BG", "FANCD1"], gene_bionty.symbol)
-# Run full inspection on the gene symbols
-gene_bionty.inspect(["A1BG", "FANCD1"], gene_bionty.symbol)
-# Convert synonyms to standardized gene symbols
-gene_bionty.standardize(["A1BG", "FANCD1"])
-```
-
-### Access a reference DataFrame
-
-```python
-# Reference table of the human genes
-df = bt.Gene(organism="human").df()
-```
-
-### Track ontology sources
-
-```python
-# Display currently used sources
+# display currently used sources
 bt.display_currently_used_sources()
 
-# Display all managed sources
+# display all managed sources
 bt.display_available_sources()
 
-# Local yaml file specifying all managed sources
+# local yaml file specifying all managed sources
 bt.LOCAL_SOURCES
 
-# Access to the Mondo ontology
+# access to the Mondo ontology
 disease = bt.Disease(source="mondo")
 
-# Access to the Human Disease ontology
+# access to the Human Disease ontology
 disease = bt.Disease(source="doid", version="2023-01-30")
 ```
-
-## Documentation
-
-Read the [docs](https://lamin.ai/docs/bionty/).
