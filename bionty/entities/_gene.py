@@ -91,7 +91,7 @@ class EnsemblGene:
         except ModuleNotFoundError:
             raise ModuleNotFoundError(
                 "To query from the Ensembl database, please run `pip install"
-                " sqlalchemy,mysqlclient`"
+                " sqlalchemy mysqlclient mysql-connector-python`"
             )
 
     def external_dbs(self):
