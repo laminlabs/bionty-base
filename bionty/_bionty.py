@@ -528,7 +528,7 @@ class Bionty:
         limit: int | None = None,
         case_sensitive: bool = False,
         synonyms_field: BiontyField | str | None = "synonyms",
-    ) -> pd.DataFrame:
+    ):
         """Search a given string against a Bionty field.
 
         Args:
