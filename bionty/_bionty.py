@@ -12,7 +12,6 @@ import numpy as np
 import pandas as pd
 from lamin_utils import logger
 from lamin_utils._lookup import Lookup
-from pandas import DataFrame
 
 from ._ontology import Ontology
 from ._settings import check_datasetdir_exists, check_dynamicdir_exists, settings
@@ -529,7 +528,7 @@ class Bionty:
         limit: int | None = None,
         case_sensitive: bool = False,
         synonyms_field: BiontyField | str | None = "synonyms",
-    ) -> DataFrame:
+    ) -> pd.DataFrame:
         """Search a given string against a Bionty field.
 
         Args:
