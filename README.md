@@ -4,7 +4,7 @@
 
 # Bionty
 
-Access public biological knowledge sources. Is the backend for LaminDB's basic biological entity schema.
+Access public biological ontologies.
 
 - User docs: [here](https://lamin.ai/docs/public-ontologies)
 - Developer docs: [here](https://lamin.ai/docs/bionty)
