@@ -1,9 +1,8 @@
 from typing import Dict
 
 import bioregistry
-from rich import print
-
 from bionty.dev._handle_sources import parse_sources_yaml
+from rich import print
 
 sources = parse_sources_yaml()
 latest_versions = (
@@ -27,7 +26,7 @@ for source, current_latest_version in latest_versions_dict.items():
 if len(new_latest_versions) != 0:
     for source, version in new_latest_versions.items():
         print(
-            f"[bold blue]Source: [green]{source}[blue] has the most recent version:"
+            f"[bold blue]Source: [green]{source}[blue] has a more recent version:"
             f" [green]{version}"
         )
     raise AssertionError(

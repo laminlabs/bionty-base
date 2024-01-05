@@ -1,9 +1,7 @@
-import os
 from pathlib import Path
 from typing import Tuple
 
 import pytest
-
 from bionty.dev._md5 import calculate_md5, verify_md5
 
 CURRENT_DIR = Path(__file__).parent
@@ -16,7 +14,7 @@ def file_fixture() -> Tuple[str, str]:  # type: ignore
         f.write("Hello, world!")
     expected_md5 = calculate_md5(file_path)
     yield file_path, expected_md5
-    os.remove(file_path)
+    Path(file_path).unlink()
 
 
 def test_verify_md5_with_matching_md5(file_fixture):

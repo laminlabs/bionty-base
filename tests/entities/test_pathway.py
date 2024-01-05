@@ -1,6 +1,5 @@
-import pandas as pd
-
 import bionty as bt
+import pandas as pd
 
 
 def test_pw_go_inspect_ontology_id():

@@ -1,6 +1,5 @@
-import pandas as pd
-
 import bionty as bt
+import pandas as pd
 
 
 def test_uniprot_protein_inspect_uniprotkb_id():

@@ -2,10 +2,9 @@ from typing import Literal, Optional
 
 import pandas as pd
 
+from bionty._bionty import Bionty
+from bionty.dev._io import s3_bionty_assets
 from bionty.entities._shared_docstrings import _doc_params, organism_removed
-
-from .._bionty import Bionty
-from ..dev._io import s3_bionty_assets
 
 
 @_doc_params(doc_entities=organism_removed)
@@ -45,7 +44,9 @@ class Organism(Bionty):
             if not self._local_parquet_path.exists():
                 self._url_download(self._url, self._local_ontology_path)  # type:ignore
                 df = pd.read_csv(
-                    self._local_ontology_path, sep="\t", index_col=False  # type:ignore
+                    self._local_ontology_path,
+                    sep="\t",
+                    index_col=False,  # type:ignore
                 )
                 df.rename(
                     columns={

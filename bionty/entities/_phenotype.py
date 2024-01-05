@@ -1,6 +1,7 @@
 from typing import Literal, Optional
 
-from .._bionty import Bionty
+from bionty._bionty import Bionty
+
 from ._shared_docstrings import _doc_params, doc_entites
 
 
@@ -33,7 +34,7 @@ class Phenotype(Bionty):
         organism: Optional[Literal["human", "mammalian", "zebrafish", "all"]] = None,
         source: Optional[Literal["hp", "phe", "mp", "zp", "pato"]] = None,
         version: Optional[str] = None,
-        **kwargs
+        **kwargs,
     ) -> None:
         super().__init__(
             source=source,
@@ -45,5 +46,5 @@ class Phenotype(Bionty):
                 "zp": ["ZP"],
                 "pato": ["PATO"],
             },
-            **kwargs
+            **kwargs,
         )
