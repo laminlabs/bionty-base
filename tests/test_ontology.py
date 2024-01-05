@@ -7,5 +7,5 @@ def test_ontology():
     onto = bt.Ontology(localpath)
     assert onto.get_term("PW:0000014").name == "neurodegenerative pathway"
     df = onto.to_df(source="pw", include_id_prefixes={"pw": ["PW"]})
-    assert df.shape == (2613, 4)
+    assert df.shape == (2647, 4)
     assert df.index.name == "ontology_id"
