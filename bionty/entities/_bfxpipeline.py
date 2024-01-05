@@ -4,8 +4,9 @@ from typing import Literal, Optional
 
 import pandas as pd
 
-from .._bionty import Bionty
-from ..dev._io import s3_bionty_assets
+from bionty._bionty import Bionty
+from bionty.dev._io import s3_bionty_assets
+
 from ._shared_docstrings import _doc_params, doc_entites
 
 
@@ -22,7 +23,7 @@ class BFXPipeline(Bionty):
         organism: Optional[Literal["all"]] = None,
         source: Optional[Literal["lamin"]] = None,
         version: Optional[str] = None,
-        **kwargs
+        **kwargs,
     ) -> None:
         super().__init__(source=source, version=version, organism=organism, **kwargs)
 
@@ -31,7 +32,7 @@ class BFXPipeline(Bionty):
             ".parquet", ".json"
         )
         s3_bionty_assets("bfxpipelines.json", Path(localpath))
-        with open(localpath, "r") as f:
+        with open(localpath) as f:
             data = json.load(f)
 
         df = pd.DataFrame(data).transpose()

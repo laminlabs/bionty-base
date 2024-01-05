@@ -1,6 +1,5 @@
-import pandas as pd
-
 import bionty as bt
+import pandas as pd
 from bionty.entities._experimentalfactor import _parse_efo_term
 
 

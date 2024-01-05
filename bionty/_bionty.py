@@ -3,7 +3,6 @@ from __future__ import annotations
 import logging
 import os
 from functools import cached_property
-from pathlib import Path
 from typing import (
     TYPE_CHECKING,
     Dict,
@@ -28,12 +27,14 @@ from .dev._io import s3_bionty_assets, url_download
 from .dev._md5 import verify_md5
 
 if TYPE_CHECKING:
+    from pathlib import Path
+
     from .dev import InspectResult
 
 
 def encode_filenames(
-    organism: str, source: str, version: str, entity: Union[Bionty, str]
-) -> Tuple[str, str]:
+    organism: str, source: str, version: str, entity: Bionty | str
+) -> tuple[str, str]:
     """Encode names of the cached files."""
     if isinstance(entity, Bionty):
         entity_name = entity.__class__.__name__
@@ -52,11 +53,11 @@ class Bionty:
 
     def __init__(
         self,
-        source: Optional[str] = None,
-        version: Optional[str] = None,
-        organism: Optional[str] = None,
+        source: str | None = None,
+        version: str | None = None,
+        organism: str | None = None,
         *,
-        include_id_prefixes: Optional[Dict[str, List[str]]] = None,
+        include_id_prefixes: dict[str, list[str]] | None = None,
         **kwargs,
     ):
         # backward compat for species -> organism
@@ -151,16 +152,14 @@ class Bionty:
         return self._version
 
     @property
-    def fields(self) -> Set:
+    def fields(self) -> set:
         """All Bionty entity fields."""
         blacklist = {"include_id_prefixes"}
-        fields = set(
-            [
-                field
-                for field in vars(self)
-                if not callable(getattr(self, field)) and not field.startswith("_")
-            ]
-        )
+        fields = {
+            field
+            for field in vars(self)
+            if not callable(getattr(self, field)) and not field.startswith("_")
+        }
         return fields - blacklist
 
     @cached_property
@@ -193,9 +192,9 @@ class Bionty:
                 if len(md5) > 0:
                     if not verify_md5(localpath, md5):
                         logger.warning(
-                            f"MD5 sum for {localpath} did not match {md5}. re-downloading..."  # noqa: E501
+                            f"MD5 sum for {localpath} did not match {md5}. re-downloading..."
                         )
-                        os.remove(localpath)
+                        localpath.unlink()
                         self._url_download(url, localpath)
 
     def _fetch_sources(self) -> None:
@@ -218,10 +217,10 @@ class Bionty:
     def _match_sources(
         self,
         ref_sources: pd.DataFrame,
-        source: Optional[str] = None,
-        version: Optional[str] = None,
-        organism: Optional[str] = None,
-    ) -> Dict[str, str]:
+        source: str | None = None,
+        version: str | None = None,
+        organism: str | None = None,
+    ) -> dict[str, str]:
         """Match a source record base on passed organism, source and version."""
         lc = locals()
 
@@ -240,9 +239,7 @@ class Bionty:
                 row = ref_sources[cond].head(1)
             else:
                 # len(kwargs) == 2
-                cond = getattr(cond, "__and__")(
-                    ref_sources[keys[1]] == kwargs.get(keys[1])
-                )
+                cond = cond.__and__(ref_sources[keys[1]] == kwargs.get(keys[1]))
                 row = ref_sources[cond].head(1)
         else:
             # if no kwargs are passed, take the currently used source record
@@ -309,9 +306,7 @@ class Bionty:
         else:
             self._local_ontology_path = settings.dynamicdir / self._ontology_filename
 
-    def _get_default_field(
-        self, field: Optional[Union[BiontyField, str]] = None
-    ) -> str:
+    def _get_default_field(self, field: BiontyField | str | None = None) -> str:
         """Default to name field."""
         if field is None:
             if "name" in self._df.columns:
@@ -391,7 +386,7 @@ class Bionty:
         *,
         mute: bool = False,
         **kwargs,
-    ) -> "InspectResult":
+    ) -> InspectResult:
         """Inspect a list of values against a field of entity reference.
 
         Args:
@@ -400,6 +395,8 @@ class Bionty:
                    Examples are 'ontology_id' to map against the source ID
                    or 'name' to map against the ontologies field names.
             return_df: Whether to return a Pandas DataFrame.
+            mute: Whether to suppress logging. Defaults to False.
+            kwargs: Used for backwards compatibility and return types.
 
         Returns:
             - A Dictionary of "validated" and "not_validated" identifiers
@@ -429,15 +426,15 @@ class Bionty:
     def standardize(
         self,
         values: Iterable,
-        field: Optional[Union[BiontyField, str]] = None,
+        field: BiontyField | str | None = None,
         *,
         return_field: str = None,
         return_mapper: bool = False,
         case_sensitive: bool = False,
         mute: bool = False,
         keep: Literal["first", "last", False] = "first",
-        synonyms_field: Union[BiontyField, str] = "synonyms",
-    ) -> Union[Dict[str, str], List[str]]:
+        synonyms_field: BiontyField | str = "synonyms",
+    ) -> dict[str, str] | list[str]:
         """Convert into standardized names.
 
         Args:
@@ -450,6 +447,7 @@ class Bionty:
             keep: `Literal["first", "last", False] = "first"` When a synonym maps to
                 multiple names, determines which duplicates to mark as
                 `pd.DataFrame.duplicated`
+            mute: Whether to mute logging. Defaults to False.
 
                     - "first": returns the first mapped standardized name
                     - "last": returns the last mapped standardized name
@@ -491,9 +489,9 @@ class Bionty:
         return_mapper: bool = False,
         case_sensitive: bool = False,
         keep: Literal["first", "last", False] = "first",
-        synonyms_field: Union[BiontyField, str] = "synonyms",
-        field: Optional[Union[BiontyField, str]] = None,
-    ) -> Union[Dict[str, str], List[str]]:
+        synonyms_field: BiontyField | str = "synonyms",
+        field: BiontyField | str | None = None,
+    ) -> dict[str, str] | list[str]:
         """Maps input synonyms to standardized names."""
         logger.warning("`map_synonyms()` is deprecated, use `.standardize()`!'")
         return self.standardize(
@@ -505,7 +503,7 @@ class Bionty:
             field=field,
         )
 
-    def lookup(self, field: Optional[Union[BiontyField, str]] = None) -> Tuple:
+    def lookup(self, field: BiontyField | str | None = None) -> tuple:
         """An auto-complete object for a Bionty field.
 
         Args:
@@ -533,18 +531,22 @@ class Bionty:
         self,
         string: str,
         *,
-        field: Optional[Union[BiontyField, str]] = None,
-        limit: Optional[int] = None,
+        field: BiontyField | str | None = None,
+        limit: int | None = None,
         case_sensitive: bool = False,
-        synonyms_field: Union[BiontyField, str, None] = "synonyms",
+        synonyms_field: BiontyField | str | None = "synonyms",
     ) -> pd.DataFrame:
         """Search a given string against a Bionty field.
 
         Args:
             string: The input string to match against the field values.
             field: The BiontyField of the ontology the input string is matching against.
-            top_hit: Default is False, return all entries ranked by matching ratios.
+            top_hit: Return all entries ranked by matching ratios.
                 If True, only return the top match.
+                Defaults to False.
+            limit: Maximum amount of top results to return.
+                   If None, return all results.
+                   Defaults to None.
             case_sensitive: Whether the match is case sensitive.
             synonyms_field: By default also search against the synonyms (If None, skips search).
 
@@ -567,7 +569,7 @@ class Bionty:
             synonyms_field=str(synonyms_field),
         )
 
-    def diff(self, compare_to: Bionty, **kwargs) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    def diff(self, compare_to: Bionty, **kwargs) -> tuple[pd.DataFrame, pd.DataFrame]:
         """Determines a diff between two Bionty objects' ontologies.
 
         Args:
@@ -587,7 +589,7 @@ class Bionty:
             >>> print(new_entries.head())
             >>> print(modified_entries.head())
         """
-        if not type(self) is type(compare_to):
+        if type(self) is not type(compare_to):
             raise ValueError("Both Bionty objects must be of the same class.")
 
         if not self.source == compare_to.source:

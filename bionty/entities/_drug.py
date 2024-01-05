@@ -1,6 +1,7 @@
 from typing import Literal, Optional
 
-from .._bionty import Bionty
+from bionty._bionty import Bionty
+
 from ._shared_docstrings import _doc_params, doc_entites
 
 
@@ -21,12 +22,12 @@ class Drug(Bionty):
         organism: Optional[Literal["all"]] = None,
         source: Optional[Literal["dron"]] = None,
         version: Optional[str] = None,
-        **kwargs
+        **kwargs,
     ) -> None:
         super().__init__(
             source=source,
             version=version,
             organism=organism,
             include_id_prefixes={"dron": ["DRON"]},
-            **kwargs
+            **kwargs,
         )

@@ -12,7 +12,7 @@ def LAMINDB_INSTANCE_LOADED():
     is_loaded = False
     lnenv_filepath = Path.home() / ".lamin/current_instance.env"
     if lnenv_filepath.exists():
-        with open(lnenv_filepath.as_posix(), "r") as f:
+        with open(lnenv_filepath.as_posix()) as f:
             is_loaded = "bionty" in f.read().split("schema_str=")[-1]
     return is_loaded
 
@@ -80,7 +80,7 @@ def create_or_update_sources_local_yaml(overwrite: bool = True) -> None:
 
 
 def parse_sources_yaml(
-    filepath: Union[str, Path] = settings.public_sources
+    filepath: Union[str, Path] = settings.public_sources,
 ) -> pd.DataFrame:
     """Parse values from sources yaml file into a DataFrame.
 
@@ -179,7 +179,7 @@ def update_local_from_public_sources_yaml() -> None:
         )
         write_yaml(updated_local_versions, settings.local_sources)
         logger.success(
-            f"wrote new records from public sources.yaml to {settings.local_sources}!\n\nif you see this message repeatedly, run: bt.reset_sources()"  # noqa
+            f"wrote new records from public sources.yaml to {settings.local_sources}!\n\nif you see this message repeatedly, run: bt.reset_sources()"
         )
 
 

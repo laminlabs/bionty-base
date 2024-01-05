@@ -1,7 +1,6 @@
+import bionty as bt
 import pandas as pd
 import pytest
-
-import bionty as bt
 
 
 @pytest.fixture(scope="module")

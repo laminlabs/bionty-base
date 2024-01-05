@@ -1,15 +1,14 @@
 from pathlib import Path
 from tempfile import NamedTemporaryFile, gettempdir
 
-from rich import print
-
 from bionty.dev._handle_sources import parse_sources_yaml
 from bionty.dev._io import s3_bionty_assets, url_download
 from bionty.dev._md5 import calculate_md5
+from rich import print
 
 df = parse_sources_yaml()
 
-for index, row in df.iterrows():
+for _index, row in df.iterrows():
     url = row["url"]
     md5 = row["md5"]
     if not md5:

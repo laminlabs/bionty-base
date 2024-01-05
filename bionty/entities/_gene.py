@@ -3,9 +3,10 @@ from typing import Dict, Iterable, Literal, Optional
 import pandas as pd
 from lamin_utils import logger
 
-from .._bionty import Bionty
-from .._settings import settings
-from ..dev._io import s3_bionty_assets
+from bionty._bionty import Bionty
+from bionty._settings import settings
+from bionty.dev._io import s3_bionty_assets
+
 from ._organism import Organism
 from ._shared_docstrings import _doc_params, doc_entites
 
@@ -49,7 +50,7 @@ class Gene(Bionty):
         if isinstance(values, str):
             values = [values]
         ensembl = EnsemblGene(organism=self.organism, version=self.version)
-        legacy_df_filename = f"df-legacy_{self.organism}__{self.source}__{self.version}__{self.__class__.__name__}.parquet"  # noqa
+        legacy_df_filename = f"df-legacy_{self.organism}__{self.source}__{self.version}__{self.__class__.__name__}.parquet"
         legacy_df_localpath = settings.dynamicdir / legacy_df_filename
         s3_bionty_assets(
             filename=legacy_df_filename,
@@ -59,7 +60,7 @@ class Gene(Bionty):
         try:
             results = pd.read_parquet(legacy_df_localpath)
         except FileNotFoundError:
-            raise NotImplementedError
+            raise NotImplementedError from None
         results = results[results.old_stable_id.isin(values)].copy()
         return ensembl._process_convert_result(results, values=values)
 
@@ -73,7 +74,7 @@ class EnsemblGene:
             version: name of the ensembl DB version, e.g. "release-110"
         """
         self._import()
-        import mysql.connector as sql  # noqa
+        import mysql.connector as sql
         from sqlalchemy import create_engine
 
         self._organism = (
@@ -86,13 +87,13 @@ class EnsemblGene:
 
     def _import(self):
         try:
-            import mysql.connector as sql  # noqa
-            from sqlalchemy import create_engine  # noqa
+            import mysql.connector as sql
+            from sqlalchemy import create_engine
         except ModuleNotFoundError:
             raise ModuleNotFoundError(
                 "To query from the Ensembl database, please run `pip install"
                 " sqlalchemy,mysqlclient`"
-            )
+            ) from None
 
     def external_dbs(self):
         return pd.read_sql("SELECT * FROM external_db", con=self._engine)
@@ -218,7 +219,7 @@ class EnsemblGene:
         results = pd.read_sql(
             "SELECT * FROM stable_id_event JOIN mapping_session USING"
             " (mapping_session_id) WHERE type = 'gene' AND new_stable_id IN"
-            f" {current_ids} AND score > 0 AND old_stable_id != new_stable_id",  # noqa
+            f" {current_ids} AND score > 0 AND old_stable_id != new_stable_id",
             con=self._engine,
         )
         return results
@@ -262,7 +263,7 @@ class EnsemblGene:
             "SELECT * FROM stable_id_event JOIN mapping_session USING"
             " (mapping_session_id) WHERE type = 'gene' AND old_stable_id IN"
             f" {legacy_genes} AND new_stable_id IN {current_ids} AND old_stable_id !="
-            " new_stable_id",  # noqa
+            " new_stable_id",
             con=self._engine,
         )
         return self._process_convert_result(results, values)

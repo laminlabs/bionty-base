@@ -1,6 +1,5 @@
-import pytest
-
 import bionty as bt
+import pytest
 from bionty._settings import settings
 
 

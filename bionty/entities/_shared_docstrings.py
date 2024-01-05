@@ -2,9 +2,9 @@ from textwrap import dedent
 
 
 def _doc_params(**kwds):  # pragma: no cover
-    """\
+    r"""\
     Docstrings should start with "\" in the first line for proper formatting.
-    """
+    """  # noqa: D205
 
     def dec(obj):
         obj.__orig_doc__ = obj.__doc__

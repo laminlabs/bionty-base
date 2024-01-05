@@ -1,8 +1,8 @@
 import os
 import tempfile
+from pathlib import Path
 
 import pytest
-
 from bionty._settings import settings
 from bionty.dev._handle_sources import (
     add_records_to_existing_dict,
@@ -55,7 +55,7 @@ def versions_yaml_replica():
         f.flush()
         yield f.name
 
-    os.unlink(f.name)
+    Path(f.name).unlink()
 
 
 @pytest.fixture(scope="function")
@@ -108,7 +108,7 @@ def new_versions_yaml_replica():
         f.flush()
         yield f.name
 
-    os.unlink(f.name)
+    Path(f.name).unlink()
 
 
 @pytest.fixture(scope="function")
@@ -123,7 +123,7 @@ def current_yaml_replica():
         f.flush()
         yield f.name
 
-    os.unlink(f.name)
+    Path(f.name).unlink()
 
 
 def test_parse_versions_yaml(versions_yaml_replica):

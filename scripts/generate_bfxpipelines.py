@@ -1,11 +1,11 @@
 import base64
-import glob
 import hashlib
 import json
 import os
 import secrets
 import string
-from typing import Dict, Optional
+from pathlib import Path
+from typing import Dict, Optional, Union
 
 from github import Github
 from rich.progress import track
@@ -49,7 +49,7 @@ def generate_nf_core_pipelines_info() -> None:
         nf_core_org.get_repos(),
         description="Fetching information from nf-core repositories...",
     ):
-        if "pipeline" in [topic for topic in repo.get_topics()]:
+        if "pipeline" in list(repo.get_topics()):
             if repo.name in blacklist:
                 continue
 
@@ -74,20 +74,21 @@ def generate_nf_core_pipelines_info() -> None:
         f.write(json_data)
 
 
-def merge_json_files(pipelines_folder_path: str, output_path: str) -> None:
+def merge_json_files(pipelines_folder_path: Union[str, Path], output_path: str) -> None:
     """Merge all JSON files in a folder and write the merged data to a new JSON file.
 
     Args:
         pipelines_folder_path: Path to the folder containing the JSON files.
         output_path: Path to the output JSON file.
     """
-    file_paths = glob.glob(pipelines_folder_path + "/*.json")
+    pipelines_folder_path = Path(pipelines_folder_path)
+    file_paths = list(pipelines_folder_path.glob("*.json"))
 
     pipeline_json: Dict = {}
 
     for file_path in file_paths:
-        with open(file_path, "r") as f:
-            if not file_path.endswith("bfxpipelines.json"):
+        with open(file_path) as f:
+            if not str(file_path).endswith("bfxpipelines.json"):
                 pipelines_info = json.load(f)
                 pipeline_json = {**pipeline_json, **pipelines_info}
 

@@ -12,7 +12,7 @@ from bionty._settings import settings
 def load_yaml(
     filename: Union[str, Path], convert_dates: bool = True
 ):  # pragma: no cover
-    with open(filename, "r") as f:
+    with open(filename) as f:
         return yaml.safe_load(f)
 
 
@@ -89,6 +89,7 @@ def s3_bionty_assets(
 
     Args:
         filename: The suffix of the assets_base_url.
+        localpath: Local base path of the file to sync.
         assets_base_url: The S3 base URL. Prefix of the filename.
 
     Returns:

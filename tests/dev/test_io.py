@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import pytest
-
 from bionty.dev._io import url_download
 
 
