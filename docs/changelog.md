@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🚚 Rename `Bionty` to `PublicOntology` class | [536](https://github.com/laminlabs/bionty/pull/536) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-12 |
 :sparkles: Replace pre-commit with Ruff config | [535](https://github.com/laminlabs/bionty/pull/535) | [Zethson](https://github.com/Zethson) | 2024-01-05 |
 Add mysql-connector-python requirement to EnsemblGene | [534](https://github.com/laminlabs/bionty/pull/534) | [Zethson](https://github.com/Zethson) | 2024-01-05 |
 🚚 Move bionty search & lookup guide to lamindb | [532](https://github.com/laminlabs/bionty/pull/532) | [falexwolf](https://github.com/falexwolf) | 2023-12-04 |
