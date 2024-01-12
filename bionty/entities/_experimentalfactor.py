@@ -38,8 +38,7 @@ class ExperimentalFactor(PublicOntology):
             **kwargs,
         )
 
-    @cached_property
-    def ontology(self) -> Ontology:  # type:ignore
+    def to_pronto(self) -> Ontology:  # type:ignore
         """The Pronto Ontology object.
 
         See: https://pronto.readthedocs.io/en/stable/api/pronto.Ontology.html
