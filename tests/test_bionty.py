@@ -33,7 +33,7 @@ def test_diff_successful():
 
 
 def test_diff_value_errors():
-    # Two different Bionty object types
+    # Two different PublicOntology object types
     disease_bt = bt.Disease()
     phenotype_bt = bt.Phenotype()
     with pytest.raises(ValueError):

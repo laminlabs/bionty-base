@@ -67,9 +67,9 @@ If desired, the new ontology can be set as default. See {doc}`./config` for more
 
 ## New entities
 
-Adding new entities to Bionty requires subclassing the {class}`bionty.Bionty` and modifying the `sources_local.yaml` file.
+Adding new entities to Bionty requires subclassing the {class}`bionty.PublicOntology` and modifying the `sources_local.yaml` file.
 
-The {class}`bionty.Bionty` requires several properties to be defined:
+The {class}`bionty.PublicOntology` requires several properties to be defined:
 
 ```python
 organism: str,
@@ -77,15 +77,15 @@ source: str,
 version: str,
 ```
 
-These are automatically populated by either the currently used Bionty sources (see {doc}`./config`) or explicitly passed as parameters when initializing an Entity.
+These are automatically populated by either the currently used PublicOntology sources (see {doc}`./config`) or explicitly passed as parameters when initializing an Entity.
 
-Hence, a new Bionty class `MyEntity` would be defined as:
+Hence, a new PublicOntology class `MyEntity` would be defined as:
 
 ```python
-from bionty import Bionty
+from bionty import PublicOntology
 
 
-class MyEntity(Bionty):
+class MyEntity(PublicOntology):
     """MyEntity."""
 
     def __init__(
@@ -119,4 +119,4 @@ MyEntity:
         md5: "md5 if available or leave out this row"
 ```
 
-Great! Now we've added a new Bionty class, which can be used with all Bionty functions! 🎉
+Great! Now we've added a new PublicOntology class, which can be used with all PublicOntology functions! 🎉

@@ -31,10 +31,10 @@ Base model of entity classes:
 .. autosummary::
    :toctree: .
 
-   Bionty
-   BiontyField
+   PublicOntology
+   PublicOntologyField
 
-Bionty sources:
+PublicOntology sources:
 
 .. autosummary::
    :toctree: .
@@ -65,11 +65,11 @@ sync_sources()
 
 # dynamic classes
 from . import dev
-
-# tools
-from ._bionty import Bionty, BiontyField
 from ._display_sources import display_available_sources, display_currently_used_sources
 from ._ontology import Ontology
+
+# tools
+from ._public_ontology import PublicOntology, PublicOntologyField
 from ._settings import settings
 
 # sources
@@ -92,6 +92,7 @@ from .entities._protein import Protein
 from .entities._tissue import Tissue
 
 # backward compat
-Entity = Bionty
+Entity = PublicOntology
+Bionty = PublicOntology
 Readout = ExperimentalFactor
 Species = Organism

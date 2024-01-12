@@ -1,12 +1,12 @@
 from typing import Literal, Optional
 
-from bionty._bionty import Bionty
+from bionty._public_ontology import PublicOntology
 
 from ._shared_docstrings import _doc_params, doc_entites
 
 
 @_doc_params(doc_entities=doc_entites)
-class Disease(Bionty):
+class Disease(PublicOntology):
     """Disease ontologies.
 
     1. Mondo

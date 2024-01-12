@@ -4,13 +4,13 @@ from typing import Dict, Literal, Optional
 import pandas as pd
 from lamin_utils import logger
 
-from bionty._bionty import Bionty
 from bionty._ontology import Ontology
+from bionty._public_ontology import PublicOntology
 from bionty.entities._shared_docstrings import _doc_params, organism_removed
 
 
 @_doc_params(doc_entities=organism_removed)
-class ExperimentalFactor(Bionty):
+class ExperimentalFactor(PublicOntology):
     """Experimental Factor.
 
     1. Experimental Factor Ontology
@@ -20,7 +20,7 @@ class ExperimentalFactor(Bionty):
     Args:
         {doc_entities}
 
-    Also see: `bionty.Bionty <https://lamin.ai/docs/bionty/bionty.entity>`__
+    Also see: `bionty.PublicOntology <https://lamin.ai/docs/bionty/bionty.entity>`__
     """
 
     def __init__(
@@ -38,8 +38,7 @@ class ExperimentalFactor(Bionty):
             **kwargs,
         )
 
-    @cached_property
-    def ontology(self) -> Ontology:  # type:ignore
+    def to_pronto(self) -> Ontology:  # type:ignore
         """The Pronto Ontology object.
 
         See: https://pronto.readthedocs.io/en/stable/api/pronto.Ontology.html

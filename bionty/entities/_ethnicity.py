@@ -1,12 +1,12 @@
 from typing import Literal, Optional
 
-from bionty._bionty import Bionty
+from bionty._public_ontology import PublicOntology
 
 from ._shared_docstrings import _doc_params, doc_entites
 
 
 @_doc_params(doc_entities=doc_entites)
-class Ethnicity(Bionty):
+class Ethnicity(PublicOntology):
     """Ethnicity.
 
     1. Human Ancestry Ontology

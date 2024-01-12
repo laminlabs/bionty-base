@@ -1,12 +1,12 @@
 from typing import Literal, Optional
 
-from bionty._bionty import Bionty
+from bionty._public_ontology import PublicOntology
 
 from ._shared_docstrings import _doc_params, doc_entites
 
 
 @_doc_params(doc_entities=doc_entites)
-class DevelopmentalStage(Bionty):
+class DevelopmentalStage(PublicOntology):
     """Developmental Stage.
 
     1. Developmental Stage Ontology

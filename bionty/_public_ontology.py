@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import logging
-from functools import cached_property
 from typing import (
     TYPE_CHECKING,
     Iterable,
@@ -26,10 +25,10 @@ if TYPE_CHECKING:
 
 
 def encode_filenames(
-    organism: str, source: str, version: str, entity: Bionty | str
+    organism: str, source: str, version: str, entity: PublicOntology | str
 ) -> tuple[str, str]:
     """Encode names of the cached files."""
-    if isinstance(entity, Bionty):
+    if isinstance(entity, PublicOntology):
         entity_name = entity.__class__.__name__
     else:
         entity_name = entity
@@ -41,8 +40,8 @@ def encode_filenames(
     return parquet_filename, ontology_filename
 
 
-class Bionty:
-    """Bionty base model."""
+class PublicOntology:
+    """PublicOntology object."""
 
     def __init__(
         self,
@@ -76,7 +75,7 @@ class Bionty:
                     f"please consider:\n"
                     f"    close your instance via `lamin close` and use Bionty stand alone\n"
                     f"    OR\n"
-                    f"    modify currently_used {self.__class__.__name__} source in `lnschema_bionty.BiontySource`"
+                    f"    modify currently_used {self.__class__.__name__} source in `lnschema_bionty.PublicSource`"
                 )
                 # fmt: on
 
@@ -105,33 +104,34 @@ class Bionty:
         # set column names/fields as attributes
         for col_name in self._df.columns:
             try:
-                setattr(self, col_name, BiontyField(self, col_name))
-            # Some fields of an ontology (e.g. Gene) are not Bionty class attributes and must be skipped.
+                setattr(self, col_name, PublicOntologyField(self, col_name))
+            # Some fields of an ontology (e.g. Gene) are not PublicOntology class attributes and must be skipped.
             except AttributeError:
                 pass
 
     def __repr__(self) -> str:
         # fmt: off
         representation = (
-            f"{self.__class__.__name__}\n"
+            f"PublicOntology\n"
+            f"Entity: {self.__class__.__name__}\n"
             f"Organism: {self.organism}\n"
             f"Source: {self.source}, {self.version}\n"
             f"#terms: {self._df.shape[0] if hasattr(self, '_df') else ''}\n\n"
-            f"📖 {self.__class__.__name__}.df(): ontology reference table\n"
-            f"🔎 {self.__class__.__name__}.lookup(): autocompletion of terms\n"
-            f"🎯 {self.__class__.__name__}.search(): free text search of terms\n"
-            f"✅ {self.__class__.__name__}.validate(): strictly validate values\n"
-            f"🧐 {self.__class__.__name__}.inspect(): full inspection of values\n"
-            f"👽 {self.__class__.__name__}.standardize(): convert to standardized names\n"
-            f"🪜 {self.__class__.__name__}.diff(): difference between two versions\n"
-            f"🔗 {self.__class__.__name__}.ontology: Pronto.Ontology object"
+            f"📖 .df(): ontology reference table\n"
+            f"🔎 .lookup(): autocompletion of terms\n"
+            f"🎯 .search(): free text search of terms\n"
+            f"✅ .validate(): strictly validate values\n"
+            f"🧐 .inspect(): full inspection of values\n"
+            f"👽 .standardize(): convert to standardized names\n"
+            f"🪜 .diff(): difference between two versions\n"
+            f"🔗 .to_pronto(): Pronto.Ontology object"
         )
         # fmt: on
         return representation
 
     @property
     def organism(self):
-        """The `name` of `Organism` Bionty."""
+        """The `name` of `Organism`."""
         return self._organism
 
     @property
@@ -141,12 +141,12 @@ class Bionty:
 
     @property
     def version(self):
-        """The `name` of `version` entity Bionty."""
+        """Version of the source."""
         return self._version
 
     @property
     def fields(self) -> set:
-        """All Bionty entity fields."""
+        """All PublicOntology entity fields."""
         blacklist = {"include_id_prefixes"}
         fields = {
             field
@@ -154,23 +154,6 @@ class Bionty:
             if not callable(getattr(self, field)) and not field.startswith("_")
         }
         return fields - blacklist
-
-    @cached_property
-    def ontology(self):
-        """The Pronto Ontology object.
-
-        See: https://pronto.readthedocs.io/en/stable/api/pronto.Ontology.html
-        """
-        if self._local_ontology_path is None:
-            logger.error(f"{self.__class__.__name__} has no Pronto Ontology object!")
-            return
-        else:
-            self._download_ontology_file(
-                localpath=self._local_ontology_path,
-                url=self._url,
-                md5=self._md5,
-            )
-            return Ontology(handle=self._local_ontology_path)
 
     def _download_ontology_file(self, localpath: Path, url: str, md5: str = "") -> None:
         """Download ontology source file to _local_ontology_path."""
@@ -299,7 +282,7 @@ class Bionty:
         else:
             self._local_ontology_path = settings.dynamicdir / self._ontology_filename
 
-    def _get_default_field(self, field: BiontyField | str | None = None) -> str:
+    def _get_default_field(self, field: PublicOntologyField | str | None = None) -> str:
         """Default to name field."""
         if field is None:
             if "name" in self._df.columns:
@@ -325,7 +308,7 @@ class Bionty:
         # If download is not possible, write a parquet file of the ontology df
         if not self._url.endswith("parquet"):
             if not self._local_parquet_path.exists():
-                df = self.ontology.to_df(
+                df = self.to_pronto().to_df(
                     source=self.source, include_id_prefixes=self.include_id_prefixes
                 )
                 df.to_parquet(self._local_parquet_path)
@@ -333,6 +316,22 @@ class Bionty:
         # Loading the parquet file resets the index
         df = pd.read_parquet(self._local_parquet_path)
         return df
+
+    def to_pronto(self):
+        """The Pronto Ontology object.
+
+        See: https://pronto.readthedocs.io/en/stable/api/pronto.Ontology.html
+        """
+        if self._local_ontology_path is None:
+            logger.error(f"{self.__class__.__name__} has no Pronto Ontology object!")
+            return
+        else:
+            self._download_ontology_file(
+                localpath=self._local_ontology_path,
+                url=self._url,
+                md5=self._md5,
+            )
+            return Ontology(handle=self._local_ontology_path)
 
     def df(self) -> pd.DataFrame:
         """Pandas DataFrame of the ontology.
@@ -352,7 +351,7 @@ class Bionty:
     def validate(
         self,
         values: Iterable,
-        field: BiontyField,
+        field: PublicOntologyField,
         *,
         mute: bool = False,
         **kwargs,
@@ -375,7 +374,7 @@ class Bionty:
     def inspect(
         self,
         values: Iterable,
-        field: BiontyField,
+        field: PublicOntologyField,
         *,
         mute: bool = False,
         **kwargs,
@@ -384,7 +383,7 @@ class Bionty:
 
         Args:
             values: Identifiers that will be checked against the field.
-            field: The BiontyField of the ontology to compare against.
+            field: The PublicOntologyField of the ontology to compare against.
                    Examples are 'ontology_id' to map against the source ID
                    or 'name' to map against the ontologies field names.
             return_df: Whether to return a Pandas DataFrame.
@@ -398,9 +397,9 @@ class Bionty:
 
         Examples:
             >>> import bionty as bt
-            >>> gene_bt = bt.Gene()
+            >>> public = bt.Gene()
             >>> gene_symbols = ["A1CF", "A1BG", "FANCD1", "FANCD20"]
-            >>> gene_bt.inspect(gene_symbols, field=gene_bt.symbol)
+            >>> public.inspect(gene_symbols, field=public.symbol)
         """
         from lamin_utils._inspect import inspect
 
@@ -419,14 +418,14 @@ class Bionty:
     def standardize(
         self,
         values: Iterable,
-        field: BiontyField | str | None = None,
+        field: PublicOntologyField | str | None = None,
         *,
         return_field: str = None,
         return_mapper: bool = False,
         case_sensitive: bool = False,
         mute: bool = False,
         keep: Literal["first", "last", False] = "first",
-        synonyms_field: BiontyField | str = "synonyms",
+        synonyms_field: PublicOntologyField | str = "synonyms",
     ) -> dict[str, str] | list[str]:
         """Convert into standardized names.
 
@@ -454,9 +453,9 @@ class Bionty:
 
         Examples:
             >>> import bionty as bt
-            >>> gene_bt = bt.Gene()
+            >>> public = bt.Gene()
             >>> gene_symbols = ["A1CF", "A1BG", "FANCD1", "FANCD20"]
-            >>> standardized_symbols = gene_bt.standardize(gene_symbols, gene_bt.symbol)
+            >>> standardized_symbols = public.standardize(gene_symbols, public.symbol)
         """
         from lamin_utils._standardize import standardize as map_synonyms
 
@@ -482,8 +481,8 @@ class Bionty:
         return_mapper: bool = False,
         case_sensitive: bool = False,
         keep: Literal["first", "last", False] = "first",
-        synonyms_field: BiontyField | str = "synonyms",
-        field: BiontyField | str | None = None,
+        synonyms_field: PublicOntologyField | str = "synonyms",
+        field: PublicOntologyField | str | None = None,
     ) -> dict[str, str] | list[str]:
         """Maps input synonyms to standardized names."""
         logger.warning("`map_synonyms()` is deprecated, use `.standardize()`!'")
@@ -496,8 +495,8 @@ class Bionty:
             field=field,
         )
 
-    def lookup(self, field: BiontyField | str | None = None) -> tuple:
-        """An auto-complete object for a Bionty field.
+    def lookup(self, field: PublicOntologyField | str | None = None) -> tuple:
+        """An auto-complete object for a PublicOntology field.
 
         Args:
             field: The field to lookup the values for.
@@ -524,16 +523,16 @@ class Bionty:
         self,
         string: str,
         *,
-        field: BiontyField | str | None = None,
+        field: PublicOntologyField | str | None = None,
         limit: int | None = None,
         case_sensitive: bool = False,
-        synonyms_field: BiontyField | str | None = "synonyms",
+        synonyms_field: PublicOntologyField | str | None = "synonyms",
     ):
-        """Search a given string against a Bionty field.
+        """Search a given string against a PublicOntology field.
 
         Args:
             string: The input string to match against the field values.
-            field: The BiontyField of the ontology the input string is matching against.
+            field: The PublicOntologyField of the ontology the input string is matching against.
             top_hit: Return all entries ranked by matching ratios.
                 If True, only return the top match.
                 Defaults to False.
@@ -548,8 +547,8 @@ class Bionty:
 
         Examples:
             >>> import bionty as bt
-            >>> celltype_bt = bt.CellType()
-            >>> celltype_bt.search("gamma delta T cell")
+            >>> public = bt.CellType()
+            >>> public.search("gamma delta T cell")
         """
         from lamin_utils._search import search
 
@@ -562,11 +561,13 @@ class Bionty:
             synonyms_field=str(synonyms_field),
         )
 
-    def diff(self, compare_to: Bionty, **kwargs) -> tuple[pd.DataFrame, pd.DataFrame]:
-        """Determines a diff between two Bionty objects' ontologies.
+    def diff(
+        self, compare_to: PublicOntology, **kwargs
+    ) -> tuple[pd.DataFrame, pd.DataFrame]:
+        """Determines a diff between two PublicOntology objects' ontologies.
 
         Args:
-            compare_to: Bionty object that must be of the same class as the calling object.
+            compare_to: PublicOntology object that must be of the same class as the calling object.
             kwargs: Are passed to pd.DataFrame.compare()
 
         Returns:
@@ -576,20 +577,20 @@ class Bionty:
 
         Examples:
             >>> import bionty as bt
-            >>> disease_bt_1 = bt.Disease(source="mondo", version="2023-04-04")
-            >>> disease_bt_2 = bt.Disease(source="mondo", version="2023-04-04")
-            >>> new_entries, modified_entries = disease_bt_1.diff(disease_bt_2)
+            >>> public_1 = bt.Disease(source="mondo", version="2023-04-04")
+            >>> public_2 = bt.Disease(source="mondo", version="2023-04-04")
+            >>> new_entries, modified_entries = public_1.diff(public_2)
             >>> print(new_entries.head())
             >>> print(modified_entries.head())
         """
         if type(self) is not type(compare_to):
-            raise ValueError("Both Bionty objects must be of the same class.")
+            raise ValueError("Both PublicOntology objects must be of the same class.")
 
         if not self.source == compare_to.source:
-            raise ValueError("Both Bionty objects must use the same source.")
+            raise ValueError("Both PublicOntology objects must use the same source.")
 
         if self.version == compare_to.version:
-            raise ValueError("The versions of the Bionty objects must differ.")
+            raise ValueError("The versions of the PublicOntology objects must differ.")
 
         # The 'parents' column (among potentially others) contain Numpy array values.
         # We transform them to tuples to determine the diff.
@@ -623,10 +624,10 @@ class Bionty:
         return new_entries, modified_entries
 
 
-class BiontyField:
-    """Field of a Bionty model."""
+class PublicOntologyField:
+    """Field of a PublicOntology model."""
 
-    def __init__(self, parent: Bionty, name: str):
+    def __init__(self, parent: PublicOntology, name: str):
         self.parent = parent
         self.name = name
 

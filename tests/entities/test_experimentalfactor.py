@@ -25,7 +25,7 @@ def test_efo_experimental_factor_inspect_ontology_id():
 
 def test_parse_efo_term():
     ro = bt.ExperimentalFactor(source="efo")
-    ontology = ro.ontology
+    ontology = ro.to_pronto()
     res = _parse_efo_term(term_id="EFO:0008913", ontology=ontology)
 
     assert res == {
