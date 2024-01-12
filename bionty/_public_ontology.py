@@ -155,22 +155,6 @@ class PublicOntology:
         }
         return fields - blacklist
 
-    def to_pronto(self):
-        """The Pronto Ontology object.
-
-        See: https://pronto.readthedocs.io/en/stable/api/pronto.Ontology.html
-        """
-        if self._local_ontology_path is None:
-            logger.error(f"{self.__class__.__name__} has no Pronto Ontology object!")
-            return
-        else:
-            self._download_ontology_file(
-                localpath=self._local_ontology_path,
-                url=self._url,
-                md5=self._md5,
-            )
-            return Ontology(handle=self._local_ontology_path)
-
     def _download_ontology_file(self, localpath: Path, url: str, md5: str = "") -> None:
         """Download ontology source file to _local_ontology_path."""
         if not localpath.exists():
@@ -332,6 +316,22 @@ class PublicOntology:
         # Loading the parquet file resets the index
         df = pd.read_parquet(self._local_parquet_path)
         return df
+
+    def to_pronto(self):
+        """The Pronto Ontology object.
+
+        See: https://pronto.readthedocs.io/en/stable/api/pronto.Ontology.html
+        """
+        if self._local_ontology_path is None:
+            logger.error(f"{self.__class__.__name__} has no Pronto Ontology object!")
+            return
+        else:
+            self._download_ontology_file(
+                localpath=self._local_ontology_path,
+                url=self._url,
+                md5=self._md5,
+            )
+            return Ontology(handle=self._local_ontology_path)
 
     def df(self) -> pd.DataFrame:
         """Pandas DataFrame of the ontology.
