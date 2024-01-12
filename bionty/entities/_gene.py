@@ -3,8 +3,8 @@ from typing import Dict, Iterable, Literal, Optional
 import pandas as pd
 from lamin_utils import logger
 
+from bionty._public_ontology import PublicOntology
 from bionty._settings import settings
-from bionty.bionty._public_ontology import PublicOntology
 from bionty.dev._io import s3_bionty_assets
 
 from ._organism import Organism
