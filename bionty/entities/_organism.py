@@ -2,13 +2,13 @@ from typing import Literal, Optional
 
 import pandas as pd
 
-from bionty._bionty import Bionty
+from bionty.bionty._public_ontology import PublicOntology
 from bionty.dev._io import s3_bionty_assets
 from bionty.entities._shared_docstrings import _doc_params, organism_removed
 
 
 @_doc_params(doc_entities=organism_removed)
-class Organism(Bionty):
+class Organism(PublicOntology):
     """Organism.
 
     1. Organism ontology

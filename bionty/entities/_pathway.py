@@ -1,12 +1,12 @@
 from typing import Literal, Optional
 
-from bionty._bionty import Bionty
+from bionty.bionty._public_ontology import PublicOntology
 
 from ._shared_docstrings import _doc_params, doc_entites
 
 
 @_doc_params(doc_entities=doc_entites)
-class Pathway(Bionty):
+class Pathway(PublicOntology):
     """Pathway.
 
     1. Gene Ontology

@@ -1,8 +1,8 @@
 def _upload_ontology_artifacts(instance: str, lamindb_user: str, lamindb_password: str):
     import bionty as bt
     import lamindb as ln
-    from bionty._bionty import encode_filenames
     from bionty._settings import settings
+    from bionty.bionty._public_ontology import encode_filenames
 
     ln.setup.login(lamindb_user, password=lamindb_password)
     ln.setup.load(instance)
@@ -32,9 +32,9 @@ def _upload_ontology_artifacts(instance: str, lamindb_user: str, lamindb_passwor
         if not queryset.filter(key=ontology_filename).exists():
             local_ontology_filename = settings.dynamicdir / ontology_filename
             if not local_ontology_filename.exists():
-                getattr(bt, entity)(  # noqa: B018
+                getattr(bt, entity)(
                     organism=row.organism, source=row.source, version=row.version
-                ).ontology
+                ).to_pronto()
             file = ln.File(local_ontology_filename, key=ontology_filename)
             files.append(file)
     if len(files) > 0:

@@ -3,8 +3,8 @@ from typing import Dict, Iterable, Literal, Optional
 import pandas as pd
 from lamin_utils import logger
 
-from bionty._bionty import Bionty
 from bionty._settings import settings
+from bionty.bionty._public_ontology import PublicOntology
 from bionty.dev._io import s3_bionty_assets
 
 from ._organism import Organism
@@ -12,7 +12,7 @@ from ._shared_docstrings import _doc_params, doc_entites
 
 
 @_doc_params(doc_entities=doc_entites)
-class Gene(Bionty):
+class Gene(PublicOntology):
     """Gene.
 
     1. Ensembl
