@@ -157,6 +157,19 @@ Disease:
         md5: 9f0c92ad2896dda82195e9226a06dc36
     name: Human Disease Ontology
     website: https://disease-ontology.org
+  icd:
+    human:
+      icd-11-2023:
+        url: s3://bionty-assets/df_human__icd__icd-11-2023__Disease.parquet
+        md5: 16263aef644d2c62c47b7b1ecfbad9d6
+      icd-10-2020:
+        url: s3://bionty-assets/df_human__icd__icd-10-2020__Disease.parquet
+        md5: 93ec5734fcc2edd64686d5ffc6f6105f
+      icd-9-2011:
+        url: s3://bionty-assets/df_human__icd__icd-9-2011__Disease.parquet
+        md5: cb3aefb3c4f7b2c47bf3de38453350c7
+    name: International Classification of Diseases (ICD)
+    website: https://www.cdc.gov/nchs/icd/icd9cm.htm
 ExperimentalFactor:
   efo:
     all:

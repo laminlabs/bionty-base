@@ -17,6 +17,10 @@ class Disease(PublicOntology):
     Edits of terms are coordinated and reviewed on:
     https://github.com/DiseaseOntology/HumanDiseaseOntology
 
+    3. International Classification of Diseases (ICD)
+    Edits of terms are coordinated and reviewed on:
+    https://www.who.int/standards/classifications/classification-of-diseases
+
     Args:
         {doc_entities}
     """
@@ -24,7 +28,7 @@ class Disease(PublicOntology):
     def __init__(
         self,
         organism: Optional[Literal["all", "human"]] = None,
-        source: Optional[Literal["mondo", "doid"]] = None,
+        source: Optional[Literal["mondo", "doid", "icd"]] = None,
         version: Optional[str] = None,
         **kwargs,
     ) -> None:
