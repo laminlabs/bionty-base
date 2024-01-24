@@ -163,10 +163,10 @@ Disease:
         url: s3://bionty-assets/df_human__icd__icd-11-2023__Disease.parquet
         md5: 16263aef644d2c62c47b7b1ecfbad9d6
       icd-10-2020:
-        url: s3://bionty-assets/icd_10_cm_2020.parquet
+        url: s3://bionty-assets/df_human__icd__icd-10-2020__Disease.parquet
         md5: 93ec5734fcc2edd64686d5ffc6f6105f
       icd-9-2011:
-        url: s3://bionty-assets/terminology__icd_9_cm.parquet
+        url: s3://bionty-assets/df_human__icd__icd-9-2011__Disease.parquet
         md5: cb3aefb3c4f7b2c47bf3de38453350c7
     name: International Classification of Diseases (ICD)
     website: https://www.cdc.gov/nchs/icd/icd9cm.htm
