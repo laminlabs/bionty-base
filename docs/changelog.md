@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+Add ICD ontology | [538](https://github.com/laminlabs/bionty/pull/538) | [Zethson](https://github.com/Zethson) | 2024-01-24 |
 🚚 Rename `Bionty` to `PublicOntology` class | [536](https://github.com/laminlabs/bionty/pull/536) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-12 | 0.36.0
 :sparkles: Replace pre-commit with Ruff config | [535](https://github.com/laminlabs/bionty/pull/535) | [Zethson](https://github.com/Zethson) | 2024-01-05 |
 Add mysql-connector-python requirement to EnsemblGene | [534](https://github.com/laminlabs/bionty/pull/534) | [Zethson](https://github.com/Zethson) | 2024-01-05 |
