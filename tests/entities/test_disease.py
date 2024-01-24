@@ -80,3 +80,23 @@ def test_icd_10_disease_inspect_name():
     expected_series = pd.Series([True, True, True, True, False])
 
     assert inspect.equals(expected_series)
+
+
+def test_icd_11_disease_inspect_name():
+    df = pd.DataFrame(
+        index=[
+            "Certain infectious or parasitic diseases",
+            "Cholera",
+            "Intestinal infection due to other Vibrio",
+            "Gastroenteritis or colitis of infectious origin",
+            "This disease does not exist",
+        ]
+    )
+
+    ds = bt.Disease(source="icd", version="icd-11-2023")
+    inspected_df = ds.inspect(df.index, field=ds.name, return_df=True)
+
+    inspect = inspected_df["__validated__"].reset_index(drop=True)
+    expected_series = pd.Series([True, True, True, True, False])
+
+    assert inspect.equals(expected_series)

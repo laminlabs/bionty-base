@@ -86,7 +86,6 @@ def _parse_efo_term(
     term = ontology.get_term(term_id)
     superclasses = term.superclasses()
 
-    # assay = _list_subclasses(readout_terms["assay"])
     assay_by_molecule = _list_subclasses(ontology, readout_terms["assay_by_molecule"])
     assay_by_instrument = _list_subclasses(
         ontology, readout_terms["assay_by_instrument"]
@@ -95,13 +94,10 @@ def _parse_efo_term(
     assay_by_sequencer = _list_subclasses(ontology, readout_terms["assay_by_sequencer"])
     measurement = _list_subclasses(ontology, readout_terms["measurement"])
 
-    # get the molecule term
     molecules = [i for i in assay_by_molecule if i in superclasses]
-    # get the instrument term
     instruments = [i for i in assay_by_sequencer if i in superclasses]
     if len(instruments) == 0:
         instruments = [i for i in assay_by_instrument if i in superclasses]
-    # get the measurement for non-molecular readouts
     measurements = [i for i in measurement if i in superclasses]
 
     readout = {
@@ -124,14 +120,13 @@ def efo_to_df(
     df = ontology.to_df(
         source=source, include_id_prefixes=include_id_prefixes
     ).reset_index()
-    # fix ontology_id before saving to parquet
     df["ontology_id"] = [
         i.replace(prefix, "").replace("_", ":") for i in df["ontology_id"]
     ]
     df["parents"] = [
         [j.replace(prefix, "").replace("_", ":") for j in i] for i in df["parents"]
     ]
-    # parse terms
+
     logger.info("parsing EFO terms for the first time will take 6-10min...")
     parsed_results = []
     for term in df["ontology_id"]:
