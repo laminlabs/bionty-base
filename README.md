@@ -1,8 +1,7 @@
-[![Stars](https://img.shields.io/github/stars/laminlabs/bionty?logo=GitHub&color=yellow)](https://github.com/laminlabs/bionty)
 [![Coverage](https://codecov.io/gh/laminlabs/bionty/branch/main/graph/badge.svg?token=8292E0S0Z7)](https://codecov.io/gh/laminlabs/bionty)
-[![pypi](https://img.shields.io/pypi/v/bionty?color=blue&label=pypi%20package)](https://pypi.org/project/bionty)
+[![pypi](https://img.shields.io/pypi/v/bionty-base?color=blue&label=pypi%20package)](https://pypi.org/project/bionty-base)
 
-# Bionty
+# Bionty-base
 
 Access public biological ontologies.
 
@@ -11,10 +10,10 @@ Access public biological ontologies.
 
 ## Installation
 
-Bionty is a Python package available for ![pyversions](https://img.shields.io/pypi/pyversions/bionty)
+Bionty-base is a Python package available for ![pyversions](https://img.shields.io/pypi/pyversions/bionty-base)
 
 ```shell
-pip install bionty
+pip install bionty-base
 ```
 
 ## Entities
