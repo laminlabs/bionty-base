@@ -19,7 +19,7 @@ The content of this file is identical to the public `sources.yaml` for a freshly
 ## Display sources
 
 The available and currently active ontologies can also be printed with
-{func}`bionty.display_available_sources` or {func}`bionty.display_currently_used_sources`.
+{func}`bionty_base.display_available_sources` or {func}`bionty_base.display_currently_used_sources`.
 
 ## Format of the sources yaml file
 

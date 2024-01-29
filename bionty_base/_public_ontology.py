@@ -238,7 +238,7 @@ class PublicOntology:
         if row.shape[0] == 0:
             raise ValueError(
                 f"No source is available with {kwargs}\nCheck"
-                " `bionty.display_available_sources()`"
+                " `.display_available_sources()`"
             )
         return row.to_dict(orient="records")[0]
 

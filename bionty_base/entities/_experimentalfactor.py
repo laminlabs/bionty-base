@@ -20,7 +20,7 @@ class ExperimentalFactor(PublicOntology):
     Args:
         {doc_entities}
 
-    Also see: `bionty.PublicOntology <https://lamin.ai/docs/bionty/bionty.entity>`__
+    Also see: `bionty_base.PublicOntology <https://lamin.ai/docs/bionty/bionty.entity>`__
     """
 
     def __init__(
