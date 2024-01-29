@@ -1,8 +1,8 @@
 from pathlib import Path
 
-import bionty as bt
-from bionty._settings import settings
-from bionty.dev._handle_sources import LAMINDB_INSTANCE_LOADED
+import bionty_base as bt
+from bionty_base._settings import settings
+from bionty_base.dev._handle_sources import LAMINDB_INSTANCE_LOADED
 
 
 def test_loaded_lamindb():

@@ -1,7 +1,7 @@
 from pathlib import Path
 
 import pytest
-from bionty.dev._io import url_download
+from bionty_base.dev._io import url_download
 
 
 @pytest.fixture

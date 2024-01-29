@@ -3,7 +3,7 @@ requires = ["flit_core >=3.2,<4"]
 build-backend = "flit_core.buildapi"
 
 [project]
-name = "bionty"
+name = "bionty-base"
 requires-python = ">=3.8"
 authors = [{name = "Lamin Labs", email = "laminlabs@gmail.com"}]
 readme = "README.md"
@@ -28,7 +28,7 @@ dependencies = [
 ]
 
 [project.urls]
-Home = "https://github.com/laminlabs/bionty"
+Home = "https://github.com/laminlabs/bionty-base"
 
 [project.optional-dependencies]
 dev = [
@@ -49,7 +49,7 @@ testpaths = [
 ]
 
 [tool.ruff]
-src = ["bionty"]
+src = ["bionty_base"]
 line-length = 88
 select = [
     "F",  # Errors detected by Pyflakes

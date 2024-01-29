@@ -1,4 +1,4 @@
-import bionty as bt
+import bionty_base as bt
 
 
 def test_ncbi_biosample():

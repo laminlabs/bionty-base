@@ -1,17 +1,17 @@
 from typing import Literal, Optional
 
-from bionty._public_ontology import PublicOntology
+from bionty_base._public_ontology import PublicOntology
 
 from ._shared_docstrings import _doc_params, doc_entites
 
 
 @_doc_params(doc_entities=doc_entites)
-class CellType(PublicOntology):
-    """Cell type ontologies.
+class Ethnicity(PublicOntology):
+    """Ethnicity.
 
-    1. Cell ontology
+    1. Human Ancestry Ontology
     Edits of terms are coordinated and reviewed on:
-    https://github.com/obophenotype/cell-ontology
+    https://github.com/EBISPOT/hancestro
 
     Args:
         {doc_entities}
@@ -19,8 +19,8 @@ class CellType(PublicOntology):
 
     def __init__(
         self,
-        organism: Optional[Literal["all"]] = None,
-        source: Optional[Literal["cl"]] = None,
+        organism: Optional[Literal["human"]] = None,
+        source: Optional[Literal["hancestro"]] = None,
         version: Optional[str] = None,
         **kwargs,
     ) -> None:
@@ -28,6 +28,6 @@ class CellType(PublicOntology):
             source=source,
             version=version,
             organism=organism,
-            include_id_prefixes={"cl": ["CL"]},
+            include_id_prefixes={"hancestro": ["HANCESTRO"]},
             **kwargs,
         )

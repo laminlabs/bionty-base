@@ -6,7 +6,7 @@ import requests  # type:ignore
 import yaml  # type:ignore
 from rich.progress import Progress
 
-from bionty._settings import settings
+from bionty_base._settings import settings
 
 
 def load_yaml(

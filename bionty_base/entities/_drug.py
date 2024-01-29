@@ -1,17 +1,17 @@
 from typing import Literal, Optional
 
-from bionty._public_ontology import PublicOntology
+from bionty_base._public_ontology import PublicOntology
 
 from ._shared_docstrings import _doc_params, doc_entites
 
 
 @_doc_params(doc_entities=doc_entites)
-class DevelopmentalStage(PublicOntology):
-    """Developmental Stage.
+class Drug(PublicOntology):
+    """Drug ontologies.
 
-    1. Developmental Stage Ontology
+    1. DRON
     Edits of terms are coordinated and reviewed on:
-    https://github.com/obophenotype/developmental-stage-ontologies
+    https://bioportal.bioontology.org/ontologies/DRON/
 
     Args:
         {doc_entities}
@@ -19,8 +19,8 @@ class DevelopmentalStage(PublicOntology):
 
     def __init__(
         self,
-        organism: Optional[Literal["human", "mouse"]] = None,
-        source: Optional[Literal["hsapdv", "mmusdv"]] = None,
+        organism: Optional[Literal["all"]] = None,
+        source: Optional[Literal["dron"]] = None,
         version: Optional[str] = None,
         **kwargs,
     ) -> None:
@@ -28,6 +28,6 @@ class DevelopmentalStage(PublicOntology):
             source=source,
             version=version,
             organism=organism,
-            include_id_prefixes={"hsapdv": ["HsapDv"], "mmusdv": ["MmusDv"]},
+            include_id_prefixes={"dron": ["DRON"]},
             **kwargs,
         )

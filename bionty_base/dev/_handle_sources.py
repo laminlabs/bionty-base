@@ -4,8 +4,8 @@ from typing import Dict, List, Literal, Union
 import pandas as pd
 from lamin_utils import logger
 
-from bionty._settings import settings
-from bionty.dev._io import load_yaml, write_yaml
+from bionty_base._settings import settings
+from bionty_base.dev._io import load_yaml, write_yaml
 
 
 def LAMINDB_INSTANCE_LOADED():
@@ -21,7 +21,7 @@ def reset_sources(confirm: bool = False) -> None:
     """Reset local bionty sources file."""
     from importlib import reload
 
-    import bionty
+    import bionty_base
 
     def _confirm() -> bool:
         """Ask user to enter Y or N (case-insensitive).
@@ -57,7 +57,7 @@ def reset_sources(confirm: bool = False) -> None:
         except FileNotFoundError:
             pass
 
-        reload(bionty)
+        reload(bionty_base)
         logger.info("reloaded bionty!")
 
 

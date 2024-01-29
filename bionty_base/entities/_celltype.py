@@ -1,17 +1,17 @@
 from typing import Literal, Optional
 
-from bionty._public_ontology import PublicOntology
+from bionty_base._public_ontology import PublicOntology
 
 from ._shared_docstrings import _doc_params, doc_entites
 
 
 @_doc_params(doc_entities=doc_entites)
-class CellLine(PublicOntology):
-    """Cell line.
+class CellType(PublicOntology):
+    """Cell type ontologies.
 
-    1. Cell Line Ontology
+    1. Cell ontology
     Edits of terms are coordinated and reviewed on:
-    https://github.com/CLO-ontology/CLO
+    https://github.com/obophenotype/cell-ontology
 
     Args:
         {doc_entities}
@@ -20,7 +20,7 @@ class CellLine(PublicOntology):
     def __init__(
         self,
         organism: Optional[Literal["all"]] = None,
-        source: Optional[Literal["clo"]] = None,
+        source: Optional[Literal["cl"]] = None,
         version: Optional[str] = None,
         **kwargs,
     ) -> None:
@@ -28,6 +28,6 @@ class CellLine(PublicOntology):
             source=source,
             version=version,
             organism=organism,
-            include_id_prefixes={"clo": ["CLO"]},
+            include_id_prefixes={"cl": ["CL"]},
             **kwargs,
         )

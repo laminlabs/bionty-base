@@ -2,9 +2,9 @@ from typing import Literal, Optional
 
 import pandas as pd
 
-from bionty._public_ontology import PublicOntology
-from bionty.dev._io import s3_bionty_assets
-from bionty.entities._shared_docstrings import _doc_params, organism_removed
+from bionty_base._public_ontology import PublicOntology
+from bionty_base.dev._io import s3_bionty_assets
+from bionty_base.entities._shared_docstrings import _doc_params, organism_removed
 
 
 @_doc_params(doc_entities=organism_removed)
@@ -72,7 +72,7 @@ class Organism(PublicOntology):
             A Pandas DataFrame of the ontology.
 
         Examples:
-            >>> import bionty as bt
+            >>> import bionty_base as bt
             >>> bt.Organism().df()
         """
         return self._df.set_index("name")

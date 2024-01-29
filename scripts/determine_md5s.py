@@ -1,9 +1,9 @@
 from pathlib import Path
 from tempfile import NamedTemporaryFile, gettempdir
 
-from bionty.dev._handle_sources import parse_sources_yaml
-from bionty.dev._io import s3_bionty_assets, url_download
-from bionty.dev._md5 import calculate_md5
+from bionty_base.dev._handle_sources import parse_sources_yaml
+from bionty_base.dev._io import s3_bionty_assets, url_download
+from bionty_base.dev._md5 import calculate_md5
 from rich import print
 
 df = parse_sources_yaml()

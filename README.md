@@ -43,7 +43,7 @@ Didn't see your favorite source or version? Bionty is [extendable](https://lamin
 ## Entity versions
 
 ```python
-import bionty as bt
+import bionty_base as bt
 
 # display currently used sources
 bt.display_currently_used_sources()

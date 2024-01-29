@@ -3,8 +3,8 @@ import tempfile
 from pathlib import Path
 
 import pytest
-from bionty._settings import settings
-from bionty.dev._handle_sources import (
+from bionty_base._settings import settings
+from bionty_base.dev._handle_sources import (
     add_records_to_existing_dict,
     parse_currently_used_sources,
     parse_sources_yaml,
@@ -12,7 +12,7 @@ from bionty.dev._handle_sources import (
     reset_sources,
     update_local_from_public_sources_yaml,
 )
-from bionty.dev._io import load_yaml, write_yaml
+from bionty_base.dev._io import load_yaml, write_yaml
 
 
 @pytest.fixture(scope="function")

@@ -1,4 +1,3 @@
-import os
 import re
 import urllib.request
 from http.client import BadStatusLine

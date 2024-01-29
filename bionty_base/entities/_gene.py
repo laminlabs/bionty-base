@@ -3,9 +3,9 @@ from typing import Dict, Iterable, Literal, Optional
 import pandas as pd
 from lamin_utils import logger
 
-from bionty._public_ontology import PublicOntology
-from bionty._settings import settings
-from bionty.dev._io import s3_bionty_assets
+from bionty_base._public_ontology import PublicOntology
+from bionty_base._settings import settings
+from bionty_base.dev._io import s3_bionty_assets
 
 from ._organism import Organism
 from ._shared_docstrings import _doc_params, doc_entites
