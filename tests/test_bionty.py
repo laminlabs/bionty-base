@@ -1,6 +1,6 @@
-import bionty as bt
+import bionty_base as bt
 import pytest
-from bionty._settings import settings
+from bionty_base._settings import settings
 
 
 def test_unavailable_sources():

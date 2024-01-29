@@ -52,6 +52,6 @@ repos:
           ["types-pkg-resources", "types-requests", "types-attrs"]
         exclude: |
           (?x)(
-              __init__.py | bionty/entities/_shared_docstrings.py|
+              __init__.py | bionty_base/entities/_shared_docstrings.py|
               test_notebooks.py
           )

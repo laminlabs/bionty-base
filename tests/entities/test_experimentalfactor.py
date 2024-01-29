@@ -1,6 +1,6 @@
-import bionty as bt
+import bionty_base as bt
 import pandas as pd
-from bionty.entities._experimentalfactor import _parse_efo_term
+from bionty_base.entities._experimentalfactor import _parse_efo_term
 
 
 def test_efo_experimental_factor_inspect_ontology_id():

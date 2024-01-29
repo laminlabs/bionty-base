@@ -1,17 +1,17 @@
 from typing import Literal, Optional
 
-from bionty._public_ontology import PublicOntology
+from bionty_base._public_ontology import PublicOntology
 
 from ._shared_docstrings import _doc_params, doc_entites
 
 
 @_doc_params(doc_entities=doc_entites)
-class CellMarker(PublicOntology):
-    """Cell markers.
+class Protein(PublicOntology):
+    """Protein.
 
-    1. Cell Marker Ontology
+    1. Uniprot
     Edits of terms are coordinated and reviewed on:
-    http://bio-bigdata.hrbmu.edu.cn/CellMarker/
+    https://www.uniprot.org/
 
     Args:
         {doc_entities}
@@ -20,7 +20,7 @@ class CellMarker(PublicOntology):
     def __init__(
         self,
         organism: Optional[Literal["human", "mouse"]] = None,
-        source: Optional[Literal["cellmarker"]] = None,
+        source: Optional[Literal["uniprot"]] = None,
         version: Optional[str] = None,
         **kwargs,
     ) -> None:

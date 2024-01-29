@@ -1,17 +1,16 @@
 from typing import Literal, Optional
 
-from bionty._public_ontology import PublicOntology
+from bionty_base._public_ontology import PublicOntology
 
 from ._shared_docstrings import _doc_params, doc_entites
 
 
 @_doc_params(doc_entities=doc_entites)
-class Protein(PublicOntology):
-    """Protein.
+class BioSample(PublicOntology):
+    """BioSample attributes.
 
-    1. Uniprot
-    Edits of terms are coordinated and reviewed on:
-    https://www.uniprot.org/
+    1. NCBI BioSample Attributes
+    https://www.ncbi.nlm.nih.gov/biosample/docs/attributes
 
     Args:
         {doc_entities}
@@ -19,8 +18,8 @@ class Protein(PublicOntology):
 
     def __init__(
         self,
-        organism: Optional[Literal["human", "mouse"]] = None,
-        source: Optional[Literal["uniprot"]] = None,
+        organism: Optional[Literal["all"]] = None,
+        source: Optional[Literal["ncbi"]] = None,
         version: Optional[str] = None,
         **kwargs,
     ) -> None:

@@ -1,4 +1,4 @@
-import bionty as bt
+import bionty_base as bt
 import pandas as pd
 import pytest
 
@@ -38,7 +38,7 @@ def test_species_backward_compat():
 
 
 def test_ensemblgene_download():
-    from bionty.entities._gene import EnsemblGene
+    from bionty_base.entities._gene import EnsemblGene
 
     ensembl_gene = EnsemblGene(organism="human", version="release-110")
     assert ensembl_gene._organism.name == "human"

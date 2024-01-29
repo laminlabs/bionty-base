@@ -1,5 +1,5 @@
-project_name: Bionty
-description: Manage biological entities
-project_slug: bionty
-repository_name: bionty
-package_name: bionty
+project_name: Bionty-base
+description: Base repository of Bionty
+project_slug: bionty-base
+repository_name: bionty-base
+package_name: bionty_base

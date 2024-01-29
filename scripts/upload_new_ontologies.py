@@ -1,8 +1,8 @@
 def _upload_ontology_artifacts(instance: str, lamindb_user: str, lamindb_password: str):
-    import bionty as bt
+    import bionty_base as bt
     import lamindb as ln
-    from bionty._public_ontology import encode_filenames
-    from bionty._settings import settings
+    from bionty_base._public_ontology import encode_filenames
+    from bionty_base._settings import settings
 
     ln.setup.login(lamindb_user, password=lamindb_password)
     ln.setup.load(instance)

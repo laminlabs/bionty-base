@@ -4,9 +4,9 @@ from typing import Dict, Literal, Optional
 import pandas as pd
 from lamin_utils import logger
 
-from bionty._ontology import Ontology
-from bionty._public_ontology import PublicOntology
-from bionty.entities._shared_docstrings import _doc_params, organism_removed
+from bionty_base._ontology import Ontology
+from bionty_base._public_ontology import PublicOntology
+from bionty_base.entities._shared_docstrings import _doc_params, organism_removed
 
 
 @_doc_params(doc_entities=organism_removed)
@@ -20,7 +20,7 @@ class ExperimentalFactor(PublicOntology):
     Args:
         {doc_entities}
 
-    Also see: `bionty.PublicOntology <https://lamin.ai/docs/bionty/bionty.entity>`__
+    Also see: `bionty_base.PublicOntology <https://lamin.ai/docs/bionty/bionty.entity>`__
     """
 
     def __init__(

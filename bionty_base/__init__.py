@@ -2,7 +2,7 @@
 
 Import the package::
 
-   import bionty as bt
+   import bionty_base as bt
 
 Entities:
 

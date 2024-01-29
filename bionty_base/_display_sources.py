@@ -1,7 +1,7 @@
 import pandas as pd
 
-from bionty.dev._handle_sources import LAMINDB_INSTANCE_LOADED
-from bionty.dev._io import load_yaml
+from bionty_base.dev._handle_sources import LAMINDB_INSTANCE_LOADED
+from bionty_base.dev._io import load_yaml
 
 from ._settings import settings
 
@@ -10,7 +10,7 @@ def display_available_sources() -> pd.DataFrame:
     """Displays all available sources.
 
     Examples:
-        >>> import bionty as bt
+        >>> import bionty_base as bt
         >>> bt.display_available_sources()
     """
     from .dev._handle_sources import parse_sources_yaml
@@ -26,7 +26,7 @@ def display_currently_used_sources() -> pd.DataFrame:
     Active version is unique for entity + organism.
 
     Examples:
-        >>> import bionty as bt
+        >>> import bionty_base as bt
         >>> bt.display_currently_used_sources()
     """
     VERSIONS_FILE_PATH = (

@@ -1,6 +1,6 @@
 from typing import Literal, Optional
 
-from bionty._public_ontology import PublicOntology
+from bionty_base._public_ontology import PublicOntology
 
 from ._shared_docstrings import _doc_params, doc_entites
 

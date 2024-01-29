@@ -1,5 +1,5 @@
 # Reference
 
 ```{eval-rst}
-.. automodule:: bionty
+.. automodule:: bionty_base
 ```

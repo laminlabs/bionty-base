@@ -75,7 +75,7 @@ class PublicOntology:
                     f"please consider:\n"
                     f"    close your instance via `lamin close` and use Bionty stand alone\n"
                     f"    OR\n"
-                    f"    modify currently_used {self.__class__.__name__} source in `lnschema_bionty.PublicSource`"
+                    f"    modify currently_used {self.__class__.__name__} source in `bionty.PublicSource`"
                 )
                 # fmt: on
 
@@ -238,7 +238,7 @@ class PublicOntology:
         if row.shape[0] == 0:
             raise ValueError(
                 f"No source is available with {kwargs}\nCheck"
-                " `bionty.display_available_sources()`"
+                " `.display_available_sources()`"
             )
         return row.to_dict(orient="records")[0]
 
@@ -340,7 +340,7 @@ class PublicOntology:
             A Pandas DataFrame of the ontology.
 
         Examples:
-            >>> import bionty as bt
+            >>> import bionty_base as bt
             >>> bt.Gene().df()
         """
         if "ontology_id" in self._df.columns:
@@ -396,7 +396,7 @@ class PublicOntology:
                 `__validated__` column indicating compliance validation.
 
         Examples:
-            >>> import bionty as bt
+            >>> import bionty_base as bt
             >>> public = bt.Gene()
             >>> gene_symbols = ["A1CF", "A1BG", "FANCD1", "FANCD20"]
             >>> public.inspect(gene_symbols, field=public.symbol)
@@ -452,7 +452,7 @@ class PublicOntology:
             standardized names as values.
 
         Examples:
-            >>> import bionty as bt
+            >>> import bionty_base as bt
             >>> public = bt.Gene()
             >>> gene_symbols = ["A1CF", "A1BG", "FANCD1", "FANCD20"]
             >>> standardized_symbols = public.standardize(gene_symbols, public.symbol)
@@ -506,7 +506,7 @@ class PublicOntology:
             A NamedTuple of lookup information of the field values.
 
         Examples:
-            >>> import bionty as bt
+            >>> import bionty_base as bt
             >>> lookup = bt.CellType().lookup()
             >>> lookup.cd103_positive_dendritic_cell
             >>> lookup_dict = lookup.dict()
@@ -546,7 +546,7 @@ class PublicOntology:
             Ranked search results.
 
         Examples:
-            >>> import bionty as bt
+            >>> import bionty_base as bt
             >>> public = bt.CellType()
             >>> public.search("gamma delta T cell")
         """
@@ -576,7 +576,7 @@ class PublicOntology:
             2. A pd.DataFrame.compare result which denotes all changes in `self` and `other`.
 
         Examples:
-            >>> import bionty as bt
+            >>> import bionty_base as bt
             >>> public_1 = bt.Disease(source="mondo", version="2023-04-04")
             >>> public_2 = bt.Disease(source="mondo", version="2023-04-04")
             >>> new_entries, modified_entries = public_1.diff(public_2)

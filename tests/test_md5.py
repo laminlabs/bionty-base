@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Tuple
 
 import pytest
-from bionty.dev._md5 import calculate_md5, verify_md5
+from bionty_base.dev._md5 import calculate_md5, verify_md5
 
 CURRENT_DIR = Path(__file__).parent
 

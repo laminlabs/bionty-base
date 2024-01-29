@@ -1,5 +1,5 @@
-import bionty as bt
-from bionty.dev._io import s3_bionty_assets
+import bionty_base as bt
+from bionty_base.dev._io import s3_bionty_assets
 
 
 def test_ontology():

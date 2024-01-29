@@ -1,5 +1,7 @@
 bionty/sources/.currently_used_sources.yaml
 bionty/versions/
+bionty_base/sources/.currently_used_sources.yaml
+bionty_base/versions/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -115,6 +117,7 @@ docs/generated/*
 **/data/
 **/notes/
 docs/bionty.*
+docs/bionty_base.*
 _dynamic/
 *.ipynb_checkpoints/
 _docs_tmp*
