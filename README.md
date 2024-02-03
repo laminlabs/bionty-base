@@ -1,7 +1,7 @@
 [![Coverage](https://codecov.io/gh/laminlabs/bionty/branch/main/graph/badge.svg?token=8292E0S0Z7)](https://codecov.io/gh/laminlabs/bionty)
 [![pypi](https://img.shields.io/pypi/v/bionty-base?color=blue&label=pypi%20package)](https://pypi.org/project/bionty-base)
 
-# Bionty-base
+# `bionty-base`
 
 Access public biological ontologies.
 
