@@ -1,4 +1,4 @@
-[![Coverage](https://codecov.io/gh/laminlabs/bionty/branch/main/graph/badge.svg?token=8292E0S0Z7)](https://codecov.io/gh/laminlabs/bionty)
+[![codecov](https://codecov.io/gh/laminlabs/bionty-base/graph/badge.svg?token=8292E0S0Z7)](https://codecov.io/gh/laminlabs/bionty-base)
 [![pypi](https://img.shields.io/pypi/v/bionty-base?color=blue&label=pypi%20package)](https://pypi.org/project/bionty-base)
 
 # `bionty-base`
@@ -6,7 +6,7 @@
 Access public biological ontologies.
 
 - User docs: [here](https://lamin.ai/docs/public-ontologies)
-- Developer docs: [here](https://lamin.ai/docs/bionty)
+- Developer docs: [here](https://lamin.ai/docs/bionty-base)
 
 ## Installation
 
