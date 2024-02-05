@@ -1,12 +1,10 @@
 import re
 import urllib.request
 from http.client import BadStatusLine
-from pathlib import Path
 from urllib.error import HTTPError, URLError
 
 import yaml  # type:ignore
-
-VERSIONS_FILE_PATH = Path.cwd() / "bionty" / "sources" / "sources.yaml"
+from bionty_base import settings
 
 
 def extract_urls_from_yaml(yaml_file):
@@ -34,7 +32,7 @@ def extract_urls_from_yaml(yaml_file):
         return urls
 
 
-urls = extract_urls_from_yaml(VERSIONS_FILE_PATH)
+urls = extract_urls_from_yaml(settings.public_sources)
 
 failed_urls = []
 for url in urls:
