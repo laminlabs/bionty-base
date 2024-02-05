@@ -35,9 +35,9 @@ pip install bionty-base
 - `BFXPipeline` - largely based on [nf-core](https://nf-co.re)
 - `BioSample` - [NCBI BioSample attributes](https://www.ncbi.nlm.nih.gov/biosample/docs/attributes)
 
-Check out [sources.yaml](https://github.com/laminlabs/bionty/blob/main/bionty/sources/sources.yaml) for details.
+Check out [sources.yaml](https://github.com/laminlabs/bionty-base/blob/main/bionty_base/sources/sources.yaml) for details.
 
-Didn't see your favorite source or version? Bionty is [extendable](https://lamin.ai/docs/bionty/guide/extend)!
+Didn't see your favorite source or version? Bionty is [extendable](https://lamin.ai/docs/bionty-base/guide/extend)!
 
 ## Entity versions
 
