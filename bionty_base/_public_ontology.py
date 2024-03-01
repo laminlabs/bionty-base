@@ -356,7 +356,25 @@ class PublicOntology:
         mute: bool = False,
         **kwargs,
     ) -> np.ndarray:
-        """Validate a list of values against a field of entity reference."""
+        """Validate a list of values against a field of entity reference.
+
+        Args:
+            values: Identifiers that will be checked against the field.
+            field: The PublicOntologyField of the ontology to compare against.
+                   Examples are 'ontology_id' to map against the source ID
+                   or 'name' to map against the ontologies field names.
+            mute: Whether to suppress logging. Defaults to False.
+            kwargs: Used for backwards compatibility and return types.
+
+        Returns:
+            A boolean array indicating compliance validation.
+
+        Examples:
+            >>> import bionty_base as bt
+            >>> public = bt.Gene()
+            >>> gene_symbols = ["A1CF", "A1BG", "FANCD1", "FANCD20"]
+            >>> public.validate(gene_symbols, field=public.symbol)
+        """
         from lamin_utils._inspect import validate
 
         if isinstance(values, str):
