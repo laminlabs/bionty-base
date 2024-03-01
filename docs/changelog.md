@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+📝 Added validate example to docstring | [542](https://github.com/laminlabs/bionty-base/pull/542) | [sunnyosun](https://github.com/sunnyosun) | 2024-03-01 |
 🚚 Rename repo to `bionty-base` | [539](https://github.com/laminlabs/bionty-base/pull/539) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-29 | 0.37.0
 Add ICD ontology | [538](https://github.com/laminlabs/bionty/pull/538) | [Zethson](https://github.com/Zethson) | 2024-01-24 |
 🚚 Rename `Bionty` to `PublicOntology` class | [536](https://github.com/laminlabs/bionty/pull/536) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-12 | 0.36.0
