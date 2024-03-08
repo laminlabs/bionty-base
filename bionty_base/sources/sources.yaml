@@ -31,6 +31,9 @@ Organism:
     website: https://www.ensembl.org
   ncbitaxon:
     all:
+      2024-02-28:
+        url: https://github.com/obophenotype/ncbitaxon/releases/download/v2024-02-28/ncbitaxon.owl
+        md5: 8dd0ae5b87af3509c329824ae508b84e
       2023-06-20:
         url: s3://bionty-assets/df_all__ncbitaxon__2023-06-20__Organism.parquet
         md5: 00d97ba65627f1cd65636d2df22ea76c
@@ -99,6 +102,9 @@ CellLine:
 CellType:
   cl:
     all:
+      2024-02-13:
+        url: http://purl.obolibrary.org/obo/cl/releases/2024-02-13/cl.owl
+        mod5: d6d962b58c48f372c2c98b71e0833242
       2023-08-24:
         url: http://purl.obolibrary.org/obo/cl/releases/2023-08-24/cl.owl
         md5: 46e7dd89421f1255cf0191eca1548f73
@@ -116,6 +122,9 @@ CellType:
 Tissue:
   uberon:
     all:
+      2024-02-20:
+        url: http://purl.obolibrary.org/obo/uberon/releases/2024-02-20/uberon.owl
+        md5: 2048667b5fdf93192384bdf53cafba18
       2023-09-05:
         url: http://purl.obolibrary.org/obo/uberon/releases/2023-09-05/uberon.owl
         md5: abcee3ede566d1311d758b853ccdf5aa
@@ -133,6 +142,9 @@ Tissue:
 Disease:
   mondo:
     all:
+      2024-02-06:
+        url: http://purl.obolibrary.org/obo/mondo/releases/2024-02-06/mondo.owl
+        md5: 78914fa236773c5ea6605f7570df6245
       2023-08-02:
         url: http://purl.obolibrary.org/obo/mondo/releases/2023-08-02/mondo.owl
         md5: 7f33767422042eec29f08b501fc851db
@@ -149,6 +161,9 @@ Disease:
     website: https://mondo.monarchinitiative.org
   doid:
     human:
+      2024-01-31:
+        url: http://purl.obolibrary.org/obo/doid/releases/2024-01-31/doid.obo
+        md5: b36c15a4610757094f8db64b78ae2693
       2023-03-31:
         url: http://purl.obolibrary.org/obo/doid/releases/2023-03-31/doid.obo
         md5: 64f083a1e47867c307c8eae308afc3bb
@@ -173,6 +188,9 @@ Disease:
 ExperimentalFactor:
   efo:
     all:
+      3.63.0:
+        url: http://www.ebi.ac.uk/efo/releases/v3.63.0/efo.owl
+        md5: 603e6f6981d53d501c5921aa3940b095
       3.57.0:
         url: http://www.ebi.ac.uk/efo/releases/v3.57.0/efo.owl
         md5: 2ecafc69b3aba7bdb31ad99438505c05
@@ -184,6 +202,9 @@ ExperimentalFactor:
 Phenotype:
   hp:
     human:
+      2024-03-06:
+        url: https://github.com/obophenotype/human-phenotype-ontology/releases/download/v2024-03-06/hp.owl
+        md5: 36b0d00c24a68edb9131707bc146a4c7
       2023-06-17:
         url: https://github.com/obophenotype/human-phenotype-ontology/releases/download/v2023-06-17/hp.owl
         md5: 65e8d96bc81deb893163927063b10c06
@@ -197,6 +218,9 @@ Phenotype:
     website: https://hpo.jax.org
   mp:
     mammalian:
+      2024-02-07:
+        url: https://github.com/mgijax/mammalian-phenotype-ontology/releases/download/v2024-02-07/mp.owl
+        md5: 31c27ed2c7d5774f8b20a77e4e1fd278
       2023-05-31:
         url: https://github.com/mgijax/mammalian-phenotype-ontology/releases/download/v2023-05-31/mp.owl
         md5: be89052cf6d9c0b6197038fe347ef293
@@ -204,6 +228,9 @@ Phenotype:
     website: https://github.com/mgijax/mammalian-phenotype-ontology
   zp:
     zebrafish:
+      2024-01-22:
+       url: https://github.com/obophenotype/zebrafish-phenotype-ontology/releases/download/v2024-01-22/zp.owl
+       md5: 01600a5d392419b27fc567362d4cfff8
       2022-12-17:
         url: https://github.com/obophenotype/zebrafish-phenotype-ontology/releases/download/v2022-12-17/zp.owl
         md5: 03430b567bf153216c0fa4c3440b3b24
@@ -226,6 +253,9 @@ Phenotype:
 Pathway:
   go:
     all:
+      2024-01-17:
+        url: https://data.bioontology.org/ontologies/GO/submissions/1819/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
+        md5: 7e6b9974184dda306e6e07631f1783af
       2023-05-10:
         url: https://data.bioontology.org/ontologies/GO/submissions/1814/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
         md5: e9845499eadaef2418f464cd7e9ac92e
@@ -233,6 +263,9 @@ Pathway:
     website: http://geneontology.org
   pw:
     all:
+      7.82:
+        url: https://data.bioontology.org/ontologies/PW/submissions/112/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
+        md5: 392eb131d0513f9a186128ea4935edc9
       7.79:
         url: https://data.bioontology.org/ontologies/PW/submissions/109/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
         md5: 02e2337bb1ab7cc4332ef6acc4cbdfa6
@@ -249,6 +282,9 @@ BFXPipeline:
 Drug:
   dron:
     all:
+      2024-03-02:
+        url: https://data.bioontology.org/ontologies/DRON/submissions/22/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
+        md5: 84138459de4f65034e979f4e46783747
       2023-03-10:
         url: https://data.bioontology.org/ontologies/DRON/submissions/17/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
         md5: 75e86011158fae76bb46d96662a33ba3
