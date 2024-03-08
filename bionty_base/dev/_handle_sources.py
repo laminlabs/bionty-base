@@ -179,7 +179,8 @@ def update_local_from_public_sources_yaml() -> None:
         )
         write_yaml(updated_local_versions, settings.local_sources)
         logger.success(
-            f"wrote new records from public sources.yaml to {settings.local_sources}!\n\nif you see this message repeatedly, run: bt.reset_sources()"
+            f"wrote new records from public sources.yaml to {settings.local_sources}!\n\n"
+            "if you see this message repeatedly, run: import bionty_base; bionty_base.reset_sources()"
         )
 
 
