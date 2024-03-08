@@ -229,8 +229,8 @@ Phenotype:
   zp:
     zebrafish:
       2024-01-22:
-       url: https://github.com/obophenotype/zebrafish-phenotype-ontology/releases/download/v2024-01-22/zp.owl
-       md5: 01600a5d392419b27fc567362d4cfff8
+        url: https://github.com/obophenotype/zebrafish-phenotype-ontology/releases/download/v2024-01-22/zp.owl
+        md5: 01600a5d392419b27fc567362d4cfff8
       2022-12-17:
         url: https://github.com/obophenotype/zebrafish-phenotype-ontology/releases/download/v2022-12-17/zp.owl
         md5: 03430b567bf153216c0fa4c3440b3b24
