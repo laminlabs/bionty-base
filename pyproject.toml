@@ -15,7 +15,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
 ]
 dependencies = [
-    "pronto>=2.5.4",
+    "pronto>=2.5.4, <2.5.6",
     "lamin_utils>=0.12.0", # don't pin here as it's pinned in lamindb
     "pyyaml",
     "pandas",
