@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🐛 Catch ClientError | [549](https://github.com/laminlabs/bionty-base/pull/549) | [Koncopd](https://github.com/Koncopd) | 2024-03-14 |
 Fix reset message | [545](https://github.com/laminlabs/bionty-base/pull/545) | [Zethson](https://github.com/Zethson) | 2024-03-13 |
 📝 Added validate example to docstring | [542](https://github.com/laminlabs/bionty-base/pull/542) | [sunnyosun](https://github.com/sunnyosun) | 2024-03-01 |
 🚚 Rename repo to `bionty-base` | [539](https://github.com/laminlabs/bionty-base/pull/539) | [sunnyosun](https://github.com/sunnyosun) | 2024-01-29 | 0.37.0
