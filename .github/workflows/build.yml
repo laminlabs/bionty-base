@@ -35,7 +35,7 @@ jobs:
           path: lndocs
           ref: main
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
       - name: Cache pre-commit
@@ -47,9 +47,9 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install -U pip uv
-          python -m uv pip install -U laminci
-          python -m uv pip install rich
-          python -m uv pip install ipywidgets
+          python -m uv pip install --system -U laminci
+          python -m uv pip install --system rich
+          python -m uv pip install --system ipywidgets
 
       - name: Configure AWS
         uses: aws-actions/configure-aws-credentials@v1
