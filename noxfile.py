@@ -18,7 +18,7 @@ def docs(session: nox.Session):
 @nox.session
 @nox.parametrize("group", ["bionty-unit", "bionty-docs"])
 def build(session: nox.Session, group: str):
-    session.run(*"uv pip install --system -e .".split())
+    session.run(*"uv pip install --system bionty[dev] @ .".split())
     coverage_args = "--cov=bionty_base --cov-append --cov-report=term-missing"
     if group == "bionty-unit":
         session.run(*f"pytest {coverage_args} ./tests".split())
