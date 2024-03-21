@@ -94,6 +94,7 @@ jobs:
         with:
           python-version: "3.11"
       - run: |
+          python -m pip install -U pip uv
           uv pip install --system coverage[toml]
           uv pip install --system --no-deps @ .
       - uses: actions/download-artifact@v2
