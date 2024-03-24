@@ -96,7 +96,7 @@ jobs:
       - run: |
           python -m pip install -U pip uv
           uv pip install --system coverage[toml]
-          uv pip install --system --no-deps "bionty-base @ ."
+          uv pip install --system --no-deps ."
       - uses: actions/download-artifact@v2
       - name: run coverage
         run: |
