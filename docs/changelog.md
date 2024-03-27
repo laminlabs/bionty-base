@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🔇 Remove py version warning | [553](https://github.com/laminlabs/bionty-base/pull/553) | [sunnyosun](https://github.com/sunnyosun) | 2024-03-27 |
 Switch to uv for CI | [552](https://github.com/laminlabs/bionty-base/pull/552) | [Zethson](https://github.com/Zethson) | 2024-03-24 |
 🐛 Catch ClientError | [549](https://github.com/laminlabs/bionty-base/pull/549) | [Koncopd](https://github.com/Koncopd) | 2024-03-14 |
 Fix reset message | [545](https://github.com/laminlabs/bionty-base/pull/545) | [Zethson](https://github.com/Zethson) | 2024-03-13 |
