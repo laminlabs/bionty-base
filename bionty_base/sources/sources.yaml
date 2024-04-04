@@ -162,6 +162,9 @@ Disease:
       icd-11-2023:
         url: s3://bionty-assets/df_human__icd__icd-11-2023__Disease.parquet
         md5: 16263aef644d2c62c47b7b1ecfbad9d6
+      icd-10-2024:
+        url: s3://bionty-assets/df_human__icd__icd-10-2024__Disease.parquet
+        md5: cda43c983700518d76bd44c0e2c869d1
       icd-10-2020:
         url: s3://bionty-assets/df_human__icd__icd-10-2020__Disease.parquet
         md5: 93ec5734fcc2edd64686d5ffc6f6105f
