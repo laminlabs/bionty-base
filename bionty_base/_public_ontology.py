@@ -117,14 +117,6 @@ class PublicOntology:
             f"Organism: {self.organism}\n"
             f"Source: {self.source}, {self.version}\n"
             f"#terms: {self._df.shape[0] if hasattr(self, '_df') else ''}\n\n"
-            f"📖 .df(): ontology reference table\n"
-            f"🔎 .lookup(): autocompletion of terms\n"
-            f"🎯 .search(): free text search of terms\n"
-            f"✅ .validate(): strictly validate values\n"
-            f"🧐 .inspect(): full inspection of values\n"
-            f"👽 .standardize(): convert to standardized names\n"
-            f"🪜 .diff(): difference between two versions\n"
-            f"🔗 .to_pronto(): Pronto.Ontology object"
         )
         # fmt: on
         return representation
