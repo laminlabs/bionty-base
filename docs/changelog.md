@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+Pandas 3.0.0 fix | [560](https://github.com/laminlabs/bionty-base/pull/560) | [Zethson](https://github.com/Zethson) | 2024-04-11 |
 Remove functions from __repr__ | [559](https://github.com/laminlabs/bionty-base/pull/559) | [Zethson](https://github.com/Zethson) | 2024-04-11 |
 Add new ICD 10-CM | [554](https://github.com/laminlabs/bionty-base/pull/554) | [Zethson](https://github.com/Zethson) | 2024-04-04 |
 🔇 Remove py version warning | [553](https://github.com/laminlabs/bionty-base/pull/553) | [sunnyosun](https://github.com/sunnyosun) | 2024-03-27 | 0.37.1
