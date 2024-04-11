@@ -110,6 +110,6 @@ class Ontology(pronto.Ontology):
         ).set_index("ontology_id")
 
         # needed to avoid erroring in .lookup()
-        df["name"].fillna("", inplace=True)
+        df["name"] = df["name"].fillna("")
 
         return df
