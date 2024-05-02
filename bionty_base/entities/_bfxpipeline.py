@@ -36,8 +36,11 @@ class BFXPipeline(PublicOntology):
             data = json.load(f)
 
         df = pd.DataFrame(data).transpose()
+        df["name"] = df["name"].str.replace(r" v\d+(\.\d+)*$", "", regex=True)
+        df.rename(columns={"id": "ontology_id", "versions": "version"}, inplace=True)
+        df.set_index("ontology_id", inplace=True, drop=True)
 
-        return df.reset_index()
+        return df
 
     def df(self) -> pd.DataFrame:
         """Pandas DataFrame of the ontology.
@@ -49,4 +52,4 @@ class BFXPipeline(PublicOntology):
             >>> import bionty_base as bt
             >>> bt.BFXPipeline().df()
         """
-        return self._df.set_index("id")
+        return self._df.set_index("ontology_id")
