@@ -5,8 +5,8 @@ import pandas as pd
 def test_lamin_bfxpipeline_inspect_name():
     df = pd.DataFrame(
         index=[
-            "nf-core methylseq v2.3.0",
-            "Cell Ranger v7.1.0",
+            "nf-core methylseq",
+            "Cell Ranger",
             "This bfx pipeline does not exist",
         ]
     )
