@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+Update BFXPipeline | [564](https://github.com/laminlabs/bionty-base/pull/564) | [Zethson](https://github.com/Zethson) | 2024-05-02 |
 password is deprecated | [562](https://github.com/laminlabs/bionty-base/pull/562) | [falexwolf](https://github.com/falexwolf) | 2024-04-25 |
 Use more general ICD website as source | [561](https://github.com/laminlabs/bionty-base/pull/561) | [Zethson](https://github.com/Zethson) | 2024-04-11 |
 Pandas 3.0.0 fix | [560](https://github.com/laminlabs/bionty-base/pull/560) | [Zethson](https://github.com/Zethson) | 2024-04-11 |
