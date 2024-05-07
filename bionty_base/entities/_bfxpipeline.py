@@ -36,8 +36,8 @@ class BFXPipeline(PublicOntology):
             data = json.load(f)
 
         df = pd.DataFrame(data).transpose()
-        df["name"] = df["name"].str.replace(r" v\d+(\.\d+)*$", "", regex=True)
-        df.rename(columns={"id": "ontology_id", "versions": "version"}, inplace=True)
+        df.drop("versions", inplace=True, axis=1)
+        df.rename(columns={"id": "ontology_id"}, inplace=True)
         df.set_index("ontology_id", inplace=True, drop=True)
 
         return df
