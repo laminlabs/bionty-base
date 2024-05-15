@@ -1,7 +1,13 @@
-version: "0.2.5"
+version: "0.2.6"
 Organism:
   ensembl:
     vertebrates:
+      release-112:
+        url: https://ftp.ensembl.org/pub/release-112/species_EnsemblVertebrates.txt
+        md5: 0ec37e77f4bc2d0b0b47c6c62b9f122d
+      release-111:
+        url: https://ftp.ensembl.org/pub/release-111/species_EnsemblVertebrates.txt
+        md5: 2846df83899eaa61f8043db4c036e883
       release-110:
         url: https://ftp.ensembl.org/pub/release-110/species_EnsemblVertebrates.txt
         md5: f3faf95648d3a2b50fd3625456739706
