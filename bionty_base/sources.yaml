@@ -236,6 +236,9 @@ Pathway:
     website: http://geneontology.org
   pw:
     all:
+      7.82:
+        url: https://data.bioontology.org/ontologies/PW/submissions/112/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
+        md5: 392eb131d0513f9a186128ea4935edc9
       7.79:
         url: https://data.bioontology.org/ontologies/PW/submissions/109/download?apikey=8b5b7825-538d-40e0-9e9e-5ab9274a9aeb
         md5: 02e2337bb1ab7cc4332ef6acc4cbdfa6
