@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+:sparkles: New Ontology: Tissue-uberon-2024-02-20 | [575](https://github.com/laminlabs/bionty-base/pull/575) | [Zethson](https://github.com/Zethson) | 2024-05-15 |
 ✨ New ontology: Organism-ensembl-release-111 and Organism-ensembl-release-112 | [574](https://github.com/laminlabs/bionty-base/pull/574) | [sunnyosun](https://github.com/sunnyosun) | 2024-05-15 |
 :sparkles: New Ontology: Disease-mondo-2024-02-06 | [572](https://github.com/laminlabs/bionty-base/pull/572) | [Zethson](https://github.com/Zethson) | 2024-05-15 |
 :sparkles: New Ontology: Disease-DOID-2024-01-31 | [571](https://github.com/laminlabs/bionty-base/pull/571) | [Zethson](https://github.com/Zethson) | 2024-05-15 |
