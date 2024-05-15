@@ -75,16 +75,12 @@ class Settings:
         self._versionsdir.mkdir(exist_ok=True, parents=True)  # type: ignore
 
     @property
-    def sources_dir(self):
-        return ROOT_DIR.parent / "sources"
-
-    @property
     def local_sources(self):
         return self.versionsdir / "sources_local.yaml"
 
     @property
     def public_sources(self):
-        return self.sources_dir / "sources.yaml"
+        return ROOT_DIR.parent / "sources.yaml"
 
     @property
     def current_sources(self):
