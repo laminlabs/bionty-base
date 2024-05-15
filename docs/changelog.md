@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+🚚 Move out sources.yml | [565](https://github.com/laminlabs/bionty-base/pull/565) | [sunnyosun](https://github.com/sunnyosun) | 2024-05-15 |
 Update BFXPipeline | [564](https://github.com/laminlabs/bionty-base/pull/564) | [Zethson](https://github.com/Zethson) | 2024-05-02 |
 password is deprecated | [562](https://github.com/laminlabs/bionty-base/pull/562) | [falexwolf](https://github.com/falexwolf) | 2024-04-25 |
 Use more general ICD website as source | [561](https://github.com/laminlabs/bionty-base/pull/561) | [Zethson](https://github.com/Zethson) | 2024-04-11 |
