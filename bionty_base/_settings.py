@@ -80,7 +80,7 @@ class Settings:
 
     @property
     def public_sources(self):
-        return ROOT_DIR.parent / "sources.yaml"
+        return ROOT_DIR / "sources.yaml"
 
     @property
     def current_sources(self):
