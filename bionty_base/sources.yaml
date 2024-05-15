@@ -200,6 +200,9 @@ Phenotype:
     website: https://hpo.jax.org
   mp:
     mammalian:
+      2024-02-07:
+        url: https://github.com/mgijax/mammalian-phenotype-ontology/releases/download/v2024-02-07/mp.owl
+        md5: 31c27ed2c7d5774f8b20a77e4e1fd278
       2023-05-31:
         url: https://github.com/mgijax/mammalian-phenotype-ontology/releases/download/v2023-05-31/mp.owl
         md5: be89052cf6d9c0b6197038fe347ef293
