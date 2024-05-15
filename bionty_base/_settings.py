@@ -76,7 +76,7 @@ class Settings:
 
     @property
     def sources_dir(self):
-        return ROOT_DIR / "sources"
+        return ROOT_DIR.parent / "sources"
 
     @property
     def local_sources(self):
