@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+:sparkles: New ontology: Phenotype-zp-2024-01-22 | [568](https://github.com/laminlabs/bionty-base/pull/568) | [Zethson](https://github.com/Zethson) | 2024-05-15 |
 :sparkles: New ontology: Pathway-pw-7.82 | [567](https://github.com/laminlabs/bionty-base/pull/567) | [Zethson](https://github.com/Zethson) | 2024-05-15 |
 :sparkles: Add latest Drug source | [566](https://github.com/laminlabs/bionty-base/pull/566) | [Zethson](https://github.com/Zethson) | 2024-05-15 |
 🚚 Move out sources.yml | [565](https://github.com/laminlabs/bionty-base/pull/565) | [sunnyosun](https://github.com/sunnyosun) | 2024-05-15 |
