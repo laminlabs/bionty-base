@@ -1,4 +1,3 @@
-from functools import cached_property
 from typing import Dict, Literal, Optional
 
 import pandas as pd
