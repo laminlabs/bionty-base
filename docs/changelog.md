@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+✨ New ontology: Gene-ensembl-111/112 | [578](https://github.com/laminlabs/bionty-base/pull/578) | [Zethson](https://github.com/Zethson) | 2024-05-16 |
  ✨ New ontology: ExperimentalFactor-efo-3.63 | [577](https://github.com/laminlabs/bionty-base/pull/577) | [Zethson](https://github.com/Zethson) | 2024-05-15 |
 ✨ New ontology: CellType-cl-2024-02-13 | [576](https://github.com/laminlabs/bionty-base/pull/576) | [Zethson](https://github.com/Zethson) | 2024-05-15 |
 :sparkles: New Ontology: Tissue-uberon-2024-02-20 | [575](https://github.com/laminlabs/bionty-base/pull/575) | [Zethson](https://github.com/Zethson) | 2024-05-15 |
