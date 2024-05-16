@@ -47,10 +47,10 @@ Gene:
     human:
       release-112:
         url: s3://bionty-assets/df_human__ensembl__release-112__Gene.parquet
-        md5: ""
+        md5: 4ccda4d88720a326737376c534e8446b
       release-111:
         url: s3://bionty-assets/df_human__ensembl__release-111__Gene.parquet
-        md5: ""
+        md5: f9183bc44abb34459984e137b5de8af1
       release-110:
         url: s3://bionty-assets/df_human__ensembl__release-110__Gene.parquet
         md5: 832f3947e83664588d419608a469b528
@@ -60,10 +60,10 @@ Gene:
     mouse:
       release-112:
         url: s3://bionty-assets/df_mouse__ensembl__release-112__Gene.parquet
-        md5: ""
+        md5: 519cf7b8acc3c948274f66f3155a3210
       release-111:
         url: s3://bionty-assets/df_mouse__ensembl__release-111__Gene.parquet
-        md5: ""
+        md5: 5c071655347458307ac92b208f3c903a
       release-110:
         url: s3://bionty-assets/df_mouse__ensembl__release-110__Gene.parquet
         md5: fa4ce130f2929aefd7ac3bc8eaf0c4de
@@ -73,10 +73,10 @@ Gene:
     saccharomyces cerevisiae:
       release-112:
         url: s3://bionty-assets/df_saccharomyces cerevisiae__ensembl__release-112__Gene.parquet
-        md5: ""
+        md5: 11775126b101233525a0a9e2dd64edae
       release-111:
         url: s3://bionty-assets/df_saccharomyces cerevisiae__ensembl__release-111__Gene.parquet
-        md5: ""
+        md5: a15fab1d9d15a56d32fd2fd8a8fa250a
       release-110:
         url: s3://bionty-assets/df_saccharomyces cerevisiae__ensembl__release-110__Gene.parquet
         md5: 2e59495a3e87ea6575e408697dd73459
