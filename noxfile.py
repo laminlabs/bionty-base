@@ -25,4 +25,3 @@ def build(session: nox.Session, group: str):
     elif group == "bionty-docs":
         session.run(*f"pytest -s {coverage_args} ./docs/guide".split())
         docs(session)
-        move_built_docs_to_docs_slash_project_slug()
