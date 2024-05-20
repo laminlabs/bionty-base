@@ -1,5 +1,5 @@
-project_name: Bionty-base
-description: Base repository of Bionty
+project_name: bionty-base
+description: Access public biological ontologies.
 project_slug: bionty-base
 repository_name: bionty-base
 package_name: bionty_base
