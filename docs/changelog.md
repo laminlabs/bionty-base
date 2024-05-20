@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+👷 Deploy docs to cloudflare | [579](https://github.com/laminlabs/bionty-base/pull/579) | [falexwolf](https://github.com/falexwolf) | 2024-05-20 |
 ✨ New ontology: Gene-ensembl-111/112 | [578](https://github.com/laminlabs/bionty-base/pull/578) | [Zethson](https://github.com/Zethson) | 2024-05-16 |
  ✨ New ontology: ExperimentalFactor-efo-3.63 | [577](https://github.com/laminlabs/bionty-base/pull/577) | [Zethson](https://github.com/Zethson) | 2024-05-15 |
 ✨ New ontology: CellType-cl-2024-02-13 | [576](https://github.com/laminlabs/bionty-base/pull/576) | [Zethson](https://github.com/Zethson) | 2024-05-15 |
