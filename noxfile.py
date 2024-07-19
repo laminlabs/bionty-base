@@ -23,5 +23,6 @@ def build(session: nox.Session, group: str):
     if group == "bionty-unit":
         session.run(*f"pytest {coverage_args} ./tests".split())
     elif group == "bionty-docs":
+        session.run(*"uv pip install --system -e universal-pathlib".split())
         session.run(*f"pytest -s {coverage_args} ./docs/guide".split())
         docs(session)
