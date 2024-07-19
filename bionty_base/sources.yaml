@@ -85,6 +85,9 @@ Gene:
 Protein:
   uniprot:
     human:
+      2024-03:
+        url: s3://bionty-assets/df_human__uniprot__2024-03__Protein.parquet
+        md5: b5b9e7645065b4b3187114f07e3f402f
       2023-03:
         url: s3://bionty-assets/df_human__uniprot__2023-03__Protein.parquet
         md5: 1c46e85c6faf5eff3de5b4e1e4edc4d3
@@ -92,6 +95,9 @@ Protein:
         url: s3://bionty-assets/human_uniprot_2023-02_Protein_lookup.parquet
         md5: 0cb7264eb43f91bd04dac792dd879241
     mouse:
+      2024-03:
+        url: s3://bionty-assets/df_mouse__uniprot__2024-03__Protein.parquet
+        md5: b1b6a196eb853088d36198d8e3749ec4
       2023-03:
         url: s3://bionty-assets/df_mouse__uniprot__2023-03__Protein.parquet
         md5: 9d5e9a8225011d3218e10f9bbb96a46c
