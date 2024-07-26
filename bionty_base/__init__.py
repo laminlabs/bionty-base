@@ -52,7 +52,7 @@ External API:
    Ontology
 """
 
-__version__ = "0.37.3"  # denote release candidate for 0.1.0 with 0.1rc1
+__version__ = "0.38.0"  # denote release candidate for 0.1.0 with 0.1rc1
 
 from ._sync_sources import sync_sources
 
