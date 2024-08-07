@@ -1,6 +1,8 @@
 [![codecov](https://codecov.io/gh/laminlabs/bionty-base/graph/badge.svg?token=8292E0S0Z7)](https://codecov.io/gh/laminlabs/bionty-base)
 [![pypi](https://img.shields.io/pypi/v/bionty-base?color=blue&label=pypi%20package)](https://pypi.org/project/bionty-base)
 
+> **⚠️ Warning: This package has been replaced by [laminlabs/bionty](https://github.com/laminlabs/bionty). Please update your dependencies accordingly. If you are using lamindb, please remove the bionty-base package from your environment.**
+
 # `bionty-base`
 
 Access public biological ontologies.
