@@ -3,6 +3,7 @@
 <!-- prettier-ignore -->
 Name | PR | Developer | Date | Version
 --- | --- | --- | --- | ---
+📝Add note that package has been superseded | [585](https://github.com/laminlabs/bionty-base/pull/585) | [Zethson](https://github.com/Zethson) | 2024-08-07 |
 ✨ New ontology: Protein-uniprot-2024-03 | [582](https://github.com/laminlabs/bionty-base/pull/582) | [sunnyosun](https://github.com/sunnyosun) | 2024-07-19 | 0.38.0
 👷 Deploy docs to cloudflare | [579](https://github.com/laminlabs/bionty-base/pull/579) | [falexwolf](https://github.com/falexwolf) | 2024-05-20 |
 ✨ New ontology: Gene-ensembl-111/112 | [578](https://github.com/laminlabs/bionty-base/pull/578) | [Zethson](https://github.com/Zethson) | 2024-05-16 |
